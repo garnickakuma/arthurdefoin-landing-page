@@ -758,16 +758,19 @@ image-slot { display: block; background: var(--ivoire-2); }
 
 /* ----------  Simulator — services additionnels  ---------- */
 .sim-services { margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--sable); }
+.sim-services-head { margin-bottom: 16px; }
 .sim-services-label {
   font-family: var(--sans); font-size: 11px; font-weight: 600;
-  letter-spacing: 0.16em; text-transform: uppercase; color: var(--or);
-  margin: 0 0 4px;
+  letter-spacing: 0.18em; text-transform: uppercase; color: var(--or);
+  display: flex; align-items: center; gap: 10px; margin: 0 0 6px;
 }
+.sim-services-label::before { content: ''; width: 24px; height: 1px; background: var(--or); }
 .sim-services-title {
   font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800;
-  font-size: clamp(22px, 3vw, 32px); color: var(--encre);
-  letter-spacing: -0.02em; margin: 0 0 14px; line-height: 1.1;
+  font-size: clamp(24px, 3.2vw, 36px); color: var(--encre);
+  letter-spacing: -0.025em; margin: 0; line-height: 1.1;
 }
+.sim-services-title em { color: var(--or); font-style: normal; }
 .sim-services-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .sim-service-card {
   display: flex; flex-direction: column; gap: 6px;
