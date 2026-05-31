@@ -283,6 +283,19 @@ body { background: var(--ivoire); }
 /* Calendly embarqué */
 .cb-cal { min-height: 660px; position: relative; }
 .cb-cal .calendly-inline-widget { min-height: 660px; }
+.cb-cal-mobile { display: none; }
+@media (max-width: 980px) {
+  .cb-cal { display: none; }
+  .cb-cal-mobile {
+    display: flex; flex-direction: column; align-items: center;
+    gap: 16px; padding: 36px 24px; text-align: center;
+  }
+  .cb-cal-mobile p {
+    font-family: var(--sans); font-size: 15px; color: var(--plomb);
+    line-height: 1.6; margin: 0; max-width: 100%;
+  }
+  .cb-cal-mobile .btn { width: 100%; justify-content: center; font-size: 16px; padding: 18px 24px; }
+}
 .cb-cal-load {
   position: absolute; inset: 0; display: grid; place-items: center;
   font-family: var(--sans); font-size: 13px; letter-spacing: 0.04em; color: var(--pierre);
