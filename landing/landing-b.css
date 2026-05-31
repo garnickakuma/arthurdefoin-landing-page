@@ -1,0 +1,231 @@
+/* ============================================================
+   Variante B — Direction artistique "SaaS pastel & arrondi"
+   Override layer loaded AFTER colors_and_type.css + landing.css
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&display=swap');
+
+:root {
+  /* Surfaces — light, airy, cool */
+  --ivoire:      #FBFAFF;
+  --ivoire-2:    #F4F1FD;
+  --porcelaine:  #FFFFFF;
+  --blanc:       #FFFFFF;
+
+  --sable:       #ECE8F6;
+  --sable-fonce: #DED7F0;
+
+  /* Text — cool indigo-charcoal, never pure black */
+  --encre:    #211E37;
+  --graphite: #38345A;
+  --plomb:    #6E6A8C;
+  --pierre:   #9C98B6;
+  --brume:    #BEBAD3;
+
+  /* Accent — violet */
+  --or:        #8B5CF6;
+  --or-clair:  #A98AFB;
+  --or-sombre: #6D3FE0;
+  --or-voile:  #EEE8FD;
+
+  /* Pastels for section bands & cards */
+  --lavande:   #F0EAFD;
+  --peche:     #FCEDE6;
+  --bleu:      #E8F0FD;
+  --menthe:    #E7F4EE;
+
+  /* Rounder corners */
+  --r-sm:  10px;
+  --r-md:  20px;
+  --r-lg:  28px;
+
+  /* Softer, more diffuse shadows */
+  --shadow-fine:  0 1px 0 rgba(33,30,55,0.03);
+  --shadow-card:  0 8px 30px -10px rgba(80,60,160,0.16);
+  --shadow-lift:  0 18px 50px -18px rgba(80,60,160,0.26);
+  --shadow-modal: 0 30px 80px -24px rgba(80,60,160,0.34);
+}
+
+/* ----------  Typography → friendly bold sans  ---------- */
+body, p, .lede, p.lede, .eyebrow, small, .small, input, select, button, .btn {
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+}
+h1, h2, h3, h4, .display,
+.hero h1, .nav-brand .name, .footer-brand .name, .sim h3, .plan-name {
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif !important;
+  font-weight: 800 !important;
+  font-style: normal !important;
+  letter-spacing: -0.025em;
+}
+h1 em, h2 em, h3 em, .hero h1 em, .display em {
+  font-style: normal !important;
+  font-weight: 800 !important;
+  color: var(--or) !important;
+}
+.eyebrow { font-weight: 700; }
+.eyebrow .num { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; }
+
+/* numerals that were serif italics → bold sans, colored */
+.hero-meta .num, .studio-stats .stat .num, .result-card .r-num,
+.sim-field-val, .res-volume .rv-num, .sim-result .res-num, .sim-row .v, .ss2-val,
+.plan-price {
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  font-weight: 800 !important;
+  font-style: normal !important;
+}
+.hero-meta .num em, .studio-stats .stat .num em, .result-card .r-num em,
+.sim-field-val em, .sim-result .res-num em, .sim-row .v em {
+  font-style: normal !important; color: var(--or) !important; font-weight: 800 !important;
+}
+
+/* ----------  Section bands → pastel, no hairlines  ---------- */
+.section + .section { border-top: 0; }
+.section { padding: 104px 0; }
+
+.hero {
+  background:
+    radial-gradient(60% 70% at 70% 22%, var(--lavande) 0%, rgba(240,234,253,0) 70%),
+    radial-gradient(50% 60% at 12% 80%, var(--peche) 0%, rgba(252,237,230,0) 70%),
+    var(--ivoire);
+}
+#benefices { background: var(--ivoire); }
+.studio { background: var(--peche); }
+.preuves { background: var(--bleu); }
+#simulateur { background: var(--lavande); }
+.callback { background: var(--peche); }
+.footer { background: var(--ivoire); border-top: 1px solid var(--sable); }
+
+/* ----------  Nav → floating rounded pill  ---------- */
+.nav { padding: 16px 0; }
+.nav .container { padding: 0 28px; }
+.nav-inner {
+  background: rgba(255,255,255,0.9);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--sable);
+  border-radius: var(--r-pill);
+  padding: 12px 14px 12px 26px;
+  box-shadow: var(--shadow-card);
+}
+.nav.scrolled { background: transparent; backdrop-filter: none; border-bottom-color: transparent; }
+.nav-brand { align-items: center; gap: 12px; }
+.nav-logo { height: 38px; width: auto; display: block; }
+.nav-brand .brand-text { display: flex; flex-direction: column; gap: 6px; line-height: 1.1; }
+.nav-brand .name { font-size: 19px; }
+.nav-brand .tag { color: var(--or); }
+.nav-links a { font-weight: 600; border-bottom: 0; }
+.nav-links a:hover { color: var(--or); border-bottom: 0; }
+.nav-cta { border-radius: var(--r-pill); background: var(--or); padding: 12px 22px; font-weight: 700; }
+.nav-cta:hover { background: var(--or-sombre); }
+
+/* ----------  Nav responsive (burger menu)  ---------- */
+.nav-inner { position: relative; }
+.nav-burger {
+  display: none; align-items: center; justify-content: center;
+  width: 44px; height: 44px; border: 0; background: transparent;
+  color: var(--encre); cursor: pointer; border-radius: var(--r-sm);
+}
+.nav-burger svg { width: 24px; height: 24px; }
+.nav-cta-mobile { display: none; }
+
+@media (max-width: 920px) {
+  .nav-cta-desktop { display: none; }
+  .nav-burger { display: inline-flex; }
+  .nav-brand .name { font-size: 18px; }
+  .nav-links {
+    position: absolute; top: calc(100% + 10px); left: 0; right: 0;
+    flex-direction: column; align-items: stretch; gap: 0;
+    background: rgba(255,255,255,0.97);
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--sable); border-radius: var(--r-md);
+    box-shadow: var(--shadow-lift); padding: 6px 22px 20px;
+    display: none;
+  }
+  .nav.menu-open .nav-links { display: flex; }
+  .nav-links a { font-size: 16px; padding: 15px 2px; border-bottom: 1px solid var(--sable); }
+  .nav-links a:last-of-type { border-bottom: 0; }
+  .nav-cta-mobile { display: inline-flex; justify-content: center; margin-top: 16px; }
+}
+
+/* ----------  Buttons → pills  ---------- */
+.btn { border-radius: var(--r-pill); font-weight: 700; padding: 16px 28px; }
+.btn .arrow { font-family: inherit; font-style: normal; }
+.btn-primary { background: var(--or); color: #fff; }
+.btn-primary:hover { background: var(--or-sombre); }
+.btn-gold { background: var(--or); color: #fff; }
+.btn-gold:hover { background: var(--or-sombre); }
+.btn-link { border-radius: 0; border-bottom: 2px solid var(--or); color: var(--encre); font-weight: 700; }
+.btn-ghost { border-radius: var(--r-pill); border-color: var(--sable-fonce); }
+.eyebrow .rule { background: var(--or); }
+
+/* ----------  Hero portrait → big rounded, floating  ---------- */
+.hero h1 .small-lead, .callback h2 .small-lead {
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif !important;
+  color: var(--graphite); font-weight: 800; font-style: normal;
+}
+.hero-portrait { border-radius: var(--r-lg); border: 0; box-shadow: var(--shadow-lift); overflow: hidden; }
+.hero-portrait image-slot, .hero-portrait .ph { border-radius: var(--r-lg); }
+.hero-meta { border-top: 1px solid var(--sable); }
+.trust-strip strong { color: var(--or); }
+
+/* ----------  Studio  ---------- */
+.studio-gallery image-slot { border-radius: var(--r-md); box-shadow: var(--shadow-card); overflow: hidden; }
+.studio-stats { border-top: 1px solid rgba(141,92,246,0.18); }
+.studio-sign { font-family: 'Plus Jakarta Sans', sans-serif; font-style: normal; font-weight: 500; color: var(--graphite); }
+.studio-sign strong { color: var(--or); font-weight: 700; }
+
+/* ----------  Bénéfices → tinted numbered cards  ---------- */
+.benefice { border: 0; border-radius: var(--r-md); box-shadow: var(--shadow-card); padding: 40px 34px; }
+.benefice:nth-child(1) { background: var(--lavande); }
+.benefice:nth-child(2) { background: var(--peche); }
+.benefice:nth-child(3) { background: var(--bleu); }
+.benefice .b-num { font-family: 'Plus Jakarta Sans', sans-serif; font-style: normal; font-weight: 800; color: var(--or); }
+.benefice .b-ico { color: var(--or); }
+.benefice .b-list { border-top: 1px solid rgba(33,30,55,0.08); }
+.benefice .b-list li svg { color: var(--or); }
+.benefice .b-tag { color: var(--plomb); font-weight: 600; }
+
+/* ----------  Résultats  ---------- */
+.result-card { border: 0; border-radius: var(--r-md); box-shadow: var(--shadow-card); }
+.result-card .r-meta { color: var(--or); font-weight: 700; }
+.testimonial { border: 0; border-radius: var(--r-md); box-shadow: var(--shadow-card); }
+.testimonial blockquote { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 600; font-style: normal; line-height: 1.5; }
+.testimonial blockquote em { color: var(--or); font-style: normal; font-weight: 700; }
+.testimonial .t-author image-slot { border-radius: 50%; box-shadow: var(--shadow-fine); overflow: hidden; }
+
+/* ----------  Simulateur  ---------- */
+.sim { border: 0; border-radius: var(--r-lg); box-shadow: var(--shadow-lift); }
+.sim-controls { border-right: 1px solid var(--sable); background: var(--porcelaine); }
+.sim-result { background: linear-gradient(180deg, #fff 0%, var(--lavande) 100%); }
+.sim-chip { border-radius: var(--r-pill); border-color: var(--sable-fonce); font-weight: 600; }
+.sim-chip.active { background: var(--or); border-color: var(--or); color: #fff; }
+.sim-chip:hover { border-color: var(--or); }
+.sim-seg { border-radius: var(--r-pill); border-color: var(--sable-fonce); overflow: hidden; }
+.sim-seg button { font-weight: 700; }
+.sim-seg button.active { background: var(--or); color: #fff; }
+.sim-seg button + button { border-left-color: var(--sable-fonce); }
+.sim-input { border-radius: 14px; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; }
+.sim-input:focus { border-color: var(--or); box-shadow: 0 0 0 4px var(--or-voile); }
+.sim-input-suffix { font-family: 'Plus Jakarta Sans', sans-serif; font-style: normal; font-weight: 600; }
+.sim-fill { background: var(--or); }
+.sim-thumb { border-color: var(--or); }
+.sim-track { background: var(--sable-fonce); }
+.res-eyebrow, .sim-result .res-eyebrow { color: var(--or) !important; font-weight: 700; }
+.res-volume .rv-lbl { color: var(--plomb); }
+.sim-breakdown { border-top: 1px solid rgba(33,30,55,0.08); }
+.sim-foot { border-top: 1px solid rgba(33,30,55,0.08); }
+.sim-cta-wrap .btn { border-radius: var(--r-pill); }
+
+/* ----------  Form  ---------- */
+.cb-form { border: 0; border-radius: var(--r-md); box-shadow: var(--shadow-lift); }
+.cb-field input, .cb-field select { border-radius: 12px; background: var(--ivoire); }
+.cb-field input:focus, .cb-field select:focus { border-color: var(--or); box-shadow: 0 0 0 4px var(--or-voile); }
+.callback h2 .small-lead { color: var(--graphite); font-weight: 800; }
+
+/* ----------  Side rail & footer  ---------- */
+.side-rail a.active { color: var(--or); }
+.side-rail a.active::before { background: var(--or); }
+.footer a:hover { color: var(--or); }
+.footer-brand-lockup { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; margin-bottom: 16px; }
+.footer-logo { height: 46px; width: auto; display: block; }
+.footer-brand-lockup .name { white-space: nowrap; }
+::selection { background: var(--or-voile); color: var(--encre); }

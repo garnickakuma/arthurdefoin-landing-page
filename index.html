@@ -1,0 +1,815 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Arthur Defoin — Publicité Meta pour photographes</title>
+  <meta name="description" content="Vous photographiez — nous attirons vos clients. Publicité Meta pour photographes : leads qualifiés, réservations automatiques, visibilité. Simulateur ROI inclus.">
+  <link rel="icon" type="image/svg+xml" href="landing/assets/logo-monogram.svg">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Manrope:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&family=JetBrains+Mono:wght@400;500&display=swap">
+
+  <link rel="stylesheet" href="landing/colors_and_type.css">
+  <link rel="stylesheet" href="landing/landing.css">
+  <link rel="stylesheet" href="landing/landing-b.css">
+  <link rel="stylesheet" href="landing/landing-layouts.css">
+  <link rel="stylesheet" href="landing/landing-hero-wow.css">
+  <link rel="stylesheet" href="landing/landing-schema.css">
+
+  <!-- Meta Pixel -->
+  <script>
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init','875967245522285');fbq('track','PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=875967245522285&ev=PageView&noscript=1" alt=""/></noscript>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script src="landing/image-slot.js"></script>
+
+  <script type="text/babel">
+    // ─── useTweaks (minimal — tweaks panel not shown in production) ───────────
+    function useTweaks(defaults) {
+      const [values, setValues] = React.useState(defaults);
+      const setTweak = React.useCallback((keyOrEdits, val) => {
+        const edits = typeof keyOrEdits === 'object' && keyOrEdits !== null ? keyOrEdits : { [keyOrEdits]: val };
+        setValues((prev) => ({ ...prev, ...edits }));
+      }, []);
+      return [values, setTweak];
+    }
+    // Stub tweaks panel — never shown in production (no __activate_edit_mode posted)
+    function TweaksPanel() { return null; }
+    function TweakSection() { return null; }
+    function TweakSelect() { return null; }
+    function TweakColor() { return null; }
+    function TweakToggle() { return null; }
+
+    // ─── Nav ─────────────────────────────────────────────────────────────────
+    function Nav({ ctaLabel = 'Réserver un appel' }) {
+      const [scrolled, setScrolled] = React.useState(false);
+      const [open, setOpen] = React.useState(false);
+      React.useEffect(() => {
+        const onScroll = () => setScrolled(window.scrollY > 24);
+        window.addEventListener('scroll', onScroll, { passive: true });
+        onScroll();
+        return () => window.removeEventListener('scroll', onScroll);
+      }, []);
+      React.useEffect(() => { if (window.lucide) window.lucide.createIcons(); }, [open]);
+      const go = (id) => (e) => {
+        e.preventDefault(); setOpen(false);
+        const el = document.getElementById(id);
+        if (el) window.scrollTo({ top: el.offsetTop - 60, behavior: 'smooth' });
+      };
+      return (
+        <nav className={"nav" + (scrolled ? " scrolled" : "") + (open ? " menu-open" : "")}>
+          <div className="container">
+            <div className="nav-inner">
+              <a className="nav-brand" href="#top" onClick={go('top')}>
+                <img className="nav-logo" src="landing/logo-a.png" alt="Arthur Defoin" />
+                <span className="brand-text">
+                  <span className="name">Arthur Defoin</span>
+                  <span className="tag">Publicité Meta · Photographes</span>
+                </span>
+              </a>
+              <div className="nav-links">
+                <a onClick={go('mecanisme')}>Méthode</a>
+                <a onClick={go('studio')}>Mon studio</a>
+                <a onClick={go('benefices')}>Objectifs</a>
+                <a onClick={go('preuves')}>Résultats</a>
+                <a onClick={go('simulateur')}>Simulateur</a>
+                <button className="nav-cta nav-cta-mobile" onClick={go('rappel')}>{ctaLabel}</button>
+              </div>
+              <button className="nav-cta nav-cta-desktop" onClick={go('rappel')}>{ctaLabel}</button>
+              <button className="nav-burger" aria-label="Menu" aria-expanded={open} onClick={() => setOpen(o => !o)}>
+                <i data-lucide={open ? 'x' : 'menu'}></i>
+              </button>
+            </div>
+          </div>
+        </nav>
+      );
+    }
+
+    // ─── SideRail ────────────────────────────────────────────────────────────
+    function SideRail() {
+      const sections = [
+        { id: 'top', n: '01' }, { id: 'studio', n: '02' },
+        { id: 'benefices', n: '03' }, { id: 'preuves', n: '04' },
+        { id: 'simulateur', n: '05' }, { id: 'rappel', n: '06' },
+      ];
+      const [active, setActive] = React.useState('top');
+      React.useEffect(() => {
+        const onScroll = () => {
+          const y = window.scrollY + 200;
+          let cur = sections[0].id;
+          for (const s of sections) { const el = document.getElementById(s.id); if (el && el.offsetTop <= y) cur = s.id; }
+          setActive(cur);
+        };
+        window.addEventListener('scroll', onScroll, { passive: true });
+        onScroll();
+        return () => window.removeEventListener('scroll', onScroll);
+      }, []);
+      return (
+        <div className="side-rail" aria-hidden="true">
+          {sections.map(s => (
+            <a key={s.id} className={active === s.id ? 'active' : ''}
+               onClick={e => { e.preventDefault(); const el = document.getElementById(s.id); if (el) window.scrollTo({ top: el.offsetTop - 60, behavior: 'smooth' }); }}>
+              {s.n}
+            </a>
+          ))}
+        </div>
+      );
+    }
+
+    // ─── Hero WOW (Animé — rotating word) ────────────────────────────────────
+    function HeroWow({ variant = 'anime' }) {
+      const go = (id) => (e) => {
+        e.preventDefault();
+        const el = document.getElementById(id);
+        if (el) window.scrollTo({ top: el.offsetTop - 60, behavior: 'smooth' });
+      };
+      const Eyebrow = () => (
+        <div className="eyebrow"><span className="rule"></span><span>Publicité Meta pour photographes</span></div>
+      );
+      const Lede = () => (
+        <p className="lede">Je suis photographe et media buyer Meta Ads.<br />Je lance, gère et optimise vos publicités.</p>
+      );
+      const Actions = () => (
+        <div className="hero-actions">
+          <a className="btn btn-primary" href="#simulateur" onClick={go('simulateur')}>
+            Voir le simulateur <span className="arrow">→</span>
+          </a>
+        </div>
+      );
+
+      if (variant === 'immersif') {
+        return (
+          <section className="section hero hero-wow hero-immersif" id="top">
+            <div className="hero-blob"></div>
+            <div className="container">
+              <div className="hero-grid">
+                <div className="hero-copy">
+                  <Eyebrow />
+                  <h1><span className="small-lead">Vous photographiez —</span> nous attirons vos <em>clients</em>.</h1>
+                  <p className="lede">Je suis photographe, comme vous, et media buyer spécialisé Meta Ads. Pendant que vous êtes derrière l'objectif, vos campagnes travaillent.</p>
+                  <Actions />
+                  <div className="trust-strip">
+                    <span><strong>22</strong> photographes accompagnés</span>
+                    <span className="dot"></span><span>France · Belgique · Suisse</span>
+                  </div>
+                </div>
+                <div className="hero-visual">
+                  <image-slot id="hero-portrait" shape="rect" fit="cover" class="ph" placeholder="Glissez votre portrait"></image-slot>
+                  <div className="float-chip chip-1"><strong>× 4,2</strong><span>ROAS moyen</span></div>
+                  <div className="float-chip chip-2"><strong>12 €</strong><span>par lead qualifié</span></div>
+                  <div className="float-chip chip-3"><strong>+ 38 %</strong><span>demandes / mois</span></div>
+                </div>
+              </div>
+            </div>
+          </section>
+        );
+      }
+
+      if (variant === 'bento') {
+        return (
+          <section className="section hero hero-wow hero-bento" id="top">
+            <div className="container">
+              <div className="bento">
+                <div className="bento-cell bento-head">
+                  <Eyebrow />
+                  <h1><span className="small-lead">Vous photographiez —</span> nous attirons vos <em>clients</em>.</h1>
+                  <p className="lede">Media buyer Meta Ads, photographe comme vous. Vos campagnes remplissent votre agenda pendant que vous shootez.</p>
+                  <Actions />
+                </div>
+                <div className="bento-cell bento-photo">
+                  <image-slot id="hero-portrait" shape="rect" fit="cover" class="ph" placeholder="Glissez votre portrait"></image-slot>
+                </div>
+                <div className="bento-cell bento-stat"><strong>× 4,2</strong><span>ROAS moyen constaté</span></div>
+                <div className="bento-cell bento-stat alt"><strong>12 €</strong><span>coût par lead qualifié</span></div>
+                <div className="bento-cell bento-cta">
+                  <span className="bento-cta-lbl">Votre retour sur investissement ?</span>
+                  <a className="btn" href="#simulateur" onClick={go('simulateur')}>Lancer le simulateur <span className="arrow">→</span></a>
+                </div>
+              </div>
+            </div>
+          </section>
+        );
+      }
+
+      // Default: Animé
+      const words = ['prospects', 'clients', 'réservations', 'prospects'];
+      return (
+        <section className="section hero hero-wow hero-anime" id="top">
+          <div className="hero-halo"></div>
+          <div className="container">
+            <div className="hero-center">
+              <Eyebrow />
+              <h1>
+                <span className="small-lead">Vous photographiez —</span>
+                nous attirons vos&nbsp;
+                <span className="rotator"><ul>{words.map((w, i) => <li key={i}>{w}</li>)}</ul></span>
+                <span className="dotfix">.</span>
+              </h1>
+              <Lede />
+              <Actions />
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    // ─── Schema ───────────────────────────────────────────────────────────────
+    function Schema() {
+      const steps = [
+        { ico: 'camera', step: '1', title: 'Vous photographiez', sub: 'Vous faites ce que vous faites de mieux.' },
+        { ico: 'megaphone', step: '2', title: 'Je place vos images', sub: 'Campagnes Meta ciblées sur les bons profils.' },
+        { ico: 'users', step: '3', title: 'Des prospects qualifiés', sub: 'Les bonnes personnes vous écrivent.' },
+        { ico: 'trending-up', step: '4', title: 'Votre CA augmente', sub: 'Automatiquement, mois après mois.', payoff: true },
+      ];
+      React.useEffect(() => { if (window.lucide) window.lucide.createIcons(); });
+      return (
+        <section className="section schema" id="mecanisme">
+          <div className="container">
+            <div className="schema-head">
+              <div className="eyebrow"><span className="rule"></span><span>Le mécanisme</span></div>
+              <h2>Vous photographiez. <em>Le reste tourne tout seul.</em></h2>
+              <p className="lede">Pas de tunnel compliqué : quatre temps, et une boucle qui s'entretient d'elle-même pendant que vous êtes derrière l'objectif.</p>
+            </div>
+            <div className="schema-flow">
+              {steps.map((s, i) => (
+                <React.Fragment key={s.step}>
+                  <div className={"node" + (s.payoff ? " payoff" : "")}>
+                    <div className="node-badge"><i data-lucide={s.ico}></i></div>
+                    <div className="node-step">{s.step}</div>
+                    <div className="node-title">{s.title}</div>
+                    <div className="node-sub">{s.sub}</div>
+                  </div>
+                  {i < steps.length - 1 && (
+                    <div className="connector" style={{ '--d': i * 0.5 + 's' }}>
+                      <span className="dot"></span>
+                      <i data-lucide="chevron-right"></i>
+                    </div>
+                  )}
+                </React.Fragment>
+              ))}
+            </div>
+            <div className="schema-loop">
+              <span className="loop-line"></span>
+              <span className="loop-chip">
+                <i data-lucide="refresh-cw"></i>
+                En continu — pendant que vous photographiez
+              </span>
+              <span className="loop-line"></span>
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    // ─── Studio ───────────────────────────────────────────────────────────────
+    function Studio() {
+      const jours = ['LUN','MAR','MER','JEU','VEN','SAM','DIM'];
+      const semaines = [
+        [{d:null},{d:null},{d:1,ev:[['16:00','Lili','Constant'],['18:00','Myriam','Ndjave']]},{d:2,ev:[['14:00','Axel','Schneider'],['17:00','Awa','Traoré']]},{d:3,ev:[['15:00','Laura','Lachaud'],['17:00','Camelia','Aymen']]},{d:4,ev:[['10:00','Oceane','Courtas'],['14:00','Jessica','Vincent'],['17:00','Hélène','Barbe M.']]},{d:5,ev:[['10:00','Gaelle','Cazadieu'],['16:00','Alexia','Ribeiro']]}],
+        [{d:6,ferie:'Lundi de Pâques'},{d:7,ev:[['15:30','Oceane','Bizet'],['18:00','Lauriane','Coulon']]},{d:8,ev:[['11:00','Daniela','Santos'],['17:00','Clara','Vasseur']]},{d:9},{d:10,ev:[['11:00','Joana','Pouvreau'],['16:00','Sophie','Marchand']]},{d:11,ev:[['10:00','Prescilia','Da costa'],['14:00','Melinda','Da costa'],['17:00','Mélanie','Focqueu']]},{d:12,ev:[['11:00','Marine','Minard'],['16:00','Lorie','Lorente']]}],
+        [{d:13,ev:[['11:00','Ousmane','Dramé'],['17:00','Ravaka','Razafindra']]},{d:14,ev:[['16:00','Estelle','Heullant'],['18:00','Fanny','Schalk']]},{d:15,ev:[['11:00','Kaoutar','Kssir'],['16:00','Isabelle','Brice']]},{d:16},{d:17,ev:[['15:30','Laure','Martins']]},{d:18,ev:[['10:00','Bérengère','Simon'],['13:00','Inès','Bonnet'],['16:00','Manon','Delaunay']]},{d:19,ev:[['11:00','Alexia','Souza s.'],['15:30','Capucine','Reboul']]}],
+        [{d:20,ev:[['11:00','Marie-Louise','Salomon'],['17:00','Laetitia','Gaillard']]},{d:21,ev:[['14:00','Sébastian','Billard'],['16:00','Bocar','Sow']]},{d:22,ev:[['11:00','Laëtitia','Verraleweck'],['14:00','Emanuela','Haxhi']]},{d:23},{d:24,ev:[['15:00','Nadia','Ali cherif']]},{d:25,ev:[['10:00','Pauline','Marty'],['12:00','Chloé','Perrin'],['15:00','Théo','Roussel']]},{d:26,ev:[['11:00','Léna','Fontaine'],['16:00','Maël','Guérin']]}],
+      ];
+      const photos = [
+        {src:'landing/assets/studio-soeurs.jpg',alt:'Deux sœurs au studio'},
+        {src:'landing/assets/studio-couple.jpg',alt:'Séance couple'},
+        {src:'landing/assets/studio-nouveaune1.jpg',alt:'Nouveau-né'},
+        {src:'landing/assets/studio-garcon.jpg',alt:'Portrait enfant'},
+        {src:'landing/assets/studio-maman.jpg',alt:'Maman et son bébé'},
+        {src:'landing/assets/studio-bebe-bow.jpg',alt:'Bébé en séance'},
+        {src:'landing/assets/studio-nouveaune2.jpg',alt:'Nouveau-né'},
+        {src:'landing/assets/studio-papa.jpg',alt:'Papa et son bébé'},
+      ];
+      return (
+        <section className="section studio" id="studio">
+          <div className="container">
+            <div className="studio-inner">
+              <div className="studio-head">
+                <div className="eyebrow"><span className="rule"></span><span className="num">02</span><span>LE STUDIO AMOUR ET LUMIÈRE</span></div>
+                <h2>Je connais votre métier —<br /><em>je le vis aussi</em>.</h2>
+              </div>
+              <div className="studio-gallery">
+                <img className="studio-logo-top" src="landing/assets/amour-lumiere-logo.png" alt="Amour et Lumière" />
+                <div className="studio-portrait-wrap">
+                  <img className="studio-portrait" src="landing/assets/arthur-studio.jpg" alt="Arthur, photographe au studio Amour et Lumière" />
+                </div>
+                <div className="studio-contact">
+                  {photos.map((p,i) => (
+                    <figure className="contact-item" key={i}><img src={p.src} alt={p.alt} /></figure>
+                  ))}
+                </div>
+              </div>
+              <div className="studio-body">
+                <p className="lede">
+                  Amour et Lumière, c'est notre studio. Nous sommes deux photographes et nous faisons principalement des séances famille et enfants ainsi que des mariages. C'est en remplissant <em> notre propre</em> agenda grâce à la publicité Meta que j'ai compris ce qui fonctionne vraiment pour un photographe — et ce qui fait perdre du budget.
+                </p>
+                <div className="studio-stats">
+                  <div className="stat"><span className="num">+ <em>45</em></span><span className="lbl">RÉSERVATIONS PAR MOIS</span></div>
+                  <div className="stat"><span className="num"><em>90</em>&nbsp;%</span><span className="lbl">d'agenda rempli via la pub</span></div>
+                  <div className="stat"><span className="num"><em>0</em></span><span className="lbl">€ dépensé en démarchage</span></div>
+                </div>
+                <p className="studio-sign">«&nbsp;Je ne vous vends pas une méthode théorique. Je vous transmets celle qui remplit <strong>notre agenda</strong>.&nbsp;»</p>
+              </div>
+            </div>
+
+            <div className="studio-agenda">
+              <div className="agenda-head">
+                <div className="eyebrow"><span className="rule"></span><span>Notre agenda — avril 2026</span></div>
+                <p className="agenda-sub">Voici une vraie capture de notre planning. Chaque créneau&nbsp;= une séance réservée, presque toutes venues de la publicité Meta.</p>
+              </div>
+              <div className="agenda-cal" role="table" aria-label="Agenda avril 2026">
+                <div className="agenda-dows" role="row">
+                  {jours.map(j => <span className="dow" key={j} role="columnheader">{j}</span>)}
+                </div>
+                <div className="agenda-weeks">
+                  {semaines.map((sem, wi) => (
+                    <div className="agenda-week" role="row" key={wi}>
+                      {sem.map((cell, ci) => (
+                        <div className={'agenda-cell'+(ci>=5?' weekend':'')+(cell.d==null?' muted':'')} role="cell" key={ci}>
+                          {cell.d!=null && <span className="cell-day">{cell.d}</span>}
+                          {cell.ferie && <span className="cell-ferie">{cell.ferie}</span>}
+                          {cell.ev && <div className="cell-events">{cell.ev.map((e,ei) => (
+                            <span className="ev" key={ei}>
+                              <span className="ev-time">{e[0]}</span>
+                              <span className="ev-name">{e[1]}&nbsp;{e[2].charAt(0)}<span className="ev-blur" aria-hidden="true">{e[2].slice(1)}</span></span>
+                            </span>
+                          ))}</div>}
+                        </div>
+                      ))}
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <p className="agenda-foot"><em>46</em> séances réservées sur les 4 premières semaines d'avril.</p>
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    // ─── Bénéfices ────────────────────────────────────────────────────────────
+    function Dot() {
+      return (
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <polyline points="2.5,7.5 5.5,10.5 11.5,3.5" />
+        </svg>
+      );
+    }
+    function Benefices() {
+      React.useEffect(() => { if (window.lucide) window.lucide.createIcons(); });
+      const items = [
+        { n:'01', icon:'user-round-search', title:'Des prospects qualifiés', desc:"Des photographes intéressés laissent leurs coordonnées via un formulaire. Vous recevez des leads chauds — déjà séduits par vos images, prêts à parler d'un shooting.", list:['Leads reçus par e-mail ou SMS','Ciblage local ou national','Vous rappelez, vous closez'], tag:'Idéal pour les prestations mariage ' },
+        { n:'02', icon:'calendar-check', title:'Des réservations automatiques', desc:"Vous proposez des séances gratuites ? Je mets en place un tunnel de vente : les prospects réservent eux-mêmes leur créneau et deviennent vos clients, sans intervention de votre part.", list:['Tunnel de réservation complet','Agenda qui se remplit seul','Conversion en vente à la séance'], tag:'Idéal si vous avez ou voulez faire des réservations gratuites' },
+        { n:'03', icon:'eye', title:'De la visibilité', desc:"Faire connaître votre studio, votre site et vos pages Facebook & Instagram. On installe votre nom dans l'esprit de votre clientèle locale — pour qu'on pense à vous le moment venu.", list:['Trafic vers votre site','Croissance des abonnés Insta / FB','Notoriété sur votre zone'], tag:'Idéal pour s\'installer durablement' },
+      ];
+      return (
+        <section className="section" id="benefices">
+          <div className="container">
+            <div className="section-head">
+              <div>
+                <div className="eyebrow"><span className="rule"></span><span className="num">03</span><span>OBJECTIFS</span></div>
+                <h2>Trois façons<br /><em>de remplir votre agenda</em>.</h2>
+              </div>
+              <p className="lede">La publicité Meta n'est pas une dépense — c'est un investissement que l'on choisit selon votre objectif. On définit ensemble lequel de ces trois leviers sert le mieux votre studio.</p>
+            </div>
+            <div className="benefices-grid">
+              {items.map(b => (
+                <div className="benefice" key={b.n}>
+                  <div className="b-head">
+                    <span className="b-num">{b.n}</span>
+                    <i className="b-ico" data-lucide={b.icon} style={{width:28,height:28}}></i>
+                  </div>
+                  <h3>{b.title}</h3>
+                  <p>{b.desc}</p>
+                  <ul className="b-list">{b.list.map((f,i) => <li key={i}><Dot />{f}</li>)}</ul>
+                  <span className="b-tag">{b.tag}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    // ─── Preuves ──────────────────────────────────────────────────────────────
+    function Preuves() {
+      const results = [
+        { meta:'Mariage', num:'15€', desc:"En moyenne le coût d'un lead pour du mariage." },
+        { meta:'Réservations gratuites', num:'20€', desc:"Coût moyen par réservation effectuée" },
+        { meta:"Chiffre d'affaire mai 2026", num:'6824€', desc:"On a dépensé 1476€ en publicité sur le mois de mai 2026." },
+      ];
+      const quotes = [
+        { q:"En trois mois, j'ai signé plus de mariages que sur toute l'année précédente. Et surtout, je <em>sais</em> enfin d'où viennent mes clients.", name:'Camille R.', role:'Photographe mariage · Nantes' },
+        { q:"Arthur parle photo avant de parler pub. Il a compris mon studio en un appel. Mon agenda grossesse est plein <em>deux mois à l'avance</em>.", name:'Léa M.', role:'Studio grossesse · Annecy' },
+      ];
+      return (
+        <section className="section preuves" id="preuves">
+          <div className="container">
+            <div className="section-head">
+              <div>
+                <div className="eyebrow"><span className="rule"></span><span className="num">04</span><span>Résultats</span></div>
+                <h2>Des chiffres,<br /><em>pas des promesses</em>.</h2>
+              </div>
+              <p className="lede">Je vous montre nos résultats avec Amour et Lumière. Même moyenne constatée sur les +50 photographes que j'accompagne.</p>
+            </div>
+            <div className="results-grid">
+              {results.map((r,i) => (
+                <div className="result-card" key={i}>
+                  <span className="r-meta">{r.meta}</span>
+                  <span className="r-num"><em>{r.num}</em></span>
+                  <p className="r-desc">{r.desc}</p>
+                </div>
+              ))}
+            </div>
+            <div className="testimonials">
+              {quotes.map((t,i) => (
+                <div className="testimonial" key={i}>
+                  <blockquote dangerouslySetInnerHTML={{__html:'« '+t.q+' »'}}></blockquote>
+                  <div className="t-author">
+                    <div>
+                      <div className="t-name">{t.name}</div>
+                      <div className="t-role">{t.role}</div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    // ─── Simulateur ───────────────────────────────────────────────────────────
+    const CPL = 12, CPR = 20, TAUX_ANNULATION = 25, PANIER_SEUIL = 250, BUDGET_MIN = 400, BUDGET_MAX = 4000, BUDGET_DEFAUT = 800;
+    const SIM_SPECIALITES = ['Mariage','Grossesse','Nouveau-né','Famille','Portrait','Corporate'];
+    const convForSpec = s => s === 'Mariage' ? 10 : 30;
+    const PANIER_PAR_SPEC = { Mariage: 1500 };
+    const panierForSpec = s => PANIER_PAR_SPEC[s] ?? 150;
+    function repartitionBudget(B) {
+      let abonnement, pub;
+      if (B <= 1000) { abonnement = 0.5*B-10; pub = 0.5*B+10; }
+      else { abonnement = 490+0.10*(B-1000); pub = B-abonnement; }
+      return { abonnement, pub };
+    }
+    function useCounterSim(value, duration=480) {
+      const [display, setDisplay] = React.useState(value);
+      const ref = React.useRef({from:value,to:value,start:0});
+      React.useEffect(() => {
+        ref.current = {from:display,to:value,start:performance.now()};
+        let raf;
+        const tick = t => {
+          const {from,to,start} = ref.current;
+          const k = Math.min(1,(t-start)/duration);
+          const eased = 1-Math.pow(1-k,3);
+          setDisplay(from+(to-from)*eased);
+          if (k<1) raf = requestAnimationFrame(tick);
+        };
+        raf = requestAnimationFrame(tick);
+        return () => cancelAnimationFrame(raf);
+      }, [value]);
+      return display;
+    }
+    const fmtEUR = n => new Intl.NumberFormat('fr-FR',{maximumFractionDigits:0}).format(Math.round(n))+' €';
+    const fmtX = n => '× '+new Intl.NumberFormat('fr-FR',{minimumFractionDigits:1,maximumFractionDigits:1}).format(n);
+    const fmtInt = n => new Intl.NumberFormat('fr-FR',{maximumFractionDigits:0}).format(Math.round(n));
+    function SimSlider({value,min,max,step=1,onChange,ticks}) {
+      const pct = (value-min)/(max-min)*100;
+      return (
+        <div>
+          <div className="sim-slider">
+            <div className="sim-track"><div className="sim-fill" style={{width:pct+'%'}}></div></div>
+            <div className="sim-thumb" style={{left:pct+'%'}}></div>
+            <input type="range" min={min} max={max} step={step} value={value} onChange={e => onChange(Number(e.target.value))} />
+          </div>
+          {ticks && <div className="sim-ticks">{ticks.map((t,i) => <span key={i}>{t}</span>)}</div>}
+        </div>
+      );
+    }
+    function Simulateur() {
+      const [spec, setSpec] = React.useState('Mariage');
+      const [mode, setMode] = React.useState('leads');
+      const [cart, setCart] = React.useState(panierForSpec('Mariage'));
+      const [budget, setBudget] = React.useState(BUDGET_DEFAUT);
+      const conv = convForSpec(spec);
+      const pickSpec = s => { setSpec(s); setCart(panierForSpec(s)); };
+      const cpx = mode === 'leads' ? CPL : CPR;
+      const showWarn = mode === 'reservations' && cart > PANIER_SEUIL;
+      const aboPct = budget > 0 ? Math.round(repartitionBudget(budget).abonnement/budget*100) : 0;
+      const result = React.useMemo(() => {
+        const {abonnement,pub} = repartitionBudget(budget);
+        let volume, clients;
+        if (mode === 'leads') { volume = pub/CPL; clients = volume*(conv/100); }
+        else { volume = pub/CPR; clients = volume*(1-TAUX_ANNULATION/100); }
+        const revenue = clients*cart;
+        const benefice = revenue-budget;
+        const roas = budget > 0 ? revenue/budget : 0;
+        return {abonnement,pub,volume,clients,revenue,benefice,roas};
+      }, [mode,cart,conv,budget]);
+      const dVolume = useCounterSim(result.volume);
+      const dClients = useCounterSim(result.clients);
+      const dRevenue = useCounterSim(result.revenue);
+      const dBenefice = useCounterSim(result.benefice);
+      const dRoas = useCounterSim(result.roas);
+      const dAbo = useCounterSim(result.abonnement);
+      const dPub = useCounterSim(result.pub);
+      const go = id => e => { e.preventDefault(); const el = document.getElementById(id); if (el) window.scrollTo({top:el.offsetTop-60,behavior:'smooth'}); };
+      React.useEffect(() => { if (window.lucide) window.lucide.createIcons(); });
+      return (
+        <section className="section" id="simulateur">
+          <div className="container">
+            <div className="section-head">
+              <div>
+                <div className="eyebrow"><span className="rule"></span><span className="num">05</span><span>Simulateur</span></div>
+                <h2>Combien rapporterait<br /><em>un mois de publicité</em>&nbsp;?</h2>
+              </div>
+              <p className="lede">Quelques réglages, une estimation chiffrée. Les projections reposent sur les performances moyennes des campagnes en cours.</p>
+            </div>
+            <div className="sim">
+              <div className="sim-controls">
+                <h3>Votre activité</h3>
+                <div className="sim-field">
+                  <div className="sim-field-head"><span className="sim-field-lbl">Quelle prestation mettre en avant&nbsp;?</span></div>
+                  <div className="sim-chips">
+                    {SIM_SPECIALITES.map(s => <button key={s} className={"sim-chip"+(spec===s?" active":"")} onClick={() => pickSpec(s)}>{s}</button>)}
+                  </div>
+                  {mode === 'leads' && <p className="sim-conv-note">Taux de conversion moyen retenu&nbsp;: <em>{fmtInt(conv)}&nbsp;%</em><span className="scn-sub">{spec==='Mariage'?'closing mariage, plus sélectif':'séances studio, portrait & extérieur'}</span></p>}
+                </div>
+                <div className="sim-field sim-objectif">
+                  <div className="sim-field-head"><span className="sim-field-lbl">Objectif des campagnes</span></div>
+                  <div className="sim-reco">
+                    <span className="sim-reco-text">
+                      <span className="sim-reco-label">Notre méthode chez</span>
+                      <img className="sim-reco-logo" src="landing/assets/amour-lumiere-logo.png" alt="Amour et Lumière" />
+                    </span>
+                    <svg className="sim-reco-arrow" viewBox="0 0 48 44" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <path d="M3 4 C 20 6, 38 12, 39 33" /><path d="M31 26 L 39 35 L 46 25" />
+                    </svg>
+                  </div>
+                  <div className="sim-seg">
+                    <button className={mode==='leads'?'active':''} onClick={() => setMode('leads')}>Des leads<span className="seg-sub">prospects à rappeler</span></button>
+                    <button className={mode==='reservations'?'active':''} onClick={() => setMode('reservations')}>Réservations gratuites<span className="seg-sub">ils réservent seuls</span></button>
+                  </div>
+                  <p className="sim-cpx">
+                    <i data-lucide="target"></i>
+                    Coût moyen <em>{fmtEUR(cpx)}</em>&nbsp;{mode==='leads'?'par lead qualifié':'par réservation gratuite'}
+                  </p>
+                </div>
+                <div className="sim-field">
+                  <div className="sim-field-head"><span className="sim-field-lbl">Panier moyen par client</span></div>
+                  <div className="sim-input-wrap">
+                    <input className="sim-input" type="number" min="0" step="10" value={cart} onChange={e => setCart(Math.max(0,Number(e.target.value)))} />
+                    <span className="sim-input-suffix">€</span>
+                  </div>
+                  {showWarn && <p className="sim-warn reveal" key="warn"><i data-lucide="alert-triangle"></i><span>Panier élevé&nbsp;: la réservation gratuite attire surtout des profils en quête de gratuité — elle convertit souvent moins bien et coûte plus cher à l'acquisition. Au-delà de {PANIER_SEUIL}&nbsp;€, les <em>leads qualifiés</em> sont en général plus rentables.</span></p>}
+                </div>
+                <div className="sim-field" style={{marginBottom:0}}>
+                  <div className="sim-field-head">
+                    <span className="sim-field-lbl">Budget mensuel total</span>
+                    <span className="sim-field-val"><em>{fmtInt(budget)}</em>&nbsp;€</span>
+                  </div>
+                  <SimSlider value={budget} min={BUDGET_MIN} max={BUDGET_MAX} step={50} onChange={setBudget} ticks={['400 €','2 200 €','4 000 €']} />
+                  <div className="sim-split2">
+                    <div className="ss2-cell"><span className="ss2-lbl">Abonnement</span><span className="ss2-val">{fmtEUR(dAbo)}</span><span className="ss2-sub">lancement, gestion &amp; optimisation</span></div>
+                    <div className="ss2-cell accent"><span className="ss2-lbl">Dépense publicitaire</span><span className="ss2-val">{fmtEUR(dPub)}</span><span className="ss2-sub">investie directement sur Meta</span></div>
+                  </div>
+                  <div className="sim-repart">
+                    <div className="sim-repart-track">
+                      <div className="sr-seg sr-abo" style={{width:aboPct+'%'}}><span className="sr-pct">{aboPct}&nbsp;%</span></div>
+                      <div className="sr-seg sr-pub" style={{width:(100-aboPct)+'%'}}><span className="sr-pct">{100-aboPct}&nbsp;%</span></div>
+                    </div>
+                    <div className="sim-repart-legend">
+                      <span><i className="sr-dot abo"></i>Abonnement</span>
+                      <span><i className="sr-dot pub"></i>Dépense publicitaire</span>
+                    </div>
+                  </div>
+                  <p className="sim-hint" style={{marginTop:14}}>Plus vous investissez en publicité, plus la part de l'abonnement s'allège — et plus chaque euro travaille pour vous.</p>
+                </div>
+              </div>
+              <div className="sim-result">
+                <div>
+                  <span className="res-eyebrow">Projection sur un mois</span>
+                  <div className="res-volume" style={{marginTop:14}}>
+                    <span className="rv-num">{fmtInt(mode==='leads'?dVolume:dClients)}</span>
+                    <span className="rv-lbl">{mode==='leads'?'leads qualifiés':Math.round(dClients)>1?'nouveaux clients':'nouveau client'}</span>
+                  </div>
+                  {mode==='leads'
+                    ? <p className="res-sub" style={{marginTop:8}}>soit ≈ {fmtInt(dClients)} {Math.round(dClients)>1?'prestations signées':'prestation signée'} à {fmtInt(conv)}&nbsp;% de conversion.</p>
+                    : <p className="res-sub" style={{marginTop:8}}>soit ≈ {fmtInt(dVolume)} réservations, dont {TAUX_ANNULATION}&nbsp;% d'annulation déduites.</p>
+                  }
+                </div>
+                <div>
+                  <span className="res-eyebrow">Bénéfice estimé</span>
+                  <div className="res-num benefice-num"><em>{fmtEUR(dBenefice)}</em></div>
+                  <span className="res-unit">budget total déduit</span>
+                </div>
+                <div className="sim-breakdown">
+                  <div className="sim-row"><span className="k">Chiffre d'affaires généré</span><span className="v">{fmtEUR(dRevenue)}</span></div>
+                  <div className="sim-row"><span className="k">Budget total <em className="k-sub">abonnement + pub</em></span><span className="v">− {fmtEUR(budget)}</span></div>
+                  {mode==='reservations' && <div className="sim-row"><span className="k">Taux d'annulation pris en compte</span><span className="v">{TAUX_ANNULATION}&nbsp;%</span></div>}
+                  <div className="sim-row"><span className="k">Bénéfice net</span><span className="v"><em>{fmtEUR(dBenefice)}</em></span></div>
+                  <div className="sim-row"><span className="k">Retour sur investissement (ROAS)</span><span className="v"><em>{fmtX(dRoas)}</em></span></div>
+                </div>
+                <div className="sim-cta-wrap">
+                  <a className="btn btn-gold" href="#rappel" onClick={go('rappel')}>Je veux gagner ces clients <span className="arrow">→</span></a>
+                  <p className="sim-cta-sub">Estimation indicative · Sans engagement</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    // ─── Callback (Calendly) ──────────────────────────────────────────────────
+    const CALENDLY_URL = 'https://calendly.com/defoin-arthur/accompagnement-arthur';
+    const ICO_PATHS = {
+      video:'Pm22 8-6 4 6 4V8Z|R2,6,14,12,2',
+      clock:'C12,12,10|PM12 6 12 12 16 14',
+      user:'PM19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2|C12,7,4',
+      shield:'PM20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z|Pm9 12 2 2 4-4'
+    };
+    function Ico({n}) {
+      const parts = (ICO_PATHS[n]||'').split('|');
+      return (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          {parts.map((p,i) => {
+            if (p.startsWith('C')) {const [,x,y,r]=p.split(',');return <circle key={i} cx={x} cy={y} r={r}/>;}
+            if (p.startsWith('R')) {const [,x,y,w,h,rx]=p.split(',');return <rect key={i} x={x} y={y} width={w} height={h} rx={rx} ry={rx}/>;}
+            return <path key={i} d={p.replace(/^P/,'')} />;
+          })}
+        </svg>
+      );
+    }
+    let calendlyPromise = null;
+    function chargerCalendly() {
+      if (window.Calendly) return Promise.resolve();
+      if (calendlyPromise) return calendlyPromise;
+      calendlyPromise = new Promise(resolve => {
+        if (!document.querySelector('link[data-calendly]')) {
+          const l = document.createElement('link'); l.rel='stylesheet'; l.href='https://assets.calendly.com/assets/external/widget.css'; l.setAttribute('data-calendly',''); document.head.appendChild(l);
+        }
+        const s = document.createElement('script'); s.src='https://assets.calendly.com/assets/external/widget.js'; s.async=true; s.onload=()=>resolve(); document.body.appendChild(s);
+      });
+      return calendlyPromise;
+    }
+    function Callback() {
+      const hote = React.useRef(null);
+      React.useEffect(() => {
+        let annule = false;
+        chargerCalendly().then(() => {
+          if (annule||!hote.current||!window.Calendly) return;
+          hote.current.innerHTML = '';
+          const cs = getComputedStyle(document.documentElement);
+          const hex = (v,f) => cs.getPropertyValue(v).trim().replace('#','')||f;
+          const params = new URLSearchParams({ hide_event_type_details:'1', hide_gdpr_banner:'1', primary_color:hex('--or','8b5cf6'), background_color:hex('--porcelaine','ffffff'), text_color:hex('--encre','211e37') });
+          window.Calendly.initInlineWidget({ url:`${CALENDLY_URL}?${params.toString()}`, parentElement:hote.current });
+        });
+        return () => { annule = true; };
+      }, []);
+      return (
+        <section className="section callback" id="rappel">
+          <div className="container">
+            <div className="callback-inner">
+              <div>
+                <div className="eyebrow"><span className="rule"></span><span className="num">06</span><span>On en parle&nbsp;?</span></div>
+                <h2><span className="small-lead">Choisissez l'heure qui vous arrange,</span> et <em>parlons-en</em>.</h2>
+                <p className="lede">30 minutes en appel, juste vous et moi. On regarde votre studio, vos objectifs, et ce que la publicité Meta peut vraiment rapporter à votre activité. La publicité n'est pas une dépense, c'est un investissement.</p>
+                <div className="cb-assur">
+                  <span><Ico n="video" /> Appel de <strong>30 min</strong></span>
+                  <span><Ico n="user" /> En direct avec <strong>Arthur</strong></span>
+                  <span><Ico n="shield" /> Aucun <strong>engagement</strong></span>
+                </div>
+              </div>
+              <div className="cb-form cb-sched">
+                <div className="sched-head">
+                  <div className="sched-host">
+                    <span className="sched-avatar">Ad</span>
+                    <span className="who"><span className="n">Arthur Defoin</span><span className="d">Appel découverte · Meta Ads photographes</span></span>
+                  </div>
+                  <div className="sched-meta">
+                    <span><Ico n="clock" /> 30 min</span>
+                    <span><Ico n="video" /> Appel téléphonique</span>
+                  </div>
+                </div>
+                <div className="cb-cal" ref={hote}>
+                  <div className="cb-cal-load">Chargement de mon agenda…</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    // ─── Footer ───────────────────────────────────────────────────────────────
+    function Footer() {
+      const go = id => e => { e.preventDefault(); const el = document.getElementById(id); if (el) window.scrollTo({top:el.offsetTop-60,behavior:'smooth'}); };
+      return (
+        <footer className="footer">
+          <div className="container">
+            <div className="footer-grid">
+              <div className="footer-brand">
+                <span className="footer-brand-lockup">
+                  <img className="footer-logo" src="landing/logo-a.png" alt="Arthur Defoin" />
+                  <span className="name">Arthur Defoin</span>
+                </span>
+                <p>Photographe au studio Amour & Lumière et media buyer spécialiste Meta Ads pour photographes. J'accompagne + de 50 photographes en France, Belgique et Suisse.</p>
+              </div>
+              <div>
+                <h4>Naviguer</h4>
+                <ul>
+                  <li><a href="#studio" onClick={go('studio')}>Le studio</a></li>
+                  <li><a href="#benefices" onClick={go('benefices')}>Bénéfices</a></li>
+                  <li><a href="#preuves" onClick={go('preuves')}>Résultats</a></li>
+                  <li><a href="#simulateur" onClick={go('simulateur')}>Simulateur</a></li>
+                </ul>
+              </div>
+              <div>
+                <h4>Photographes</h4>
+                <ul>
+                  <li><a>Mariage</a></li>
+                  <li><a>Grossesse &amp; nouveau-né</a></li>
+                  <li><a>Famille &amp; portrait</a></li>
+                  <li><a>Couple</a></li>
+                </ul>
+              </div>
+              <div>
+                <h4>Contact</h4>
+                <ul>
+                  <li><a>defoin.arthur@gmail.com</a></li>
+                  <li><a href="#rappel" onClick={go('rappel')}>Réserver un appel</a></li>
+                  <li><a>France · Belgique · Suisse</a></li>
+                </ul>
+              </div>
+            </div>
+            <div className="footer-bottom">
+              <span>© 2026 Arthur Defoin • Media Buyer</span>
+              <span>Mentions légales · Politique de confidentialité</span>
+            </div>
+          </div>
+        </footer>
+      );
+    }
+
+    // ─── App ──────────────────────────────────────────────────────────────────
+    function App() {
+      React.useEffect(() => { if (window.lucide) window.lucide.createIcons(); });
+      return (
+        <div className="page">
+          <Nav />
+          <SideRail />
+          <main>
+            <HeroWow variant="anime" />
+            <Schema />
+            <Studio />
+            <Benefices />
+            <Preuves />
+            <Simulateur />
+            <Callback />
+          </main>
+          <Footer />
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+
+  <!-- Meta Pixel — conversion tracking -->
+  <script>
+    (function () {
+      var fire = function (name, params) { if (typeof fbq === 'function') fbq('track', name, params || {}); };
+      var checkoutFired = false;
+      document.addEventListener('click', function (e) {
+        var a = e.target.closest && e.target.closest('a[href="#rappel"]');
+        if (a && !checkoutFired) { checkoutFired = true; fire('InitiateCheckout', { content_name: 'Reservation appel' }); }
+      }, true);
+      var vcFired = false;
+      var tries = 0;
+      var poll = setInterval(function () {
+        var sim = document.getElementById('simulateur');
+        if (sim && 'IntersectionObserver' in window) {
+          clearInterval(poll);
+          new IntersectionObserver(function (entries) {
+            entries.forEach(function (en) { if (en.isIntersecting && !vcFired) { vcFired = true; fire('ViewContent', { content_name: 'Simulateur ROI' }); } });
+          }, { threshold: 0.4 }).observe(sim);
+        } else if (++tries > 40) clearInterval(poll);
+      }, 250);
+      window.addEventListener('message', function (e) {
+        if (e.data && e.data.event === 'calendly.event_scheduled') fire('Lead', { content_name: 'Appel decouverte reserve' });
+      });
+    })();
+  </script>
+</body>
+</html>
