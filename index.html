@@ -456,7 +456,7 @@
       if (s !== 'Mariage') return 30;
       // Linear: 10% at 1500€ → 2% at 4500€, clamped
       const ratio = Math.max(0, Math.min(1, (cart - 1500) / 3000));
-      return Math.round(10 - ratio * 8);
+      return Math.round(10 - ratio * 5);
     };
     const PANIER_PAR_SPEC = { Mariage: 1500 };
     const panierForSpec = s => PANIER_PAR_SPEC[s] ?? 150;
