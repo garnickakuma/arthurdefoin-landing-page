@@ -722,6 +722,27 @@ image-slot { display: block; background: var(--ivoire-2); }
 }
 .res-volume .rv-lbl { font-family: var(--sans); font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--plomb); }
 .sim-result .res-num.benefice-num { font-size: 76px; }
+/* ----------  Simulator mobile summary  ---------- */
+.sim-mobile-summary { display: none; }
+@media (max-width: 980px) {
+  .sim-mobile-summary {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-top: 20px; padding: 18px 20px;
+    background: var(--ivoire); border-radius: var(--r-md);
+    border: 1px solid var(--sable);
+  }
+  .sms-item { display: flex; flex-direction: column; align-items: center; gap: 4px; flex: 1; }
+  .sms-val {
+    font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800;
+    font-size: 22px; color: var(--encre); line-height: 1;
+    font-variant-numeric: lining-nums tabular-nums;
+  }
+  .sms-item.accent .sms-val { color: var(--or); }
+  .sms-lbl { font-family: var(--sans); font-size: 10px; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--plomb); text-align: center; }
+  .sms-sep { width: 1px; height: 36px; background: var(--sable-fonce); flex: none; margin: 0 8px; }
+}
+
 .sim-cta-wrap { margin-top: 8px; }
 .sim-cta-wrap .btn { width: 100%; justify-content: center; padding: 18px 24px; font-size: 15px; }
 .sim-cta-sub { font-family: var(--sans); font-size: 11px; color: var(--pierre); text-align: center; margin-top: 12px; letter-spacing: 0.04em; }

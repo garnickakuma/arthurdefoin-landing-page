@@ -617,6 +617,22 @@
                     </div>
                   </div>
                   <p className="sim-hint" style={{marginTop:14}}>Plus vous investissez en publicité, plus la part de l'abonnement s'allège — et plus chaque euro travaille pour vous.</p>
+                  <div className="sim-mobile-summary">
+                    <div className="sms-item">
+                      <span className="sms-val">{fmtInt(mode==='leads'?dVolume:dClients)}</span>
+                      <span className="sms-lbl">{mode==='leads'?'leads':'clients'}</span>
+                    </div>
+                    <div className="sms-sep"></div>
+                    <div className="sms-item">
+                      <span className="sms-val">{fmtEUR(dRevenue)}</span>
+                      <span className="sms-lbl">chiffre d'affaires</span>
+                    </div>
+                    <div className="sms-sep"></div>
+                    <div className="sms-item accent">
+                      <span className="sms-val">{fmtEUR(dBenefice)}</span>
+                      <span className="sms-lbl">bénéfice net</span>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div className="sim-result">
