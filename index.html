@@ -602,21 +602,6 @@
                     <span className="sim-field-val"><em>{fmtInt(budget)}</em>&nbsp;€</span>
                   </div>
                   <SimSlider value={budget} min={BUDGET_MIN} max={BUDGET_MAX} step={50} onChange={setBudget} ticks={['400 €','2 200 €','4 000 €']} />
-                  <div className="sim-split2">
-                    <div className="ss2-cell"><span className="ss2-lbl">Abonnement</span><span className="ss2-val">{fmtEUR(dAbo)}</span><span className="ss2-sub">lancement, gestion &amp; optimisation</span></div>
-                    <div className="ss2-cell accent"><span className="ss2-lbl">Dépense publicitaire</span><span className="ss2-val">{fmtEUR(dPub)}</span><span className="ss2-sub">investie directement sur Meta</span></div>
-                  </div>
-                  <div className="sim-repart">
-                    <div className="sim-repart-track">
-                      <div className="sr-seg sr-abo" style={{width:aboPct+'%'}}><span className="sr-pct">{aboPct}&nbsp;%</span></div>
-                      <div className="sr-seg sr-pub" style={{width:(100-aboPct)+'%'}}><span className="sr-pct">{100-aboPct}&nbsp;%</span></div>
-                    </div>
-                    <div className="sim-repart-legend">
-                      <span><i className="sr-dot abo"></i>Abonnement</span>
-                      <span><i className="sr-dot pub"></i>Dépense publicitaire</span>
-                    </div>
-                  </div>
-                  <p className="sim-hint" style={{marginTop:14}}>Plus vous investissez en publicité, plus la part de l'abonnement s'allège — et plus chaque euro travaille pour vous.</p>
                   <div className="sim-mobile-summary">
                     <div className="sms-item">
                       <span className="sms-val">{fmtInt(mode==='leads'?dVolume:dClients)}</span>
@@ -633,6 +618,21 @@
                       <span className="sms-lbl">bénéfice net</span>
                     </div>
                   </div>
+                  <div className="sim-split2">
+                    <div className="ss2-cell"><span className="ss2-lbl">Abonnement</span><span className="ss2-val">{fmtEUR(dAbo)}</span><span className="ss2-sub">lancement, gestion &amp; optimisation</span></div>
+                    <div className="ss2-cell accent"><span className="ss2-lbl">Dépense publicitaire</span><span className="ss2-val">{fmtEUR(dPub)}</span><span className="ss2-sub">investie directement sur Meta</span></div>
+                  </div>
+                  <div className="sim-repart">
+                    <div className="sim-repart-track">
+                      <div className="sr-seg sr-abo" style={{width:aboPct+'%'}}><span className="sr-pct">{aboPct}&nbsp;%</span></div>
+                      <div className="sr-seg sr-pub" style={{width:(100-aboPct)+'%'}}><span className="sr-pct">{100-aboPct}&nbsp;%</span></div>
+                    </div>
+                    <div className="sim-repart-legend">
+                      <span><i className="sr-dot abo"></i>Abonnement</span>
+                      <span><i className="sr-dot pub"></i>Dépense publicitaire</span>
+                    </div>
+                  </div>
+                  <p className="sim-hint" style={{marginTop:14}}>Plus vous investissez en publicité, plus la part de l'abonnement s'allège — et plus chaque euro travaille pour vous.</p>
                 </div>
               </div>
               <div className="sim-result">
