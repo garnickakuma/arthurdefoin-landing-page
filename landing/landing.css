@@ -500,17 +500,15 @@ image-slot { display: block; background: var(--ivoire-2); }
 @media (max-width: 720px) {
   .agenda-cal { overflow-x: hidden; }
   .agenda-dows, .agenda-weeks { min-width: 0; }
-  .agenda-dows .dow { padding: 6px 2px; font-size: 8px; letter-spacing: 0.04em; }
-  .agenda-cell { min-height: 56px; padding: 5px 4px 6px; gap: 4px; }
-  .cell-day { font-size: 12px; }
+  .agenda-dows .dow { padding: 5px 0; font-size: 7.5px; letter-spacing: 0; text-align: center; }
+  .agenda-cell { min-height: 58px; padding: 3px 2px 4px; gap: 2px; }
+  .cell-day { font-size: 10px; }
   .cell-ferie { display: none; }
-  /* Remplace chaque créneau par un point coloré */
-  .ev { padding: 0; border: 0; background: transparent; gap: 0; display: block;
-        width: 7px; height: 7px; border-radius: 50%; background: var(--or);
-        flex: none; }
-  .ev-time { display: none; }
-  .ev-name { display: none; }
-  .cell-events { flex-direction: row; flex-wrap: wrap; gap: 3px; }
+  .ev { padding: 1px 2px; gap: 2px; border-left-width: 2px; }
+  .ev-time { font-size: 7px; }
+  .ev-name { font-size: 7px; }
+  .ev-blur { display: none; }
+  .cell-events { gap: 2px; }
   .agenda-foot { font-size: 15px; }
 }
 
