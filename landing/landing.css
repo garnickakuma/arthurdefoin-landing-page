@@ -734,8 +734,9 @@ image-slot { display: block; background: var(--ivoire-2); }
   .sms-item { display: flex; flex-direction: column; align-items: center; gap: 4px; flex: 1; }
   .sms-val {
     font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800;
-    font-size: 22px; color: var(--encre); line-height: 1;
+    font-size: clamp(15px, 4vw, 20px); color: var(--encre); line-height: 1;
     font-variant-numeric: lining-nums tabular-nums;
+    white-space: nowrap;
   }
   .sms-item.accent .sms-val { color: var(--or); }
   .sms-lbl { font-family: var(--sans); font-size: 10px; letter-spacing: 0.1em;
