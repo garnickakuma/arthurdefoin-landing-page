@@ -520,9 +520,9 @@
       );
     }
     function Simulateur() {
-      const [spec, setSpec] = React.useState('Mariage');
-      const [mode, setMode] = React.useState('leads');
-      const [cart, setCart] = React.useState(panierForSpec('Mariage'));
+      const [spec, setSpec] = React.useState('Famille');
+      const [mode, setMode] = React.useState('reservations');
+      const [cart, setCart] = React.useState(panierForSpec('Famille'));
       const [budget, setBudget] = React.useState(BUDGET_DEFAUT);
       const conv = convForSpec(spec);
       const pickSpec = s => { setSpec(s); setCart(panierForSpec(s)); };
