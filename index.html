@@ -450,7 +450,7 @@
     }
 
     // ─── Simulateur ───────────────────────────────────────────────────────────
-    const CPL = 12, CPR = 20, TAUX_ANNULATION = 25, PANIER_SEUIL = 250, BUDGET_MIN = 400, BUDGET_MAX = 4000, BUDGET_DEFAUT = 800;
+    const CPL = 12, CPR = 20, TAUX_ANNULATION = 25, PANIER_SEUIL = 200, BUDGET_MIN = 400, BUDGET_MAX = 4000, BUDGET_DEFAUT = 800;
     const SIM_SPECIALITES = ['Mariage','Grossesse','Nouveau-né','Famille','Portrait','Corporate'];
     const convForSpec = s => s === 'Mariage' ? 10 : 30;
     const PANIER_PAR_SPEC = { Mariage: 1500 };
@@ -605,17 +605,17 @@
                   <SimSlider value={budget} min={BUDGET_MIN} max={BUDGET_MAX} step={50} onChange={setBudget} ticks={['400 €','2 200 €','4 000 €']} />
                   <div className="sim-mobile-summary">
                     <div className="sms-item">
-                      <span className="sms-val">{fmtInt(mode==='leads'?dVolume:dClients)}</span>
+                      <span className="sms-val">{showWarn ? '?' : fmtInt(mode==='leads'?dVolume:dClients)}</span>
                       <span className="sms-lbl">{mode==='leads'?'leads':'clients'}</span>
                     </div>
                     <div className="sms-sep"></div>
                     <div className="sms-item">
-                      <span className="sms-val">{fmtEUR(dRevenue)}</span>
+                      <span className="sms-val">{showWarn ? '?' : fmtEUR(dRevenue)}</span>
                       <span className="sms-lbl">chiffre d'affaires</span>
                     </div>
                     <div className="sms-sep"></div>
                     <div className="sms-item accent">
-                      <span className="sms-val">{fmtEUR(dBenefice)}</span>
+                      <span className="sms-val">{showWarn ? '?' : fmtEUR(dBenefice)}</span>
                       <span className="sms-lbl">bénéfice net</span>
                     </div>
                   </div>
@@ -640,7 +640,7 @@
                 <div>
                   <span className="res-eyebrow">Projection sur un mois</span>
                   <div className="res-volume" style={{marginTop:14}}>
-                    <span className="rv-num">{fmtInt(mode==='leads'?dVolume:dClients)}</span>
+                    <span className="rv-num">{showWarn ? '?' : fmtInt(mode==='leads'?dVolume:dClients)}</span>
                     <span className="rv-lbl">{mode==='leads'?'leads qualifiés':Math.round(dClients)>1?'nouveaux clients':'nouveau client'}</span>
                   </div>
                   {mode==='leads'
@@ -650,15 +650,15 @@
                 </div>
                 <div>
                   <span className="res-eyebrow">Bénéfice estimé</span>
-                  <div className="res-num benefice-num"><em>{fmtEUR(dBenefice)}</em></div>
+                  <div className="res-num benefice-num"><em>{showWarn ? '?' : fmtEUR(dBenefice)}</em></div>
                   <span className="res-unit">budget total déduit</span>
                 </div>
                 <div className="sim-breakdown">
-                  <div className="sim-row"><span className="k">Chiffre d'affaires généré</span><span className="v">{fmtEUR(dRevenue)}</span></div>
+                  <div className="sim-row"><span className="k">Chiffre d'affaires généré</span><span className="v">{showWarn ? '?' : fmtEUR(dRevenue)}</span></div>
                   <div className="sim-row"><span className="k">Budget total <em className="k-sub">abonnement + pub</em></span><span className="v">− {fmtEUR(budget)}</span></div>
                   {mode==='reservations' && <div className="sim-row"><span className="k">Taux d'annulation pris en compte</span><span className="v">{TAUX_ANNULATION}&nbsp;%</span></div>}
-                  <div className="sim-row"><span className="k">Bénéfice net</span><span className="v"><em>{fmtEUR(dBenefice)}</em></span></div>
-                  <div className="sim-row"><span className="k">Retour sur investissement (ROAS)</span><span className="v"><em>{fmtX(dRoas)}</em></span></div>
+                  <div className="sim-row"><span className="k">Bénéfice net</span><span className="v"><em>{showWarn ? '?' : fmtEUR(dBenefice)}</em></span></div>
+                  <div className="sim-row"><span className="k">Retour sur investissement (ROAS)</span><span className="v"><em>{showWarn ? '?' : fmtX(dRoas)}</em></span></div>
                 </div>
                 <div className="sim-cta-wrap">
                   <a className="btn btn-gold" href="#rappel" onClick={go('rappel')}>Je veux gagner ces clients <span className="arrow">→</span></a>
