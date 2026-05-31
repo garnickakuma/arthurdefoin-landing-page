@@ -668,6 +668,7 @@
       const isMobile = () => window.innerWidth <= 980;
 
       const openPopup = () => {
+        if (typeof fbq === 'function') fbq('track', 'Schedule', { content_name: 'Voir disponibilites Calendly' });
         chargerCalendly().then(() => {
           if (!window.Calendly) return;
           const cs = getComputedStyle(document.documentElement);
