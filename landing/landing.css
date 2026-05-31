@@ -758,6 +758,11 @@ image-slot { display: block; background: var(--ivoire-2); }
 
 /* ----------  Simulator — services additionnels  ---------- */
 .sim-services { margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--sable); }
+.sim-services-option {
+  font-family: var(--sans); font-size: 12px; font-weight: 500;
+  color: var(--pierre); letter-spacing: 0.08em; text-transform: uppercase;
+  margin: 0 0 14px;
+}
 .sim-services-head { margin-bottom: 20px; }
 .sim-services-badge {
   display: inline-flex; align-items: center; gap: 6px;
