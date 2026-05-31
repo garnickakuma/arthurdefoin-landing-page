@@ -780,7 +780,9 @@ image-slot { display: block; background: var(--ivoire-2); }
   .cb-field { min-width: 0; }
   .cb-field input, .cb-field select { min-width: 0; width: 100%; box-sizing: border-box; }
   .cb-form { padding: 26px; }
-  .studio-stats { flex-wrap: wrap; gap: 22px 36px; }
+  .studio-stats { flex-wrap: nowrap; gap: 0; justify-content: space-between; }
+  .studio-stats .stat .num { font-size: 32px; }
+  .studio-stats .stat .lbl { font-size: 9px; max-width: 80px; }
   .section-head .lede, .callback p.lede { max-width: 100%; }
   .page { overflow-x: hidden; }
 }
