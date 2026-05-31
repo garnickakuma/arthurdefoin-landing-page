@@ -269,9 +269,9 @@ body { background: var(--ivoire); }
 .sched-host { display: flex; align-items: center; gap: 14px; }
 .sched-avatar {
   width: 46px; height: 46px; flex: none; border-radius: 50%;
-  display: grid; place-items: center;
-  font-family: var(--serif); font-size: 21px; font-style: italic; color: var(--or);
-  border: 1px solid var(--or); background: var(--or-voile);
+  object-fit: cover; object-position: 50% 20%;
+  border: 2px solid var(--sable-fonce);
+  display: block;
 }
 .sched-host .who { display: flex; flex-direction: column; gap: 3px; font-family: var(--sans); }
 .sched-host .who .n { font-size: 14px; font-weight: 600; color: var(--encre); }
