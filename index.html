@@ -665,8 +665,22 @@
     }
     function Callback() {
       const hote = React.useRef(null);
+      const isMobile = () => window.innerWidth <= 980;
+
+      const openPopup = () => {
+        chargerCalendly().then(() => {
+          if (!window.Calendly) return;
+          const cs = getComputedStyle(document.documentElement);
+          const hex = (v,f) => cs.getPropertyValue(v).trim().replace('#','')||f;
+          window.Calendly.initPopupWidget({
+            url: CALENDLY_URL + '?hide_gdpr_banner=1&primary_color=' + hex('--or','8b5cf6'),
+          });
+        });
+      };
+
       React.useEffect(() => {
         let annule = false;
+        if (isMobile()) return; // on mobile we use popup, not inline
         chargerCalendly().then(() => {
           if (annule||!hote.current||!window.Calendly) return;
           hote.current.innerHTML = '';
@@ -702,8 +716,14 @@
                     <span><Ico n="video" /> Appel téléphonique</span>
                   </div>
                 </div>
-                <div className="cb-cal" ref={hote}>
+                <div className="cb-cal cb-cal-desktop" ref={hote}>
                   <div className="cb-cal-load">Chargement de mon agenda…</div>
+                </div>
+                <div className="cb-cal-mobile-btn">
+                  <p>Cliquez ci-dessous pour choisir votre créneau.</p>
+                  <button className="btn btn-gold" onClick={openPopup}>
+                    Voir les disponibilités <span className="arrow">→</span>
+                  </button>
                 </div>
               </div>
             </div>
