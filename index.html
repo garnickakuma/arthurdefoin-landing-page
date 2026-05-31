@@ -590,7 +590,9 @@
                 <div className="sim-field">
                   <div className="sim-field-head"><span className="sim-field-lbl">Panier moyen par client</span></div>
                   <div className="sim-input-wrap">
-                    <input className="sim-input" type="number" min="0" step="10" value={cart} onChange={e => setCart(Math.max(0,Number(e.target.value)))} />
+                    <input className="sim-input" type="number" min="0" step="10" value={cart}
+                      onChange={e => { const v = parseInt(e.target.value, 10); setCart(isNaN(v) ? 0 : Math.max(0, v)); }}
+                      onFocus={e => e.target.select()} />
                     <span className="sim-input-suffix">€</span>
                   </div>
                   {showWarn && <p className="sim-warn reveal" key="warn"><i data-lucide="alert-triangle"></i><span>Panier élevé&nbsp;: la réservation gratuite attire surtout des profils en quête de gratuité — elle convertit souvent moins bien et coûte plus cher à l'acquisition. Au-delà de {PANIER_SEUIL}&nbsp;€, les <em>leads qualifiés</em> sont en général plus rentables.</span></p>}
