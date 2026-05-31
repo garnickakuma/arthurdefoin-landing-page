@@ -452,7 +452,12 @@
     // ─── Simulateur ───────────────────────────────────────────────────────────
     const CPL = 12, CPR = 20, TAUX_ANNULATION = 25, PANIER_SEUIL = 200, BUDGET_MIN = 400, BUDGET_MAX = 4000, BUDGET_DEFAUT = 800;
     const SIM_SPECIALITES = ['Mariage','Grossesse','Nouveau-né','Famille','Portrait','Corporate'];
-    const convForSpec = s => s === 'Mariage' ? 10 : 30;
+    const convForSpec = (s, cart) => {
+      if (s !== 'Mariage') return 30;
+      // Linear: 10% at 1500€ → 2% at 4500€, clamped
+      const ratio = Math.max(0, Math.min(1, (cart - 1500) / 3000));
+      return Math.round(10 - ratio * 8);
+    };
     const PANIER_PAR_SPEC = { Mariage: 1500 };
     const panierForSpec = s => PANIER_PAR_SPEC[s] ?? 150;
     function repartitionBudget(B) {
@@ -524,7 +529,7 @@
       const [mode, setMode] = React.useState('reservations');
       const [cart, setCart] = React.useState(panierForSpec('Famille'));
       const [budget, setBudget] = React.useState(BUDGET_DEFAUT);
-      const conv = convForSpec(spec);
+      const conv = convForSpec(spec, cart);
       const pickSpec = s => { setSpec(s); setCart(panierForSpec(s)); };
       const cpx = mode === 'leads' ? CPL : CPR;
       const showWarn = mode === 'reservations' && cart > PANIER_SEUIL;
