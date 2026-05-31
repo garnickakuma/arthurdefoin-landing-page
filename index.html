@@ -566,7 +566,6 @@
                   <div className="sim-chips">
                     {SIM_SPECIALITES.map(s => <button key={s} className={"sim-chip"+(spec===s?" active":"")} onClick={() => pickSpec(s)}>{s}</button>)}
                   </div>
-                  {mode === 'leads' && <p className="sim-conv-note">Taux de conversion moyen retenu&nbsp;: <em>{fmtInt(conv)}&nbsp;%</em><span className="scn-sub">{spec==='Mariage'?'closing mariage, plus sélectif':'séances studio, portrait & extérieur'}</span></p>}
                 </div>
                 <div className="sim-field sim-objectif">
                   <div className="sim-field-head"><span className="sim-field-lbl">Objectif des campagnes</span></div>
