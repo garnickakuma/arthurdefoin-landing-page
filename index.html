@@ -484,13 +484,37 @@
     const fmtX = n => '× '+new Intl.NumberFormat('fr-FR',{minimumFractionDigits:1,maximumFractionDigits:1}).format(n);
     const fmtInt = n => new Intl.NumberFormat('fr-FR',{maximumFractionDigits:0}).format(Math.round(n));
     function SimSlider({value,min,max,step=1,onChange,ticks}) {
+      const trackRef = React.useRef(null);
       const pct = (value-min)/(max-min)*100;
+
+      const valueFromPointer = (e) => {
+        const rect = trackRef.current.getBoundingClientRect();
+        const clientX = e.clientX;
+        const ratio = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
+        const raw = min + ratio * (max - min);
+        const stepped = Math.round(raw / step) * step;
+        return Math.max(min, Math.min(max, stepped));
+      };
+
+      const onPointerDown = (e) => {
+        e.preventDefault();
+        trackRef.current.setPointerCapture(e.pointerId);
+        onChange(valueFromPointer(e));
+      };
+
+      const onPointerMove = (e) => {
+        if (!trackRef.current.hasPointerCapture(e.pointerId)) return;
+        onChange(valueFromPointer(e));
+      };
+
       return (
         <div>
-          <div className="sim-slider">
+          <div className="sim-slider" ref={trackRef}
+               onPointerDown={onPointerDown}
+               onPointerMove={onPointerMove}
+               style={{touchAction:'none', userSelect:'none'}}>
             <div className="sim-track"><div className="sim-fill" style={{width:pct+'%'}}></div></div>
             <div className="sim-thumb" style={{left:pct+'%'}}></div>
-            <input type="range" min={min} max={max} step={step} value={value} onChange={e => onChange(Number(e.target.value))} />
           </div>
           {ticks && <div className="sim-ticks">{ticks.map((t,i) => <span key={i}>{t}</span>)}</div>}
         </div>
