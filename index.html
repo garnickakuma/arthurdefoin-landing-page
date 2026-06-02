@@ -543,6 +543,7 @@
         const roas = budget > 0 ? revenue/budget : 0;
         return {abonnement,pub,volume,clients,revenue,benefice,roas};
       }, [mode,cart,conv,budget]);
+      const [showDetail, setShowDetail] = React.useState(false);
       const dVolume = useCounterSim(result.volume);
       const dClients = useCounterSim(result.clients);
       const dRevenue = useCounterSim(result.revenue);
@@ -641,29 +642,34 @@
                 </div>
               </div>
               <div className="sim-result">
-                <div>
-                  <span className="res-eyebrow">Projection sur un mois</span>
-                  <div className="res-volume" style={{marginTop:14}}>
-                    <span className="rv-num">{fmtInt(mode==='leads'?dVolume:dClients)}</span>
-                    <span className="rv-lbl">{mode==='leads'?'leads qualifiés':Math.round(dClients)>1?'nouveaux clients':'nouveau client'}</span>
+                <div className="sim-big-results">
+                  <div className="sim-big-item">
+                    <span className="sim-big-num">{fmtInt(mode==='leads'?dVolume:dClients)}</span>
+                    <span className="sim-big-lbl">{mode==='leads'?'leads qualifiés':Math.round(dClients)>1?'nouveaux clients':'nouveau client'}</span>
+                    {mode==='leads'
+                      ? <span className="sim-big-sub">soit ~{fmtInt(dClients)} prestation{Math.round(result.clients)>1?'s':''} signée{Math.round(result.clients)>1?'s':''}</span>
+                      : <span className="sim-big-sub">~{fmtInt(dVolume)} réservations reçues</span>
+                    }
                   </div>
-                  {mode==='leads'
-                    ? <p className="res-sub" style={{marginTop:8}}>soit ≈ {fmtInt(dClients)} {Math.round(dClients)>1?'prestations signées':'prestation signée'} à {fmtInt(conv)}&nbsp;% de conversion.</p>
-                    : <p className="res-sub" style={{marginTop:8}}>soit ≈ {fmtInt(dVolume)} réservations, dont {TAUX_ANNULATION}&nbsp;% d'annulation déduites.</p>
-                  }
+                  <div className="sim-big-sep"></div>
+                  <div className="sim-big-item accent">
+                    <span className="sim-big-num"><em>{fmtEUR(dBenefice)}</em></span>
+                    <span className="sim-big-lbl">de bénéfice estimé</span>
+                    <span className="sim-big-sub">budget total déduit</span>
+                  </div>
                 </div>
-                <div>
-                  <span className="res-eyebrow">Bénéfice estimé</span>
-                  <div className="res-num benefice-num"><em>{fmtEUR(dBenefice)}</em></div>
-                  <span className="res-unit">budget total déduit</span>
-                </div>
-                <div className="sim-breakdown">
-                  <div className="sim-row"><span className="k">Chiffre d'affaires généré</span><span className="v">{fmtEUR(dRevenue)}</span></div>
-                  <div className="sim-row"><span className="k">Budget total <em className="k-sub">abonnement + pub</em></span><span className="v">− {fmtEUR(budget)}</span></div>
-                  {mode==='reservations' && <div className="sim-row"><span className="k">Taux d'annulation pris en compte</span><span className="v">{TAUX_ANNULATION}&nbsp;%</span></div>}
-                  <div className="sim-row"><span className="k">Bénéfice net</span><span className="v"><em>{fmtEUR(dBenefice)}</em></span></div>
-                  <div className="sim-row"><span className="k">Retour sur investissement (ROAS)</span><span className="v"><em>{fmtX(dRoas)}</em></span></div>
-                </div>
+                <button className="sim-toggle-detail" onClick={() => setShowDetail(d => !d)}>
+                  {showDetail ? 'Masquer le détail ↑' : 'Voir le calcul détaillé ↓'}
+                </button>
+                {showDetail && (
+                  <div className="sim-breakdown">
+                    <div className="sim-row"><span className="k">Chiffre d'affaires généré</span><span className="v">{fmtEUR(dRevenue)}</span></div>
+                    <div className="sim-row"><span className="k">Budget total <em className="k-sub">abonnement + pub</em></span><span className="v">− {fmtEUR(budget)}</span></div>
+                    {mode==='reservations' && <div className="sim-row"><span className="k">Taux d'annulation pris en compte</span><span className="v">{TAUX_ANNULATION}&nbsp;%</span></div>}
+                    <div className="sim-row"><span className="k">Bénéfice net</span><span className="v"><em>{fmtEUR(dBenefice)}</em></span></div>
+                    <div className="sim-row"><span className="k">Retour sur investissement (ROAS)</span><span className="v"><em>{fmtX(dRoas)}</em></span></div>
+                  </div>
+                )}
                 <div className="sim-cta-wrap">
                   <a className="btn btn-gold" href="#rappel" onClick={go('rappel')}>Je veux gagner ces clients <span className="arrow">→</span></a>
                   <p className="sim-cta-sub">Estimation indicative · Sans engagement</p>
