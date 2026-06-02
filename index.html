@@ -644,18 +644,6 @@
                     <span className="sim-big-lbl">bénéfice net</span>
                   </div>
                 </div>
-                <button className="sim-toggle-detail" onClick={() => setShowDetail(d => !d)}>
-                  {showDetail ? 'Masquer le détail ↑' : 'Voir le calcul détaillé ↓'}
-                </button>
-                {showDetail && (
-                  <div className="sim-breakdown">
-                    <div className="sim-row"><span className="k">Chiffre d'affaires généré</span><span className="v">{fmtEUR(dRevenue)}</span></div>
-                    <div className="sim-row"><span className="k">Budget total <em className="k-sub">abonnement + pub</em></span><span className="v">− {fmtEUR(budget)}</span></div>
-                    {mode==='reservations' && <div className="sim-row"><span className="k">Taux d'annulation pris en compte</span><span className="v">{TAUX_ANNULATION}&nbsp;%</span></div>}
-                    <div className="sim-row"><span className="k">Bénéfice net</span><span className="v"><em>{fmtEUR(dBenefice)}</em></span></div>
-                    <div className="sim-row"><span className="k">Retour sur investissement (ROAS)</span><span className="v"><em>{fmtX(dRoas)}</em></span></div>
-                  </div>
-                )}
                 <div className="sim-cta-wrap">
                   <a className="btn btn-gold" href="#rappel" onClick={go('rappel')}>Je veux gagner ces clients <span className="arrow">→</span></a>
                 </div>
