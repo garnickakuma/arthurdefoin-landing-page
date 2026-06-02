@@ -835,8 +835,7 @@ image-slot { display: block; background: var(--ivoire-2); }
   .methode-grid, .benefices-grid, .results-grid { grid-template-columns: minmax(0, 1fr); }
   .testimonials { grid-template-columns: minmax(0, 1fr); }
   .sim { grid-template-columns: minmax(0, 1fr); }
-  .sim-result { order: -1; }
-  .sim-controls { order: 0; border-right: 0; border-top: 1px solid var(--sable); border-bottom: 0; }
+  .sim-controls { border-right: 0; border-bottom: 1px solid var(--sable); }
   .studio-gallery { height: auto; }
   .hero { padding: 132px 0 88px; }
   .footer-grid { grid-template-columns: 1fr 1fr; gap: 36px 28px; }
