@@ -79,11 +79,10 @@
                 </span>
               </a>
               <div className="nav-links">
+                <a onClick={go('simulateur')}>Simulateur</a>
+                <a onClick={go('preuves')}>Résultats</a>
                 <a onClick={go('mecanisme')}>Méthode</a>
                 <a onClick={go('studio')}>Mon studio</a>
-                <a onClick={go('benefices')}>Objectifs</a>
-                <a onClick={go('preuves')}>Résultats</a>
-                <a onClick={go('simulateur')}>Simulateur</a>
                 <button className="nav-cta nav-cta-mobile" onClick={go('rappel')}>{ctaLabel}</button>
               </div>
               <button className="nav-cta nav-cta-desktop" onClick={go('rappel')}>{ctaLabel}</button>
@@ -99,9 +98,9 @@
     // ─── SideRail ────────────────────────────────────────────────────────────
     function SideRail() {
       const sections = [
-        { id: 'top', n: '01' }, { id: 'studio', n: '02' },
-        { id: 'benefices', n: '03' }, { id: 'preuves', n: '04' },
-        { id: 'simulateur', n: '05' }, { id: 'rappel', n: '06' },
+        { id: 'top', n: '01' }, { id: 'simulateur', n: '02' },
+        { id: 'rappel', n: '03' }, { id: 'preuves', n: '04' },
+        { id: 'mecanisme', n: '05' }, { id: 'studio', n: '06' },
       ];
       const [active, setActive] = React.useState('top');
       React.useEffect(() => {
@@ -236,7 +235,7 @@
         <section className="section schema" id="mecanisme">
           <div className="container">
             <div className="schema-head">
-              <div className="eyebrow"><span className="rule"></span><span>Le mécanisme</span></div>
+              <div className="eyebrow"><span className="rule"></span><span className="num">05</span><span>Le mécanisme</span></div>
               <h2>Vous photographiez. <em>Le reste tourne tout seul.</em></h2>
               <p className="lede">Pas de tunnel compliqué : quatre temps, et une boucle qui s'entretient d'elle-même pendant que vous êtes derrière l'objectif.</p>
             </div>
@@ -295,7 +294,7 @@
           <div className="container">
             <div className="studio-inner">
               <div className="studio-head">
-                <div className="eyebrow"><span className="rule"></span><span className="num">02</span><span>LE STUDIO AMOUR ET LUMIÈRE</span></div>
+                <div className="eyebrow"><span className="rule"></span><span className="num">06</span><span>LE STUDIO AMOUR ET LUMIÈRE</span></div>
                 <h2>Je connais votre métier —<br /><em>je le vis aussi</em>.</h2>
               </div>
               <div className="studio-gallery">
@@ -377,7 +376,7 @@
           <div className="container">
             <div className="section-head">
               <div>
-                <div className="eyebrow"><span className="rule"></span><span className="num">03</span><span>OBJECTIFS</span></div>
+                <div className="eyebrow"><span className="rule"></span><span className="num">07</span><span>OBJECTIFS</span></div>
                 <h2>Trois façons<br /><em>de remplir votre agenda</em>.</h2>
               </div>
               <p className="lede">La publicité Meta n'est pas une dépense — c'est un investissement que l'on choisit selon votre objectif. On définit ensemble lequel de ces trois leviers sert le mieux votre studio.</p>
@@ -558,7 +557,7 @@
           <div className="container">
             <div className="section-head">
               <div>
-                <div className="eyebrow"><span className="rule"></span><span className="num">05</span><span>Simulateur</span></div>
+                <div className="eyebrow"><span className="rule"></span><span className="num">02</span><span>Simulateur</span></div>
                 <h2>Combien rapporterait<br /><em>un mois de publicité</em>&nbsp;?</h2>
               </div>
               <p className="lede">Quelques réglages, une estimation chiffrée. Les projections reposent sur les performances moyennes des campagnes en cours.</p>
@@ -762,7 +761,7 @@
           <div className="container">
             <div className="callback-inner">
               <div>
-                <div className="eyebrow"><span className="rule"></span><span className="num">06</span><span>On en parle&nbsp;?</span></div>
+                <div className="eyebrow"><span className="rule"></span><span className="num">03</span><span>On en parle&nbsp;?</span></div>
                 <h2><span className="small-lead">Choisissez l'heure qui vous arrange,</span> et <em>parlons-en</em>.</h2>
                 <p className="lede">30 minutes en appel, juste vous et moi. On regarde votre studio, vos objectifs, et ce que la publicité Meta peut vraiment rapporter à votre activité. La publicité n'est pas une dépense, c'est un investissement.</p>
                 <div className="cb-assur">
@@ -856,12 +855,12 @@
           <SideRail />
           <main>
             <HeroWow variant="anime" />
+            <Simulateur />
+            <Callback />
+            <Preuves />
             <Schema />
             <Studio />
             <Benefices />
-            <Preuves />
-            <Simulateur />
-            <Callback />
           </main>
           <Footer />
         </div>
