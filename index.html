@@ -612,20 +612,20 @@
                 </div>
               </div>
               <div className="sim-result">
-                <div style={{display:'flex',alignItems:'center',width:'100%'}}>
-                  {[
-                    { val: fmtInt(mode==='leads'?dVolume:dClients), lbl: mode==='leads'?'leads qualifiés':Math.round(dClients)>1?'nouveaux clients':'nouveau client', accent: false },
-                    { val: fmtEUR(dRevenue), lbl: "chiffre d'affaires", accent: false },
-                    { val: fmtEUR(dBenefice), lbl: 'bénéfice net', accent: true },
-                  ].map((item, i, arr) => (
-                    <React.Fragment key={i}>
-                      <div style={{flex:1,display:'flex',flexDirection:'column',alignItems:'center',textAlign:'center',gap:'4px',minWidth:0}}>
-                        <span style={{fontFamily:"'Plus Jakarta Sans',sans-serif",fontWeight:800,fontSize:'clamp(20px,4.5vw,40px)',lineHeight:1,color:item.accent?'var(--or)':'var(--encre)',fontVariantNumeric:'lining-nums tabular-nums',whiteSpace:'nowrap'}}>{item.val}</span>
-                        <span className="sim-big-lbl">{item.lbl}</span>
-                      </div>
-                      {i < arr.length-1 && <div style={{width:'1px',height:'40px',background:'var(--sable)',flexShrink:0,margin:'0 8px'}}></div>}
-                    </React.Fragment>
-                  ))}
+                <div className="sim-arrows" aria-hidden="true">
+                  <div className="sim-arrow"></div>
+                  <div className="sim-arrow"></div>
+                  <div className="sim-arrow"></div>
+                </div>
+                <div className="sim-res-cards">
+                  <div className="sim-res-card">
+                    <span className="sim-res-num">{fmtInt(mode==='leads'?dVolume:dClients)}</span>
+                    <span className="sim-res-lbl">{mode==='leads'?'leads qualifiés':'clients'}</span>
+                  </div>
+                  <div className="sim-res-card accent">
+                    <span className="sim-res-num">{fmtEUR(dBenefice)}</span>
+                    <span className="sim-res-lbl">bénéfice net</span>
+                  </div>
                 </div>
                 <button className="sim-toggle-detail" onClick={() => setShowDetail(d => !d)}>
                   {showDetail ? 'Masquer le détail ↑' : 'Voir le détail ↓'}
