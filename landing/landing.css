@@ -735,27 +735,10 @@ image-slot { display: block; background: var(--ivoire-2); }
 /* ----------  Simulator result cards  ---------- */
 .sim-res-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 .sim-res-card { background: #fff; border: 1px solid rgba(139,92,246,0.16); border-radius: 20px; padding: 28px 14px 24px; display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; box-shadow: 0 0 28px rgba(139,92,246,0.10), 0 2px 12px rgba(139,92,246,0.05); }
-@property --border-angle { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
-.sim-res-card.accent {
-  --border-angle: 0deg;
-  border: 2px solid transparent;
-  background:
-    linear-gradient(#fff,#fff) padding-box,
-    conic-gradient(
-      from var(--border-angle),
-      rgba(139,92,246,0.12) 0%,
-      rgba(139,92,246,0.12) 65%,
-      rgba(139,92,246,0.5) 78%,
-      rgba(139,92,246,0.75) 86%,
-      rgba(139,92,246,0.5) 94%,
-      rgba(139,92,246,0.12) 100%
-    ) border-box;
-  box-shadow: 0 0 28px rgba(139,92,246,0.14), 0 4px 16px rgba(139,92,246,0.07);
-  animation: borderSpin 5s linear infinite;
-}
-@keyframes borderSpin { to { --border-angle: 360deg; } }
+.sim-res-card.accent { border-color: rgba(139,92,246,0.28); box-shadow: 0 0 36px rgba(139,92,246,0.18), 0 4px 16px rgba(139,92,246,0.08); }
 .sim-res-num { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: clamp(26px, 4.5vw, 42px); line-height: 1; color: var(--encre); font-variant-numeric: lining-nums tabular-nums; white-space: nowrap; }
-.sim-res-card.accent .sim-res-num { color: var(--or); }
+.sim-res-card.accent .sim-res-num { color: var(--or); animation: numPulse 3s ease-in-out infinite; }
+@keyframes numPulse { 0%,100%{text-shadow:none} 50%{text-shadow:0 0 14px rgba(139,92,246,0.4),0 0 28px rgba(139,92,246,0.16)} }
 .sim-res-lbl { font-family: var(--sans); font-size: 10.5px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--plomb); }
 /* ----------  Simulator toggle + old big nums (kept for compat)  ---------- */
 .sim-big-lbl { font-family: var(--sans); font-size: 12px; letter-spacing: 0.13em; text-transform: uppercase; color: var(--plomb); }
