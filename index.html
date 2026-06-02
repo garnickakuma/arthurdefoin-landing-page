@@ -612,19 +612,19 @@
                 </div>
               </div>
               <div className="sim-result">
-                <div className="sim-big-results">
-                  <div className="sim-big-item">
+                <div style={{display:'flex',alignItems:'center',width:'100%'}}>
+                  <div style={{flex:1,display:'flex',flexDirection:'column',alignItems:'center',textAlign:'center',gap:'4px'}}>
                     <span className="sim-big-num">{fmtInt(mode==='leads'?dVolume:dClients)}</span>
                     <span className="sim-big-lbl">{mode==='leads'?'leads qualifiés':Math.round(dClients)>1?'nouveaux clients':'nouveau client'}</span>
                   </div>
-                  <div className="sim-big-sep"></div>
-                  <div className="sim-big-item">
+                  <div style={{width:'1px',height:'48px',background:'var(--sable)',flexShrink:0,margin:'0 12px'}}></div>
+                  <div style={{flex:1,display:'flex',flexDirection:'column',alignItems:'center',textAlign:'center',gap:'4px'}}>
                     <span className="sim-big-num">{fmtEUR(dRevenue)}</span>
                     <span className="sim-big-lbl">chiffre d'affaires</span>
                   </div>
-                  <div className="sim-big-sep"></div>
-                  <div className="sim-big-item accent">
-                    <span className="sim-big-num"><em>{fmtEUR(dBenefice)}</em></span>
+                  <div style={{width:'1px',height:'48px',background:'var(--sable)',flexShrink:0,margin:'0 12px'}}></div>
+                  <div style={{flex:1,display:'flex',flexDirection:'column',alignItems:'center',textAlign:'center',gap:'4px'}}>
+                    <span className="sim-big-num" style={{color:'var(--or)'}}>{fmtEUR(dBenefice)}</span>
                     <span className="sim-big-lbl">bénéfice net</span>
                   </div>
                 </div>
