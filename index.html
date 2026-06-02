@@ -613,20 +613,19 @@
               </div>
               <div className="sim-result">
                 <div style={{display:'flex',alignItems:'center',width:'100%'}}>
-                  <div style={{flex:1,display:'flex',flexDirection:'column',alignItems:'center',textAlign:'center',gap:'4px'}}>
-                    <span className="sim-big-num">{fmtInt(mode==='leads'?dVolume:dClients)}</span>
-                    <span className="sim-big-lbl">{mode==='leads'?'leads qualifiés':Math.round(dClients)>1?'nouveaux clients':'nouveau client'}</span>
-                  </div>
-                  <div style={{width:'1px',height:'48px',background:'var(--sable)',flexShrink:0,margin:'0 12px'}}></div>
-                  <div style={{flex:1,display:'flex',flexDirection:'column',alignItems:'center',textAlign:'center',gap:'4px'}}>
-                    <span className="sim-big-num">{fmtEUR(dRevenue)}</span>
-                    <span className="sim-big-lbl">chiffre d'affaires</span>
-                  </div>
-                  <div style={{width:'1px',height:'48px',background:'var(--sable)',flexShrink:0,margin:'0 12px'}}></div>
-                  <div style={{flex:1,display:'flex',flexDirection:'column',alignItems:'center',textAlign:'center',gap:'4px'}}>
-                    <span className="sim-big-num" style={{color:'var(--or)'}}>{fmtEUR(dBenefice)}</span>
-                    <span className="sim-big-lbl">bénéfice net</span>
-                  </div>
+                  {[
+                    { val: fmtInt(mode==='leads'?dVolume:dClients), lbl: mode==='leads'?'leads qualifiés':Math.round(dClients)>1?'nouveaux clients':'nouveau client', accent: false },
+                    { val: fmtEUR(dRevenue), lbl: "chiffre d'affaires", accent: false },
+                    { val: fmtEUR(dBenefice), lbl: 'bénéfice net', accent: true },
+                  ].map((item, i, arr) => (
+                    <React.Fragment key={i}>
+                      <div style={{flex:1,display:'flex',flexDirection:'column',alignItems:'center',textAlign:'center',gap:'4px',minWidth:0}}>
+                        <span style={{fontFamily:"'Plus Jakarta Sans',sans-serif",fontWeight:800,fontSize:'clamp(20px,4.5vw,40px)',lineHeight:1,color:item.accent?'var(--or)':'var(--encre)',fontVariantNumeric:'lining-nums tabular-nums',whiteSpace:'nowrap'}}>{item.val}</span>
+                        <span className="sim-big-lbl">{item.lbl}</span>
+                      </div>
+                      {i < arr.length-1 && <div style={{width:'1px',height:'40px',background:'var(--sable)',flexShrink:0,margin:'0 8px'}}></div>}
+                    </React.Fragment>
+                  ))}
                 </div>
                 <button className="sim-toggle-detail" onClick={() => setShowDetail(d => !d)}>
                   {showDetail ? 'Masquer le détail ↑' : 'Voir le détail ↓'}
