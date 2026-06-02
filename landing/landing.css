@@ -743,17 +743,15 @@ image-slot { display: block; background: var(--ivoire-2); }
     linear-gradient(#fff,#fff) padding-box,
     conic-gradient(
       from var(--border-angle),
-      rgba(139,92,246,0.07) 0%,
-      rgba(139,92,246,0.07) 70%,
-      rgba(139,92,246,0.4) 78%,
-      rgba(139,92,246,0.95) 83%,
-      rgba(255,255,255,0.9) 86%,
-      rgba(139,92,246,0.95) 89%,
-      rgba(139,92,246,0.4) 94%,
-      rgba(139,92,246,0.07) 100%
+      rgba(139,92,246,0.12) 0%,
+      rgba(139,92,246,0.12) 65%,
+      rgba(139,92,246,0.5) 78%,
+      rgba(139,92,246,0.75) 86%,
+      rgba(139,92,246,0.5) 94%,
+      rgba(139,92,246,0.12) 100%
     ) border-box;
-  box-shadow: 0 0 40px rgba(139,92,246,0.20), 0 4px 20px rgba(139,92,246,0.10);
-  animation: borderSpin 2.5s linear infinite;
+  box-shadow: 0 0 28px rgba(139,92,246,0.14), 0 4px 16px rgba(139,92,246,0.07);
+  animation: borderSpin 5s linear infinite;
 }
 @keyframes borderSpin { to { --border-angle: 360deg; } }
 .sim-res-num { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: clamp(26px, 4.5vw, 42px); line-height: 1; color: var(--encre); font-variant-numeric: lining-nums tabular-nums; white-space: nowrap; }
