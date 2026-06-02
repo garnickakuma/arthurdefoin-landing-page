@@ -140,13 +140,30 @@ body { background: var(--ivoire); }
   margin-top: 56px;
   background: var(--porcelaine); border: 1px solid var(--sable);
   border-radius: var(--r-md);
-  display: grid; grid-template-columns: 1.05fr 1fr;
+  display: flex; flex-direction: column;
   overflow: hidden;
   box-shadow: var(--shadow-card);
 }
-.sim-controls { padding: 48px; border-right: 1px solid var(--sable); }
-.sim-result { padding: 48px; background: var(--blanc); display: flex; flex-direction: column; gap: 32px; }
-.sim h3 { margin: 0 0 24px; font-family: var(--serif); font-weight: 400; font-size: 22px; color: var(--encre); }
+/* Zone contrôles */
+.sim-zone-top { padding: 40px 48px 32px; }
+.sim-zone-top-fields { display: grid; grid-template-columns: 1fr 1.4fr 0.8fr; gap: 32px; align-items: start; }
+/* Encart principal */
+.sim-zone-main {
+  display: grid; grid-template-columns: 1.1fr 1fr; gap: 48px; align-items: center;
+  padding: 32px 48px;
+  background: rgba(139,92,246,0.05);
+  border-top: 1px solid rgba(139,92,246,0.14);
+  border-bottom: 1px solid rgba(139,92,246,0.14);
+}
+.sim-zone-slider { display: flex; flex-direction: column; gap: 12px; }
+/* Zone secondaire */
+.sim-zone-bottom { padding: 32px 48px; display: grid; grid-template-columns: 1fr 1.2fr; gap: 48px; background: var(--blanc); }
+.sim-zone-bottom-left { display: flex; flex-direction: column; gap: 0; }
+.sim-zone-bottom-right { display: flex; flex-direction: column; gap: 24px; }
+.sim h3 { margin: 0 0 20px; font-family: var(--serif); font-weight: 400; font-size: 22px; color: var(--encre); }
+/* compat old classes (still used by mobile CSS) */
+.sim-controls { padding: 0; border-right: 0; }
+.sim-result { padding: 0; background: transparent; display: flex; flex-direction: column; gap: 24px; }
 .sim-field { display: flex; flex-direction: column; gap: 12px; margin-bottom: 28px; }
 .sim-field-head { display: flex; align-items: baseline; justify-content: space-between; }
 .sim-field-lbl { font-family: var(--sans); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--plomb); }
@@ -737,8 +754,16 @@ image-slot { display: block; background: var(--ivoire-2); }
 .sim-res-card { background: #fff; border: 1px solid rgba(139,92,246,0.16); border-radius: 20px; padding: 28px 14px 24px; display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; box-shadow: 0 0 28px rgba(139,92,246,0.10), 0 2px 12px rgba(139,92,246,0.05); }
 .sim-res-card.accent { border-color: rgba(139,92,246,0.28); box-shadow: 0 0 36px rgba(139,92,246,0.18), 0 4px 16px rgba(139,92,246,0.08); }
 .sim-res-num { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: clamp(26px, 4.5vw, 42px); line-height: 1; color: var(--encre); font-variant-numeric: lining-nums tabular-nums; white-space: nowrap; }
-.sim-res-card.accent .sim-res-num { color: var(--or); animation: numPulse 3s ease-in-out infinite; }
-@keyframes numPulse { 0%,100%{text-shadow:none} 50%{text-shadow:0 0 14px rgba(139,92,246,0.4),0 0 28px rgba(139,92,246,0.16)} }
+.sim-res-card.accent .sim-res-num {
+  background: linear-gradient(90deg, var(--or) 0%, var(--or) 30%, #d4b8ff 50%, var(--or) 70%, var(--or) 100%);
+  background-size: 250% 100%;
+  background-position: 150% center;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmerNum 3.5s ease-in-out infinite;
+}
+@keyframes shimmerNum { 0%{background-position:150% center} 100%{background-position:-50% center} }
 .sim-res-lbl { font-family: var(--sans); font-size: 10.5px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--plomb); }
 /* ----------  Simulator toggle + old big nums (kept for compat)  ---------- */
 .sim-big-lbl { font-family: var(--sans); font-size: 12px; letter-spacing: 0.13em; text-transform: uppercase; color: var(--plomb); }
@@ -837,6 +862,10 @@ image-slot { display: block; background: var(--ivoire-2); }
   .methode-grid, .benefices-grid, .results-grid { grid-template-columns: minmax(0, 1fr); }
   .testimonials { grid-template-columns: minmax(0, 1fr); }
   .sim { grid-template-columns: minmax(0, 1fr); }
+  .sim-zone-top { padding: 28px 24px 20px; }
+  .sim-zone-top-fields { grid-template-columns: 1fr; gap: 0; }
+  .sim-zone-main { grid-template-columns: 1fr; gap: 24px; padding: 24px; }
+  .sim-zone-bottom { grid-template-columns: 1fr; gap: 24px; padding: 24px; }
   .sim-controls { border-right: 0; border-bottom: 1px solid var(--sable); }
   .studio-gallery { height: auto; }
   .hero { padding: 132px 0 88px; }

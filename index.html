@@ -11,12 +11,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Manrope:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&family=JetBrains+Mono:wght@400;500&display=swap">
 
-  <link rel="stylesheet" href="landing/colors_and_type.css?v=7">
-  <link rel="stylesheet" href="landing/landing.css?v=7">
-  <link rel="stylesheet" href="landing/landing-b.css?v=7">
-  <link rel="stylesheet" href="landing/landing-layouts.css?v=7">
-  <link rel="stylesheet" href="landing/landing-hero-wow.css?v=7">
-  <link rel="stylesheet" href="landing/landing-schema.css?v=7">
+  <link rel="stylesheet" href="landing/colors_and_type.css?v=8">
+  <link rel="stylesheet" href="landing/landing.css?v=8">
+  <link rel="stylesheet" href="landing/landing-b.css?v=8">
+  <link rel="stylesheet" href="landing/landing-layouts.css?v=8">
+  <link rel="stylesheet" href="landing/landing-hero-wow.css?v=8">
+  <link rel="stylesheet" href="landing/landing-schema.css?v=8">
 
   <!-- Meta Pixel -->
   <script>
@@ -564,37 +564,58 @@
               <p className="lede">Quelques réglages, une estimation chiffrée. Les projections reposent sur les performances moyennes des campagnes en cours.</p>
             </div>
             <div className="sim">
-              <div className="sim-controls">
+              {/* ── Zone contrôles ── */}
+              <div className="sim-zone-top">
                 <h3>Votre activité</h3>
-                <div className="sim-field">
-                  <div className="sim-field-head"><span className="sim-field-lbl">Quelle prestation mettre en avant&nbsp;?</span></div>
-                  <div className="sim-chips">
-                    {SIM_SPECIALITES.map(s => <button key={s} className={"sim-chip"+(spec===s?" active":"")} onClick={() => pickSpec(s)}>{s}</button>)}
+                <div className="sim-zone-top-fields">
+                  <div className="sim-field">
+                    <div className="sim-field-head"><span className="sim-field-lbl">Quelle prestation mettre en avant&nbsp;?</span></div>
+                    <div className="sim-chips">
+                      {SIM_SPECIALITES.map(s => <button key={s} className={"sim-chip"+(spec===s?" active":"")} onClick={() => pickSpec(s)}>{s}</button>)}
+                    </div>
+                  </div>
+                  <div className="sim-field sim-objectif">
+                    <div className="sim-field-head"><span className="sim-field-lbl">Objectif des campagnes</span></div>
+                    <div className="sim-seg">
+                      <button className={mode==='leads'?'active':''} onClick={() => setMode('leads')}>Des leads<span className="seg-sub">prospects à rappeler</span></button>
+                      <button className={mode==='reservations'?'active':''} onClick={() => setMode('reservations')}>Réservations gratuites<span className="seg-sub">ils réservent seuls</span></button>
+                    </div>
+                  </div>
+                  <div className="sim-field" style={{marginBottom:0}}>
+                    <div className="sim-field-head"><span className="sim-field-lbl">Panier moyen par client</span></div>
+                    <div className="sim-input-wrap">
+                      <input className="sim-input" type="number" min="0" step="10" value={cart}
+                        onChange={e => { const v = parseInt(e.target.value, 10); setCart(isNaN(v) ? 0 : Math.max(0, v)); }}
+                        onFocus={e => e.target.select()} />
+                      <span className="sim-input-suffix">€</span>
+                    </div>
+                    {showWarn && <p className="sim-warn reveal" key="warn"><i data-lucide="alert-triangle"></i><span>Panier élevé&nbsp;: au-delà de {PANIER_SEUIL}&nbsp;€, les <em>leads qualifiés</em> sont en général plus rentables.</span></p>}
                   </div>
                 </div>
-                <div className="sim-field sim-objectif">
-                  <div className="sim-field-head"><span className="sim-field-lbl">Objectif des campagnes</span></div>
-                  <div className="sim-seg">
-                    <button className={mode==='leads'?'active':''} onClick={() => setMode('leads')}>Des leads<span className="seg-sub">prospects à rappeler</span></button>
-                    <button className={mode==='reservations'?'active':''} onClick={() => setMode('reservations')}>Réservations gratuites<span className="seg-sub">ils réservent seuls</span></button>
-                  </div>
-                </div>
-                <div className="sim-field">
-                  <div className="sim-field-head"><span className="sim-field-lbl">Panier moyen par client</span></div>
-                  <div className="sim-input-wrap">
-                    <input className="sim-input" type="number" min="0" step="10" value={cart}
-                      onChange={e => { const v = parseInt(e.target.value, 10); setCart(isNaN(v) ? 0 : Math.max(0, v)); }}
-                      onFocus={e => e.target.select()} />
-                    <span className="sim-input-suffix">€</span>
-                  </div>
-                  {showWarn && <p className="sim-warn reveal" key="warn"><i data-lucide="alert-triangle"></i><span>Panier élevé&nbsp;: la réservation gratuite attire surtout des profils en quête de gratuité — elle convertit souvent moins bien et coûte plus cher à l'acquisition. Au-delà de {PANIER_SEUIL}&nbsp;€, les <em>leads qualifiés</em> sont en général plus rentables.</span></p>}
-                </div>
-                <div className="sim-field" style={{marginBottom:0}}>
+              </div>
+              {/* ── Encart principal ── */}
+              <div className="sim-zone-main">
+                <div className="sim-zone-slider">
                   <div className="sim-field-head">
                     <span className="sim-field-lbl">Budget mensuel total</span>
                     <span className="sim-field-val"><em>{fmtInt(budget)}</em>&nbsp;€</span>
                   </div>
                   <SimSlider value={budget} min={BUDGET_MIN} max={BUDGET_MAX} step={50} onChange={setBudget} ticks={['400 €','2 200 €','4 000 €']} />
+                </div>
+                <div className="sim-res-cards">
+                  <div className="sim-res-card">
+                    <span className="sim-res-num">{fmtInt(mode==='leads'?dVolume:dClients)}</span>
+                    <span className="sim-res-lbl">{mode==='leads'?'leads qualifiés':'clients'}</span>
+                  </div>
+                  <div className="sim-res-card accent">
+                    <span className="sim-res-num">{fmtEUR(dBenefice)}</span>
+                    <span className="sim-res-lbl">bénéfice net</span>
+                  </div>
+                </div>
+              </div>
+              {/* ── Zone secondaire ── */}
+              <div className="sim-zone-bottom">
+                <div className="sim-zone-bottom-left">
                   <div className="sim-split2">
                     <div className="ss2-cell"><span className="ss2-lbl">Abonnement</span><span className="ss2-val">{fmtEUR(dAbo)}</span></div>
                     <div className="ss2-cell accent"><span className="ss2-lbl">Dépense pub</span><span className="ss2-val">{fmtEUR(dPub)}</span></div>
@@ -610,51 +631,41 @@
                     </div>
                   </div>
                 </div>
-              </div>
-              <div className="sim-result">
-                <div className="sim-res-cards">
-                  <div className="sim-res-card">
-                    <span className="sim-res-num">{fmtInt(mode==='leads'?dVolume:dClients)}</span>
-                    <span className="sim-res-lbl">{mode==='leads'?'leads qualifiés':'clients'}</span>
+                <div className="sim-zone-bottom-right">
+                  <button className="sim-toggle-detail" onClick={() => setShowDetail(d => !d)}>
+                    {showDetail ? 'Masquer le détail ↑' : 'Voir le détail ↓'}
+                  </button>
+                  {showDetail && (
+                    <div className="sim-breakdown">
+                      <div className="sim-row"><span className="k">Chiffre d'affaires généré</span><span className="v">{fmtEUR(dRevenue)}</span></div>
+                      <div className="sim-row"><span className="k">Budget total <em className="k-sub">abonnement + pub</em></span><span className="v">− {fmtEUR(budget)}</span></div>
+                      {mode==='reservations' && <div className="sim-row"><span className="k">Taux d'annulation pris en compte</span><span className="v">{TAUX_ANNULATION}&nbsp;%</span></div>}
+                      <div className="sim-row"><span className="k">Bénéfice net</span><span className="v"><em>{fmtEUR(dBenefice)}</em></span></div>
+                      <div className="sim-row"><span className="k">ROAS</span><span className="v"><em>{fmtX(dRoas)}</em></span></div>
+                    </div>
+                  )}
+                  <div className="sim-cta-wrap">
+                    <a className="btn btn-gold" href="#rappel" onClick={go('rappel')}>Je veux gagner ces clients <span className="arrow">→</span></a>
                   </div>
-                  <div className="sim-res-card accent">
-                    <span className="sim-res-num">{fmtEUR(dBenefice)}</span>
-                    <span className="sim-res-lbl">bénéfice net</span>
-                  </div>
-                </div>
-                <button className="sim-toggle-detail" onClick={() => setShowDetail(d => !d)}>
-                  {showDetail ? 'Masquer le détail ↑' : 'Voir le détail ↓'}
-                </button>
-                {showDetail && (
-                  <div className="sim-breakdown">
-                    <div className="sim-row"><span className="k">Chiffre d'affaires généré</span><span className="v">{fmtEUR(dRevenue)}</span></div>
-                    <div className="sim-row"><span className="k">Budget total <em className="k-sub">abonnement + pub</em></span><span className="v">− {fmtEUR(budget)}</span></div>
-                    {mode==='reservations' && <div className="sim-row"><span className="k">Taux d'annulation pris en compte</span><span className="v">{TAUX_ANNULATION}&nbsp;%</span></div>}
-                    <div className="sim-row"><span className="k">Bénéfice net</span><span className="v"><em>{fmtEUR(dBenefice)}</em></span></div>
-                    <div className="sim-row"><span className="k">Retour sur investissement (ROAS)</span><span className="v"><em>{fmtX(dRoas)}</em></span></div>
-                  </div>
-                )}
-                <div className="sim-cta-wrap">
-                  <a className="btn btn-gold" href="#rappel" onClick={go('rappel')}>Je veux gagner ces clients <span className="arrow">→</span></a>
-                </div>
-                <div className="sim-services">
-                  <p className="sim-services-option">En option —</p>
-                  <div className="sim-services-head">
-                    <span className="sim-services-badge">★ Expertise premium</span>
-                    <h3 className="sim-services-title">Création &amp; Image<br />de <em>marque</em></h3>
-                    <p className="sim-services-sub">Nous construisons votre présence digitale de A à Z — identité visuelle, site web et tunnel de vente automatisé.</p>
-                  </div>
-                  <div className="sim-services-grid">
-                    <a className="sim-service-card" href="#rappel" onClick={go('rappel')}>
-                      <span className="ssc-ico">🌐</span>
-                      <span className="ssc-title">Création de site web</span>
-                      <span className="ssc-desc">Un site professionnel conçu pour convertir vos visiteurs en clients.</span>
-                    </a>
-                    <a className="sim-service-card" href="#rappel" onClick={go('rappel')}>
-                      <span className="ssc-ico">⚡</span>
-                      <span className="ssc-title">Tunnel automatique FotoStudio</span>
-                      <span className="ssc-desc">Mise en place du tunnel de réservation automatique qu'on utilise chez Amour et Lumière.</span>
-                    </a>
+                  <div className="sim-services">
+                    <p className="sim-services-option">En option —</p>
+                    <div className="sim-services-head">
+                      <span className="sim-services-badge">★ Expertise premium</span>
+                      <h3 className="sim-services-title">Création &amp; Image<br />de <em>marque</em></h3>
+                      <p className="sim-services-sub">Nous construisons votre présence digitale de A à Z — identité visuelle, site web et tunnel de vente automatisé.</p>
+                    </div>
+                    <div className="sim-services-grid">
+                      <a className="sim-service-card" href="#rappel" onClick={go('rappel')}>
+                        <span className="ssc-ico">🌐</span>
+                        <span className="ssc-title">Création de site web</span>
+                        <span className="ssc-desc">Un site professionnel conçu pour convertir vos visiteurs en clients.</span>
+                      </a>
+                      <a className="sim-service-card" href="#rappel" onClick={go('rappel')}>
+                        <span className="ssc-ico">⚡</span>
+                        <span className="ssc-title">Tunnel automatique FotoStudio</span>
+                        <span className="ssc-desc">Mise en place du tunnel de réservation automatique qu'on utilise chez Amour et Lumière.</span>
+                      </a>
+                    </div>
                   </div>
                 </div>
               </div>
