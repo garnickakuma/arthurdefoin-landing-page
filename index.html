@@ -595,22 +595,6 @@
                     <span className="sim-field-val"><em>{fmtInt(budget)}</em>&nbsp;€</span>
                   </div>
                   <SimSlider value={budget} min={BUDGET_MIN} max={BUDGET_MAX} step={50} onChange={setBudget} ticks={['400 €','2 200 €','4 000 €']} />
-                  <div className="sim-mobile-summary">
-                    <div className="sms-item">
-                      <span className="sms-val">{fmtInt(mode==='leads'?dVolume:dClients)}</span>
-                      <span className="sms-lbl">{mode==='leads'?'leads':'clients'}</span>
-                    </div>
-                    <div className="sms-sep"></div>
-                    <div className="sms-item">
-                      <span className="sms-val">{fmtEUR(dRevenue)}</span>
-                      <span className="sms-lbl">chiffre d'affaires</span>
-                    </div>
-                    <div className="sms-sep"></div>
-                    <div className="sms-item accent">
-                      <span className="sms-val">{fmtEUR(dBenefice)}</span>
-                      <span className="sms-lbl">bénéfice net</span>
-                    </div>
-                  </div>
                   <div className="sim-split2">
                     <div className="ss2-cell"><span className="ss2-lbl">Abonnement</span><span className="ss2-val">{fmtEUR(dAbo)}</span><span className="ss2-sub">lancement, gestion &amp; optimisation</span></div>
                     <div className="ss2-cell accent"><span className="ss2-lbl">Dépense publicitaire</span><span className="ss2-val">{fmtEUR(dPub)}</span><span className="ss2-sub">investie directement sur Meta</span></div>
@@ -644,6 +628,18 @@
                     <span className="sim-big-lbl">bénéfice net</span>
                   </div>
                 </div>
+                <button className="sim-toggle-detail" onClick={() => setShowDetail(d => !d)}>
+                  {showDetail ? 'Masquer le détail ↑' : 'Voir le détail ↓'}
+                </button>
+                {showDetail && (
+                  <div className="sim-breakdown">
+                    <div className="sim-row"><span className="k">Chiffre d'affaires généré</span><span className="v">{fmtEUR(dRevenue)}</span></div>
+                    <div className="sim-row"><span className="k">Budget total <em className="k-sub">abonnement + pub</em></span><span className="v">− {fmtEUR(budget)}</span></div>
+                    {mode==='reservations' && <div className="sim-row"><span className="k">Taux d'annulation pris en compte</span><span className="v">{TAUX_ANNULATION}&nbsp;%</span></div>}
+                    <div className="sim-row"><span className="k">Bénéfice net</span><span className="v"><em>{fmtEUR(dBenefice)}</em></span></div>
+                    <div className="sim-row"><span className="k">Retour sur investissement (ROAS)</span><span className="v"><em>{fmtX(dRoas)}</em></span></div>
+                  </div>
+                )}
                 <div className="sim-cta-wrap">
                   <a className="btn btn-gold" href="#rappel" onClick={go('rappel')}>Je veux gagner ces clients <span className="arrow">→</span></a>
                 </div>
