@@ -524,9 +524,9 @@
       );
     }
     function Simulateur() {
-      const [spec, setSpec] = React.useState('Mariage');
+      const [spec, setSpec] = React.useState('Studio');
       const [mode, setMode] = React.useState('reservations');
-      const [cart, setCart] = React.useState(panierForSpec('Mariage'));
+      const [cart, setCart] = React.useState(panierForSpec('Studio'));
       const [budget, setBudget] = React.useState(BUDGET_DEFAUT);
       const conv = convForSpec(spec, cart);
       const pickSpec = s => { setSpec(s); setCart(panierForSpec(s)); };
@@ -578,10 +578,6 @@
                     <button className={mode==='leads'?'active':''} onClick={() => setMode('leads')}>Des leads<span className="seg-sub">prospects à rappeler</span></button>
                     <button className={mode==='reservations'?'active':''} onClick={() => setMode('reservations')}>Réservations gratuites<span className="seg-sub">ils réservent seuls</span></button>
                   </div>
-                  <p className="sim-cpx">
-                    <i data-lucide="target"></i>
-                    Coût moyen <em>{fmtEUR(cpx)}</em>&nbsp;{mode==='leads'?'par lead qualifié':'par réservation gratuite'}
-                  </p>
                 </div>
                 <div className="sim-field">
                   <div className="sim-field-head"><span className="sim-field-lbl">Panier moyen par client</span></div>
@@ -629,7 +625,6 @@
                       <span><i className="sr-dot pub"></i>Dépense publicitaire</span>
                     </div>
                   </div>
-                  <p className="sim-hint" style={{marginTop:14}}>Plus vous investissez en publicité, plus la part de l'abonnement s'allège — et plus chaque euro travaille pour vous.</p>
                 </div>
               </div>
               <div className="sim-result">
@@ -663,7 +658,6 @@
                 )}
                 <div className="sim-cta-wrap">
                   <a className="btn btn-gold" href="#rappel" onClick={go('rappel')}>Je veux gagner ces clients <span className="arrow">→</span></a>
-                  <p className="sim-cta-sub">Estimation indicative · Sans engagement</p>
                 </div>
                 <div className="sim-services">
                   <p className="sim-services-option">En option —</p>
