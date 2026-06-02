@@ -600,6 +600,10 @@
                     <span className="sim-field-lbl">Budget mensuel total</span>
                     <span className="sim-field-val"><em>{fmtInt(budget)}</em>&nbsp;€</span>
                   </div>
+                  <div className="sim-split2">
+                    <div className="ss2-cell"><span className="ss2-lbl">Abonnement</span><span className="ss2-val">{fmtEUR(dAbo)}</span></div>
+                    <div className="ss2-cell accent"><span className="ss2-lbl">Dépense pub</span><span className="ss2-val">{fmtEUR(dPub)}</span></div>
+                  </div>
                   <SimSlider value={budget} min={BUDGET_MIN} max={BUDGET_MAX} step={50} onChange={setBudget} ticks={['400 €','2 200 €','4 000 €']} />
                 </div>
                 <div className="sim-res-cards">
@@ -615,23 +619,7 @@
               </div>
               {/* ── Zone secondaire ── */}
               <div className="sim-zone-bottom">
-                <div className="sim-zone-bottom-left">
-                  <div className="sim-split2">
-                    <div className="ss2-cell"><span className="ss2-lbl">Abonnement</span><span className="ss2-val">{fmtEUR(dAbo)}</span></div>
-                    <div className="ss2-cell accent"><span className="ss2-lbl">Dépense pub</span><span className="ss2-val">{fmtEUR(dPub)}</span></div>
-                  </div>
-                  <div className="sim-repart">
-                    <div className="sim-repart-track">
-                      <div className="sr-seg sr-abo" style={{width:aboPct+'%'}}><span className="sr-pct">{aboPct}&nbsp;%</span></div>
-                      <div className="sr-seg sr-pub" style={{width:(100-aboPct)+'%'}}><span className="sr-pct">{100-aboPct}&nbsp;%</span></div>
-                    </div>
-                    <div className="sim-repart-legend">
-                      <span><i className="sr-dot abo"></i>Abonnement</span>
-                      <span><i className="sr-dot pub"></i>Dépense publicitaire</span>
-                    </div>
-                  </div>
-                </div>
-                <div className="sim-zone-bottom-right">
+                <div className="sim-zone-bottom-right" style={{gridColumn:'1/-1'}}>
                   <button className="sim-toggle-detail" onClick={() => setShowDetail(d => !d)}>
                     {showDetail ? 'Masquer le détail ↑' : 'Voir le détail ↓'}
                   </button>
