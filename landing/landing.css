@@ -732,18 +732,30 @@ image-slot { display: block; background: var(--ivoire-2); }
 }
 .res-volume .rv-lbl { font-family: var(--sans); font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--plomb); }
 .sim-result .res-num.benefice-num { font-size: 76px; }
-/* ----------  Simulator arrows  ---------- */
-.sim-arrows { display: flex; justify-content: center; gap: 22px; padding: 2px 0 4px; }
-.sim-arrow { position: relative; width: 2px; height: 38px; background: rgba(139,92,246,0.14); border-radius: 1px; }
-.sim-arrow::after { content: ''; position: absolute; bottom: -6px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 4px solid transparent; border-right: 4px solid transparent; border-top: 6px solid rgba(139,92,246,0.25); }
-.sim-arrow::before { content: ''; position: absolute; top: -14px; left: 50%; transform: translateX(-50%); width: 10px; height: 16px; border-radius: 50%; background: radial-gradient(ellipse at center, rgba(139,92,246,0.95) 0%, rgba(139,92,246,0) 75%); animation: arrowGlow 1.8s ease-in-out infinite; }
-.sim-arrow:nth-child(2)::before { animation-delay: 0.28s; }
-.sim-arrow:nth-child(3)::before { animation-delay: 0.56s; }
-@keyframes arrowGlow { 0%{top:-14px;opacity:0} 18%{opacity:1} 82%{opacity:1} 100%{top:calc(100% + 6px);opacity:0} }
 /* ----------  Simulator result cards  ---------- */
 .sim-res-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 .sim-res-card { background: #fff; border: 1px solid rgba(139,92,246,0.16); border-radius: 20px; padding: 28px 14px 24px; display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; box-shadow: 0 0 28px rgba(139,92,246,0.10), 0 2px 12px rgba(139,92,246,0.05); }
-.sim-res-card.accent { border-color: rgba(139,92,246,0.28); box-shadow: 0 0 44px rgba(139,92,246,0.22), 0 4px 20px rgba(139,92,246,0.10); }
+@property --border-angle { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
+.sim-res-card.accent {
+  --border-angle: 0deg;
+  border: 2px solid transparent;
+  background:
+    linear-gradient(#fff,#fff) padding-box,
+    conic-gradient(
+      from var(--border-angle),
+      rgba(139,92,246,0.07) 0%,
+      rgba(139,92,246,0.07) 70%,
+      rgba(139,92,246,0.4) 78%,
+      rgba(139,92,246,0.95) 83%,
+      rgba(255,255,255,0.9) 86%,
+      rgba(139,92,246,0.95) 89%,
+      rgba(139,92,246,0.4) 94%,
+      rgba(139,92,246,0.07) 100%
+    ) border-box;
+  box-shadow: 0 0 40px rgba(139,92,246,0.20), 0 4px 20px rgba(139,92,246,0.10);
+  animation: borderSpin 2.5s linear infinite;
+}
+@keyframes borderSpin { to { --border-angle: 360deg; } }
 .sim-res-num { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: clamp(26px, 4.5vw, 42px); line-height: 1; color: var(--encre); font-variant-numeric: lining-nums tabular-nums; white-space: nowrap; }
 .sim-res-card.accent .sim-res-num { color: var(--or); }
 .sim-res-lbl { font-family: var(--sans); font-size: 10.5px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--plomb); }
