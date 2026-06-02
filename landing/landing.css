@@ -659,26 +659,26 @@ image-slot { display: block; background: var(--ivoire-2); }
 .sim-conv-note .scn-sub { width: 100%; font-size: 11px; color: var(--pierre); }
 
 /* budget split : abonnement vs dépense pub — two side-by-side cells */
-.sim-split2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 22px; }
+.sim-split2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 14px; }
 .ss2-cell {
-  background: var(--blanc); border: 1px solid var(--sable); border-radius: var(--r-md);
-  padding: 15px 16px 16px; display: flex; flex-direction: column;
+  background: var(--blanc); border: 1px solid var(--sable); border-radius: var(--r-sm);
+  padding: 10px 12px; display: flex; flex-direction: column; opacity: 0.75;
 }
 .ss2-cell.accent { border-color: var(--or-voile); }
 .ss2-lbl {
-  font-family: var(--sans); font-size: 10.5px; font-weight: 600; letter-spacing: 0.14em;
+  font-family: var(--sans); font-size: 9.5px; font-weight: 600; letter-spacing: 0.14em;
   text-transform: uppercase; color: var(--plomb);
 }
 .ss2-val {
-  margin-top: 9px; font-family: var(--serif); font-size: 27px; line-height: 1; color: var(--encre);
+  margin-top: 5px; font-family: var(--serif); font-size: 19px; line-height: 1; color: var(--encre);
   font-variant-numeric: lining-nums tabular-nums; letter-spacing: -0.01em; white-space: nowrap;
 }
 .ss2-cell.accent .ss2-val { color: var(--or); }
-.ss2-sub { margin-top: 8px; font-family: var(--sans); font-size: 11px; line-height: 1.4; color: var(--pierre); }
+.ss2-sub { display: none; }
 
 /* animated répartition bar (abonnement vs dépense pub) */
-.sim-repart { margin-top: 20px; }
-.sim-repart-track { display: flex; gap: 4px; height: 30px; }
+.sim-repart { margin-top: 10px; }
+.sim-repart-track { display: flex; gap: 3px; height: 20px; }
 .sr-seg {
   height: 100%; border-radius: var(--r-sm); display: flex; align-items: center; justify-content: center;
   overflow: hidden; min-width: 42px; transition: width 0.55s var(--ease-soft);
@@ -686,12 +686,12 @@ image-slot { display: block; background: var(--ivoire-2); }
 .sr-abo { background: var(--sable-fonce); }
 .sr-pub { background: var(--or); }
 .sr-pct {
-  font-family: var(--sans); font-size: 12px; font-weight: 600; white-space: nowrap;
+  font-family: var(--sans); font-size: 10px; font-weight: 600; white-space: nowrap;
   font-variant-numeric: lining-nums tabular-nums;
 }
 .sr-abo .sr-pct { color: var(--encre); }
 .sr-pub .sr-pct { color: #fff; }
-.sim-repart-legend { display: flex; gap: 22px; margin-top: 11px; font-family: var(--sans); font-size: 11.5px; color: var(--plomb); }
+.sim-repart-legend { display: flex; gap: 16px; margin-top: 7px; font-family: var(--sans); font-size: 10.5px; color: var(--plomb); opacity: 0.7; }
 .sim-repart-legend span { display: inline-flex; align-items: center; gap: 8px; }
 .sr-dot { width: 9px; height: 9px; border-radius: 3px; flex: none; }
 .sr-dot.abo { background: var(--sable-fonce); }

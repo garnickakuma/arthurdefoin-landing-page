@@ -450,7 +450,7 @@
 
     // ─── Simulateur ───────────────────────────────────────────────────────────
     const CPL = 12, CPR = 20, TAUX_ANNULATION = 25, PANIER_SEUIL = 300, BUDGET_MIN = 400, BUDGET_MAX = 4000, BUDGET_DEFAUT = 800;
-    const SIM_SPECIALITES = ['Mariage','Grossesse','Nouveau-né','Famille','Portrait','Corporate'];
+    const SIM_SPECIALITES = ['Mariage','Studio','Extérieur'];
     const convForSpec = (s, cart) => {
       if (s !== 'Mariage') return 30;
       // Linear: 10% at 1500€ → 2% at 4500€, clamped
@@ -524,9 +524,9 @@
       );
     }
     function Simulateur() {
-      const [spec, setSpec] = React.useState('Famille');
+      const [spec, setSpec] = React.useState('Mariage');
       const [mode, setMode] = React.useState('reservations');
-      const [cart, setCart] = React.useState(panierForSpec('Famille'));
+      const [cart, setCart] = React.useState(panierForSpec('Mariage'));
       const [budget, setBudget] = React.useState(BUDGET_DEFAUT);
       const conv = convForSpec(spec, cart);
       const pickSpec = s => { setSpec(s); setCart(panierForSpec(s)); };
@@ -574,15 +574,6 @@
                 </div>
                 <div className="sim-field sim-objectif">
                   <div className="sim-field-head"><span className="sim-field-lbl">Objectif des campagnes</span></div>
-                  <div className="sim-reco">
-                    <span className="sim-reco-text">
-                      <span className="sim-reco-label">Notre méthode chez</span>
-                      <img className="sim-reco-logo" src="landing/assets/amour-lumiere-logo.png" alt="Amour et Lumière" />
-                    </span>
-                    <svg className="sim-reco-arrow" viewBox="0 0 48 44" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                      <path d="M3 4 C 20 6, 38 12, 39 33" /><path d="M31 26 L 39 35 L 46 25" />
-                    </svg>
-                  </div>
                   <div className="sim-seg">
                     <button className={mode==='leads'?'active':''} onClick={() => setMode('leads')}>Des leads<span className="seg-sub">prospects à rappeler</span></button>
                     <button className={mode==='reservations'?'active':''} onClick={() => setMode('reservations')}>Réservations gratuites<span className="seg-sub">ils réservent seuls</span></button>
@@ -646,16 +637,16 @@
                   <div className="sim-big-item">
                     <span className="sim-big-num">{fmtInt(mode==='leads'?dVolume:dClients)}</span>
                     <span className="sim-big-lbl">{mode==='leads'?'leads qualifiés':Math.round(dClients)>1?'nouveaux clients':'nouveau client'}</span>
-                    {mode==='leads'
-                      ? <span className="sim-big-sub">soit ~{fmtInt(dClients)} prestation{Math.round(result.clients)>1?'s':''} signée{Math.round(result.clients)>1?'s':''}</span>
-                      : <span className="sim-big-sub">~{fmtInt(dVolume)} réservations reçues</span>
-                    }
+                  </div>
+                  <div className="sim-big-sep"></div>
+                  <div className="sim-big-item">
+                    <span className="sim-big-num">{fmtEUR(dRevenue)}</span>
+                    <span className="sim-big-lbl">chiffre d'affaires</span>
                   </div>
                   <div className="sim-big-sep"></div>
                   <div className="sim-big-item accent">
                     <span className="sim-big-num"><em>{fmtEUR(dBenefice)}</em></span>
-                    <span className="sim-big-lbl">de bénéfice estimé</span>
-                    <span className="sim-big-sub">budget total déduit</span>
+                    <span className="sim-big-lbl">bénéfice net</span>
                   </div>
                 </div>
                 <button className="sim-toggle-detail" onClick={() => setShowDetail(d => !d)}>
