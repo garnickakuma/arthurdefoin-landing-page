@@ -599,6 +599,16 @@
                     <div className="ss2-cell"><span className="ss2-lbl">Abonnement</span><span className="ss2-val">{fmtEUR(dAbo)}</span></div>
                     <div className="ss2-cell accent"><span className="ss2-lbl">Dépense pub</span><span className="ss2-val">{fmtEUR(dPub)}</span></div>
                   </div>
+                  <div className="sim-repart">
+                    <div className="sim-repart-track">
+                      <div className="sr-seg sr-abo" style={{width:aboPct+'%'}}><span className="sr-pct">{aboPct}&nbsp;%</span></div>
+                      <div className="sr-seg sr-pub" style={{width:(100-aboPct)+'%'}}><span className="sr-pct">{100-aboPct}&nbsp;%</span></div>
+                    </div>
+                    <div className="sim-repart-legend">
+                      <span><i className="sr-dot abo"></i>Abonnement</span>
+                      <span><i className="sr-dot pub"></i>Dépense publicitaire</span>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div className="sim-result">
