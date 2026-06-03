@@ -146,7 +146,7 @@ body { background: var(--ivoire); }
 }
 /* Zone contrôles */
 .sim-zone-top { padding: 40px 48px 32px; }
-.sim-zone-top-fields { display: grid; grid-template-columns: 1fr 1.4fr 0.8fr; gap: 32px; align-items: start; }
+.sim-zone-top-fields { display: flex; flex-direction: column; gap: 0; }
 /* Encart principal */
 .sim-zone-main {
   display: grid; grid-template-columns: 1.1fr 1fr; gap: 48px; align-items: center;
@@ -864,7 +864,7 @@ image-slot { display: block; background: var(--ivoire-2); }
   .sim { grid-template-columns: minmax(0, 1fr); }
   .sim-zone-top { padding: 28px 24px 20px; }
   .sim-zone-top-fields { grid-template-columns: 1fr; gap: 0; }
-  .sim-zone-main { grid-template-columns: 1fr; gap: 24px; padding: 24px; display: flex; flex-direction: column; }
+  .sim-zone-main { display: flex; flex-direction: column; gap: 24px; padding: 24px; }
   .sim-zone-main .sim-res-cards { order: -1; }
   .sim-zone-bottom { grid-template-columns: 1fr; gap: 24px; padding: 24px; }
   .sim-controls { border-right: 0; border-bottom: 1px solid var(--sable); }
