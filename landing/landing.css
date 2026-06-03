@@ -200,6 +200,7 @@ body { background: var(--ivoire); }
 
 .sim-breakdown { display: flex; flex-direction: column; gap: 12px; padding-top: 24px; border-top: 1px solid var(--sable); }
 .sim-row { display: flex; justify-content: space-between; align-items: baseline; font-family: var(--sans); font-size: 14px; }
+.sim-row-sep { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--sable); }
 .sim-row .k { color: var(--plomb); }
 .sim-row .v { color: var(--encre); font-family: var(--serif); font-weight: 400; font-size: 18px; font-variant-numeric: lining-nums tabular-nums; white-space: nowrap; }
 .sim-row .v em { color: var(--or); font-style: italic; }

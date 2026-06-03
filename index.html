@@ -11,12 +11,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Manrope:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&family=JetBrains+Mono:wght@400;500&display=swap">
 
-  <link rel="stylesheet" href="landing/colors_and_type.css?v=11">
-  <link rel="stylesheet" href="landing/landing.css?v=11">
-  <link rel="stylesheet" href="landing/landing-b.css?v=11">
-  <link rel="stylesheet" href="landing/landing-layouts.css?v=11">
-  <link rel="stylesheet" href="landing/landing-hero-wow.css?v=11">
-  <link rel="stylesheet" href="landing/landing-schema.css?v=11">
+  <link rel="stylesheet" href="landing/colors_and_type.css?v=12">
+  <link rel="stylesheet" href="landing/landing.css?v=12">
+  <link rel="stylesheet" href="landing/landing-b.css?v=12">
+  <link rel="stylesheet" href="landing/landing-layouts.css?v=12">
+  <link rel="stylesheet" href="landing/landing-hero-wow.css?v=12">
+  <link rel="stylesheet" href="landing/landing-schema.css?v=12">
 
   <!-- Meta Pixel -->
   <script>
@@ -626,11 +626,22 @@
                 </button>
                 {showDetail && (
                   <div className="sim-breakdown">
-                    <div className="sim-row"><span className="k">Chiffre d'affaires généré</span><span className="v">{fmtEUR(dRevenue)}</span></div>
+                    {mode==='leads' ? (<>
+                      <div className="sim-row"><span className="k">Coût moyen par lead</span><span className="v">{fmtEUR(CPL)}</span></div>
+                      <div className="sim-row"><span className="k">Leads qualifiés générés</span><span className="v"><em>{fmtInt(dVolume)}</em></span></div>
+                      <div className="sim-row"><span className="k">Taux de conversion retenu</span><span className="v">{fmtInt(conv)}&nbsp;%</span></div>
+                      <div className="sim-row"><span className="k">Clients signés</span><span className="v"><em>{fmtInt(dClients)}</em></span></div>
+                    </>) : (<>
+                      <div className="sim-row"><span className="k">Coût moyen par réservation</span><span className="v">{fmtEUR(CPR)}</span></div>
+                      <div className="sim-row"><span className="k">Réservations générées</span><span className="v"><em>{fmtInt(dVolume)}</em></span></div>
+                      <div className="sim-row"><span className="k">Taux d'annulation</span><span className="v">{TAUX_ANNULATION}&nbsp;%</span></div>
+                      <div className="sim-row"><span className="k">Clients confirmés</span><span className="v"><em>{fmtInt(dClients)}</em></span></div>
+                    </>)}
+                    <div className="sim-row sim-row-sep"><span className="k">Panier moyen</span><span className="v">{fmtEUR(cart)}</span></div>
+                    <div className="sim-row"><span className="k">Chiffre d'affaires</span><span className="v">{fmtEUR(dRevenue)}</span></div>
                     <div className="sim-row"><span className="k">Budget total <em className="k-sub">abonnement + pub</em></span><span className="v">− {fmtEUR(budget)}</span></div>
-                    {mode==='reservations' && <div className="sim-row"><span className="k">Taux d'annulation pris en compte</span><span className="v">{TAUX_ANNULATION}&nbsp;%</span></div>}
                     <div className="sim-row"><span className="k">Bénéfice net</span><span className="v"><em>{fmtEUR(dBenefice)}</em></span></div>
-                    <div className="sim-row"><span className="k">ROAS</span><span className="v"><em>{fmtX(dRoas)}</em></span></div>
+                    <div className="sim-row"><span className="k">Retour sur investissement</span><span className="v"><em>{fmtX(dRoas)}</em></span></div>
                   </div>
                 )}
                 <div className="sim-cta-wrap">
