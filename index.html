@@ -460,10 +460,9 @@
     const PANIER_PAR_SPEC = { Mariage: 1500 };
     const panierForSpec = s => PANIER_PAR_SPEC[s] ?? 150;
     function repartitionBudget(B) {
-      let abonnement, pub;
-      if (B <= 1000) { abonnement = 0.5*B-10; pub = 0.5*B+10; }
-      else { abonnement = 490+0.10*(B-1000); pub = B-abonnement; }
-      return { abonnement, pub };
+      // 48% flat jusqu'à 1000€, puis croissance lente → ~20% à 4000€
+      const abonnement = B <= 1000 ? Math.round(0.48*B) : Math.round(480+0.10*(B-1000));
+      return { abonnement, pub: B-abonnement };
     }
     function useCounterSim(value, duration=480) {
       const [display, setDisplay] = React.useState(value);
