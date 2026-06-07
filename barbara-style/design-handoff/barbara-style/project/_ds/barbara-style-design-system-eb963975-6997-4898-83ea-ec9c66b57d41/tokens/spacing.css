@@ -1,0 +1,54 @@
+/* ============================================================
+   Barbara Style — Espacement, rayons, ombres, bordures
+   Beaucoup d'air. Ombres diffuses et chaudes (jamais grises).
+   Rayons doux mais discrets — l'élégance, pas le bonbon.
+   ============================================================ */
+
+:root {
+  /* ---- Échelle d'espacement (base 4) ---- */
+  --space-0:   0;
+  --space-1:   0.25rem;  /* 4  */
+  --space-2:   0.5rem;   /* 8  */
+  --space-3:   0.75rem;  /* 12 */
+  --space-4:   1rem;     /* 16 */
+  --space-5:   1.5rem;   /* 24 */
+  --space-6:   2rem;     /* 32 */
+  --space-7:   3rem;     /* 48 */
+  --space-8:   4rem;     /* 64 */
+  --space-9:   6rem;     /* 96 */
+  --space-10:  8rem;     /* 128 — respirations de section */
+
+  /* ---- Rayons ---- */
+  --radius-xs:   2px;
+  --radius-sm:   4px;
+  --radius-md:   8px;    /* cartes, champs */
+  --radius-lg:   14px;   /* panneaux       */
+  --radius-pill: 999px;  /* boutons pilule, pastilles */
+  --radius-circle: 50%;
+
+  /* ---- Ombres : chaudes & diffuses (teintées sable, jamais gris pur) ---- */
+  --shadow-xs:  0 1px 2px rgba(96, 72, 40, 0.06);
+  --shadow-sm:  0 2px 8px rgba(96, 72, 40, 0.07);
+  --shadow-md:  0 10px 30px -12px rgba(96, 72, 40, 0.16);
+  --shadow-lg:  0 24px 60px -24px rgba(96, 72, 40, 0.22);
+  /* halo solaire — pour survol des pièces phares */
+  --shadow-glow: 0 12px 40px -10px rgba(205, 161, 82, 0.32);
+
+  /* ---- Bordures ---- */
+  --border-hairline: 1px solid var(--line-hairline);
+  --border-soft:     1px solid var(--line-soft);
+  --border-gold:     1px solid var(--line-gold);
+  --border-ink:      1px solid var(--line-strong);
+
+  /* ---- Mouvement : doux, jamais rebondissant ---- */
+  --ease-out:   cubic-bezier(0.22, 0.61, 0.36, 1); /* @kind other */
+  --ease-soft:  cubic-bezier(0.4, 0, 0.2, 1); /* @kind other */
+  --dur-fast:   140ms; /* @kind other */
+  --dur-base:   240ms; /* @kind other */
+  --dur-slow:   420ms; /* @kind other */
+
+  /* ---- Contenu ---- */
+  --container:    1240px;
+  --container-narrow: 760px;
+  --gutter:       var(--space-5);
+}

@@ -1,0 +1,81 @@
+/* ============================================================
+   Barbara Style — Base & primitives partagées
+   Valeurs par défaut des éléments + quelques utilitaires
+   de marque (sur-titre, filet doré, grain film).
+   ============================================================ */
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--fs-base);
+  font-weight: var(--fw-regular);
+  line-height: var(--lh-normal);
+  color: var(--text-body);
+  background: var(--surface-page);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-heading);
+  font-weight: var(--fw-regular);
+  color: var(--text-strong);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--ls-display);
+  margin: 0;
+}
+
+p { margin: 0; text-wrap: pretty; }
+
+a { color: inherit; text-decoration: none; }
+
+::selection { background: var(--accent-soft); color: var(--ink-900); }
+
+/* ---- Sur-titre : capitales espacées, signature de la marque ---- */
+.bs-eyebrow {
+  font-family: var(--font-eyebrow);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-medium);
+  letter-spacing: var(--ls-eyebrow);
+  text-transform: uppercase;
+  color: var(--text-gold);
+}
+
+/* ---- Filet doré décoratif (séparateur court) ---- */
+.bs-rule {
+  width: 48px;
+  height: 1px;
+  border: 0;
+  background: var(--gold-400);
+  margin: var(--space-4) 0;
+}
+
+/* ---- Grain film : voile chaud par-dessus l'imagerie ---- */
+.bs-grain {
+  position: relative;
+}
+.bs-grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  mix-blend-mode: soft-light;
+  opacity: 0.5;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.6'/></svg>");
+}
+
+/* ---- Voile doré : dégradé de protection chaud sur les photos ---- */
+.bs-warm-veil {
+  position: relative;
+}
+.bs-warm-veil::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(255,247,230,0.10) 0%, rgba(205,161,82,0.06) 60%, rgba(42,32,24,0.28) 100%);
+}

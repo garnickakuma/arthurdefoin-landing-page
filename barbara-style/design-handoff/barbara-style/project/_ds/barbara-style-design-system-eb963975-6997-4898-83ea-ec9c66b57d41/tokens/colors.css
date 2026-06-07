@@ -1,0 +1,83 @@
+/* ============================================================
+   Barbara Style — Colour tokens
+   Univers : blanc pur & lumineux, crème chaud, or solaire,
+   rose poudré. Côte d'Azur chic — solaire, féminin, premium.
+   ============================================================ */
+
+:root {
+  /* ---- Base palette : neutrals (warm whites & creams) ---- */
+  --white-pure:    #ffffff;   /* le blanc absolu, scintillant   */
+  --linen-100:     #fefbf6;   /* fond lumineux, légèrement chaud */
+  --linen-200:     #fbf4e9;   /* crème claire, surface douce     */
+  --cream-300:     #f5ead9;   /* crème chaud, cartes & panneaux  */
+  --cream-400:     #ecdcc4;   /* sable, séparateurs chauds       */
+  --sand-500:      #ddc6a4;   /* sable doré, bordures discrètes  */
+
+  /* ---- Base palette : or solaire (signature) ---- */
+  --gold-200:      #f0dcab;   /* halo doré, surface or pâle      */
+  --gold-300:      #e3c988;   /* or clair, accents lumineux      */
+  --gold-400:      #cda152;   /* OR SOLAIRE — couleur signature  */
+  --gold-500:      #b98a3a;   /* or profond, texte sur clair     */
+  --gold-600:      #8f6a2c;   /* or bruni, ombrage              */
+
+  /* ---- Base palette : rose poudré (féminin) ---- */
+  --rose-200:      #f7e4df;   /* voile rosé, surface tendre      */
+  --rose-300:      #ecc9c2;   /* ROSE POUDRÉ — féminité douce    */
+  --rose-400:      #dca99f;   /* rose terre, accent chaud        */
+  --rose-500:      #c2867b;   /* rose bois, texte sur clair      */
+
+  /* ---- Base palette : encre (texte, le contraste chaud) ---- */
+  --ink-900:       #2a2018;   /* espresso chaud — titres         */
+  --ink-700:       #4a3d31;   /* brun doux — texte courant       */
+  --ink-500:       #7a6c5d;   /* taupe — texte secondaire        */
+  --ink-300:       #a9988680;  /* murmure — légendes (alpha)     */
+
+  /* ---- Sémantique (réutilisable) ---- */
+  --olive-500:     #7e8a5a;   /* succès / disponible — vert sauge */
+  --terracotta-500:#c06846;   /* alerte / rupture — terre cuite   */
+
+  /* ============================================================
+     Alias sémantiques — à utiliser dans les composants
+     ============================================================ */
+
+  /* surfaces */
+  --surface-page:      var(--linen-100);
+  --surface-raised:    var(--white-pure);
+  --surface-card:      var(--white-pure);
+  --surface-cream:     var(--cream-300);
+  --surface-sun:       var(--gold-200);
+  --surface-rose:      var(--rose-200);
+  --surface-ink:       var(--ink-900);
+
+  /* texte */
+  --text-strong:       var(--ink-900);
+  --text-body:         var(--ink-700);
+  --text-muted:        var(--ink-500);
+  --text-whisper:      var(--ink-300);
+  --text-on-ink:       var(--linen-100);
+  --text-on-gold:      var(--ink-900);
+  --text-gold:         var(--gold-500);
+  --text-rose:         var(--rose-500);
+
+  /* accents & actions */
+  --accent:            var(--gold-400);
+  --accent-strong:     var(--gold-500);
+  --accent-soft:       var(--gold-200);
+  --accent-rose:       var(--rose-300);
+
+  /* bordures & lignes */
+  --line-soft:         #efe3d1;
+  --line-hairline:     #e7d8c1;
+  --line-gold:         var(--gold-300);
+  --line-strong:       var(--ink-900);
+
+  /* états */
+  --focus-ring:        var(--gold-400);
+  --success:           var(--olive-500);
+  --danger:            var(--terracotta-500);
+
+  /* prix barré / promo */
+  --price-now:         var(--ink-900);
+  --price-was:         var(--ink-500);
+  --price-sale:        var(--terracotta-500);
+}

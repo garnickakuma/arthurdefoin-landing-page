@@ -388,6 +388,11 @@ img { display: block; max-width: 100%; }
 .hero-postcard__from {
   margin-bottom: 14px;
 }
+.hero-postcard__azur {
+  font-family: var(--font-sans);
+  font-size: 10px; letter-spacing: .28em; text-transform: uppercase;
+  color: var(--vx-azur, #6f9a9a); margin-bottom: 10px;
+}
 .hero-postcard__body {
   font-family: var(--font-sans); font-weight: 300;
   font-size: 15.5px; line-height: 1.7; color: var(--ink-700);
@@ -452,6 +457,13 @@ img { display: block; max-width: 100%; }
 }
 .offer-highlight__pitch h2 {
   font-size: 52px; line-height: 1.02; margin: 4px 0 0;
+}
+.offer-title__accent {
+  font-family: 'Pinyon Script', 'Cormorant Garamond', serif;
+  font-style: italic;
+  color: var(--gold-300);
+  font-size: 1.1em;
+  font-weight: 400;
 }
 .offer-highlight__pitch p {
   font-family: var(--font-sans); font-weight: 300;
@@ -553,11 +565,26 @@ img { display: block; max-width: 100%; }
 }
 .cat-card:hover .cat-card__link { opacity: 1; transform: translateY(0); }
 
-/* Cat backgrounds */
-.cat-bg--bijoux  { background: linear-gradient(150deg,#dfc99a,#c9a96e 40%,#a8865a 70%,#7a5a38 100%); }
-.cat-bg--cache   { background: linear-gradient(150deg,#f0d8cc,#e8c4b8 40%,#d4a799 70%,#b88070 100%); }
-.cat-bg--new     { background: linear-gradient(150deg,#e8ddd0,#d4c4b0 40%,#c4a882 70%,#a8906a 100%); }
-.cat-bg--soldes  { background: linear-gradient(150deg,#d4c0a8,#c4aa88 40%,#a89070 70%,#8a7055 100%); }
+/* Cat backgrounds — radial chauds (Claude Design) */
+.cat-bg--bijoux    { background: radial-gradient(120% 95% at 68% 18%,#ffe9c2,#e9c7a0 46%,#cf9d83 100%); }
+.cat-bg--colliers  { background: radial-gradient(120% 95% at 68% 18%,#fbe3df,#ecc6bf 46%,#cf9aa0 100%); }
+.cat-bg--bracelets { background: radial-gradient(120% 95% at 68% 18%,#ffe2b0,#e3b487 46%,#b9836a 100%); }
+.cat-bg--cache     { background: radial-gradient(120% 95% at 68% 18%,#fdeccf,#e7cfa6 46%,#c9a37c 100%); }
+
+/* Cat grid v2 — image + titre en dessous (Claude Design) */
+.categories-section__inner { max-width: 1240px; margin: 0 auto; padding: 90px 32px; }
+.categories-grid-v2 { display: grid; grid-template-columns: repeat(4,1fr); gap: 20px; }
+.cat-item { text-decoration: none; color: inherit; display: block; }
+.cat-item__media {
+  position: relative; height: 260px;
+  border-radius: var(--vx-radius-card);
+  margin-bottom: 16px; overflow: hidden;
+  transition: transform .4s cubic-bezier(.25,.46,.45,.94);
+}
+.cat-item:hover .cat-item__media { transform: scale(1.02); }
+.cat-item__media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; }
+.cat-item__name { font-family: var(--font-display); font-size: 23px; font-weight: 500; color: var(--ink-900); line-height: 1.2; }
+.cat-item__note { font-family: var(--font-sans); font-size: 11.5px; letter-spacing: .04em; color: var(--ink-500); margin-top: 3px; text-transform: uppercase; }
 
 /* Placeholder produit */
 .prod-placeholder {
@@ -1242,6 +1269,7 @@ img { display: block; max-width: 100%; }
   .products-grid { grid-template-columns: repeat(3, 1fr); }
   .categories-grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
   .cat-card:first-child { grid-row: span 1; }
+  .categories-grid-v2 { grid-template-columns: repeat(2,1fr); }
   .offer-highlight__grid { grid-template-columns: 1fr; }
   .offer-tickets { flex-wrap: wrap; }
 }

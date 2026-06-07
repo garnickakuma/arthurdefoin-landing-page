@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Barbara Style — Boutique vintage</title>
+
+<!-- Design system Barbara Style -->
+<link rel="stylesheet" href="_ds/barbara-style-design-system-eb963975-6997-4898-83ea-ec9c66b57d41/tokens/fonts.css">
+<link rel="stylesheet" href="_ds/barbara-style-design-system-eb963975-6997-4898-83ea-ec9c66b57d41/tokens/colors.css">
+<link rel="stylesheet" href="_ds/barbara-style-design-system-eb963975-6997-4898-83ea-ec9c66b57d41/tokens/typography.css">
+<link rel="stylesheet" href="_ds/barbara-style-design-system-eb963975-6997-4898-83ea-ec9c66b57d41/tokens/spacing.css">
+<link rel="stylesheet" href="_ds/barbara-style-design-system-eb963975-6997-4898-83ea-ec9c66b57d41/tokens/base.css">
+<link rel="stylesheet" href="_ds/barbara-style-design-system-eb963975-6997-4898-83ea-ec9c66b57d41/styles.css">
+
+<!-- Polices alternatives (tweaks typo) + script vintage -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=DM+Serif+Display:ital@0;1&family=Marcellus&family=Italiana&family=Pinyon+Script&display=swap" rel="stylesheet">
+
+<!-- Couche vintage -->
+<link rel="stylesheet" href="boutique/vintage.css">
+<style>
+  html, body { margin: 0; background: var(--surface-page); }
+  ::-webkit-scrollbar { width: 10px; }
+  ::-webkit-scrollbar-thumb { background: var(--cream-400); border-radius: 999px; border: 3px solid var(--linen-100); }
+</style>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script src="_ds/barbara-style-design-system-eb963975-6997-4898-83ea-ec9c66b57d41/_ds_bundle.js"></script>
+<script src="boutique/image-slot.js"></script>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel" src="boutique/tweaks-panel.jsx"></script>
+<script type="text/babel" src="boutique/data.jsx"></script>
+<script type="text/babel" src="boutique/Cards.jsx"></script>
+<script type="text/babel" src="boutique/Offers.jsx"></script>
+<script type="text/babel" src="boutique/Chrome.jsx"></script>
+<script type="text/babel" src="boutique/Home.jsx"></script>
+<script type="text/babel" src="boutique/Collection.jsx"></script>
+<script type="text/babel" src="boutique/Product.jsx"></script>
+<script type="text/babel" src="boutique/Cart.jsx"></script>
+<script type="text/babel" src="boutique/Checkout.jsx"></script>
+
+<script type="text/babel" data-presets="react">
+  const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+    "hero": "postcard",
+    "sunburst": true,
+    "heroKicker": "Nouvelle collection · Été",
+    "heroTitle": "Scintiller au",
+    "heroAccent": "soleil",
+    "palette": [
+      "#cda152",
+      "#b98a3a",
+      "#e3c988"
+    ],
+    "azur": "#6f9a9a",
+    "displayFont": "Cormorant Garamond",
+    "eyebrowLs": 0.28,
+    "grain": 0.55,
+    "warmth": 0.42,
+    "vignette": 0.34,
+    "paper": 0.5,
+    "radius": 6
+  }/*EDITMODE-END*/;
+
+  const FONT_OPTIONS = [
+    { value: 'Cormorant Garamond', label: 'Cormorant (défaut)' },
+    { value: 'Playfair Display',   label: 'Playfair Display' },
+    { value: 'DM Serif Display',   label: 'DM Serif Display' },
+    { value: 'Marcellus',          label: 'Marcellus' },
+    { value: 'Italiana',           label: 'Italiana' },
+  ];
+
+  const PALETTES = [
+    ['#cda152', '#b98a3a', '#e3c988'], // or solaire (défaut)
+    ['#c08a3e', '#9a6c27', '#dcb978'], // ambre profond
+    ['#c2867b', '#a3645a', '#e0b3aa'], // rose bois
+    ['#b07f4e', '#8a5e35', '#cfa775'], // terre / sépia
+  ];
+
+  function App() {
+    const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+    const [route, setRoute] = React.useState('home');
+    const [current, setCurrent] = React.useState(null);
+    const [cart, setCart] = React.useState([]);
+    const [wish, setWish] = React.useState({ 'camelia-poudre': true });
+    const [cartOpen, setCartOpen] = React.useState(false);
+    const [insure, setInsure] = React.useState(true);
+
+    const go = (r, product) => {
+      if (product) setCurrent(product);
+      setRoute(r);
+      window.scrollTo({ top: 0, behavior: 'auto' });
+    };
+    const toggleWish = (id) => setWish((w) => ({ ...w, [id]: !w[id] }));
+    const addToCart = (p, qty = 1) => {
+      setCart((c) => {
+        const ex = c.find((it) => it.id === p.id);
+        if (ex) return c.map((it) => it.id === p.id ? { ...it, qty: it.qty + qty } : it);
+        return [...c, { id: p.id, name: p.name, cat: p.cat, price: p.price, grad: p.grad, qty }];
+      });
+      setCartOpen(true);
+    };
+    const cartCount = cart.reduce((s, it) => s + it.qty, 0);
+
+    const pal = t.palette || PALETTES[0];
+    const font = `'${t.displayFont || 'Cormorant Garamond'}', 'Cormorant Garamond', serif`;
+    const rootStyle = {
+      '--gold-400': pal[0], '--gold-500': pal[1], '--gold-300': pal[2],
+      '--accent': pal[0], '--vx-accent': pal[1], '--line-gold': pal[2],
+      '--vx-azur': t.azur,
+      '--vx-font-display': font, '--font-display': font,
+      '--vx-eyebrow-ls': `${t.eyebrowLs}em`,
+      '--vx-grain': t.grain, '--vx-warmth': t.warmth,
+      '--vx-vignette': t.vignette, '--vx-paper': t.paper,
+      '--vx-radius-card': `${t.radius}px`,
+    };
+
+    const props = { go, addToCart, wish, toggleWish, t };
+
+    return (
+      <div className="vx-app" style={rootStyle}>
+        <Header route={route} go={go} cartCount={cartCount} onOpenCart={() => setCartOpen(true)} />
+        {route === 'home' && <Home {...props} />}
+        {route === 'collection' && <Collection {...props} />}
+        {route === 'product' && <Product product={current} {...props} />}
+        {route === 'checkout' && <Checkout go={go} items={cart} setItems={setCart} insure={insure} setInsure={setInsure} />}
+        <Footer go={go} />
+        <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} items={cart} setItems={setCart} go={go} />
+
+        <TweaksPanel title="Tweaks">
+          <TweakSection label="Héro" />
+          <TweakSelect label="Direction" value={t.hero}
+            options={[{ value: 'postcard', label: 'Carte postale' }, { value: 'riviera', label: 'Riviera 70s' }, { value: 'poster', label: 'Affiche voyage' }]}
+            onChange={(v) => setTweak('hero', v)} />
+          <TweakToggle label="Rayons de soleil" value={t.sunburst} onChange={(v) => setTweak('sunburst', v)} />
+          <TweakText label="Sur-titre" value={t.heroKicker} onChange={(v) => setTweak('heroKicker', v)} />
+          <TweakText label="Titre" value={t.heroTitle} onChange={(v) => setTweak('heroTitle', v)} />
+          <TweakText label="Mot doré" value={t.heroAccent} onChange={(v) => setTweak('heroAccent', v)} />
+
+          <TweakSection label="Couleurs" />
+          <TweakColor label="Accent or" value={t.palette} options={PALETTES} onChange={(v) => setTweak('palette', v)} />
+          <TweakColor label="Bleu carte postale" value={t.azur}
+            options={['#6f9a9a', '#5e7e96', '#8aa6a0', '#a78d6a']} onChange={(v) => setTweak('azur', v)} />
+
+          <TweakSection label="Typographie" />
+          <TweakSelect label="Police des titres" value={t.displayFont} options={FONT_OPTIONS} onChange={(v) => setTweak('displayFont', v)} />
+          <TweakSlider label="Interlettrage sur-titre" value={t.eyebrowLs} min={0.12} max={0.42} step={0.02} unit="em" onChange={(v) => setTweak('eyebrowLs', v)} />
+
+          <TweakSection label="Matière & texture" />
+          <TweakSlider label="Grain film" value={t.grain} min={0} max={1} step={0.05} onChange={(v) => setTweak('grain', v)} />
+          <TweakSlider label="Sépia chaud" value={t.warmth} min={0} max={1} step={0.05} onChange={(v) => setTweak('warmth', v)} />
+          <TweakSlider label="Vignette" value={t.vignette} min={0} max={0.7} step={0.05} onChange={(v) => setTweak('vignette', v)} />
+          <TweakSlider label="Papier vieilli" value={t.paper} min={0} max={1} step={0.05} onChange={(v) => setTweak('paper', v)} />
+
+          <TweakSection label="Finitions" />
+          <TweakSlider label="Arrondi des visuels" value={t.radius} min={0} max={20} step={1} unit="px" onChange={(v) => setTweak('radius', v)} />
+        </TweaksPanel>
+      </div>
+    );
+  }
+
+  function mount() {
+    if (!window.Home || !window.Header || !window.CartDrawer || !window.VintageCard || !window.Checkout
+        || !window.OfferHighlight || !window.useTweaks || !window.BarbaraStyleDesignSystem_eb9639) {
+      return setTimeout(mount, 40);
+    }
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  }
+  mount();
+</script>
+</body>
+</html>

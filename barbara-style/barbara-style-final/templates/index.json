@@ -2,35 +2,68 @@
   "sections": {
     "hero": {
       "type": "hero",
-      "settings": {}
-    },
-    "commitments": {
-      "type": "commitments",
-      "settings": {}
-    },
-    "categories": {
-      "type": "categories",
-      "settings": {}
-    },
-    "featured_products": {
-      "type": "featured-products",
-      "settings": {}
+      "settings": {
+        "body": "Des pieces qui attrapent la lumiere, a prix legers. L'elegance de la femme, en toute legerete.",
+        "cta_label": "Decouvrir la collection",
+        "cta2_label": "Les nouveautes"
+      }
     },
     "offer_highlight": {
       "type": "offer-highlight",
       "settings": {}
     },
+    "categories": {
+      "type": "categories",
+      "blocks": {
+        "b1": { "type": "category", "settings": { "title": "Boucles d'oreilles", "subtitle": "Creoles & puces", "cta": "Voir la selection", "bg_style": "bijoux" } },
+        "b2": { "type": "category", "settings": { "title": "Colliers", "subtitle": "Medailles & sautoirs", "cta": "Voir la selection", "bg_style": "colliers" } },
+        "b3": { "type": "category", "settings": { "title": "Bracelets", "subtitle": "Joncs & gourmettes", "cta": "Voir la selection", "bg_style": "bracelets" } },
+        "b4": { "type": "category", "settings": { "title": "Cache-boutons", "subtitle": "L'astuce chic", "cta": "Voir la selection", "bg_style": "cache" } }
+      },
+      "block_order": ["b1", "b2", "b3", "b4"],
+      "settings": { "eyebrow": "Explorer", "title": "Par envie" }
+    },
+    "featured_products": {
+      "type": "featured-products",
+      "settings": {
+        "eyebrow": "Coups de coeur",
+        "title": "Selection solaire",
+        "products_count": 4,
+        "cta_label": "Tout voir"
+      }
+    },
+    "editorial_band": {
+      "type": "editorial-band",
+      "settings": {
+        "eyebrow": "Barbara Style",
+        "sub": "Imagine en France"
+      }
+    },
+    "commitments": {
+      "type": "commitments",
+      "blocks": {
+        "gem": { "type": "commitment", "settings": { "icon": "qualite", "title": "Plaque or fin", "body": "Des matieres choisies, des finitions soignees qui durent." } },
+        "liv": { "type": "commitment", "settings": { "icon": "livraison", "title": "Livraison offerte", "body": "Des 30 EUR en France, expedie sous 48h depuis nos ateliers." } },
+        "leaf": { "type": "commitment", "settings": { "icon": "securite", "title": "Imagine en France", "body": "Dessine avec amour sur la Cote d'Azur, a petits prix." } }
+      },
+      "block_order": ["gem", "liv", "leaf"],
+      "settings": {}
+    },
     "best_sellers": {
       "type": "best-sellers",
-      "settings": {}
+      "settings": {
+        "eyebrow": "On les adore",
+        "title": "Best-sellers"
+      }
     }
   },
   "order": [
     "hero",
-    "commitments",
+    "offer_highlight",
     "categories",
     "featured_products",
-    "offer_highlight",
+    "editorial_band",
+    "commitments",
     "best_sellers"
   ]
 }

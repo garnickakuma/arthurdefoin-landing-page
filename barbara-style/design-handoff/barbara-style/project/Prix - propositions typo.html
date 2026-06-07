@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Barbara Style — Prix · propositions typo</title>
+
+<link rel="stylesheet" href="_ds/barbara-style-design-system-eb963975-6997-4898-83ea-ec9c66b57d41/tokens/fonts.css">
+<link rel="stylesheet" href="_ds/barbara-style-design-system-eb963975-6997-4898-83ea-ec9c66b57d41/tokens/colors.css">
+<link rel="stylesheet" href="_ds/barbara-style-design-system-eb963975-6997-4898-83ea-ec9c66b57d41/tokens/typography.css">
+<link rel="stylesheet" href="_ds/barbara-style-design-system-eb963975-6997-4898-83ea-ec9c66b57d41/tokens/spacing.css">
+<link rel="stylesheet" href="_ds/barbara-style-design-system-eb963975-6997-4898-83ea-ec9c66b57d41/tokens/base.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=DM+Serif+Display&family=Marcellus&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  html, body { margin: 0; background: var(--linen-100); }
+  .pc {
+    background: var(--white-pure); border-radius: 4px; box-shadow: var(--shadow-sm);
+    border: 1px solid var(--line-soft); height: 100%; box-sizing: border-box;
+    display: flex; flex-direction: column; justify-content: space-between;
+    padding: 26px 24px 18px;
+  }
+  .pc-rows { display: flex; flex-direction: column; gap: 18px; align-items: flex-start; }
+  .pc-promo-tag { font-family: var(--font-sans); font-size: 9px; letter-spacing: .18em; text-transform: uppercase; color: var(--ink-300); margin-bottom: 7px; }
+  .pc-cap {
+    font-family: var(--font-sans); font-size: 10.5px; letter-spacing: .12em;
+    text-transform: uppercase; color: var(--ink-500); border-top: 1px dashed var(--cream-400);
+    padding-top: 12px; margin-top: 18px;
+  }
+  .pc-cap b { color: var(--gold-500); font-weight: 500; }
+  .was-sans { font-family: var(--font-sans); color: var(--price-was); text-decoration: line-through; text-decoration-color: var(--rose-400); }
+  sup { font-size: .52em; vertical-align: .62em; }
+</style>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel" src="design-canvas.jsx"></script>
+<script type="text/babel" data-presets="react">
+  // — Brique de présentation —
+  function PriceCard({ now, promo, cap }) {
+    return (
+      <div className="pc">
+        <div className="pc-rows">
+          <div>{now}</div>
+          <div style={{ width: '100%' }}>
+            <div className="pc-promo-tag">En promo</div>
+            {promo}
+          </div>
+        </div>
+        <div className="pc-cap">{cap}</div>
+      </div>
+    );
+  }
+
+  // Helpers d'affichage
+  const serif = (extra) => ({ fontFamily: "'Cormorant Garamond', serif", fontWeight: 500, lineHeight: 1, color: 'var(--price-now)', ...extra });
+  const baseline = { display: 'inline-flex', alignItems: 'baseline', gap: 9 };
+
+  const W = 300, H = 250;
+
+  function App() {
+    const { DesignCanvas, DCSection, DCArtboard } = window;
+    return (
+      <DesignCanvas>
+        {/* ——— CLASSIQUES SERIF ——— */}
+        <DCSection id="serif" title="Classiques serif" subtitle="Le prix comme un titre de joaillerie">
+
+          <DCArtboard id="cormorant" label="A · Cormorant (actuel)" width={W} height={H}>
+            <PriceCard
+              now={<span style={baseline}><span style={serif({ fontSize: 34 })}>24,90&nbsp;€</span></span>}
+              promo={<span style={baseline}><span style={serif({ fontSize: 26, color: 'var(--price-sale)' })}>22,50&nbsp;€</span><span className="was-sans" style={{ fontSize: 14 }}>28,00&nbsp;€</span></span>}
+              cap={<span><b>Cormorant Garamond</b> · serif 500</span>} />
+          </DCArtboard>
+
+          <DCArtboard id="marcellus" label="B · Marcellus" width={W} height={H}>
+            <PriceCard
+              now={<span style={{ fontFamily: "'Marcellus', serif", fontSize: 33, color: 'var(--price-now)', letterSpacing: '.01em' }}>24,90&nbsp;€</span>}
+              promo={<span style={baseline}><span style={{ fontFamily: "'Marcellus', serif", fontSize: 25, color: 'var(--price-sale)' }}>22,50&nbsp;€</span><span className="was-sans" style={{ fontSize: 14 }}>28,00&nbsp;€</span></span>}
+              cap={<span><b>Marcellus</b> · romaine, plus calme</span>} />
+          </DCArtboard>
+
+          <DCArtboard id="playfair" label="C · Playfair Display" width={W} height={H}>
+            <PriceCard
+              now={<span style={{ fontFamily: "'Playfair Display', serif", fontWeight: 500, fontSize: 31, color: 'var(--price-now)' }}>24,90&nbsp;€</span>}
+              promo={<span style={baseline}><span style={{ fontFamily: "'Playfair Display', serif", fontWeight: 500, fontSize: 24, color: 'var(--price-sale)' }}>22,50&nbsp;€</span><span className="was-sans" style={{ fontSize: 14 }}>28,00&nbsp;€</span></span>}
+              cap={<span><b>Playfair Display</b> · très contrasté</span>} />
+          </DCArtboard>
+
+          <DCArtboard id="dmserif" label="D · DM Serif Display" width={W} height={H}>
+            <PriceCard
+              now={<span style={{ fontFamily: "'DM Serif Display', serif", fontSize: 32, color: 'var(--price-now)' }}>24,90&nbsp;€</span>}
+              promo={<span style={baseline}><span style={{ fontFamily: "'DM Serif Display', serif", fontSize: 25, color: 'var(--price-sale)' }}>22,50&nbsp;€</span><span className="was-sans" style={{ fontSize: 14 }}>28,00&nbsp;€</span></span>}
+              cap={<span><b>DM Serif Display</b> · gras éditorial</span>} />
+          </DCArtboard>
+        </DCSection>
+
+        {/* ——— MODERNES ——— */}
+        <DCSection id="modernes" title="Modernes & nets" subtitle="Esprit plus contemporain / e-commerce">
+
+          <DCArtboard id="jost" label="E · Jost tabulaire" width={W} height={H}>
+            <PriceCard
+              now={<span style={{ fontFamily: "'Jost', sans-serif", fontWeight: 400, fontSize: 27, color: 'var(--price-now)', fontVariantNumeric: 'tabular-nums', letterSpacing: '.01em' }}>24,90&nbsp;€</span>}
+              promo={<span style={baseline}><span style={{ fontFamily: "'Jost', sans-serif", fontWeight: 500, fontSize: 21, color: 'var(--price-sale)', fontVariantNumeric: 'tabular-nums' }}>22,50&nbsp;€</span><span className="was-sans" style={{ fontSize: 13 }}>28,00&nbsp;€</span></span>}
+              cap={<span><b>Jost</b> · sans, chiffres tabulaires</span>} />
+          </DCArtboard>
+
+          <DCArtboard id="mono" label="F · Mono « ticket »" width={W} height={H}>
+            <PriceCard
+              now={<span style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 500, fontSize: 24, color: 'var(--price-now)' }}>24,90&nbsp;€</span>}
+              promo={<span style={baseline}><span style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 500, fontSize: 19, color: 'var(--price-sale)' }}>22,50&nbsp;€</span><span className="was-sans" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 13 }}>28,00&nbsp;€</span></span>}
+              cap={<span><b>JetBrains Mono</b> · reçu / caisse</span>} />
+          </DCArtboard>
+
+          <DCArtboard id="eyebrow" label="G · Sur-titre + serif" width={W} height={H}>
+            <PriceCard
+              now={<div><div style={{ fontFamily: "'Jost', sans-serif", fontSize: 9.5, letterSpacing: '.24em', textTransform: 'uppercase', color: 'var(--gold-500)', marginBottom: 5 }}>Prix</div><span style={serif({ fontSize: 32 })}>24,90&nbsp;€</span></div>}
+              promo={<div><div style={{ fontFamily: "'Jost', sans-serif", fontSize: 9.5, letterSpacing: '.24em', textTransform: 'uppercase', color: 'var(--price-sale)', marginBottom: 5 }}>Soldé</div><span style={baseline}><span style={serif({ fontSize: 25, color: 'var(--price-sale)' })}>22,50&nbsp;€</span><span className="was-sans" style={{ fontSize: 14 }}>28,00&nbsp;€</span></span></div>}
+              cap={<span>Sur-titre <b>Jost</b> + prix <b>Cormorant</b></span>} />
+          </DCArtboard>
+        </DCSection>
+
+        {/* ——— EXPRESSIF JOAILLERIE ——— */}
+        <DCSection id="expressif" title="Expressif · joaillerie" subtitle="Le prix devient un détail précieux">
+
+          <DCArtboard id="exposant" label="H · Centimes en exposant" width={W} height={H}>
+            <PriceCard
+              now={<span style={serif({ fontSize: 38 })}>24<sup>90</sup><span style={{ fontSize: 20, marginLeft: 4 }}>€</span></span>}
+              promo={<span style={baseline}><span style={serif({ fontSize: 29, color: 'var(--price-sale)' })}>22<sup>50</sup><span style={{ fontSize: 16, marginLeft: 3 }}>€</span></span><span className="was-sans" style={{ fontSize: 14 }}>28,00&nbsp;€</span></span>}
+              cap={<span>Centimes <b>exposant</b> · esprit boutique</span>} />
+          </DCArtboard>
+
+          <DCArtboard id="italique" label="I · Italique or" width={W} height={H}>
+            <PriceCard
+              now={<span style={serif({ fontSize: 36, fontStyle: 'italic', fontWeight: 500, color: 'var(--gold-500)' })}>24,90&nbsp;€</span>}
+              promo={<span style={baseline}><span style={serif({ fontSize: 28, fontStyle: 'italic', color: 'var(--price-sale)' })}>22,50&nbsp;€</span><span className="was-sans" style={{ fontStyle: 'italic', fontSize: 15 }}>28,00&nbsp;€</span></span>}
+              cap={<span>Cormorant <b>italique or</b> · précieux</span>} />
+          </DCArtboard>
+
+          <DCArtboard id="duo" label="J · Entier fort + centimes fins" width={W} height={H}>
+            <PriceCard
+              now={<span style={baseline}><span style={serif({ fontSize: 40 })}>24</span><span style={{ fontFamily: "'Jost', sans-serif", fontSize: 16, color: 'var(--ink-500)', letterSpacing: '.04em' }}>,90&nbsp;€</span></span>}
+              promo={<span style={baseline}><span style={serif({ fontSize: 30, color: 'var(--price-sale)' })}>22</span><span style={{ fontFamily: "'Jost', sans-serif", fontSize: 14, color: 'var(--price-sale)' }}>,50&nbsp;€</span><span className="was-sans" style={{ fontSize: 13 }}>28,00&nbsp;€</span></span>}
+              cap={<span>Entier <b>serif</b> + centimes <b>sans</b></span>} />
+          </DCArtboard>
+        </DCSection>
+      </DesignCanvas>
+    );
+  }
+
+  function mount() {
+    if (!window.DesignCanvas) return setTimeout(mount, 40);
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  }
+  mount();
+</script>
+</body>
+</html>

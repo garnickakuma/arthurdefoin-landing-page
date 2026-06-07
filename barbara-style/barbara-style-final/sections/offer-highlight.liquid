@@ -1,59 +1,53 @@
 <section class="offer-highlight" aria-label="Offres">
   <div class="offer-highlight__inner vx-paper">
-    <!-- Déco soleil en fond -->
     <svg width="340" height="340" viewBox="0 0 340 340" fill="none" aria-hidden="true"
       style="position:absolute;right:-60px;top:50%;transform:translateY(-50%);z-index:0;opacity:.09;pointer-events:none;">
       <circle cx="170" cy="170" r="140" stroke="var(--gold-400)" stroke-width="1.5"/>
       <circle cx="170" cy="170" r="100" stroke="var(--gold-400)" stroke-width="1"/>
       <circle cx="170" cy="170" r="60" fill="var(--gold-400)"/>
       {% for i in (0..11) %}
-        <line x1="170" y1="170" x2="{{ 170 | plus: 160 }}" y2="170"
+        <line x1="170" y1="170" x2="330" y2="170"
           stroke="var(--gold-400)" stroke-width="1"
           style="transform-origin:170px 170px;transform:rotate({{ i | times: 30 }}deg)"/>
       {% endfor %}
     </svg>
 
     <div class="offer-highlight__grid">
-      <!-- Pitch gauche -->
       <div class="offer-highlight__pitch">
-        <span class="vx-eyebrow">Notre promesse</span>
-        <h2 class="bs-display">
-          {{ section.settings.title | default: 'Plus on est, plus c'est beau' }}
+        <span class="vx-eyebrow">{{ section.settings.eyebrow | default: "L'OFFRE DE L'ETE" }}</span>
+        <h2 class="bs-display offer-title">
+          {{ section.settings.title_line1 | default: "Le bijou de plus," }}<br>
+          <em class="offer-title__accent">{{ section.settings.title_line2 | default: "c'est nous qui l'offrons" }}</em>
         </h2>
-        <p>{{ section.settings.body | default: 'Parce que les bijoux se partagent — profitez de nos offres groupées et offrez (ou gardez) l'article supplémentaire.' }}</p>
-        <a href="{{ section.settings.cta_url | default: '/collections/bijoux' }}" class="vx-link">
-          {{ section.settings.cta_label | default: 'Explorer la boutique' }}
+        <p>{{ section.settings.body | default: "Composez votre parure : le moins cher de vos articles vous est offert. Cumulable sur toute la boutique, ajoute automatiquement au panier." }}</p>
+        <a href="{{ section.settings.cta_url | default: '/collections/all' }}" class="btn btn--gold" style="margin-top:8px;">
+          {{ section.settings.cta_label | default: "J'EN PROFITE" }}
         </a>
       </div>
 
-      <!-- Tickets droite -->
       <div class="offer-tickets">
-        <!-- Ticket 2+1 -->
         <div class="offer-ticket">
           <div class="offer-ticket__notch offer-ticket__notch--left"></div>
           <div class="offer-ticket__notch offer-ticket__notch--right"></div>
-          <span class="vx-eyebrow" style="display:block;margin-bottom:12px;">Offre soleil</span>
           <div class="offer-ticket__nums">
             <span class="offer-ticket__buy">2</span>
             <span class="offer-ticket__plus">+</span>
             <span class="offer-ticket__free">1</span>
           </div>
-          <div class="offer-ticket__title">Le 3<sup>e</sup> est offert</div>
-          <p class="offer-ticket__sub">Achetez 2 bijoux ou cache-boutons, le moins cher est offert automatiquement.</p>
+          <div class="offer-ticket__title">Le 3<sup>e</sup> offert</div>
+          <p class="offer-ticket__sub">Achetez-en 2, le moins cher est pour vous.</p>
         </div>
 
-        <!-- Ticket 4+2 -->
         <div class="offer-ticket">
           <div class="offer-ticket__notch offer-ticket__notch--left"></div>
           <div class="offer-ticket__notch offer-ticket__notch--right"></div>
-          <span class="vx-eyebrow" style="display:block;margin-bottom:12px;">Offre prestige</span>
           <div class="offer-ticket__nums">
             <span class="offer-ticket__buy">4</span>
             <span class="offer-ticket__plus">+</span>
             <span class="offer-ticket__free">2</span>
           </div>
-          <div class="offer-ticket__title">2 articles offerts</div>
-          <p class="offer-ticket__sub">Achetez 4 pièces, les 2 moins chères sont offertes. Idéal pour offrir.</p>
+          <div class="offer-ticket__title">Deux pieces offertes</div>
+          <p class="offer-ticket__sub">Allez plus loin : 2 articles offerts des 6 pieces.</p>
         </div>
       </div>
     </div>
@@ -64,10 +58,12 @@
 {
   "name": "Offres groupees",
   "settings": [
-    { "type": "text", "id": "title", "label": "Titre", "default": "Plus on est, plus c'est beau" },
-    { "type": "textarea", "id": "body", "label": "Description", "default": "Parce que les bijoux se partagent - profitez de nos offres groupees et offrez (ou gardez) l'article supplementaire." },
-    { "type": "text", "id": "cta_label", "label": "Lien texte", "default": "Explorer la boutique" },
-    { "type": "url", "id": "cta_url", "label": "Lien URL" }
+    { "type": "text", "id": "eyebrow", "label": "Sur-titre", "default": "L'OFFRE DE L'ETE" },
+    { "type": "text", "id": "title_line1", "label": "Titre ligne 1", "default": "Le bijou de plus," },
+    { "type": "text", "id": "title_line2", "label": "Titre ligne 2 (italic or)", "default": "c'est nous qui l'offrons" },
+    { "type": "textarea", "id": "body", "label": "Description", "default": "Composez votre parure : le moins cher de vos articles vous est offert. Cumulable sur toute la boutique." },
+    { "type": "text", "id": "cta_label", "label": "Bouton texte", "default": "J'EN PROFITE" },
+    { "type": "url", "id": "cta_url", "label": "Bouton lien" }
   ],
   "presets": [{ "name": "Offres groupees" }]
 }

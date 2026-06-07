@@ -1,0 +1,165 @@
+/* ============================================================
+   Barbara Style — Couche « Riviera 70s » (vintage premium été)
+   Surcouche éditoriale par-dessus le design system Barbara.
+   Toutes les valeurs modulables passent par des --vx-* pilotées
+   par le panneau Tweaks (voir Boutique.html).
+   ============================================================ */
+
+.vx-app {
+  /* --- valeurs par défaut (le panneau Tweaks les écrase) --- */
+  --vx-grain: 0.55;          /* opacité du grain film          */
+  --vx-warmth: 0.42;         /* intensité du voile sépia chaud  */
+  --vx-vignette: 0.34;       /* assombrissement des bords photo */
+  --vx-radius-card: 6px;     /* rayon des visuels (vintage = net)*/
+  --vx-azur: #6f9a9a;        /* bleu Côte d'Azur fané (postcard) */
+  --vx-azur-soft: #cfe0dd;
+  --vx-paper: 0.5;           /* texture papier sur les crèmes   */
+
+  background: var(--surface-page);
+  position: relative;
+}
+
+/* ---- Grain film modulable (remplace .bs-grain quand on veut piloter) ---- */
+.vx-grain { position: relative; isolation: isolate; }
+.vx-grain::after {
+  content: "";
+  position: absolute; inset: 0; pointer-events: none; z-index: 3;
+  mix-blend-mode: soft-light;
+  opacity: var(--vx-grain);
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.7'/></svg>");
+}
+
+/* ---- Voile sépia chaud + vignette de protection sur les photos ---- */
+.vx-veil { position: relative; isolation: isolate; }
+.vx-veil::before {
+  content: "";
+  position: absolute; inset: 0; pointer-events: none; z-index: 2;
+  background:
+    radial-gradient(120% 120% at 50% 30%, transparent 52%, rgba(42,32,24, var(--vx-vignette)) 100%),
+    linear-gradient(180deg, rgba(255,236,196, calc(var(--vx-warmth) * 0.5)) 0%, rgba(201,140,72, calc(var(--vx-warmth) * 0.55)) 100%);
+  mix-blend-mode: multiply;
+}
+
+/* ---- Texture papier vieilli sur les panneaux crème ---- */
+.vx-paper { position: relative; isolation: isolate; }
+.vx-paper::before {
+  content: "";
+  position: absolute; inset: 0; pointer-events: none; z-index: 0;
+  opacity: var(--vx-paper);
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='p'><feTurbulence type='fractalNoise' baseFrequency='0.012 0.018' numOctaves='2'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23p)' opacity='0.06'/></svg>");
+}
+.vx-paper > * { position: relative; z-index: 1; }
+
+/* ---- Cadre carte postale : double filet imprimé ---- */
+.vx-postcard {
+  background: var(--white-pure);
+  padding: 10px;
+  box-shadow: 0 1px 0 rgba(255,255,255,.6) inset, var(--shadow-lg);
+}
+.vx-postcard-inner {
+  position: relative;
+  outline: 1px solid var(--vx-azur);
+  outline-offset: -5px;
+  overflow: hidden;
+}
+
+/* ---- Filet pointillé doré (tickets, séparateurs) ---- */
+.vx-perf {
+  border: 0; height: 0;
+  border-top: 1.5px dashed var(--gold-300);
+  opacity: .8;
+}
+
+/* ---- Tampon / cachet de la poste ---- */
+.vx-stamp {
+  display: inline-flex; align-items: center; justify-content: center;
+  flex-direction: column; gap: 2px; text-align: center;
+  border: 1.5px solid var(--vx-azur);
+  color: var(--vx-azur);
+  border-radius: 999px;
+  font-family: var(--font-sans);
+  letter-spacing: .14em; text-transform: uppercase;
+  transform: rotate(-9deg);
+  mix-blend-mode: multiply;
+  opacity: .92;
+}
+
+/* ---- Sur-titre vintage : capitales + petits filets latéraux ---- */
+.vx-eyebrow {
+  display: inline-flex; align-items: center; gap: 12px;
+  font-family: var(--font-sans);
+  font-size: 11px; font-weight: 500;
+  letter-spacing: var(--vx-eyebrow-ls, .28em);
+  text-transform: uppercase;
+  color: var(--text-gold);
+  white-space: nowrap;
+}
+.vx-eyebrow::before, .vx-eyebrow::after {
+  content: ""; width: 26px; height: 1px; background: var(--gold-300);
+}
+.vx-eyebrow.solo::before { display: none; }
+.vx-eyebrow.solo::after { display: none; }
+
+/* ---- Lien souligné éditorial ---- */
+.vx-link {
+  font-family: var(--font-sans); font-size: 12.5px; font-weight: 500;
+  letter-spacing: .12em; text-transform: uppercase;
+  color: var(--ink-900); cursor: pointer;
+  border-bottom: 1.5px solid var(--gold-400);
+  padding-bottom: 3px; transition: color var(--dur-base) var(--ease-out);
+}
+.vx-link:hover { color: var(--gold-500); }
+
+/* ---- Titre serif display, contrôlé par tweaks ---- */
+.vx-display {
+  font-family: var(--vx-font-display, var(--font-display));
+  font-weight: 400;
+  letter-spacing: -.012em;
+  color: var(--ink-900);
+}
+.vx-display em { font-style: italic; color: var(--vx-accent, var(--gold-500)); }
+
+/* ---- Mot manuscrit (script vintage) ---- */
+.vx-script {
+  font-family: 'Pinyon Script', 'Cormorant Garamond', cursive;
+  font-weight: 400;
+}
+
+/* ---- Animation d'entrée sobre ---- */
+@keyframes vxRise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+.vx-rise { animation: vxRise var(--dur-slow) var(--ease-out) both; }
+
+/* ---- Bandes décoratives (rayures soleil 70s) ---- */
+.vx-stripes {
+  background-image: repeating-linear-gradient(
+    90deg,
+    var(--gold-300) 0, var(--gold-300) 3px,
+    transparent 3px, transparent 11px
+  );
+}
+
+/* ---- Carte produit vintage ---- */
+.vx-card { cursor: pointer; }
+.vx-card .vx-card-media {
+  position: relative;
+  border-radius: var(--vx-radius-card);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow var(--dur-base) var(--ease-out), transform var(--dur-base) var(--ease-out);
+}
+.vx-card:hover .vx-card-media {
+  box-shadow: var(--shadow-glow);
+  transform: translateY(-4px);
+}
+.vx-card .vx-card-add {
+  position: absolute; left: 12px; right: 12px; bottom: 12px;
+  opacity: 0; transform: translateY(8px);
+  transition: opacity var(--dur-base) var(--ease-out), transform var(--dur-base) var(--ease-out);
+  z-index: 4;
+}
+.vx-card:hover .vx-card-add { opacity: 1; transform: none; }
+
+/* image-slot : neutralise le fond par défaut pour laisser nos placeholders */
+image-slot { display: block; width: 100%; height: 100%; }
+
+::selection { background: var(--gold-200); color: var(--ink-900); }

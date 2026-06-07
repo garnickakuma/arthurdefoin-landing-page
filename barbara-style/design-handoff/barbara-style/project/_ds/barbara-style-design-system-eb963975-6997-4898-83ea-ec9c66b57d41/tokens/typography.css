@@ -1,0 +1,49 @@
+/* ============================================================
+   Barbara Style — Typographie
+   Cormorant Garamond (serif display, la joaillerie)
+   + Jost (sans géométrique, la Riviera moderne)
+   Détails : interlettrage généreux en capitales,
+   contraste fort, beaucoup d'air.
+   ============================================================ */
+
+:root {
+  /* ---- Familles ---- */
+  --font-display: 'Cormorant Garamond', 'Times New Roman', serif;
+  --font-sans:    'Jost', 'Century Gothic', 'Futura', system-ui, sans-serif;
+
+  /* alias sémantiques */
+  --font-heading: var(--font-display);
+  --font-body:    var(--font-sans);
+  --font-eyebrow: var(--font-sans);   /* capitales espacées, sur-titres */
+  --font-quote:   var(--font-display);
+
+  /* ---- Échelle typographique (fluide, base 16) ---- */
+  --fs-xs:    0.75rem;   /* 12 — légendes, mentions          */
+  --fs-sm:    0.8125rem; /* 13 — méta, prix barré            */
+  --fs-base:  0.9375rem; /* 15 — texte courant               */
+  --fs-md:    1.0625rem; /* 17 — intro, lead                 */
+  --fs-lg:    1.375rem;  /* 22 — sous-titres                 */
+  --fs-xl:    1.875rem;  /* 30 — titres de section           */
+  --fs-2xl:   2.75rem;   /* 44 — titres                      */
+  --fs-3xl:   4rem;      /* 64 — display                     */
+  --fs-4xl:   5.75rem;   /* 92 — hero, grand display         */
+
+  /* ---- Graisses ---- */
+  --fw-light:    300; /* @kind font */
+  --fw-regular:  400; /* @kind font */
+  --fw-medium:   500; /* @kind font */
+  --fw-semibold: 600; /* @kind font */
+
+  /* ---- Interlignage ---- */
+  --lh-tight:  1.04; /* @kind other */
+  --lh-snug:   1.18; /* @kind other */
+  --lh-normal: 1.5; /* @kind other */
+  --lh-relaxed:1.7; /* @kind other */
+
+  /* ---- Interlettrage ---- */
+  --ls-display: -0.01em;  /* serty large, resserré          */
+  --ls-tight:   -0.005em;
+  --ls-normal:  0; /* @kind other */
+  --ls-wide:    0.08em;    /* sur-titres                    */
+  --ls-eyebrow: 0.26em;    /* CAPITALES ESPACÉES — signature */
+}

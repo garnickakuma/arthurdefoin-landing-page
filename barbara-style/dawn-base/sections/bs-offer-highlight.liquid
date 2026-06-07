@@ -1,0 +1,36 @@
+<section class="bs-offer">
+  <div class="bs-eyebrow" style="color:var(--gold-400);">{{ section.settings.eyebrow }}</div>
+  <h2 class="bs-offer__title">{{ section.settings.title }}</h2>
+  <p class="bs-offer__body">{{ section.settings.body }}</p>
+
+  <div class="bs-offer__cards">
+    <div class="bs-offer__card">
+      <div class="bs-offer__card-num">2+1</div>
+      <div class="bs-offer__card-label">3 achetes = 1 offert</div>
+    </div>
+    <div class="bs-offer__card">
+      <div class="bs-offer__card-num">4+2</div>
+      <div class="bs-offer__card-label">6 achetes = 2 offerts</div>
+    </div>
+  </div>
+
+  {%- if section.settings.cta_label != blank -%}
+    <a href="{{ section.settings.cta_url | default: '/collections/all' }}" class="btn btn--gold btn--lg">
+      {{ section.settings.cta_label }}
+    </a>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Offres groupees",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Sur-titre", "default": "Nos offres" },
+    { "type": "text", "id": "title", "label": "Titre", "default": "Plus on est, plus c'est beau" },
+    { "type": "textarea", "id": "body", "label": "Description", "default": "Parce que les bijoux se partagent - profitez de nos offres groupees et offrez l'article supplementaire." },
+    { "type": "text", "id": "cta_label", "label": "Bouton texte", "default": "Explorer la boutique" },
+    { "type": "url", "id": "cta_url", "label": "Bouton lien" }
+  ],
+  "presets": [{ "name": "Offres groupees" }]
+}
+{% endschema %}

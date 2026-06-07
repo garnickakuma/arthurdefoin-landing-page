@@ -25,6 +25,7 @@
       <div class="hero-postcard__from">
         {%- render 'postmark', width: 72 -%}
       </div>
+      <div class="hero-postcard__azur">{{ section.settings.panel_eyebrow | default: "De la Cote d'Azur" }}</div>
       <div class="hero-postcard__bonjour">Bonjour,</div>
       <p class="hero-postcard__body">{{ section.settings.body | default: "La collection est arrivee - bijoux dores et cache-boutons lumineux." }}</p>
       <div class="hero-ctas">
@@ -64,7 +65,8 @@
     { "type": "text", "id": "cta_label", "label": "Bouton 1", "default": "Decouvrir la collection" },
     { "type": "url", "id": "cta_url", "label": "Bouton 1 lien" },
     { "type": "text", "id": "cta2_label", "label": "Bouton 2", "default": "Cache-boutons" },
-    { "type": "url", "id": "cta2_url", "label": "Bouton 2 lien" }
+    { "type": "url", "id": "cta2_url", "label": "Bouton 2 lien" },
+    { "type": "text", "id": "panel_eyebrow", "label": "Panel - accroche", "default": "De la Cote d'Azur" }
   ],
   "presets": [{ "name": "Hero" }]
 }

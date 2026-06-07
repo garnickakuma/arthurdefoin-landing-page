@@ -1,0 +1,94 @@
+{
+  "sections": {
+    "bs_hero": {
+      "type": "bs-hero",
+      "settings": {
+        "kicker": "Nouvelle collection",
+        "title": "Scintiller au",
+        "title_accent": "soleil",
+        "body": "La collection est arrivee - bijoux dores et cache-boutons lumineux, penses pour vous faire rayonner chaque jour.",
+        "cta_label": "Decouvrir la collection",
+        "cta2_label": "Cache-boutons"
+      }
+    },
+    "bs_commitments": {
+      "type": "bs-commitments",
+      "blocks": {
+        "liv": {
+          "type": "commitment",
+          "settings": {
+            "icon": "livraison",
+            "title": "Livraison offerte",
+            "body": "Commandes livrees en 5-8 jours. Livraison offerte des 30 euros."
+          }
+        },
+        "ret": {
+          "type": "commitment",
+          "settings": {
+            "icon": "retour",
+            "title": "Retours 30 jours",
+            "body": "Retour gratuit sous 30 jours, remboursement garanti."
+          }
+        },
+        "qua": {
+          "type": "commitment",
+          "settings": {
+            "icon": "qualite",
+            "title": "Or fin garanti",
+            "body": "Laiton plaque or 3 microns, hypoallergenique."
+          }
+        }
+      },
+      "block_order": ["liv", "ret", "qua"],
+      "settings": {}
+    },
+    "bs_categories": {
+      "type": "bs-categories",
+      "blocks": {
+        "b1": { "type": "category", "settings": { "title": "Bijoux", "subtitle": "Boucles - Colliers - Bracelets", "bg_style": "bijoux" } },
+        "b2": { "type": "category", "settings": { "title": "Cache-boutons", "subtitle": "La piece signature", "bg_style": "cache" } },
+        "b3": { "type": "category", "settings": { "title": "Nouveautes", "subtitle": "Collection ete", "bg_style": "new" } },
+        "b4": { "type": "category", "settings": { "title": "Soldes", "subtitle": "Jusqu a -40%", "bg_style": "soldes" } }
+      },
+      "block_order": ["b1", "b2", "b3", "b4"],
+      "settings": {
+        "eyebrow": "La boutique",
+        "title": "Explorez nos univers"
+      }
+    },
+    "bs_products": {
+      "type": "bs-featured-products",
+      "settings": {
+        "eyebrow": "Nos coups de coeur",
+        "title": "Selection solaire",
+        "products_count": 4,
+        "cta_label": "Voir toute la collection"
+      }
+    },
+    "bs_offer": {
+      "type": "bs-offer-highlight",
+      "settings": {
+        "eyebrow": "Nos offres",
+        "title": "Plus on est, plus c'est beau",
+        "body": "Parce que les bijoux se partagent - profitez de nos offres groupees.",
+        "cta_label": "Explorer la boutique"
+      }
+    },
+    "bs_editorial": {
+      "type": "bs-editorial",
+      "settings": {
+        "eyebrow": "Barbara Style",
+        "quote": "Parce que chaque femme merite d'etinceler, chaque jour de l'annee.",
+        "sub": "Collection Ete"
+      }
+    }
+  },
+  "order": [
+    "bs_hero",
+    "bs_commitments",
+    "bs_categories",
+    "bs_products",
+    "bs_offer",
+    "bs_editorial"
+  ]
+}
