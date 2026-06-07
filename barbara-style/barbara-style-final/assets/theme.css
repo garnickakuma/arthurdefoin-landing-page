@@ -516,7 +516,7 @@ img { display: block; max-width: 100%; }
 /* ============================================================
    CATÉGORIES
    ============================================================ */
-.categories-section { padding: 90px 32px; max-width: 1240px; margin: 0 auto; }
+.categories-section { padding: 0; }
 .section-header { text-align: center; margin-bottom: 52px; }
 .section-header h2 { font-size: 44px; margin-top: 12px; }
 .gold-line {
@@ -745,6 +745,12 @@ img { display: block; max-width: 100%; }
    ============================================================ */
 .products-section {
   max-width: 1240px; margin: 96px auto 0; padding: 0 32px;
+}
+.best-sellers-section {
+  background: var(--cream-300); margin-top: 0; padding: 96px 32px;
+}
+.best-sellers-section__inner {
+  max-width: 1240px; margin: 0 auto;
 }
 .products-grid {
   display: grid; grid-template-columns: repeat(4, 1fr); gap: 26px;
@@ -1309,4 +1315,26 @@ img { display: block; max-width: 100%; }
   /* Footer */
   .site-footer__grid { grid-template-columns: 1fr 1fr; }
   .site-footer__brand { grid-column: 1 / -1; }
+
+  /* Catégories — padding réduit */
+  .categories-section__inner { padding: 56px 16px; }
+  .categories-grid-v2 { grid-template-columns: repeat(2,1fr); gap: 12px; }
+  .cat-item__media { height: 200px; }
+  .cat-item__name { font-size: 18px; }
+
+  /* Editorial band — quote lisible */
+  .editorial-band { height: 300px; margin-top: 56px; }
+  .editorial-band__quote { font-size: 32px; }
+
+  /* Engagements — empilés */
+  .commitments__grid { grid-template-columns: 1fr; gap: 32px; padding: 0 24px; }
+
+  /* Offre — padding réduit */
+  .offer-highlight { padding: 0 16px; margin-top: 56px; }
+  .offer-highlight__inner { padding: 36px 24px; }
+
+  /* Sections produits */
+  .products-section { padding: 48px 16px; margin-top: 0; }
+  .best-sellers-section { padding: 56px 16px; }
+  .products-grid { gap: 12px; }
 }

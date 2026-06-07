@@ -1,6 +1,6 @@
 {% comment %} Réutilise featured-products avec style "best-sellers" {% endcomment %}
-<section class="products-section" style="background:var(--cream-300);padding:96px 32px;margin-top:0;max-width:none;">
-  <div style="max-width:1240px;margin:0 auto;">
+<section class="best-sellers-section">
+  <div class="best-sellers-section__inner">
     <div class="section-header">
       <span class="vx-eyebrow">{{ section.settings.eyebrow | default: 'Les préférées' }}</span>
       <h2 class="bs-display">{{ section.settings.title | default: 'Best-sellers' }}</h2>
