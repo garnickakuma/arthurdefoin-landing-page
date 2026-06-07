@@ -1,0 +1,75 @@
+<section class="hero-postcard vx-grain" aria-label="Hero">
+  <div class="hero-postcard__frame">
+    <!-- Visuel gauche -->
+    <div class="hero-postcard__visual">
+      {%- if section.settings.hero_image != blank -%}
+        <img
+          src="{{ section.settings.hero_image | img_url: '1200x900', crop: 'center' }}"
+          alt="{{ section.settings.hero_image.alt | default: 'Barbara Style' | escape }}"
+          width="1200" height="900"
+          loading="eager"
+          fetchpriority="high"
+        >
+      {%- else -%}
+        <div class="hero-placeholder vx-veil"></div>
+      {%- endif -%}
+
+      <div class="hero-postcard__text-overlay vx-rise">
+        <div class="hero-postcard__kicker">{{ section.settings.kicker | default: 'Nouvelle collection · Été' }}</div>
+        <h1 class="hero-postcard__title">
+          {{ section.settings.title | default: 'Scintiller au' }}<br>
+          <em>{{ section.settings.title_accent | default: 'soleil' }}</em>
+        </h1>
+      </div>
+    </div>
+
+    <!-- Panneau carte postale droite -->
+    <div class="hero-postcard__panel vx-paper">
+      <div class="hero-postcard__from">
+        {%- render 'postmark', width: 72 -%}
+      </div>
+      <div class="hero-postcard__bonjour">Bonjour,</div>
+      <p class="hero-postcard__body">{{ section.settings.body | default: "La collection été est arrivée — bijoux dorés et cache-boutons lumineux, pensés pour vous faire rayonner chaque jour." }}</p>
+      <div class="hero-ctas">
+        <a href="{{ section.settings.cta_url | default: '/collections/bijoux' }}" class="btn btn--gold">
+          {{ section.settings.cta_label | default: 'Découvrir la collection' }}
+        </a>
+        <a href="{{ section.settings.cta2_url | default: '/collections/cache-boutons' }}" class="btn btn--ghost">
+          {{ section.settings.cta2_label | default: 'Cache-boutons' }}
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ticker marquee -->
+  <div class="ticker-bar" style="margin-top:20px;">
+    <div class="ticker-inner">
+      {% for i in (1..4) %}
+        <span>Bijoux plaqués or fin &nbsp;·&nbsp; </span>
+        <span><strong>2 achetés = 1 offert</strong> &nbsp;·&nbsp; </span>
+        <span>Cache-boutons exclusifs &nbsp;·&nbsp; </span>
+        <span>Livraison offerte dès 30&nbsp;€ &nbsp;·&nbsp; </span>
+        <span>Retours gratuits &nbsp;·&nbsp; </span>
+        <span><strong>4 achetés = 2 offerts</strong> &nbsp;·&nbsp; </span>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero",
+  "settings": [
+    { "type": "image_picker", "id": "hero_image", "label": "Photo hero" },
+    { "type": "text", "id": "kicker", "label": "Sur-titre", "default": "Nouvelle collection · Été" },
+    { "type": "text", "id": "title", "label": "Titre", "default": "Scintiller au" },
+    { "type": "text", "id": "title_accent", "label": "Titre (italique doré)", "default": "soleil" },
+    { "type": "textarea", "id": "body", "label": "Corps du texte", "default": "La collection été est arrivée — bijoux dorés et cache-boutons lumineux, pensés pour vous faire rayonner chaque jour." },
+    { "type": "text", "id": "cta_label", "label": "Bouton 1 — texte", "default": "Découvrir la collection" },
+    { "type": "url", "id": "cta_url", "label": "Bouton 1 — lien" },
+    { "type": "text", "id": "cta2_label", "label": "Bouton 2 — texte", "default": "Cache-boutons" },
+    { "type": "url", "id": "cta2_url", "label": "Bouton 2 — lien" }
+  ],
+  "presets": [{ "name": "Hero carte postale" }]
+}
+{% endschema %}

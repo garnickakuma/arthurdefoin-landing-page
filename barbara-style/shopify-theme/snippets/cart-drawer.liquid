@@ -1,0 +1,56 @@
+<div class="cart-overlay" id="cart-overlay" aria-hidden="true"></div>
+
+<div class="cart-drawer" id="cart-drawer" role="dialog" aria-label="Votre panier" aria-modal="true">
+  <!-- En-tête -->
+  <div class="cart-drawer__header">
+    <div class="cart-drawer__title">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="var(--gold-400)"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="4" stroke="var(--gold-400)" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="20" x2="12" y2="22" stroke="var(--gold-400)" stroke-width="2" stroke-linecap="round"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64" stroke="var(--gold-400)" stroke-width="2" stroke-linecap="round"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78" stroke="var(--gold-400)" stroke-width="2" stroke-linecap="round"/><line x1="2" y1="12" x2="4" y2="12" stroke="var(--gold-400)" stroke-width="2" stroke-linecap="round"/><line x1="20" y1="12" x2="22" y2="12" stroke="var(--gold-400)" stroke-width="2" stroke-linecap="round"/></svg>
+      Votre panier
+    </div>
+    <button class="icon-btn" id="cart-close" aria-label="Fermer le panier">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+
+  <!-- Bandeau offre -->
+  <div class="cart-offer-strip" id="cart-offer-strip">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="var(--gold-500)" style="flex:0 0 auto"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="4" stroke="var(--gold-500)" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="20" x2="12" y2="22" stroke="var(--gold-500)" stroke-width="2" stroke-linecap="round"/></svg>
+    <span id="cart-offer-text"><strong>2 achetés = 1 offert</strong> · 4 achetés = 2 offerts.</span>
+  </div>
+
+  <!-- Barre livraison -->
+  <div class="cart-shipping-bar">
+    <div class="cart-shipping-bar__text" id="shipping-text">Plus que <strong>30,00 €</strong> pour la livraison offerte ✦</div>
+    <div class="cart-shipping-bar__track">
+      <div class="cart-shipping-bar__fill" id="shipping-fill" style="width:0%"></div>
+    </div>
+  </div>
+
+  <!-- Liste articles -->
+  <div class="cart-items" id="cart-items">
+    <div id="cart-empty" style="text-align:center;padding:64px 0;color:var(--ink-500);font-family:var(--font-sans);font-size:14px;">
+      <div style="margin-bottom:10px;color:var(--gold-400);">✦</div>
+      Votre panier est vide.
+    </div>
+  </div>
+
+  <!-- Pied -->
+  <div class="cart-drawer__footer">
+    <div id="cart-offer-row" style="display:none" class="cart-subtotal-row" style="margin-bottom:6px;">
+      <span style="font-family:var(--font-sans);font-size:12px;color:var(--gold-500);" id="cart-offer-label">Offre 2+1</span>
+      <span style="font-family:var(--font-sans);font-size:13px;font-weight:500;color:var(--price-sale);" id="cart-offer-val"></span>
+    </div>
+    <div class="cart-subtotal-row">
+      <span class="cart-subtotal-label">Sous-total</span>
+      <div id="cart-subtotal" style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:27px;">0,00 €</div>
+    </div>
+    <p class="cart-meta">Taxes incluses. Livraison calculée à l'étape suivante.</p>
+    <a href="{{ routes.cart_url }}" class="btn btn--gold btn--full btn--lg" id="checkout-btn">Passer la commande</a>
+    <button class="btn" id="continue-btn" style="width:100%;margin-top:10px;background:none;border:none;color:var(--ink-500);font-size:12.5px;letter-spacing:.08em;text-decoration:underline;text-underline-offset:3px;">
+      Continuer mes achats
+    </button>
+  </div>
+</div>
+
+<!-- Toast notification -->
+<div class="toast" id="toast" role="alert" aria-live="polite"></div>

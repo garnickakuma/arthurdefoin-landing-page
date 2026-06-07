@@ -1,0 +1,17 @@
+{
+  "sections": {
+    "main-product": {
+      "type": "main-product",
+      "settings": {}
+    },
+    "related-products": {
+      "type": "related-products",
+      "settings": {
+        "eyebrow": "Pour compléter",
+        "title": "Vous aimerez aussi",
+        "products_count": 4
+      }
+    }
+  },
+  "order": ["main-product", "related-products"]
+}

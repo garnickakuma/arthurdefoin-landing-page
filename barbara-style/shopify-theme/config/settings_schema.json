@@ -1,0 +1,95 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Barbara Style",
+    "theme_version": "1.0.0",
+    "theme_author": "Barbara Style",
+    "theme_documentation_url": "",
+    "theme_support_url": ""
+  },
+  {
+    "name": "Couleurs",
+    "settings": [
+      {
+        "type": "color",
+        "id": "color_accent",
+        "label": "Couleur accent (or)",
+        "default": "#cda152"
+      },
+      {
+        "type": "color",
+        "id": "color_background",
+        "label": "Couleur de fond",
+        "default": "#fefbf6"
+      },
+      {
+        "type": "color",
+        "id": "color_text",
+        "label": "Couleur du texte principal",
+        "default": "#4a3d31"
+      }
+    ]
+  },
+  {
+    "name": "Typographie",
+    "settings": [
+      {
+        "type": "font_picker",
+        "id": "font_heading",
+        "label": "Police des titres",
+        "default": "cormorant_garamond_n4"
+      },
+      {
+        "type": "font_picker",
+        "id": "font_body",
+        "label": "Police du corps",
+        "default": "jost_n4"
+      }
+    ]
+  },
+  {
+    "name": "Général",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon"
+      },
+      {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "Logo (optionnel — sinon texte)"
+      },
+      {
+        "type": "range",
+        "id": "logo_width",
+        "label": "Largeur du logo (px)",
+        "min": 50,
+        "max": 250,
+        "step": 10,
+        "unit": "px",
+        "default": 120
+      }
+    ]
+  },
+  {
+    "name": "Réseaux sociaux",
+    "settings": [
+      {
+        "type": "url",
+        "id": "social_instagram",
+        "label": "Instagram URL"
+      },
+      {
+        "type": "url",
+        "id": "social_tiktok",
+        "label": "TikTok URL"
+      },
+      {
+        "type": "url",
+        "id": "social_facebook",
+        "label": "Facebook URL"
+      }
+    ]
+  }
+]

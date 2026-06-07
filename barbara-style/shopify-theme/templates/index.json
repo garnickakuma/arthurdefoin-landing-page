@@ -1,0 +1,104 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "settings": {
+        "kicker": "Nouvelle collection · Été",
+        "title": "Scintiller au",
+        "title_accent": "soleil",
+        "body": "La collection été est arrivée — bijoux dorés et cache-boutons lumineux, pensés pour vous faire rayonner chaque jour.",
+        "cta_label": "Découvrir la collection",
+        "cta2_label": "Cache-boutons"
+      }
+    },
+    "offer-highlight": {
+      "type": "offer-highlight",
+      "settings": {
+        "title": "Plus on est, plus c'est beau",
+        "body": "Parce que les bijoux se partagent — profitez de nos offres groupées et offrez (ou gardez) l'article supplémentaire.",
+        "cta_label": "Explorer la boutique"
+      }
+    },
+    "categories": {
+      "type": "categories",
+      "blocks": {
+        "bijoux": {
+          "type": "category",
+          "settings": { "title": "Bijoux", "subtitle": "Boucles · Colliers · Bracelets", "cta": "Voir la sélection", "bg_style": "bijoux" }
+        },
+        "cache": {
+          "type": "category",
+          "settings": { "title": "Cache-boutons", "subtitle": "La pièce signature", "cta": "Voir la sélection", "bg_style": "cache" }
+        },
+        "new": {
+          "type": "category",
+          "settings": { "title": "Nouveautés", "subtitle": "Collection été", "cta": "Voir la sélection", "bg_style": "new" }
+        },
+        "soldes": {
+          "type": "category",
+          "settings": { "title": "Soldes", "subtitle": "Jusqu'à -40%", "cta": "Voir la sélection", "bg_style": "soldes" }
+        }
+      },
+      "block_order": ["bijoux", "cache", "new", "soldes"],
+      "settings": { "eyebrow": "La boutique", "title": "Explorez nos univers" }
+    },
+    "featured-products": {
+      "type": "featured-products",
+      "settings": {
+        "eyebrow": "Nos coups de cœur",
+        "title": "Sélection solaire",
+        "products_count": 4,
+        "cta_label": "Voir toute la collection",
+        "cta_url": "/collections/bijoux"
+      }
+    },
+    "editorial-band": {
+      "type": "editorial-band",
+      "settings": {
+        "eyebrow": "Barbara Style",
+        "quote": "Parce que chaque femme mérite d'étinceler, chaque jour de l'année.",
+        "sub": "Collection · Été",
+        "cta_label": "Découvrir la collection",
+        "cta_url": "/collections/all"
+      }
+    },
+    "commitments": {
+      "type": "commitments",
+      "blocks": {
+        "livraison": {
+          "type": "commitment",
+          "settings": { "icon": "livraison", "title": "Livraison offerte", "body": "Commandes livrées en 5–8 jours ouvrés. Livraison offerte dès 30 €." }
+        },
+        "retour": {
+          "type": "commitment",
+          "settings": { "icon": "retour", "title": "Retours 30 jours", "body": "Pas satisfaite ? Retour gratuit sous 30 jours, remboursement garanti." }
+        },
+        "qualite": {
+          "type": "commitment",
+          "settings": { "icon": "qualite", "title": "Or fin garanti", "body": "Laiton plaqué or 3 microns, hypoallergénique. Qualité testée et approuvée." }
+        }
+      },
+      "block_order": ["livraison", "retour", "qualite"],
+      "settings": {}
+    },
+    "best-sellers": {
+      "type": "best-sellers",
+      "settings": {
+        "eyebrow": "Les préférées",
+        "title": "Best-sellers",
+        "products_count": 4,
+        "cta_label": "Voir tous nos bijoux",
+        "cta_url": "/collections/all"
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "offer-highlight",
+    "categories",
+    "featured-products",
+    "editorial-band",
+    "commitments",
+    "best-sellers"
+  ]
+}

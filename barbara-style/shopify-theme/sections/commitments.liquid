@@ -1,0 +1,59 @@
+<section class="commitments">
+  <div class="commitments__grid">
+    {%- for block in section.blocks -%}
+      <div class="commitment-item" {{ block.shopify_attributes }}>
+        <div class="commitment-item__icon">
+          {%- case block.settings.icon -%}
+            {%- when 'livraison' -%}
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="1" y="3" width="15" height="13" rx="1"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+            {%- when 'retour' -%}
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3"/></svg>
+            {%- when 'qualite' -%}
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            {%- when 'paiement' -%}
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+            {%- else -%}
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          {%- endcase -%}
+        </div>
+        <h3 class="commitment-item__title bs-display">{{ block.settings.title }}</h3>
+        <p class="commitment-item__body">{{ block.settings.body }}</p>
+      </div>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Engagements",
+  "max_blocks": 4,
+  "settings": [],
+  "blocks": [
+    {
+      "type": "commitment",
+      "name": "Engagement",
+      "settings": [
+        { "type": "select", "id": "icon", "label": "Icône", "default": "livraison",
+          "options": [
+            { "value": "livraison", "label": "Livraison" },
+            { "value": "retour", "label": "Retour" },
+            { "value": "qualite", "label": "Qualité / Étoile" },
+            { "value": "paiement", "label": "Paiement" },
+            { "value": "securite", "label": "Sécurité" }
+          ]
+        },
+        { "type": "text", "id": "title", "label": "Titre", "default": "Livraison offerte" },
+        { "type": "textarea", "id": "body", "label": "Description", "default": "Commandes livrées en 5–8 jours ouvrés. Livraison offerte dès 30 €." }
+      ]
+    }
+  ],
+  "presets": [{
+    "name": "Engagements",
+    "blocks": [
+      { "type": "commitment", "settings": { "icon": "livraison", "title": "Livraison offerte", "body": "Commandes livrées en 5–8 jours ouvrés. Livraison offerte dès 30 €." } },
+      { "type": "commitment", "settings": { "icon": "retour", "title": "Retours 30 jours", "body": "Pas satisfaite ? Retour gratuit sous 30 jours, remboursement garanti." } },
+      { "type": "commitment", "settings": { "icon": "qualite", "title": "Or fin garanti", "body": "Laiton plaqué or 3 microns, hypoallergénique. Qualité testée et approuvée." } }
+    ]
+  }]
+}
+{% endschema %}

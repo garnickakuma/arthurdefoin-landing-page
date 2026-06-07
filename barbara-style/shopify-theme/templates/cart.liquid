@@ -1,0 +1,74 @@
+{% layout 'theme' %}
+
+<div style="max-width:1240px;margin:60px auto;padding:0 32px;">
+  <span class="vx-eyebrow">Votre sélection</span>
+  <h1 class="bs-display" style="font-size:54px;margin-top:12px;margin-bottom:48px;">Mon panier</h1>
+
+  {%- if cart.item_count > 0 -%}
+    <form action="{{ routes.cart_url }}" method="post" id="cart-form">
+      <div style="display:grid;grid-template-columns:1.3fr 1fr;gap:52px;align-items:start;">
+        <!-- Articles -->
+        <div>
+          {%- for item in cart.items -%}
+            <div class="cart-item" style="border-bottom:1px solid var(--line-soft);padding:24px 0;">
+              <div class="cart-item__img vx-grain">
+                {%- if item.image -%}
+                  <img src="{{ item.image | img_url: '200x250', crop: 'center' }}" alt="{{ item.image.alt | default: item.title | escape }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+                {%- else -%}
+                  <div class="grad--gold" style="position:absolute;inset:0;"></div>
+                {%- endif -%}
+              </div>
+              <div class="cart-item__info">
+                <div class="cart-item__cat">{{ item.product.type }}</div>
+                <div class="cart-item__name">{{ item.title }}</div>
+                <div class="cart-item__row">
+                  <div class="qty-stepper">
+                    <button type="button" class="qty-btn" data-change="-1" data-line="{{ forloop.index }}">−</button>
+                    <span class="qty-value">{{ item.quantity }}</span>
+                    <button type="button" class="qty-btn" data-change="1" data-line="{{ forloop.index }}">+</button>
+                  </div>
+                  {%- render 'vintage-price', price: item.final_line_price, size: 'sm' -%}
+                </div>
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+
+        <!-- Récap -->
+        <div class="checkout-recap">
+          <div class="checkout-card" style="border-radius:var(--radius-lg);">
+            <div class="checkout-section-label">Récapitulatif</div>
+            <div class="recap-totals" style="padding:0;">
+              <div class="recap-total-row">
+                <span class="recap-total-label">Sous-total</span>
+                <span class="recap-total-value">{{ cart.total_price | money }}</span>
+              </div>
+              {%- if cart.total_discounts > 0 -%}
+                <div class="recap-total-row">
+                  <span class="recap-total-label" style="color:var(--price-sale);">Remises</span>
+                  <span class="recap-total-value gold">−{{ cart.total_discounts | money }}</span>
+                </div>
+              {%- endif -%}
+              <div class="recap-total-row" style="margin-top:8px;padding-top:16px;border-top:1px solid var(--line-soft);">
+                <span style="font-family:var(--font-sans);font-size:12px;letter-spacing:.16em;text-transform:uppercase;">Total</span>
+                <div>{%- render 'vintage-price', price: cart.total_price, size: 'md' -%}</div>
+              </div>
+            </div>
+            <p style="font-family:var(--font-sans);font-size:11.5px;color:var(--ink-500);margin:14px 0;">Taxes incluses. Livraison calculée à l'étape suivante.</p>
+            <button type="submit" name="checkout" class="btn btn--gold btn--full btn--lg">Passer la commande</button>
+          </div>
+
+          <div style="text-align:center;margin-top:16px;">
+            <a href="{{ routes.all_products_collection_url }}" class="vx-link">Continuer mes achats</a>
+          </div>
+        </div>
+      </div>
+    </form>
+  {%- else -%}
+    <div style="text-align:center;padding:80px 0;color:var(--ink-500);">
+      <div style="font-size:48px;margin-bottom:16px;color:var(--gold-400);">✦</div>
+      <p style="font-family:var(--font-sans);font-size:18px;margin-bottom:28px;">Votre panier est vide.</p>
+      <a href="{{ routes.all_products_collection_url }}" class="btn btn--gold">Découvrir la boutique</a>
+    </div>
+  {%- endif -%}
+</div>

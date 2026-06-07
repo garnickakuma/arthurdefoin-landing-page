@@ -1,0 +1,84 @@
+<footer class="site-footer" role="contentinfo">
+  <div class="site-footer__waves">
+    <svg width="180" height="28" viewBox="0 0 180 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0 14 C30 4,60 24,90 14 S150 4,180 14" stroke="#6f9a9a" stroke-width="1.5" fill="none" opacity=".7"/>
+      <path d="M0 18 C30 8,60 28,90 18 S150 8,180 18" stroke="#cda152" stroke-width="1" fill="none" opacity=".4"/>
+    </svg>
+  </div>
+
+  <!-- Palmier décoratif -->
+  <div class="site-footer__palm" aria-hidden="true">
+    <svg width="90" height="120" viewBox="0 0 90 120" fill="none">
+      <path d="M45 110 L45 50" stroke="#cda152" stroke-width="3" stroke-linecap="round"/>
+      <path d="M45 65 C35 55,10 48,5 35 C20 40,38 52,45 65Z" fill="#cda152"/>
+      <path d="M45 58 C55 48,80 41,85 28 C70 33,52 45,45 58Z" fill="#cda152"/>
+      <path d="M45 75 C38 62,14 58,8 44 C22 50,40 62,45 75Z" fill="#cda152" opacity=".7"/>
+    </svg>
+  </div>
+
+  <div class="site-footer__grid">
+    <!-- Colonne brand -->
+    <div>
+      <div class="footer-brand__logo">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="var(--gold-300)"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="4" stroke="var(--gold-300)" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="20" x2="12" y2="22" stroke="var(--gold-300)" stroke-width="2" stroke-linecap="round"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64" stroke="var(--gold-300)" stroke-width="2" stroke-linecap="round"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78" stroke="var(--gold-300)" stroke-width="2" stroke-linecap="round"/><line x1="2" y1="12" x2="4" y2="12" stroke="var(--gold-300)" stroke-width="2" stroke-linecap="round"/><line x1="20" y1="12" x2="22" y2="12" stroke="var(--gold-300)" stroke-width="2" stroke-linecap="round"/></svg>
+        Barbara Style
+      </div>
+      <p class="footer-brand__body">Bijoux dorés &amp; cache-boutons pour femmes qui aiment l'été. Inspirés par la Côte d'Azur, livrés depuis la France.</p>
+      <div style="display:flex;gap:12px;margin-top:18px;">
+        <a href="https://instagram.com" aria-label="Instagram" class="icon-btn" style="border-color:rgba(255,255,255,.15);color:var(--linen-200);">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        </a>
+        <a href="https://tiktok.com" aria-label="TikTok" class="icon-btn" style="border-color:rgba(255,255,255,.15);color:var(--linen-200);">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.34 6.34 0 00-.79-.05A6.33 6.33 0 003.17 15.2a6.33 6.33 0 006.32 6.32 6.33 6.33 0 006.32-6.32V8.86a8.16 8.16 0 004.76 1.52v-3.4a4.85 4.85 0 01-.98-.29z"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Boutique -->
+    <div class="footer-col">
+      <p class="footer-col__title">Boutique</p>
+      <ul>
+        <li><a href="/collections/bijoux">Bijoux</a></li>
+        <li><a href="/collections/cache-boutons">Cache-boutons</a></li>
+        <li><a href="/collections/nouveautes">Nouveautés</a></li>
+        <li><a href="/collections/best-sellers">Best-sellers</a></li>
+        <li><a href="/collections/soldes">Soldes</a></li>
+      </ul>
+    </div>
+
+    <!-- Service -->
+    <div class="footer-col">
+      <p class="footer-col__title">Service</p>
+      <ul>
+        <li><a href="/pages/faq">FAQ</a></li>
+        <li><a href="/pages/livraison">Livraison &amp; retours</a></li>
+        <li><a href="/pages/contact">Contact</a></li>
+        <li><a href="/pages/mentions-legales">Mentions légales</a></li>
+        <li><a href="/pages/confidentialite">Confidentialité</a></li>
+      </ul>
+    </div>
+
+    <!-- Newsletter -->
+    <div class="footer-col">
+      <p class="footer-col__title">La Lettre Soleil</p>
+      <p class="footer-newsletter__body">Nouveautés, offres exclusives et inspirations estivales — directement dans votre boîte.</p>
+      {%- form 'customer', id: 'footer-subscribe-form' -%}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        <div class="footer-form">
+          <input type="email" name="contact[email]" placeholder="votre@email.fr" autocomplete="email" required>
+          <button type="submit" class="btn btn--gold btn--sm" aria-label="S'abonner">✦</button>
+        </div>
+        {%- if form.posted_successfully? -%}
+          <p style="font-family:var(--font-sans);font-size:12px;color:var(--gold-300);margin-top:10px;">Merci ! Bienvenue dans la famille Barbara ✦</p>
+        {%- endif -%}
+      {%- endform -%}
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <div class="footer-bottom__inner">
+      <span>© {{ 'now' | date: '%Y' }} Barbara Style. Tous droits réservés.</span>
+      <span class="footer-bottom__tagline">Fait avec ✦ en France</span>
+    </div>
+  </div>
+</footer>

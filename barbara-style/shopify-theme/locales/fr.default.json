@@ -1,0 +1,56 @@
+{
+  "general": {
+    "search": {
+      "placeholder": "Rechercher..."
+    },
+    "password_page": {
+      "login_form_heading": "Entrez le mot de passe",
+      "login_form_submit": "Entrer"
+    }
+  },
+  "products": {
+    "product": {
+      "add_to_cart": "Ajouter au panier",
+      "sold_out": "Rupture de stock",
+      "unavailable": "Indisponible",
+      "on_sale": "Promo",
+      "quantity": "Quantité",
+      "description": "Description"
+    }
+  },
+  "cart": {
+    "general": {
+      "title": "Mon panier",
+      "empty": "Votre panier est vide.",
+      "continue_shopping": "Continuer mes achats",
+      "checkout": "Passer la commande",
+      "subtotal": "Sous-total",
+      "shipping": "Livraison",
+      "taxes": "Taxes incluses. Livraison calculée à l'étape suivante."
+    }
+  },
+  "customer": {
+    "login": {
+      "title": "Connexion",
+      "email": "Email",
+      "password": "Mot de passe",
+      "sign_in": "Se connecter",
+      "forgot_password": "Mot de passe oublié ?",
+      "create_account": "Créer un compte"
+    },
+    "register": {
+      "title": "Créer un compte",
+      "first_name": "Prénom",
+      "last_name": "Nom",
+      "email": "Email",
+      "password": "Mot de passe",
+      "submit": "Créer mon compte"
+    }
+  },
+  "accessibility": {
+    "skip_to_content": "Passer au contenu",
+    "close": "Fermer",
+    "open_cart": "Ouvrir le panier",
+    "wishlist": "Ajouter aux favoris"
+  }
+}

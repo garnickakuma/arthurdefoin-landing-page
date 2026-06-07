@@ -1,0 +1,65 @@
+{% comment %}
+  Usage: {% render 'vintage-card', product: product %}
+{% endcomment %}
+
+{%- assign featured_image = product.featured_image -%}
+
+<article class="product-card" data-product-id="{{ product.id }}">
+  <a href="{{ product.url }}" class="product-card__media vx-grain">
+    {%- if featured_image -%}
+      <img
+        src="{{ featured_image | img_url: '600x750', crop: 'center' }}"
+        alt="{{ featured_image.alt | default: product.title | escape }}"
+        width="600" height="750"
+        loading="lazy"
+        class="prod-placeholder"
+      >
+    {%- else -%}
+      <div class="prod-placeholder grad--gold"></div>
+    {%- endif -%}
+
+    {%- if product.metafields.custom.badge != blank -%}
+      {%- assign badge_txt = product.metafields.custom.badge -%}
+      {%- assign badge_variant = product.metafields.custom.badge_variant | default: 'gold' -%}
+      <span class="product-card__badge product-card__badge--{{ badge_variant }}">{{ badge_txt }}</span>
+    {%- elsif product.compare_at_price > product.price -%}
+      <span class="product-card__badge product-card__badge--sale">Promo</span>
+    {%- endif -%}
+
+    <button
+      class="product-card__wishlist"
+      aria-label="Ajouter aux favoris"
+      data-wishlist="{{ product.id }}"
+    >
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--ink-700)" stroke-width="1.4"><path d="M19 14c1.5-1.5 3-3.2 3-5.5A4.5 4.5 0 0 0 12 5 4.5 4.5 0 0 0 2 8.5C2 10.8 3.5 12.5 5 14l7 7 7-7Z"/></svg>
+    </button>
+
+    <div class="product-card__add">
+      <button
+        class="btn btn--gold btn--full btn--sm"
+        data-add-to-cart="{{ product.variants.first.id }}"
+        data-product-title="{{ product.title | escape }}"
+        data-product-price="{{ product.price }}"
+      >
+        Ajouter au panier
+      </button>
+    </div>
+  </a>
+
+  <div class="product-card__info">
+    {%- assign cat_tag = product.tags | first -%}
+    <div class="product-card__cat">{{ product.type | default: cat_tag }}</div>
+    <h3 class="product-card__name">
+      <a href="{{ product.url }}">{{ product.title }}</a>
+    </h3>
+
+    {%- if product.metafields.reviews.rating.value != blank -%}
+      <div class="product-card__rating">
+        <span class="rating-stars">★★★★★</span>
+        <span>{{ product.metafields.reviews.rating.value | round: 1 }} ({{ product.metafields.reviews.rating_count.value }})</span>
+      </div>
+    {%- endif -%}
+
+    {%- render 'vintage-price', price: product.price, compare_at_price: product.compare_at_price, size: 'sm' -%}
+  </div>
+</article>

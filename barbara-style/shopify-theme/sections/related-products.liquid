@@ -1,0 +1,41 @@
+<section class="related-section">
+  <div class="section-header">
+    <span class="vx-eyebrow">{{ section.settings.eyebrow | default: 'Pour compléter' }}</span>
+    <h2 class="bs-display">{{ section.settings.title | default: 'Vous aimerez aussi' }}</h2>
+    <div class="gold-line"></div>
+  </div>
+
+  <div class="products-grid">
+    {%- assign related_products = product.collections.first.products | where: 'id', product.id | map: 'id' -%}
+    {%- assign count = 0 -%}
+    {%- for p in product.collections.first.products -%}
+      {%- if p.id != product.id and count < section.settings.products_count -%}
+        {%- render 'vintage-card', product: p -%}
+        {%- assign count = count | plus: 1 -%}
+      {%- endif -%}
+    {%- endfor -%}
+    {%- if count == 0 -%}
+      {%- for i in (1..4) -%}
+        <div class="product-card">
+          <div class="product-card__media grad--{{ 'gold,rose,sand,honey' | split: ',' | sample }}" style="aspect-ratio:4/5;border-radius:var(--vx-radius-card);position:relative;"></div>
+          <div class="product-card__info">
+            <div class="product-card__cat">Bijoux</div>
+            <div class="product-card__name">Boucles Riviera</div>
+          </div>
+        </div>
+      {%- endfor -%}
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Produits similaires",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Sur-titre", "default": "Pour compléter" },
+    { "type": "text", "id": "title", "label": "Titre", "default": "Vous aimerez aussi" },
+    { "type": "range", "id": "products_count", "label": "Nombre de produits", "min": 2, "max": 6, "step": 2, "default": 4 }
+  ],
+  "presets": [{ "name": "Produits similaires" }]
+}
+{% endschema %}
