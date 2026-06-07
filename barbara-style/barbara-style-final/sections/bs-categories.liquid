@@ -1,0 +1,72 @@
+<section class="bs-categories">
+  <div class="bs-categories__header">
+    <div class="bs-eyebrow">{{ section.settings.eyebrow }}</div>
+    <h2 class="bs-display" style="font-size:clamp(32px,4vw,48px);margin:10px 0 0;">{{ section.settings.title }}</h2>
+  </div>
+
+  <div class="bs-categories__grid">
+    {%- for block in section.blocks -%}
+      <a href="{{ block.settings.url | default: '/collections/all' }}" class="bs-cat-card" {{ block.shopify_attributes }}>
+        <div class="bs-cat-card__bg">
+          {%- if block.settings.image != blank -%}
+            <img
+              src="{{ block.settings.image | image_url: width: 600 }}"
+              alt="{{ block.settings.title | escape }}"
+              loading="lazy"
+              width="600" height="800"
+            >
+          {%- else -%}
+            <div class="bs-cat-card__fallback bs-cat-card__fallback--{{ block.settings.bg_style }}"></div>
+          {%- endif -%}
+        </div>
+        <div class="bs-cat-card__overlay"></div>
+        <div class="bs-cat-card__content">
+          <div class="bs-cat-card__subtitle">{{ block.settings.subtitle }}</div>
+          <div class="bs-cat-card__title">{{ block.settings.title }}</div>
+          <div class="bs-cat-card__cta">{{ block.settings.cta }}</div>
+        </div>
+      </a>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Categories",
+  "max_blocks": 4,
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Sur-titre", "default": "La boutique" },
+    { "type": "text", "id": "title", "label": "Titre", "default": "Explorez nos univers" }
+  ],
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Categorie",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "title", "label": "Titre", "default": "Bijoux" },
+        { "type": "text", "id": "subtitle", "label": "Sous-titre", "default": "Boucles - Colliers - Bracelets" },
+        { "type": "text", "id": "cta", "label": "Texte lien", "default": "Voir la selection" },
+        { "type": "url", "id": "url", "label": "Lien" },
+        { "type": "select", "id": "bg_style", "label": "Couleur fallback", "default": "bijoux",
+          "options": [
+            { "value": "bijoux", "label": "Or chaud" },
+            { "value": "cache", "label": "Rose" },
+            { "value": "new", "label": "Sable" },
+            { "value": "soldes", "label": "Brun" }
+          ]
+        }
+      ]
+    }
+  ],
+  "presets": [{
+    "name": "Categories",
+    "blocks": [
+      { "type": "category", "settings": { "title": "Bijoux", "subtitle": "Boucles - Colliers - Bracelets", "bg_style": "bijoux" } },
+      { "type": "category", "settings": { "title": "Cache-boutons", "subtitle": "La piece signature", "bg_style": "cache" } },
+      { "type": "category", "settings": { "title": "Nouveautes", "subtitle": "Collection ete", "bg_style": "new" } },
+      { "type": "category", "settings": { "title": "Soldes", "subtitle": "Jusqu a -40%", "bg_style": "soldes" } }
+    ]
+  }]
+}
+{% endschema %}

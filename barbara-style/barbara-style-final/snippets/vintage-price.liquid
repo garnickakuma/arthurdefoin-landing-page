@@ -1,0 +1,23 @@
+{% comment %}
+  Usage: {% render 'vintage-price', price: product.price, compare_at_price: product.compare_at_price, size: 'md' %}
+  size: sm | md | lg
+{% endcomment %}
+
+{%- assign size_class = size | default: 'md' -%}
+{%- assign price_in_euros = price | divided_by: 100.0 -%}
+{%- assign eur = price_in_euros | floor -%}
+{%- assign cents_raw = price_in_euros | minus: eur | times: 100 | round -%}
+{%- if cents_raw < 10 -%}{%- assign cents = '0' | append: cents_raw -%}{%- else -%}{%- assign cents = cents_raw | append: '' -%}{%- endif -%}
+
+<div class="vintage-price price--{{ size_class }}">
+  <span class="price-main price-now">
+    {{ eur }}<sup>{{ cents }}</sup><span class="price-currency">&nbsp;€</span>
+  </span>
+  {%- if compare_at_price and compare_at_price > price -%}
+    {%- assign was_in_euros = compare_at_price | divided_by: 100.0 -%}
+    {%- assign was_eur = was_in_euros | floor -%}
+    {%- assign was_cents_raw = was_in_euros | minus: was_eur | times: 100 | round -%}
+    {%- if was_cents_raw < 10 -%}{%- assign was_cents = '0' | append: was_cents_raw -%}{%- else -%}{%- assign was_cents = was_cents_raw | append: '' -%}{%- endif -%}
+    <span class="price-was">{{ was_eur }},{{ was_cents }}&nbsp;€</span>
+  {%- endif -%}
+</div>

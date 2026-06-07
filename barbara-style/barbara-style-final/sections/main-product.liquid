@@ -1,0 +1,254 @@
+{%- assign product = product -%}
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+{%- assign featured_image = current_variant.image | default: product.featured_image -%}
+
+<div class="product-page">
+  <div style="max-width:1240px;margin:0 auto;padding:0 32px;">
+    <!-- Fil d'Ariane -->
+    <nav class="breadcrumb" aria-label="Fil d'Ariane">
+      <a href="{{ routes.root_url }}">Accueil</a>&nbsp;·&nbsp;
+      {%- if product.type != blank -%}
+        <a href="/collections/{{ product.type | handle }}">{{ product.type }}</a>&nbsp;·&nbsp;
+      {%- endif -%}
+      <span>{{ product.title }}</span>
+    </nav>
+
+    <div class="product-layout">
+      <!-- GALERIE -->
+      <div class="product-gallery">
+        <!-- Vignettes -->
+        <div class="product-thumbs" id="product-thumbs">
+          {%- for image in product.images limit: 4 -%}
+            <button
+              class="product-thumb {% if forloop.first %}active{% endif %}"
+              data-thumb="{{ forloop.index0 }}"
+              data-src="{{ image | img_url: '1200x1500', crop: 'center' }}"
+              aria-label="Photo {{ forloop.index }}"
+            >
+              <img src="{{ image | img_url: '200x250', crop: 'center' }}" alt="{{ image.alt | escape }}" loading="lazy">
+            </button>
+          {%- else -%}
+            <div class="product-thumb active grad--gold"></div>
+            <div class="product-thumb grad--rose"></div>
+            <div class="product-thumb grad--sand"></div>
+          {%- endfor -%}
+        </div>
+
+        <!-- Image principale -->
+        <div class="product-main-img vx-grain vx-veil">
+          {%- if featured_image -%}
+            <img
+              id="product-main-img"
+              src="{{ featured_image | img_url: '1200x1500', crop: 'center' }}"
+              alt="{{ featured_image.alt | default: product.title | escape }}"
+              width="1200" height="1500"
+              loading="eager"
+              style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;"
+            >
+          {%- else -%}
+            <div class="grad--gold" style="position:absolute;inset:0;"></div>
+          {%- endif -%}
+
+          {%- if product.metafields.custom.badge != blank -%}
+            <span class="product-card__badge product-card__badge--{{ product.metafields.custom.badge_variant | default: 'gold' }}" style="position:absolute;top:16px;left:16px;z-index:4;">
+              {{ product.metafields.custom.badge }}
+            </span>
+          {%- endif -%}
+        </div>
+      </div>
+
+      <!-- INFOS -->
+      <div class="product-info">
+        <div class="product-cat-label">{{ product.type }}</div>
+        <h1 class="product-title bs-display">{{ product.title }}</h1>
+
+        {%- if product.metafields.reviews.rating.value != blank -%}
+          <div style="display:flex;align-items:center;gap:10px;margin:16px 0 22px;">
+            <span class="rating-stars">★★★★★</span>
+            <span style="font-family:var(--font-sans);font-size:13px;color:var(--ink-500);">
+              {{ product.metafields.reviews.rating.value | round: 1 }} ({{ product.metafields.reviews.rating_count.value }} avis)
+            </span>
+          </div>
+        {%- else -%}
+          <div style="margin-bottom:22px;"></div>
+        {%- endif -%}
+
+        {%- render 'vintage-price', price: current_variant.price, compare_at_price: current_variant.compare_at_price, size: 'lg' -%}
+
+        {%- render 'offer-strip' -%}
+
+        <hr style="border:none;border-top:1px solid var(--line-soft);margin:24px 0;">
+
+        {%- if product.description != blank -%}
+          <div style="font-family:var(--font-sans);font-weight:300;font-size:16px;line-height:1.7;color:var(--ink-700);max-width:440px;margin-bottom:22px;">
+            {{ product.description }}
+          </div>
+        {%- else -%}
+          <p style="font-family:var(--font-sans);font-weight:300;font-size:16px;line-height:1.7;color:var(--ink-700);max-width:440px;margin-bottom:22px;">
+            Une pièce lumineuse, pensée pour accompagner vos journées d'été comme vos soirées. Plaqué or fin, légère à porter — l'éclat qui change tout, sans se ruiner.
+          </p>
+        {%- endif -%}
+
+        <!-- Badges caractéristiques -->
+        <div class="product-tags">
+          <span class="product-tag">Plaqué or fin</span>
+          <span class="product-tag">Hypoallergénique</span>
+          <span class="product-tag">Imaginé en France</span>
+        </div>
+
+        <!-- Sélecteur de variant (si plusieurs) -->
+        {%- unless product.has_only_default_variant -%}
+          {%- for option in product.options_with_values -%}
+            <div style="margin-bottom:16px;">
+              <div style="font-family:var(--font-sans);font-size:11px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-500);margin-bottom:9px;">
+                {{ option.name }}
+              </div>
+              <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                {%- for value in option.values -%}
+                  <button
+                    class="product-tag"
+                    data-option-name="{{ option.name }}"
+                    data-option-value="{{ value }}"
+                    style="cursor:pointer;border-color:var(--line-soft);"
+                  >{{ value }}</button>
+                {%- endfor -%}
+              </div>
+            </div>
+          {%- endfor -%}
+        {%- endunless -%}
+
+        <!-- Pack selector (JS) -->
+        <div style="margin-bottom:20px;">
+          <div style="font-family:var(--font-sans);font-size:11px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-500);margin-bottom:11px;">
+            Choisissez votre formule
+          </div>
+          <div class="pack-selector" id="pack-selector"
+            data-unit-price="{{ current_variant.price }}"
+            data-variant-id="{{ current_variant.id }}">
+            <div class="pack-option active" data-pack="1" data-qty="1">
+              <span class="pack-option__label">À l'unité</span>
+              <span class="pack-option__qty">1 pièce</span>
+              <div class="pack-option__price" id="pack-price-1">
+                {%- render 'vintage-price', price: current_variant.price, size: 'sm' -%}
+              </div>
+            </div>
+            <div class="pack-option" data-pack="3" data-qty="3">
+              <span class="pack-option__tag">2+1 offert</span>
+              <span class="pack-option__label">Pack 2+1</span>
+              <span class="pack-option__qty">3 pièces</span>
+              <div class="pack-option__price" id="pack-price-3">
+                {%- assign price3 = current_variant.price | times: 2 -%}
+                {%- render 'vintage-price', price: price3, size: 'sm' -%}
+              </div>
+            </div>
+            <div class="pack-option" data-pack="6" data-qty="6">
+              <span class="pack-option__tag">4+2 offerts</span>
+              <span class="pack-option__label">Pack 4+2</span>
+              <span class="pack-option__qty">6 pièces</span>
+              <div class="pack-option__price" id="pack-price-6">
+                {%- assign price6 = current_variant.price | times: 4 -%}
+                {%- render 'vintage-price', price: price6, size: 'sm' -%}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="product-add-row">
+          <div class="qty-stepper" id="product-qty-stepper">
+            <button class="qty-btn" id="qty-minus" aria-label="Diminuer">−</button>
+            <span class="qty-value" id="qty-value">1</span>
+            <button class="qty-btn" id="qty-plus" aria-label="Augmenter">+</button>
+          </div>
+          <button
+            class="btn btn--gold btn--lg"
+            id="add-to-cart-btn"
+            data-variant-id="{{ current_variant.id }}"
+            data-product-title="{{ product.title | escape }}"
+            data-product-price="{{ current_variant.price }}"
+            {%- unless current_variant.available -%}disabled{%- endunless -%}
+          >
+            {%- if current_variant.available -%}Ajouter au panier{%- else -%}Rupture de stock{%- endif -%}
+          </button>
+          <button class="icon-btn" id="wishlist-toggle" aria-label="Ajouter aux favoris" data-product="{{ product.id }}">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--ink-700)" stroke-width="1.4"><path d="M19 14c1.5-1.5 3-3.2 3-5.5A4.5 4.5 0 0 0 12 5 4.5 4.5 0 0 0 2 8.5C2 10.8 3.5 12.5 5 14l7 7 7-7Z"/></svg>
+          </button>
+        </div>
+
+        <!-- Accordéons -->
+        <div class="product-accordion">
+          {%- assign accordions = "Livraison & retours,Offerte dès 30 € · Retours gratuits sous 30 jours sans condition.|Matière & entretien,Laiton plaqué or 3 microns. Hypoallergénique. Éviter l'eau et le parfum. Essuyer avec un chiffon doux." | split: "|" -%}
+          {%- for item in accordions -%}
+            {%- assign parts = item | split: "," -%}
+            <div class="accordion-item">
+              <button class="accordion-trigger" aria-expanded="false">
+                <span>{{ parts[0] }}</span>
+                <span class="plus">+</span>
+              </button>
+              <div class="accordion-body">{{ parts[1] }}</div>
+            </div>
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Galerie thumbs
+  document.querySelectorAll('.product-thumb').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.product-thumb').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const src = btn.dataset.src;
+      if (src) document.getElementById('product-main-img').src = src;
+    });
+  });
+
+  // Accordéons
+  document.querySelectorAll('.accordion-trigger').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const body = btn.nextElementSibling;
+      const open = body.classList.toggle('open');
+      btn.setAttribute('aria-expanded', open);
+      btn.querySelector('.plus').textContent = open ? '−' : '+';
+    });
+  });
+
+  // Pack selector
+  const packSelector = document.getElementById('pack-selector');
+  const qtyValue = document.getElementById('qty-value');
+  if (packSelector) {
+    packSelector.querySelectorAll('.pack-option').forEach(opt => {
+      opt.addEventListener('click', () => {
+        packSelector.querySelectorAll('.pack-option').forEach(o => o.classList.remove('active'));
+        opt.classList.add('active');
+        const qty = parseInt(opt.dataset.qty, 10);
+        qtyValue.textContent = qty;
+        document.getElementById('add-to-cart-btn').dataset.qty = qty;
+      });
+    });
+  }
+
+  // Qty stepper (sur option unité)
+  const qtyMinus = document.getElementById('qty-minus');
+  const qtyPlus = document.getElementById('qty-plus');
+  if (qtyMinus && qtyPlus && qtyValue) {
+    qtyMinus.addEventListener('click', () => {
+      const v = Math.max(1, parseInt(qtyValue.textContent, 10) - 1);
+      qtyValue.textContent = v;
+    });
+    qtyPlus.addEventListener('click', () => {
+      const v = Math.min(10, parseInt(qtyValue.textContent, 10) + 1);
+      qtyValue.textContent = v;
+    });
+  }
+</script>
+
+{% schema %}
+{
+  "name": "Fiche produit",
+  "settings": [],
+  "presets": [{ "name": "Fiche produit" }]
+}
+{% endschema %}

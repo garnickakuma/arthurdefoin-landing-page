@@ -1,0 +1,58 @@
+<section class="bs-commitments">
+  <div class="bs-commitments__grid">
+    {%- for block in section.blocks -%}
+      <div class="bs-commitment" {{ block.shopify_attributes }}>
+        <div class="bs-commitment__icon">
+          {%- case block.settings.icon -%}
+            {%- when 'livraison' -%}
+              <svg viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="2" y="14" width="28" height="20" rx="3"/><path d="M30 18h6l6 8v8h-12V18z"/><circle cx="10" cy="36" r="4"/><circle cx="34" cy="36" r="4"/></svg>
+            {%- when 'retour' -%}
+              <svg viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 22C8 14.3 14.3 8 22 8c4.8 0 9 2.4 11.6 6M36 22c0 7.7-6.3 14-14 14-4.8 0-9-2.4-11.6-6"/><path d="M18 4l-4 4 4 4M26 40l4-4-4-4"/></svg>
+            {%- when 'qualite' -%}
+              <svg viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.4"><polygon points="22,4 27,16 40,16 30,24 34,38 22,30 10,38 14,24 4,16 17,16"/></svg>
+            {%- when 'paiement' -%}
+              <svg viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="4" y="10" width="36" height="24" rx="4"/><line x1="4" y1="18" x2="40" y2="18"/><line x1="10" y1="26" x2="18" y2="26"/></svg>
+            {%- else -%}
+              <svg viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="22" cy="22" r="18"/><path d="M22 14v8l6 4"/></svg>
+          {%- endcase -%}
+        </div>
+        <div class="bs-commitment__title">{{ block.settings.title }}</div>
+        <div class="bs-commitment__body">{{ block.settings.body }}</div>
+      </div>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Engagements",
+  "max_blocks": 4,
+  "settings": [],
+  "blocks": [
+    {
+      "type": "commitment",
+      "name": "Engagement",
+      "settings": [
+        { "type": "select", "id": "icon", "label": "Icone", "default": "livraison",
+          "options": [
+            { "value": "livraison", "label": "Livraison" },
+            { "value": "retour", "label": "Retour" },
+            { "value": "qualite", "label": "Qualite" },
+            { "value": "paiement", "label": "Paiement" }
+          ]
+        },
+        { "type": "text", "id": "title", "label": "Titre", "default": "Livraison offerte" },
+        { "type": "textarea", "id": "body", "label": "Description", "default": "Commandes livrees en 5-8 jours. Livraison offerte des 30 euros." }
+      ]
+    }
+  ],
+  "presets": [{
+    "name": "Engagements",
+    "blocks": [
+      { "type": "commitment", "settings": { "icon": "livraison", "title": "Livraison offerte", "body": "Commandes livrees en 5-8 jours. Livraison offerte des 30 euros." } },
+      { "type": "commitment", "settings": { "icon": "retour", "title": "Retours 30 jours", "body": "Retour gratuit sous 30 jours, remboursement garanti." } },
+      { "type": "commitment", "settings": { "icon": "qualite", "title": "Or fin garanti", "body": "Laiton plaque or 3 microns, hypoallergenique." } }
+    ]
+  }]
+}
+{% endschema %}

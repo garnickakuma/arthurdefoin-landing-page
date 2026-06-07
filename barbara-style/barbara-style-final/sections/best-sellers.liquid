@@ -1,0 +1,64 @@
+{% comment %} Réutilise featured-products avec style "best-sellers" {% endcomment %}
+<section class="products-section" style="background:var(--cream-300);padding:96px 32px;margin-top:0;max-width:none;">
+  <div style="max-width:1240px;margin:0 auto;">
+    <div class="section-header">
+      <span class="vx-eyebrow">{{ section.settings.eyebrow | default: 'Les préférées' }}</span>
+      <h2 class="bs-display">{{ section.settings.title | default: 'Best-sellers' }}</h2>
+      <div class="gold-line"></div>
+    </div>
+
+    {%- assign collection = section.settings.collection -%}
+    {%- assign products_to_show = section.settings.products_count | default: 4 -%}
+
+    <div class="products-grid">
+      {%- if collection != blank -%}
+        {%- for product in collection.products limit: products_to_show -%}
+          {%- render 'vintage-card', product: product -%}
+        {%- else -%}
+          {%- for i in (1..products_to_show) -%}
+            <div class="product-card">
+              <div class="product-card__media" style="aspect-ratio:4/5;background:var(--linen-200);border-radius:var(--vx-radius-card);"></div>
+              <div class="product-card__info">
+                <div class="product-card__cat">Bijoux</div>
+                <div class="product-card__name">Best-seller</div>
+              </div>
+            </div>
+          {%- endfor -%}
+        {%- endfor -%}
+      {%- else -%}
+        {%- for i in (1..products_to_show) -%}
+          <div class="product-card">
+            <div class="product-card__media" style="aspect-ratio:4/5;background:var(--linen-200);border-radius:var(--vx-radius-card);"></div>
+            <div class="product-card__info">
+              <div class="product-card__cat">Bijoux</div>
+              <div class="product-card__name">Best-seller</div>
+            </div>
+          </div>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+
+    {%- if section.settings.cta_label != blank -%}
+      <div class="section-footer">
+        <a href="{{ section.settings.cta_url | default: '/collections/all' }}" class="btn btn--ghost">
+          {{ section.settings.cta_label }}
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Best-sellers",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Sur-titre", "default": "Les preferees" },
+    { "type": "text", "id": "title", "label": "Titre", "default": "Best-sellers" },
+    { "type": "collection", "id": "collection", "label": "Collection a afficher" },
+    { "type": "range", "id": "products_count", "label": "Nombre de produits", "min": 2, "max": 8, "step": 2, "default": 4 },
+    { "type": "text", "id": "cta_label", "label": "Bouton - texte", "default": "Voir tous nos bijoux" },
+    { "type": "url", "id": "cta_url", "label": "Bouton - lien" }
+  ],
+  "presets": [{ "name": "Best-sellers" }]
+}
+{% endschema %}

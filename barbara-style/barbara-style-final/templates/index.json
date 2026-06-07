@@ -1,0 +1,36 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "settings": {}
+    },
+    "commitments": {
+      "type": "commitments",
+      "settings": {}
+    },
+    "categories": {
+      "type": "categories",
+      "settings": {}
+    },
+    "featured_products": {
+      "type": "featured-products",
+      "settings": {}
+    },
+    "offer_highlight": {
+      "type": "offer-highlight",
+      "settings": {}
+    },
+    "best_sellers": {
+      "type": "best-sellers",
+      "settings": {}
+    }
+  },
+  "order": [
+    "hero",
+    "commitments",
+    "categories",
+    "featured_products",
+    "offer_highlight",
+    "best_sellers"
+  ]
+}
