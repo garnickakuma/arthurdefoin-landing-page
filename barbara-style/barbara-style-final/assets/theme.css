@@ -1051,9 +1051,11 @@ img { display: block; max-width: 100%; }
   transition: border-color .18s, background .18s;
 }
 .product-tag.active {
-  border-color: var(--gold-400);
-  background: var(--cream-200);
+  border-color: var(--gold-500);
+  border-width: 2px;
+  background: var(--cream-300);
   color: var(--ink-900);
+  font-weight: 500;
 }
 
 .stock-warning {
