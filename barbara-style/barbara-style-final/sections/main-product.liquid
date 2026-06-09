@@ -99,21 +99,11 @@
           {%- if b3 != blank -%}<span class="product-tag">{{ b3 }}</span>{%- endif -%}
         </div>
 
-        <!-- Indicateur stock faible (réel) — variante la plus basse -->
-        {%- assign low_stock = nil -%}
-        {%- for variant in product.variants -%}
-          {%- if variant.inventory_quantity > 0 and variant.inventory_quantity <= 10 -%}
-            {%- if low_stock == nil or variant.inventory_quantity < low_stock -%}
-              {%- assign low_stock = variant.inventory_quantity -%}
-            {%- endif -%}
-          {%- endif -%}
-        {%- endfor -%}
-        {%- if low_stock -%}
-          <p class="stock-warning">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
-            Moins de 10 restants
-          </p>
-        {%- endif -%}
+        <!-- Indicateur stock faible — géré dynamiquement par JS -->
+        <p class="stock-warning" id="stock-warning" style="display:none;">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+          Moins de 10 restants
+        </p>
 
         <!-- Sélecteur de variant (si plusieurs) -->
         {%- unless product.has_only_default_variant -%}
@@ -260,6 +250,15 @@
     }
     highlightSelected();
 
+    // Init stock warning sur la variante courante
+    if (initVariant) {
+      const warning = document.getElementById('stock-warning');
+      if (warning) {
+        const qty = initVariant.inventory_quantity;
+        warning.style.display = (qty !== undefined && qty > 0 && qty <= 10) ? 'inline-flex' : 'none';
+      }
+    }
+
     function findVariant() {
       return variants.find(v =>
         options.every((opt, i) => !selectedOptions[opt] || v['option' + (i + 1)] === selectedOptions[opt])
@@ -282,6 +281,13 @@
         // Mise à jour image
         if (variant.featured_image && variant.featured_image.src) {
           fadeToImage(variant.featured_image.src);
+        }
+
+        // Stock warning
+        const warning = document.getElementById('stock-warning');
+        if (warning) {
+          const qty = variant.inventory_quantity;
+          warning.style.display = (qty !== undefined && qty > 0 && qty <= 10) ? 'inline-flex' : 'none';
         }
 
         // Mise à jour bouton panier
