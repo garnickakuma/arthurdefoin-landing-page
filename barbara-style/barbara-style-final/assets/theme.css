@@ -985,6 +985,12 @@ img { display: block; max-width: 100%; }
   border-radius: var(--radius-md); overflow: hidden;
   box-shadow: var(--shadow-md);
 }
+.product-main-img img {
+  transition: opacity .35s ease;
+}
+.product-main-img img.fading {
+  opacity: 0;
+}
 
 /* Infos produit */
 .product-info { padding-top: 8px; }

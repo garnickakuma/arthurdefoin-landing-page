@@ -222,13 +222,22 @@
 </script>
 
 <script>
+  function fadeToImage(src) {
+    const img = document.getElementById('product-main-img');
+    if (!img || !src) return;
+    img.classList.add('fading');
+    setTimeout(() => {
+      img.src = src;
+      img.onload = () => img.classList.remove('fading');
+    }, 200);
+  }
+
   // Galerie thumbs
   document.querySelectorAll('.product-thumb').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('.product-thumb').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      const src = btn.dataset.src;
-      if (src) document.getElementById('product-main-img').src = src;
+      if (btn.dataset.src) fadeToImage(btn.dataset.src);
     });
   });
 
@@ -272,7 +281,7 @@
 
         // Mise à jour image
         if (variant.featured_image && variant.featured_image.src) {
-          updateMainImage(variant.featured_image.src);
+          fadeToImage(variant.featured_image.src);
         }
 
         // Mise à jour bouton panier
