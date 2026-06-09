@@ -207,7 +207,12 @@
   window.BS_PRODUCT = {
     variants: {{ product.variants | json }},
     options: {{ product.options | json }},
-    currentVariantId: {{ product.selected_or_first_available_variant.id }}
+    currentVariantId: {{ product.selected_or_first_available_variant.id }},
+    inventory: {
+      {%- for variant in product.variants -%}
+        "{{ variant.id }}": {{ variant.inventory_quantity | default: 0 }}{% unless forloop.last %},{% endunless %}
+      {%- endfor -%}
+    }
   };
 </script>
 
@@ -251,13 +256,13 @@
     highlightSelected();
 
     // Init stock warning sur la variante courante
-    if (initVariant) {
+    function updateStockWarning(variantId) {
       const warning = document.getElementById('stock-warning');
-      if (warning) {
-        const qty = initVariant.inventory_quantity;
-        warning.style.display = (qty !== undefined && qty > 0 && qty <= 10) ? 'inline-flex' : 'none';
-      }
+      if (!warning) return;
+      const qty = window.BS_PRODUCT.inventory[variantId];
+      warning.style.display = (qty !== undefined && qty > 0 && qty <= 10) ? 'inline-flex' : 'none';
     }
+    if (initVariant) updateStockWarning(initVariant.id);
 
     function findVariant() {
       return variants.find(v =>
@@ -284,11 +289,7 @@
         }
 
         // Stock warning
-        const warning = document.getElementById('stock-warning');
-        if (warning) {
-          const qty = variant.inventory_quantity;
-          warning.style.display = (qty !== undefined && qty > 0 && qty <= 10) ? 'inline-flex' : 'none';
-        }
+        updateStockWarning(variant.id);
 
         // Mise à jour bouton panier
         const addBtn = document.getElementById('add-to-cart-btn');
