@@ -89,12 +89,27 @@
           </p>
         {%- endif -%}
 
-        <!-- Badges caractéristiques -->
+        <!-- Badges caractéristiques (metafields custom.badge1/2/3 ou défauts) -->
         <div class="product-tags">
-          <span class="product-tag">Plaqué or fin</span>
-          <span class="product-tag">Hypoallergénique</span>
-          <span class="product-tag">Imaginé en France</span>
+          {%- assign b1 = product.metafields.custom.badge1 | default: '' -%}
+          {%- assign b2 = product.metafields.custom.badge2 | default: '' -%}
+          {%- assign b3 = product.metafields.custom.badge3 | default: '' -%}
+          {%- if b1 != blank -%}<span class="product-tag">{{ b1 }}</span>{%- endif -%}
+          {%- if b2 != blank -%}<span class="product-tag">{{ b2 }}</span>{%- endif -%}
+          {%- if b3 != blank -%}<span class="product-tag">{{ b3 }}</span>{%- endif -%}
         </div>
+
+        <!-- Indicateur stock faible (réel) -->
+        {%- assign total_stock = 0 -%}
+        {%- for variant in product.variants -%}
+          {%- assign total_stock = total_stock | plus: variant.inventory_quantity -%}
+        {%- endfor -%}
+        {%- if total_stock > 0 and total_stock <= 10 -%}
+          <p class="stock-warning">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+            Plus que {{ total_stock }} en stock
+          </p>
+        {%- endif -%}
 
         <!-- Sélecteur de variant (si plusieurs) -->
         {%- unless product.has_only_default_variant -%}
