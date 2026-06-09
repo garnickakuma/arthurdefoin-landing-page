@@ -195,6 +195,14 @@
 </div>
 
 <script>
+  window.BS_PRODUCT = {
+    variants: {{ product.variants | json }},
+    options: {{ product.options | json }},
+    currentVariantId: {{ product.selected_or_first_available_variant.id }}
+  };
+</script>
+
+<script>
   // Galerie thumbs
   document.querySelectorAll('.product-thumb').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -204,6 +212,68 @@
       if (src) document.getElementById('product-main-img').src = src;
     });
   });
+
+  // Variantes — sélection + image + prix
+  (function() {
+    const { variants, options, currentVariantId } = window.BS_PRODUCT;
+    const selectedOptions = {};
+
+    // Init depuis la variante courante
+    const initVariant = variants.find(v => v.id === currentVariantId);
+    if (initVariant) {
+      options.forEach((opt, i) => { selectedOptions[opt] = initVariant['option' + (i + 1)]; });
+    }
+
+    function highlightSelected() {
+      document.querySelectorAll('[data-option-name]').forEach(btn => {
+        const active = selectedOptions[btn.dataset.optionName] === btn.dataset.optionValue;
+        btn.classList.toggle('active', active);
+      });
+    }
+    highlightSelected();
+
+    function findVariant() {
+      return variants.find(v =>
+        options.every((opt, i) => !selectedOptions[opt] || v['option' + (i + 1)] === selectedOptions[opt])
+      );
+    }
+
+    function updateMainImage(src) {
+      const imgEl = document.getElementById('product-main-img');
+      if (imgEl && src) imgEl.src = src;
+    }
+
+    document.querySelectorAll('[data-option-name]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        selectedOptions[btn.dataset.optionName] = btn.dataset.optionValue;
+        highlightSelected();
+
+        const variant = findVariant();
+        if (!variant) return;
+
+        // Mise à jour image
+        if (variant.featured_image && variant.featured_image.src) {
+          updateMainImage(variant.featured_image.src);
+        }
+
+        // Mise à jour bouton panier
+        const addBtn = document.getElementById('add-to-cart-btn');
+        if (addBtn) {
+          addBtn.dataset.variantId = variant.id;
+          addBtn.dataset.productPrice = variant.price;
+          addBtn.disabled = !variant.available;
+          addBtn.textContent = variant.available ? 'Ajouter au panier' : 'Rupture de stock';
+        }
+
+        // Mise à jour pack selector
+        const packSelector = document.getElementById('pack-selector');
+        if (packSelector) {
+          packSelector.dataset.variantId = variant.id;
+          packSelector.dataset.unitPrice = variant.price;
+        }
+      });
+    });
+  })();
 
   // Accordéons
   document.querySelectorAll('.accordion-trigger').forEach(btn => {

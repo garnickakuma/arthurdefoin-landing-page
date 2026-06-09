@@ -1042,6 +1042,12 @@ img { display: block; max-width: 100%; }
   background: none; border: 1px solid var(--line-hairline);
   border-radius: var(--radius-pill); padding: 5px 14px;
   font-family: var(--font-sans); font-size: 12px; color: var(--ink-700);
+  transition: border-color .18s, background .18s;
+}
+.product-tag.active {
+  border-color: var(--gold-400);
+  background: var(--cream-200);
+  color: var(--ink-900);
 }
 
 .product-add-row { display: flex; gap: 14px; align-items: center; }
