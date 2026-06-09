@@ -99,15 +99,19 @@
           {%- if b3 != blank -%}<span class="product-tag">{{ b3 }}</span>{%- endif -%}
         </div>
 
-        <!-- Indicateur stock faible (réel) -->
-        {%- assign total_stock = 0 -%}
+        <!-- Indicateur stock faible (réel) — variante la plus basse -->
+        {%- assign low_stock = nil -%}
         {%- for variant in product.variants -%}
-          {%- assign total_stock = total_stock | plus: variant.inventory_quantity -%}
+          {%- if variant.inventory_quantity > 0 and variant.inventory_quantity <= 10 -%}
+            {%- if low_stock == nil or variant.inventory_quantity < low_stock -%}
+              {%- assign low_stock = variant.inventory_quantity -%}
+            {%- endif -%}
+          {%- endif -%}
         {%- endfor -%}
-        {%- if total_stock > 0 and total_stock <= 10 -%}
+        {%- if low_stock -%}
           <p class="stock-warning">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
-            Plus que {{ total_stock }} en stock
+            Plus que {{ low_stock }} en stock
           </p>
         {%- endif -%}
 
