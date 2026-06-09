@@ -17,8 +17,12 @@
       <!-- GALERIE -->
       <div class="product-gallery">
         <!-- Vignettes -->
-        <div class="product-thumbs" id="product-thumbs">
-          {%- for image in product.images limit: 4 -%}
+        <div class="product-thumbs-wrap">
+          <button class="thumb-arrow thumb-arrow--up" id="thumb-up" aria-label="Précédent">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 15l-6-6-6 6"/></svg>
+          </button>
+          <div class="product-thumbs" id="product-thumbs">
+          {%- for image in product.images -%}
             <button
               class="product-thumb {% if forloop.first %}active{% endif %}"
               data-thumb="{{ forloop.index0 }}"
@@ -32,6 +36,10 @@
             <div class="product-thumb grad--rose"></div>
             <div class="product-thumb grad--sand"></div>
           {%- endfor -%}
+          </div>
+          <button class="thumb-arrow thumb-arrow--down" id="thumb-down" aria-label="Suivant">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
         </div>
 
         <!-- Image principale -->
@@ -235,6 +243,32 @@
       if (btn.dataset.src) fadeToImage(btn.dataset.src);
     });
   });
+
+  // Slider vignettes
+  const thumbsEl = document.getElementById('product-thumbs');
+  const thumbUp = document.getElementById('thumb-up');
+  const thumbDown = document.getElementById('thumb-down');
+  const THUMB_H = 100; // hauteur vignette + gap
+  let thumbOffset = 0;
+
+  function updateThumbArrows() {
+    const maxOffset = Math.max(0, thumbsEl.children.length * THUMB_H - thumbsEl.offsetHeight);
+    if (thumbUp) thumbUp.style.opacity = thumbOffset <= 0 ? '0.3' : '1';
+    if (thumbDown) thumbDown.style.opacity = thumbOffset >= maxOffset ? '0.3' : '1';
+  }
+
+  if (thumbUp) thumbUp.addEventListener('click', () => {
+    thumbOffset = Math.max(0, thumbOffset - THUMB_H);
+    thumbsEl.scrollTop = thumbOffset;
+    updateThumbArrows();
+  });
+  if (thumbDown) thumbDown.addEventListener('click', () => {
+    const maxOffset = thumbsEl.children.length * THUMB_H - thumbsEl.offsetHeight;
+    thumbOffset = Math.min(maxOffset, thumbOffset + THUMB_H);
+    thumbsEl.scrollTop = thumbOffset;
+    updateThumbArrows();
+  });
+  updateThumbArrows();
 
   // Variantes — sélection + image + prix
   (function() {
