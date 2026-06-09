@@ -70,7 +70,7 @@
   --price-sale:     var(--terracotta-500);
 
   /* Typographie */
-  --font-display: 'Cormorant Garamond', 'Times New Roman', serif;
+  --font-display: 'Playfair Display', 'Times New Roman', serif;
   --font-sans:    'Jost', system-ui, sans-serif;
 
   /* Ombres */
