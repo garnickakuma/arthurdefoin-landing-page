@@ -11,12 +11,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Manrope:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&family=JetBrains+Mono:wght@400;500&display=swap">
 
-  <link rel="stylesheet" href="landing/colors_and_type.css?v=18">
-  <link rel="stylesheet" href="landing/landing.css?v=18">
-  <link rel="stylesheet" href="landing/landing-b.css?v=18">
-  <link rel="stylesheet" href="landing/landing-layouts.css?v=18">
-  <link rel="stylesheet" href="landing/landing-hero-wow.css?v=18">
-  <link rel="stylesheet" href="landing/landing-schema.css?v=18">
+  <link rel="stylesheet" href="landing/colors_and_type.css?v=19">
+  <link rel="stylesheet" href="landing/landing.css?v=19">
+  <link rel="stylesheet" href="landing/landing-b.css?v=19">
+  <link rel="stylesheet" href="landing/landing-layouts.css?v=19">
+  <link rel="stylesheet" href="landing/landing-hero-wow.css?v=19">
+  <link rel="stylesheet" href="landing/landing-schema.css?v=19">
 
   <!-- Meta Pixel -->
   <script>
@@ -521,7 +521,7 @@
         </div>
       );
     }
-    function Simulateur() {
+    function Simulateur({onSimChange}) {
       const [spec, setSpec] = React.useState('Studio');
       const [cart, setCart] = React.useState(panierForSpec('Studio'));
       const [pub, setPub] = React.useState(PUB_DEFAUT);
@@ -545,7 +545,7 @@
       const dAbo = useCounterSim(result.abo);
       const go = id => e => { e.preventDefault(); const el = document.getElementById(id); if (el) window.scrollTo({top:el.offsetTop-60,behavior:'smooth'}); };
       React.useEffect(() => { if (window.lucide) window.lucide.createIcons(); });
-      React.useEffect(() => { _simSnapshot = {spec, cart, pub, ...result}; }, [spec, cart, pub, result]);
+      React.useEffect(() => { if (onSimChange) onSimChange({spec, cart, pub, ...result}); }, [spec, cart, pub, result]);
       return (
         <section className="section" id="simulateur">
           <div className="container">
@@ -613,9 +613,45 @@
                   </div>
                 )}
                 <div className="sim-cta-wrap">
-                  <a className="btn btn-gold" href="#rappel" onClick={go('rappel')}>Je veux gagner ces clients <span className="arrow">→</span></a>
+                  <a className="btn btn-gold" href="#tunnel" onClick={go('tunnel')}>Je veux gagner ces clients <span className="arrow">→</span></a>
                 </div>
               </div>
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    // ─── Tunnel de vente ─────────────────────────────────────────────────────
+    function Tunnel() {
+      const go = id => e => { e.preventDefault(); const el = document.getElementById(id); if (el) window.scrollTo({top:el.offsetTop-60,behavior:'smooth'}); };
+      const steps = [
+        { n:'01', ico:'megaphone', title:'Campagne Meta Ads', desc:'Je crée et pilote vos publicités sur Facebook et Instagram. Ciblage précis, visuels testés, budget optimisé — je gère tout.' },
+        { n:'02', ico:'layout', title:'Landing page dédiée', desc:'Une page de capture conçue pour convertir les visiteurs en prospects qualifiés, avec votre identité visuelle.' },
+        { n:'03', ico:'calendar-check', title:'Contact & Réservation', desc:'Les leads arrivent directement dans votre boîte. Vous n\'avez plus qu\'à shooter — je m\'occupe du reste.' },
+      ];
+      return (
+        <section className="section tunnel" id="tunnel">
+          <div className="container">
+            <div className="section-head">
+              <div>
+                <div className="eyebrow"><span className="rule"></span><span className="num">03</span><span>Ma méthode</span></div>
+                <h2>Ma recette gagnante —<br /><em>vous n'avez qu'à shooter</em></h2>
+              </div>
+              <p className="lede">Pub, landing page, contacts qualifiés : je construis et pilote tout le tunnel. Vous signez, vous shootez.</p>
+            </div>
+            <div className="tunnel-steps">
+              {steps.map(s => (
+                <div key={s.n} className="tunnel-step">
+                  <div className="ts-num">{s.n}</div>
+                  <div className="ts-ico"><i data-lucide={s.ico}></i></div>
+                  <h3 className="ts-title">{s.title}</h3>
+                  <p className="ts-desc">{s.desc}</p>
+                </div>
+              ))}
+            </div>
+            <div className="tunnel-cta">
+              <a className="btn btn-gold" href="#rappel" onClick={go('rappel')}>Je veux ce système pour mon studio <span className="arrow">→</span></a>
             </div>
           </div>
         </section>
@@ -641,7 +677,7 @@
         </svg>
       );
     }
-    function Callback() {
+    function Callback({simData}) {
       const [form, setForm] = React.useState({prenom:'', telephone:'', email:''});
       const [status, setStatus] = React.useState('idle');
       const update = k => e => setForm(f => ({...f, [k]: e.target.value}));
@@ -650,7 +686,7 @@
       const submit = async e => {
         e.preventDefault();
         setStatus('sending');
-        const sim = _simSnapshot || {};
+        const sim = simData || {};
         try {
           const res = await fetch('https://api.web3forms.com/submit', {
             method: 'POST',
@@ -701,6 +737,15 @@
                   </div>
                 ) : (
                   <form onSubmit={submit} noValidate>
+                    {simData && simData.pub > 0 && (
+                      <div className="cform-recap">
+                        <span className="cform-recap-lbl">Votre simulation</span>
+                        <div className="cform-recap-grid">
+                          <span><strong>{simData.spec||'—'}</strong> · {simData.pub||0}&nbsp;€ pub</span>
+                          <span><strong>{simData.clients ? Math.round(simData.clients) : '—'}</strong> clients · <strong>{simData.revenue ? Math.round(simData.revenue)+'&nbsp;€' : '—'}</strong> CA</span>
+                        </div>
+                      </div>
+                    )}
                     <div className="cform-field">
                       <label className="cform-label">Prénom</label>
                       <input className="cform-input" type="text" required placeholder="Sophie" value={form.prenom} onChange={update('prenom')} />
@@ -779,6 +824,7 @@
 
     // ─── App ──────────────────────────────────────────────────────────────────
     function App() {
+      const [simData, setSimData] = React.useState({});
       React.useEffect(() => { if (window.lucide) window.lucide.createIcons(); });
       return (
         <div className="page">
@@ -786,8 +832,9 @@
           <SideRail />
           <main>
             <HeroWow variant="anime" />
-            <Simulateur />
-            <Callback />
+            <Simulateur onSimChange={setSimData} />
+            <Tunnel />
+            <Callback simData={simData} />
             <Preuves />
             <Schema />
             <Studio />
