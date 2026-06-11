@@ -459,7 +459,7 @@
     const PANIER_PAR_SPEC = { Mariage: 1500 };
     const panierForSpec = s => PANIER_PAR_SPEC[s] ?? 150;
     function calcAbo(pub) {
-      return 390 + Math.max(0, (pub - 450) * 0.15);
+      return 390 + Math.max(0, (pub - 400) * 0.15);
     }
     function useCounterSim(value, duration=480) {
       const [display, setDisplay] = React.useState(value);
