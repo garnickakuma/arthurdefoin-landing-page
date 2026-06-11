@@ -737,6 +737,11 @@ image-slot { display: block; background: var(--ivoire-2); }
   font-style: italic; font-weight: 400; color: var(--pierre); font-size: 0.82em; margin-left: 6px;
 }
 
+.sim-res-dual { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.sim-res-metric { display: flex; flex-direction: column; gap: 4px; }
+.res-num-clients { font-size: 64px !important; }
+.res-num-ca { font-size: 44px !important; }
+
 .sim-abo-badge {
   display: flex; align-items: flex-start; gap: 8px;
   margin-top: 14px; padding: 12px 14px; border-radius: 12px;
