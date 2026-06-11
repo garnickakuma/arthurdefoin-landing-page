@@ -80,7 +80,6 @@
               </a>
               <div className="nav-links">
                 <a onClick={go('simulateur')}>Simulateur</a>
-                <a onClick={go('preuves')}>Résultats</a>
                 <a onClick={go('mecanisme')}>Méthode</a>
                 <a onClick={go('studio')}>Mon studio</a>
                 <button className="nav-cta nav-cta-mobile" onClick={go('rappel')}>{ctaLabel}</button>
@@ -99,7 +98,7 @@
     function SideRail() {
       const sections = [
         { id: 'top', n: '01' }, { id: 'simulateur', n: '02' },
-        { id: 'rappel', n: '03' }, { id: 'preuves', n: '04' },
+        { id: 'rappel', n: '03' },
         { id: 'mecanisme', n: '05' }, { id: 'studio', n: '06' },
       ];
       const [active, setActive] = React.useState('top');
@@ -400,53 +399,6 @@
       );
     }
 
-    // ─── Preuves ──────────────────────────────────────────────────────────────
-    function Preuves() {
-      const results = [
-        { meta:'Mariage', num:'12€', desc:"En moyenne le coût d'un lead pour du mariage." },
-        { meta:'Réservations gratuites', num:'20€', desc:"Coût moyen par réservation effectuée" },
-        { meta:"Chiffre d'affaire mai 2026", num:'6824€', desc:"On a dépensé 1476€ en publicité sur le mois de mai 2026." },
-      ];
-      const quotes = [
-        { q:"En trois mois, j'ai signé plus de mariages que sur toute l'année précédente. Et surtout, je <em>sais</em> enfin d'où viennent mes clients.", name:'Camille R.', role:'Photographe mariage · Nantes' },
-        { q:"Arthur parle photo avant de parler pub. Il a compris mon studio en un appel. Mon agenda grossesse est plein <em>deux mois à l'avance</em>.", name:'Léa M.', role:'Studio grossesse · Annecy' },
-      ];
-      return (
-        <section className="section preuves" id="preuves">
-          <div className="container">
-            <div className="section-head">
-              <div>
-                <div className="eyebrow"><span className="rule"></span><span className="num">04</span><span>Résultats</span></div>
-                <h2>Des chiffres,<br /><em>pas des promesses</em>.</h2>
-              </div>
-              <p className="lede">Je vous montre nos résultats avec Amour et Lumière. Même moyenne constatée sur les +50 photographes que j'accompagne.</p>
-            </div>
-            <div className="results-grid">
-              {results.map((r,i) => (
-                <div className="result-card" key={i}>
-                  <span className="r-meta">{r.meta}</span>
-                  <span className="r-num"><em>{r.num}</em></span>
-                  <p className="r-desc">{r.desc}</p>
-                </div>
-              ))}
-            </div>
-            <div className="testimonials">
-              {quotes.map((t,i) => (
-                <div className="testimonial" key={i}>
-                  <blockquote dangerouslySetInnerHTML={{__html:'« '+t.q+' »'}}></blockquote>
-                  <div className="t-author">
-                    <div>
-                      <div className="t-name">{t.name}</div>
-                      <div className="t-role">{t.role}</div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      );
-    }
 
     let _simSnapshot = {};
 
@@ -791,7 +743,6 @@
                 <ul>
                   <li><a href="#studio" onClick={go('studio')}>Le studio</a></li>
                   <li><a href="#benefices" onClick={go('benefices')}>Bénéfices</a></li>
-                  <li><a href="#preuves" onClick={go('preuves')}>Résultats</a></li>
                   <li><a href="#simulateur" onClick={go('simulateur')}>Simulateur</a></li>
                 </ul>
               </div>
@@ -835,7 +786,6 @@
             <Simulateur onSimChange={setSimData} />
             <Tunnel />
             <Callback simData={simData} />
-            <Preuves />
             <Schema />
             <Studio />
             <Benefices />
