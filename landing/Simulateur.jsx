@@ -2,17 +2,14 @@
 const { useState: useStateSim, useMemo: useMemoSim, useEffect: useEffectSim, useRef: useRefSim } = React;
 
 // ---- Hypothèses (fournies par Arthur) ------------------------------------
-const CPL = 12; // coût moyen par lead qualifié (€)
-const CPR = 20; // coût moyen par réservation gratuite (€)
+const CPL = 12;             // coût moyen par lead qualifié (€)
+const CPR = 20;             // coût moyen par réservation gratuite (€)
 const TAUX_ANNULATION = 25; // % de réservations gratuites annulées / no-show
-const PANIER_SEUIL = 250; // au-delà : alerte en mode réservations
-const BUDGET_MIN = 400;
-const BUDGET_MAX = 4000;
-const BUDGET_DEFAUT = 800;
+const PANIER_SEUIL = 250;   // au-delà : alerte en mode réservations
+const PUB_MIN = 100;
+const PUB_MAX = 3500;
+const PUB_DEFAUT = 500;
 
-// Prestation mise en avant → fixe le taux de conversion lead → client (mode Leads)
-// ET pré-remplit un panier moyen réaliste.
-// Mariage : closing plus long et plus sélectif → 10 %. Autres séances → 30 %.
 const SIM_SPECIALITES = ['Mariage', 'Grossesse', 'Nouveau-né', 'Famille', 'Portrait', 'Corporate'];
 const CONV_MARIAGE = 10;
 const CONV_AUTRE = 30;
@@ -21,19 +18,9 @@ const PANIER_PAR_SPEC = { Mariage: 1500 };
 const PANIER_AUTRE = 150;
 const panierForSpec = (s) => PANIER_PAR_SPEC[s] ?? PANIER_AUTRE;
 
-// Répartition budget total → abonnement (lancement, gestion, optimisation) + dépense pub Meta.
-//   • 400 → 1000 € : l'abonnement va de 190 à 490 € (≈ moitié du budget).
-//   • au-delà de 1000 € : abonnement = 490 € + 10 % de ce qui est ajouté ; tout le reste part en pub.
-function repartitionBudget(B) {
-  let abonnement, pub;
-  if (B <= 1000) {
-    abonnement = 0.5 * B - 10;
-    pub = 0.5 * B + 10;
-  } else {
-    abonnement = 490 + 0.10 * (B - 1000);
-    pub = B - abonnement;
-  }
-  return { abonnement, pub };
+// Abonnement : 390 € minimum, puis 15 % de la dépense pub
+function calcAbo(pub) {
+  return Math.max(390, pub * 0.15);
 }
 
 function useCounterSim(value, duration = 480) {
@@ -55,9 +42,9 @@ function useCounterSim(value, duration = 480) {
   return display;
 }
 
-function fmtEURsim(n) {return new Intl.NumberFormat('fr-FR', { maximumFractionDigits: 0 }).format(Math.round(n)) + ' €';}
-function fmtXsim(n) {return '× ' + new Intl.NumberFormat('fr-FR', { minimumFractionDigits: 1, maximumFractionDigits: 1 }).format(n);}
-function fmtIntSim(n) {return new Intl.NumberFormat('fr-FR', { maximumFractionDigits: 0 }).format(Math.round(n));}
+function fmtEURsim(n) { return new Intl.NumberFormat('fr-FR', { maximumFractionDigits: 0 }).format(Math.round(n)) + ' €'; }
+function fmtXsim(n) { return '× ' + new Intl.NumberFormat('fr-FR', { minimumFractionDigits: 1, maximumFractionDigits: 1 }).format(n); }
+function fmtIntSim(n) { return new Intl.NumberFormat('fr-FR', { maximumFractionDigits: 0 }).format(Math.round(n)); }
 
 function SimSlider({ value, min, max, step = 1, onChange, ticks }) {
   const pct = (value - min) / (max - min) * 100;
@@ -69,52 +56,51 @@ function SimSlider({ value, min, max, step = 1, onChange, ticks }) {
         </div>
         <div className="sim-thumb" style={{ left: pct + '%' }}></div>
         <input type="range" min={min} max={max} step={step} value={value}
-        onChange={(e) => onChange(Number(e.target.value))} />
+          onChange={(e) => onChange(Number(e.target.value))} />
       </div>
       {ticks &&
-      <div className="sim-ticks">
+        <div className="sim-ticks">
           {ticks.map((t, i) => <span key={i}>{t}</span>)}
         </div>
       }
-    </div>);
-
+    </div>
+  );
 }
 
 function Simulateur() {
-  const [spec, setSpec] = useStateSim('Mariage'); // prestation mise en avant
-  const [mode, setMode] = useStateSim('leads'); // 'leads' | 'reservations'
+  const [spec, setSpec] = useStateSim('Mariage');
+  const [mode, setMode] = useStateSim('leads');
   const [cart, setCart] = useStateSim(panierForSpec('Mariage'));
-  const [budget, setBudget] = useStateSim(BUDGET_DEFAUT);
+  const [pub, setPub] = useStateSim(PUB_DEFAUT);
 
   const conv = convForSpec(spec);
-  const pickSpec = (s) => {setSpec(s);setCart(panierForSpec(s));};
+  const pickSpec = (s) => { setSpec(s); setCart(panierForSpec(s)); };
 
   const cpx = mode === 'leads' ? CPL : CPR;
   const showWarn = mode === 'reservations' && cart > PANIER_SEUIL;
-  const aboPct = budget > 0 ? Math.round(repartitionBudget(budget).abonnement / budget * 100) : 0;
 
   const result = useMemoSim(() => {
-    const { abonnement, pub } = repartitionBudget(budget);
+    const abo = calcAbo(pub);
     let volume, clients;
     if (mode === 'leads') {
-      volume = pub / CPL; // leads qualifiés
-      clients = volume * (conv / 100); // → prestations signées
+      volume = pub / CPL;
+      clients = volume * (conv / 100);
     } else {
-      volume = pub / CPR; // réservations gratuites
-      clients = volume * (1 - TAUX_ANNULATION / 100); // − annulations
+      volume = pub / CPR;
+      clients = volume * (1 - TAUX_ANNULATION / 100);
     }
     const revenue = clients * cart;
-    const benefice = revenue - budget; // budget TOTAL déduit
-    const roas = budget > 0 ? revenue / budget : 0;
-    return { abonnement, pub, volume, clients, revenue, benefice, roas };
-  }, [mode, cart, conv, budget]);
-  const dVolume = useCounterSim(result.volume);
-  const dClients = useCounterSim(result.clients);
-  const dRevenue = useCounterSim(result.revenue);
+    const benefice = revenue - pub;
+    const roas = pub > 0 ? revenue / pub : 0;
+    return { abo, volume, clients, revenue, benefice, roas };
+  }, [mode, cart, conv, pub]);
+
+  const dVolume   = useCounterSim(result.volume);
+  const dClients  = useCounterSim(result.clients);
+  const dRevenue  = useCounterSim(result.revenue);
   const dBenefice = useCounterSim(result.benefice);
-  const dRoas = useCounterSim(result.roas);
-  const dAbo = useCounterSim(result.abonnement);
-  const dPub = useCounterSim(result.pub);
+  const dRoas     = useCounterSim(result.roas);
+  const dAbo      = useCounterSim(result.abo);
 
   const go = (id) => (e) => {
     e.preventDefault();
@@ -138,6 +124,7 @@ function Simulateur() {
         </div>
 
         <div className="sim">
+          {/* ── CONTRÔLES ── */}
           <div className="sim-controls">
             <h3>Votre activité</h3>
 
@@ -147,16 +134,16 @@ function Simulateur() {
               </div>
               <div className="sim-chips">
                 {SIM_SPECIALITES.map((s) =>
-                <button key={s}
-                className={"sim-chip" + (spec === s ? " active" : "")}
-                onClick={() => pickSpec(s)}>{s}</button>
+                  <button key={s}
+                    className={"sim-chip" + (spec === s ? " active" : "")}
+                    onClick={() => pickSpec(s)}>{s}</button>
                 )}
               </div>
               {mode === 'leads' &&
-              <p className="sim-conv-note">
-                Taux de conversion moyen retenu&nbsp;: <em>{fmtIntSim(conv)}&nbsp;%</em>
-                <span className="scn-sub">{spec === 'Mariage' ? 'closing mariage, plus sélectif' : 'séances studio, portrait & extérieur'}</span>
-              </p>
+                <p className="sim-conv-note">
+                  Taux de conversion moyen retenu&nbsp;: <em>{fmtIntSim(conv)}&nbsp;%</em>
+                  <span className="scn-sub">{spec === 'Mariage' ? 'closing mariage, plus sélectif' : 'séances studio, portrait & extérieur'}</span>
+                </p>
               }
             </div>
 
@@ -197,88 +184,60 @@ function Simulateur() {
               </div>
               <div className="sim-input-wrap">
                 <input className="sim-input" type="number" min="0" step="10" value={cart}
-                onChange={(e) => setCart(Math.max(0, Number(e.target.value)))} />
+                  onChange={(e) => setCart(Math.max(0, Number(e.target.value)))} />
                 <span className="sim-input-suffix">€</span>
               </div>
               {showWarn &&
-              <p className="sim-warn reveal" key="warn">
-                <i data-lucide="alert-triangle"></i>
-                <span>
-                  Panier élevé&nbsp;: la réservation gratuite attire surtout des
-                  profils en quête de gratuité — elle convertit souvent moins bien
-                  et coûte plus cher à l'acquisition. Au-delà de {PANIER_SEUIL}&nbsp;€,
-                  les <em>leads qualifiés</em> sont en général plus rentables.
-                </span>
-              </p>
+                <p className="sim-warn reveal" key="warn">
+                  <i data-lucide="alert-triangle"></i>
+                  <span>
+                    Panier élevé&nbsp;: la réservation gratuite attire surtout des
+                    profils en quête de gratuité — elle convertit souvent moins bien
+                    et coûte plus cher à l'acquisition. Au-delà de {PANIER_SEUIL}&nbsp;€,
+                    les <em>leads qualifiés</em> sont en général plus rentables.
+                  </span>
+                </p>
               }
             </div>
 
             <div className="sim-field" style={{ marginBottom: 0 }}>
               <div className="sim-field-head">
-                <span className="sim-field-lbl">Budget mensuel total</span>
-                <span className="sim-field-val"><em>{fmtIntSim(budget)}</em>&nbsp;€</span>
+                <span className="sim-field-lbl">Dépense publicitaire mensuelle</span>
+                <span className="sim-field-val"><em>{fmtIntSim(pub)}</em>&nbsp;€</span>
               </div>
-              <SimSlider value={budget} min={BUDGET_MIN} max={BUDGET_MAX} step={50} onChange={setBudget}
-              ticks={['400 €', '2 200 €', '4 000 €']} />
+              <SimSlider value={pub} min={PUB_MIN} max={PUB_MAX} step={50} onChange={setPub}
+                ticks={['100 €', '1 800 €', '3 500 €']} />
 
-              <div className="sim-split2">
-                <div className="ss2-cell">
-                  <span className="ss2-lbl">Abonnement</span>
-                  <span className="ss2-val">{fmtEURsim(dAbo)}</span>
-                  <span className="ss2-sub">lancement, gestion &amp; optimisation</span>
-                </div>
-                <div className="ss2-cell accent">
-                  <span className="ss2-lbl">Dépense publicitaire</span>
-                  <span className="ss2-val">{fmtEURsim(dPub)}</span>
-                  <span className="ss2-sub">investie directement sur Meta</span>
-                </div>
-              </div>
-
-              <div className="sim-repart">
-                <div className="sim-repart-track">
-                  <div className="sr-seg sr-abo" style={{ width: aboPct + '%' }}>
-                    <span className="sr-pct">{aboPct}&nbsp;%</span>
-                  </div>
-                  <div className="sr-seg sr-pub" style={{ width: 100 - aboPct + '%' }}>
-                    <span className="sr-pct">{100 - aboPct}&nbsp;%</span>
-                  </div>
-                </div>
-                <div className="sim-repart-legend">
-                  <span><i className="sr-dot abo"></i>Abonnement</span>
-                  <span><i className="sr-dot pub"></i>Dépense publicitaire</span>
-                </div>
+              <div className="sim-abo-badge">
+                <i data-lucide="plus-circle"></i>
+                <span><strong>{fmtEURsim(dAbo)}</strong> d'abonnement <span className="sim-abo-sub">(gestion &amp; optimisation, non inclus dans les projections)</span></span>
               </div>
 
               <p className="sim-hint" style={{ marginTop: 14 }}>
-                Plus vous investissez en publicité, plus la part de l'abonnement
-                s'allège — et plus chaque euro travaille pour vous.
+                L'abonnement démarre à 390&nbsp;€/mois et représente 15&nbsp;% de votre dépense pub au-delà de ce montant.
               </p>
             </div>
           </div>
 
+          {/* ── RÉSULTATS ── */}
           <div className="sim-result">
             <div>
-              <span className="res-eyebrow">Projection sur un mois</span>
-              <div className="res-volume" style={{ marginTop: 14 }}>
-                <span className="rv-num">{fmtIntSim(mode === 'leads' ? dVolume : dClients)}</span>
-                <span className="rv-lbl">
-                  {mode === 'leads' ? 'leads qualifiés' : Math.round(dClients) > 1 ? 'nouveaux clients' : 'nouveau client'}
-                </span>
+              <span className="res-eyebrow">Chiffre d'affaires estimé</span>
+              <div className="res-num" style={{ marginTop: 14 }}>
+                <em>{fmtEURsim(dRevenue)}</em>
               </div>
-              {mode === 'leads' ?
               <p className="res-sub" style={{ marginTop: 8 }}>
-                soit ≈ {fmtIntSim(dClients)} {Math.round(dClients) > 1 ? 'prestations signées' : 'prestation signée'} à {fmtIntSim(conv)}&nbsp;% de conversion.
-              </p> :
-              <p className="res-sub" style={{ marginTop: 8 }}>
-                soit ≈ {fmtIntSim(dVolume)} réservations, dont {TAUX_ANNULATION}&nbsp;% d'annulation déduites.
+                {mode === 'leads'
+                  ? <>≈ {fmtIntSim(dClients)} {Math.round(dClients) > 1 ? 'prestations signées' : 'prestation signée'} · {fmtIntSim(dVolume)} leads</>
+                  : <>≈ {fmtIntSim(dClients)} {Math.round(dClients) > 1 ? 'clients confirmés' : 'client confirmé'} · {fmtIntSim(dVolume)} réservations</>
+                }
               </p>
-              }
             </div>
 
             <div>
               <span className="res-eyebrow">Bénéfice estimé</span>
               <div className="res-num benefice-num"><em>{fmtEURsim(dBenefice)}</em></div>
-              <span className="res-unit">budget total déduit</span>
+              <span className="res-unit">dépense publicitaire déduite</span>
             </div>
 
             <div className="sim-breakdown">
@@ -287,15 +246,24 @@ function Simulateur() {
                 <span className="v">{fmtEURsim(dRevenue)}</span>
               </div>
               <div className="sim-row">
-                <span className="k">Budget total <em className="k-sub">abonnement + pub</em></span>
-                <span className="v">− {fmtEURsim(budget)}</span>
+                <span className="k">
+                  {mode === 'leads' ? 'Leads qualifiés' : 'Réservations gratuites'}
+                </span>
+                <span className="v">{fmtIntSim(dVolume)}</span>
               </div>
-              {mode === 'reservations' &&
               <div className="sim-row">
-                <span className="k">Taux d'annulation pris en compte</span>
-                <span className="v">{TAUX_ANNULATION}&nbsp;%</span>
+                <span className="k">
+                  {mode === 'leads'
+                    ? <>Prestations signées <em className="k-sub">à {conv}&nbsp;% de conversion</em></>
+                    : <>Clients confirmés <em className="k-sub">{TAUX_ANNULATION}&nbsp;% annulations déduites</em></>
+                  }
+                </span>
+                <span className="v">{fmtIntSim(dClients)}</span>
               </div>
-              }
+              <div className="sim-row">
+                <span className="k">Dépense publicitaire</span>
+                <span className="v">− {fmtEURsim(pub)}</span>
+              </div>
               <div className="sim-row">
                 <span className="k">Bénéfice net</span>
                 <span className="v"><em>{fmtEURsim(dBenefice)}</em></span>
@@ -304,21 +272,23 @@ function Simulateur() {
                 <span className="k">Retour sur investissement (ROAS)</span>
                 <span className="v"><em>{fmtXsim(dRoas)}</em></span>
               </div>
+              <div className="sim-row sim-row-abo">
+                <span className="k">+ Abonnement <em className="k-sub">hors projections</em></span>
+                <span className="v">{fmtEURsim(dAbo)}</span>
+              </div>
             </div>
 
             <div className="sim-cta-wrap">
               <a className="btn btn-gold" href="#rappel" onClick={go('rappel')}>
                 Je veux gagner ces clients <span className="arrow">→</span>
               </a>
-              <p className="sim-cta-sub">Estimation indicative · Sans engagement
-
-              </p>
+              <p className="sim-cta-sub">Estimation indicative · Sans engagement</p>
             </div>
           </div>
         </div>
       </div>
-    </section>);
-
+    </section>
+  );
 }
 
 window.Simulateur = Simulateur;

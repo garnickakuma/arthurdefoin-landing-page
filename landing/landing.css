@@ -724,6 +724,21 @@ image-slot { display: block; background: var(--ivoire-2); }
   font-style: italic; font-weight: 400; color: var(--pierre); font-size: 0.82em; margin-left: 6px;
 }
 
+.sim-abo-badge {
+  display: flex; align-items: flex-start; gap: 8px;
+  margin-top: 14px; padding: 12px 14px; border-radius: 12px;
+  background: var(--sable); border: 1px solid var(--sable-fonce);
+  font-family: var(--sans); font-size: 13px; color: var(--plomb);
+}
+.sim-abo-badge i[data-lucide] { flex: none; width: 16px; height: 16px; margin-top: 2px; opacity: 0.6; }
+.sim-abo-badge strong { color: var(--encre); }
+.sim-abo-sub { display: block; margin-top: 2px; font-size: 11px; opacity: 0.65; }
+
+.sim-row-abo {
+  margin-top: 12px; padding-top: 12px; border-top: 1px dashed var(--sable-fonce);
+  opacity: 0.7;
+}
+
 .res-volume {
   display: flex; align-items: baseline; gap: 12px; padding-bottom: 4px;
 }
