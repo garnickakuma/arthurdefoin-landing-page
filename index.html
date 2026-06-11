@@ -11,12 +11,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Manrope:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&family=JetBrains+Mono:wght@400;500&display=swap">
 
-  <link rel="stylesheet" href="landing/colors_and_type.css?v=16">
-  <link rel="stylesheet" href="landing/landing.css?v=16">
-  <link rel="stylesheet" href="landing/landing-b.css?v=16">
-  <link rel="stylesheet" href="landing/landing-layouts.css?v=16">
-  <link rel="stylesheet" href="landing/landing-hero-wow.css?v=16">
-  <link rel="stylesheet" href="landing/landing-schema.css?v=16">
+  <link rel="stylesheet" href="landing/colors_and_type.css?v=17">
+  <link rel="stylesheet" href="landing/landing.css?v=17">
+  <link rel="stylesheet" href="landing/landing-b.css?v=17">
+  <link rel="stylesheet" href="landing/landing-layouts.css?v=17">
+  <link rel="stylesheet" href="landing/landing-hero-wow.css?v=17">
+  <link rel="stylesheet" href="landing/landing-schema.css?v=17">
 
   <!-- Meta Pixel -->
   <script>
@@ -448,6 +448,8 @@
       );
     }
 
+    let _simSnapshot = {};
+
     // ─── Simulateur ───────────────────────────────────────────────────────────
     const CPL = 12, PANIER_SEUIL = 300, PUB_MIN = 100, PUB_MAX = 3500, PUB_DEFAUT = 500;
     const SIM_SPECIALITES = ['Mariage','Studio','Extérieur'];
@@ -543,6 +545,7 @@
       const dAbo = useCounterSim(result.abo);
       const go = id => e => { e.preventDefault(); const el = document.getElementById(id); if (el) window.scrollTo({top:el.offsetTop-60,behavior:'smooth'}); };
       React.useEffect(() => { if (window.lucide) window.lucide.createIcons(); });
+      React.useEffect(() => { _simSnapshot = {spec, cart, pub, ...result}; }, [spec, cart, pub, result]);
       return (
         <section className="section" id="simulateur">
           <div className="container">
@@ -614,8 +617,7 @@
       );
     }
 
-    // ─── Callback (Calendly) ──────────────────────────────────────────────────
-    const CALENDLY_URL = 'https://calendly.com/defoin-arthur/accompagnement-arthur';
+    // ─── Formulaire de contact ────────────────────────────────────────────────
     const ICO_PATHS = {
       video:'Pm22 8-6 4 6 4V8Z|R2,6,14,12,2',
       clock:'C12,12,10|PM12 6 12 12 16 14',
@@ -634,80 +636,85 @@
         </svg>
       );
     }
-    let calendlyPromise = null;
-    function chargerCalendly() {
-      if (window.Calendly) return Promise.resolve();
-      if (calendlyPromise) return calendlyPromise;
-      calendlyPromise = new Promise(resolve => {
-        if (!document.querySelector('link[data-calendly]')) {
-          const l = document.createElement('link'); l.rel='stylesheet'; l.href='https://assets.calendly.com/assets/external/widget.css'; l.setAttribute('data-calendly',''); document.head.appendChild(l);
-        }
-        const s = document.createElement('script'); s.src='https://assets.calendly.com/assets/external/widget.js'; s.async=true; s.onload=()=>resolve(); document.body.appendChild(s);
-      });
-      return calendlyPromise;
-    }
     function Callback() {
-      const hote = React.useRef(null);
-      const isMobile = () => window.innerWidth <= 980;
+      const [form, setForm] = React.useState({prenom:'', telephone:'', email:''});
+      const [status, setStatus] = React.useState('idle');
+      const update = k => e => setForm(f => ({...f, [k]: e.target.value}));
+      const fmtN = n => n != null ? Math.round(n) + ' €' : '—';
 
-      const openPopup = () => {
-        if (typeof fbq === 'function') fbq('track', 'Schedule', { content_name: 'Voir disponibilites Calendly' });
-        chargerCalendly().then(() => {
-          if (!window.Calendly) return;
-          const cs = getComputedStyle(document.documentElement);
-          const hex = (v,f) => cs.getPropertyValue(v).trim().replace('#','')||f;
-          window.Calendly.initPopupWidget({
-            url: CALENDLY_URL + '?hide_gdpr_banner=1&primary_color=' + hex('--or','8b5cf6'),
+      const submit = async e => {
+        e.preventDefault();
+        setStatus('sending');
+        const sim = _simSnapshot || {};
+        try {
+          const res = await fetch('https://api.web3forms.com/submit', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+              access_key: '8ff579b2-c217-4683-95bf-49ccd0b57c4d',
+              subject: `Nouveau prospect — ${form.prenom} (${sim.spec||'?'}, ${sim.pub||'?'}€ pub)`,
+              'Prénom': form.prenom,
+              'Email': form.email,
+              'Téléphone': form.telephone,
+              '— Simulation —': '─────────────',
+              'Prestation': sim.spec || '—',
+              'Panier moyen': sim.cart ? sim.cart + ' €' : '—',
+              'Dépense pub': sim.pub ? sim.pub + ' €/mois' : '—',
+              'CA estimé': fmtN(sim.revenue),
+              'Leads estimés': sim.volume ? Math.round(sim.volume) : '—',
+              'Prestations signées': sim.clients ? Math.round(sim.clients) : '—',
+              'Bénéfice estimé': fmtN(sim.benefice),
+              'Abonnement': fmtN(sim.abo),
+            })
           });
-        });
+          const data = await res.json();
+          setStatus(data.success ? 'success' : 'error');
+          if (data.success && typeof fbq === 'function') fbq('track', 'Lead');
+        } catch { setStatus('error'); }
       };
 
-      React.useEffect(() => {
-        let annule = false;
-        if (isMobile()) return; // on mobile we use popup, not inline
-        chargerCalendly().then(() => {
-          if (annule||!hote.current||!window.Calendly) return;
-          hote.current.innerHTML = '';
-          const cs = getComputedStyle(document.documentElement);
-          const hex = (v,f) => cs.getPropertyValue(v).trim().replace('#','')||f;
-          const params = new URLSearchParams({ hide_event_type_details:'1', hide_gdpr_banner:'1', primary_color:hex('--or','8b5cf6'), background_color:hex('--porcelaine','ffffff'), text_color:hex('--encre','211e37') });
-          window.Calendly.initInlineWidget({ url:`${CALENDLY_URL}?${params.toString()}`, parentElement:hote.current });
-        });
-        return () => { annule = true; };
-      }, []);
       return (
         <section className="section callback" id="rappel">
           <div className="container">
             <div className="callback-inner">
               <div>
                 <div className="eyebrow"><span className="rule"></span><span className="num">03</span><span>On en parle&nbsp;?</span></div>
-                <h2><span className="small-lead">Choisissez l'heure qui vous arrange,</span> et <em>parlons-en</em>.</h2>
-                <p className="lede">30 minutes en appel, juste vous et moi. On regarde votre studio, vos objectifs, et ce que la publicité Meta peut vraiment rapporter à votre activité. La publicité n'est pas une dépense, c'est un investissement.</p>
+                <h2>Laissez vos coordonnées, <em>je vous rappelle</em>.</h2>
+                <p className="lede">On fait le point sur votre activité et ce que Meta Ads peut vous rapporter concrètement. Aucun engagement.</p>
                 <div className="cb-assur">
+                  <span><Ico n="user" /> Réponse sous <strong>24h</strong></span>
                   <span><Ico n="video" /> Appel de <strong>30 min</strong></span>
-                  <span><Ico n="user" /> En direct avec <strong>Arthur</strong></span>
                   <span><Ico n="shield" /> Aucun <strong>engagement</strong></span>
                 </div>
               </div>
-              <div className="cb-form cb-sched">
-                <div className="sched-head">
-                  <div className="sched-host">
-                    <img className="sched-avatar" src="landing/assets/arthur-studio.jpg" alt="Arthur Defoin" />
-                    <span className="who">
-                      <span className="n">Arthur Defoin</span>
-                      <span className="d"><Ico n="clock" /> 30 min · <Ico n="video" /> Appel téléphonique</span>
-                    </span>
+              <div className="cb-form">
+                {status === 'success' ? (
+                  <div className="cform-success">
+                    <div className="cform-success-ico">✓</div>
+                    <h3>Reçu&nbsp;!</h3>
+                    <p>Je vous rappelle dans les 24h. À très vite.</p>
                   </div>
-                </div>
-                <div className="cb-cal cb-cal-desktop" ref={hote}>
-                  <div className="cb-cal-load">Chargement de mon agenda…</div>
-                </div>
-                <div className="cb-cal-mobile-btn">
-                  <p>Cliquez ci-dessous pour choisir votre créneau.</p>
-                  <button className="btn btn-gold" onClick={openPopup}>
-                    Voir les disponibilités <span className="arrow">→</span>
-                  </button>
-                </div>
+                ) : (
+                  <form onSubmit={submit} noValidate>
+                    <div className="cform-field">
+                      <label className="cform-label">Prénom</label>
+                      <input className="cform-input" type="text" required placeholder="Sophie" value={form.prenom} onChange={update('prenom')} />
+                    </div>
+                    <div className="cform-field">
+                      <label className="cform-label">Téléphone</label>
+                      <input className="cform-input" type="tel" required placeholder="06 12 34 56 78" value={form.telephone} onChange={update('telephone')} />
+                    </div>
+                    <div className="cform-field">
+                      <label className="cform-label">Email</label>
+                      <input className="cform-input" type="email" required placeholder="sophie@studio.fr" value={form.email} onChange={update('email')} />
+                    </div>
+                    {status === 'error' && <p className="cform-error">Une erreur est survenue, réessayez.</p>}
+                    <button className="btn btn-gold cform-submit" type="submit" disabled={status==='sending'}>
+                      {status==='sending' ? 'Envoi…' : 'Je veux être rappelé(e) →'}
+                    </button>
+                    <p className="cform-legal">Coordonnées utilisées uniquement pour vous recontacter.</p>
+                  </form>
+                )}
               </div>
             </div>
           </div>
