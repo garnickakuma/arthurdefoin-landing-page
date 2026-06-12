@@ -778,6 +778,13 @@ image-slot { display: block; background: var(--ivoire-2); }
   opacity: 0.7;
 }
 
+/* ----------  Simulator title — une seule ligne  ---------- */
+#simulateur .section-head { grid-template-columns: 1fr; }
+#simulateur h2 { font-size: clamp(20px, 2.2vw, 30px); white-space: nowrap; }
+@media (max-width: 700px) {
+  #simulateur h2 { white-space: normal; font-size: clamp(18px, 5vw, 26px); }
+}
+
 /* ----------  Simulator pre-fields  ---------- */
 .sim-pre {
   display: grid;
@@ -846,11 +853,11 @@ image-slot { display: block; background: var(--ivoire-2); }
 .stc-value:hover { opacity: 0.75; }
 .stc-value em {
   font-family: var(--serif);
-  font-style: italic;
+  font-style: normal;
   font-weight: 400;
   font-size: clamp(36px, 3.2vw, 52px);
   line-height: 1;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.02em;
   color: var(--or);
   font-variant-numeric: lining-nums tabular-nums;
 }
@@ -872,11 +879,11 @@ image-slot { display: block; background: var(--ivoire-2); }
 .stc-slider { margin-top: 4px; }
 .stc-input {
   font-family: var(--serif);
-  font-style: italic;
+  font-style: normal;
   font-weight: 400;
   font-size: clamp(36px, 3.2vw, 52px);
   line-height: 1;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.02em;
   color: var(--or);
   font-variant-numeric: lining-nums tabular-nums;
   background: transparent;
