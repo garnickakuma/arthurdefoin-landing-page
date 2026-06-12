@@ -11,12 +11,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Manrope:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&family=JetBrains+Mono:wght@400;500&display=swap">
 
-  <link rel="stylesheet" href="landing/colors_and_type.css?v=75">
-  <link rel="stylesheet" href="landing/landing.css?v=75">
-  <link rel="stylesheet" href="landing/landing-b.css?v=75">
-  <link rel="stylesheet" href="landing/landing-layouts.css?v=75">
-  <link rel="stylesheet" href="landing/landing-hero-wow.css?v=75">
-  <link rel="stylesheet" href="landing/landing-schema.css?v=75">
+  <link rel="stylesheet" href="landing/colors_and_type.css?v=76">
+  <link rel="stylesheet" href="landing/landing.css?v=76">
+  <link rel="stylesheet" href="landing/landing-b.css?v=76">
+  <link rel="stylesheet" href="landing/landing-layouts.css?v=76">
+  <link rel="stylesheet" href="landing/landing-hero-wow.css?v=76">
+  <link rel="stylesheet" href="landing/landing-schema.css?v=76">
 
   <!-- Meta Pixel -->
   <script>
@@ -257,35 +257,41 @@
               {/* ── CARTE 1 : Pub Meta ── */}
               <div className="meca-card meca-c1">
                 <div className="meca-num">01</div>
-                <svg className="meca-anim" viewBox="0 0 80 70" overflow="visible">
-                  {/* Bague de glow violet — pulse à chaque arrivée de dot */}
-                  <circle cx="40" cy="36" fill="none" stroke="#a78bfa" r="19" strokeWidth="0" opacity="0">
-                    <animate attributeName="r"            values="19;25;31"     keyTimes="0;0.35;1" dur="0.45s" repeatCount="indefinite" begin="1.7s" calcMode="spline" keySplines="0.2,0,0.4,1;0.2,0,0.4,1"/>
-                    <animate attributeName="stroke-width" values="7;3;0"        keyTimes="0;0.35;1" dur="0.45s" repeatCount="indefinite" begin="1.7s"/>
-                    <animate attributeName="opacity"      values="0.65;0.25;0"  keyTimes="0;0.35;1" dur="0.45s" repeatCount="indefinite" begin="1.7s"/>
-                  </circle>
-                  {/* Mégaphone */}
-                  <g transform="translate(40,36)">
-                    <path d="M-10,-8 L11,-15 L11,15 L-10,8 Z" fill="#6d4ab0"/>
-                    <rect x="-18" y="-6" width="8" height="12" rx="2" fill="#6d4ab0"/>
-                    <path d="M13,-11 Q20,0 20,0 Q20,0 13,11" fill="none" stroke="#a78bfa" strokeWidth="2.5" strokeLinecap="round"/>
-                    <path d="M15,-16 Q25,0 25,0 Q25,0 15,16" fill="none" stroke="#a78bfa" strokeWidth="1.5" strokeLinecap="round" opacity="0.38"/>
-                  </g>
-                  {/* 6 points gris attirés vers le logo — 1 toutes les 0.45s */}
+                <svg className="meca-anim" viewBox="0 0 80 72" overflow="visible">
+                  {/* Glow ellipse autour du logo — pulse quand un prospect entre */}
+                  <ellipse cx="40" cy="37" rx="18" ry="14" fill="none" stroke="#a78bfa" strokeWidth="0" opacity="0">
+                    <animate attributeName="stroke-width" values="6;2;0"     keyTimes="0;0.3;1" dur="1.25s" repeatCount="indefinite" begin="3.45s"/>
+                    <animate attributeName="opacity"      values="0.8;0.3;0" keyTimes="0;0.3;1" dur="1.25s" repeatCount="indefinite" begin="3.45s"/>
+                    <animate attributeName="rx"           values="18;23;28"  keyTimes="0;0.3;1" dur="1.25s" repeatCount="indefinite" begin="3.45s"/>
+                    <animate attributeName="ry"           values="14;18;22"  keyTimes="0;0.3;1" dur="1.25s" repeatCount="indefinite" begin="3.45s"/>
+                  </ellipse>
+                  {/* Logo Meta figure-8 (lemniscate bleue) */}
+                  <path fillRule="evenodd" fill="#0082FB"
+                    d="M 40,31 C 36,25 22,25 22,37 C 22,49 36,49 40,43 C 44,49 58,49 58,37 C 58,25 44,25 40,31 Z M 40,31 C 42,34 43,35.5 43,37 C 43,38.5 42,40 40,43 C 38,40 37,38.5 37,37 C 37,35.5 38,34 40,31 Z"/>
+                  {/* 6 icônes-personnes (tête + épaules) : apparaissent ~2s puis convergent en courbe */}
                   {[
-                    {sx:40, sy:4,  d:0   },
-                    {sx:73, sy:10, d:0.45},
-                    {sx:77, sy:36, d:0.9 },
-                    {sx:69, sy:64, d:1.35},
-                    {sx:11, sy:64, d:1.8 },
-                    {sx:4,  sy:36, d:2.25},
+                    {sx:38, sy:5,  qx:15, qy:16},
+                    {sx:68, sy:13, qx:58, qy:8 },
+                    {sx:75, sy:45, qx:62, qy:17},
+                    {sx:60, sy:63, qx:64, qy:48},
+                    {sx:18, sy:61, qx:14, qy:47},
+                    {sx:8,  sy:22, qx:18, qy:8 },
                   ].map((pt, i) => (
-                    <circle key={i} r="3.5" fill="#94a3b8" opacity="0">
-                      <animate attributeName="cx"      from={pt.sx} to="40"             dur="1.8s" repeatCount="indefinite" begin={`${pt.d}s`}/>
-                      <animate attributeName="cy"      from={pt.sy} to="36"             dur="1.8s" repeatCount="indefinite" begin={`${pt.d}s`}/>
-                      <animate attributeName="r"       values="3.5;3.5;1.2;0"           keyTimes="0;0.62;0.88;1" dur="1.8s" repeatCount="indefinite" begin={`${pt.d}s`}/>
-                      <animate attributeName="opacity" values="0;0.78;0.78;0"           keyTimes="0;0.12;0.82;1" dur="1.8s" repeatCount="indefinite" begin={`${pt.d}s`}/>
-                    </circle>
+                    <g key={i} opacity="0">
+                      <circle cx="0" cy="-6" r="4" fill="#94a3b8"/>
+                      <path d="M -7,0 A 7,7 0 0 1 7,0 Z" fill="#94a3b8"/>
+                      <animate attributeName="opacity"
+                        values="0;0.85;0.85;0;0"
+                        keyTimes="0;0.06;0.46;0.52;1"
+                        dur="7.5s" repeatCount="indefinite" begin={`${i*1.25}s`}/>
+                      <animateMotion
+                        path={`M ${pt.sx},${pt.sy} Q ${pt.qx},${pt.qy} 40,37`}
+                        keyPoints="0;0;1;1"
+                        keyTimes="0;0.26;0.46;1"
+                        calcMode="spline"
+                        keySplines="0,0,1,1;0.42,0,0.18,1;0,0,1,1"
+                        dur="7.5s" repeatCount="indefinite" begin={`${i*1.25}s`}/>
+                    </g>
                   ))}
                 </svg>
                 <strong className="meca-title">Pub Meta ciblée</strong>
