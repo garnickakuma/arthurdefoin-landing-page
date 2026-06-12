@@ -11,12 +11,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Manrope:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&family=JetBrains+Mono:wght@400;500&display=swap">
 
-  <link rel="stylesheet" href="landing/colors_and_type.css?v=85">
-  <link rel="stylesheet" href="landing/landing.css?v=85">
-  <link rel="stylesheet" href="landing/landing-b.css?v=85">
-  <link rel="stylesheet" href="landing/landing-layouts.css?v=85">
-  <link rel="stylesheet" href="landing/landing-hero-wow.css?v=85">
-  <link rel="stylesheet" href="landing/landing-schema.css?v=85">
+  <link rel="stylesheet" href="landing/colors_and_type.css?v=86">
+  <link rel="stylesheet" href="landing/landing.css?v=86">
+  <link rel="stylesheet" href="landing/landing-b.css?v=86">
+  <link rel="stylesheet" href="landing/landing-layouts.css?v=86">
+  <link rel="stylesheet" href="landing/landing-hero-wow.css?v=86">
+  <link rel="stylesheet" href="landing/landing-schema.css?v=86">
 
   <!-- Meta Pixel -->
   <script>
@@ -241,23 +241,24 @@
             y: m*m*m*P[0].y + 3*m*m*t*P[1].y + 3*m*t*t*P[2].y + t*t*t*P[3].y,
           };
         }
-        const SEG1 = [{x:240,y:200},{x:360,y:200},{x:360,y:285},{x:450,y:285}];
-        const SEG2 = [{x:450,y:285},{x:540,y:285},{x:540,y:190},{x:660,y:190}];
+        const SEG1 = [{x:230,y:195},{x:370,y:195},{x:370,y:255},{x:450,y:255}];
+        const SEG2 = [{x:450,y:255},{x:530,y:255},{x:530,y:195},{x:670,y:195}];
         function getDotPos(p) {
           return p <= 0.5 ? bez(SEG1, p*2) : bez(SEG2, (p-0.5)*2);
         }
 
         /* ── Billes ── */
         const LOGO = {x:40, y:36};
+        const LOGO_R = 17; // rayon d'exclusion autour du logo
         const B = {x1:5, y1:5, x2:75, y2:67};
         const balls = Array.from({length:6}, (_,i) => {
           const a = (i/6)*Math.PI*2 + Math.random()*0.8;
-          const d = 14 + Math.random()*20;
+          const d = LOGO_R + 4 + Math.random()*18;
           return {
             x: Math.max(B.x1, Math.min(B.x2, LOGO.x+Math.cos(a)*d)),
             y: Math.max(B.y1, Math.min(B.y2, LOGO.y+Math.sin(a)*d)),
-            vx: (Math.random()-0.5)*0.45,
-            vy: (Math.random()-0.5)*0.45,
+            vx: (Math.random()-0.5)*0.22,
+            vy: (Math.random()-0.5)*0.22,
             phase: 'wander', t: 0,
           };
         });
@@ -308,15 +309,19 @@
             const el=circleRefs.current[i];
             if(!el) return;
             if (b.phase==='wander') {
-              if(Math.random()<0.03){b.vx+=(Math.random()-0.5)*0.35;b.vy+=(Math.random()-0.5)*0.35;}
+              if(Math.random()<0.025){b.vx+=(Math.random()-0.5)*0.18;b.vy+=(Math.random()-0.5)*0.18;}
               const spd=Math.sqrt(b.vx*b.vx+b.vy*b.vy);
-              if(spd>0.55){b.vx*=0.55/spd;b.vy*=0.55/spd;}
-              if(spd<0.12&&spd>0){b.vx*=0.2/spd;b.vy*=0.2/spd;}
+              if(spd>0.28){b.vx*=0.28/spd;b.vy*=0.28/spd;}
+              if(spd<0.06&&spd>0){b.vx*=0.1/spd;b.vy*=0.1/spd;}
               b.x+=b.vx; b.y+=b.vy;
               if(b.x<B.x1){b.x=B.x1;b.vx=Math.abs(b.vx);}
               if(b.x>B.x2){b.x=B.x2;b.vx=-Math.abs(b.vx);}
               if(b.y<B.y1){b.y=B.y1;b.vy=Math.abs(b.vy);}
               if(b.y>B.y2){b.y=B.y2;b.vy=-Math.abs(b.vy);}
+              /* répulsion logo */
+              const ldx=b.x-LOGO.x, ldy=b.y-LOGO.y;
+              const ld=Math.sqrt(ldx*ldx+ldy*ldy);
+              if(ld<LOGO_R&&ld>0){const f=(LOGO_R-ld)/LOGO_R*0.18;b.vx+=ldx/ld*f;b.vy+=ldy/ld*f;}
               sa(el,'fill','#94a3b8');sa(el,'r','4');sa(el,'opacity','0.85');
             } else if (b.phase==='violet') {
               b.t++;
@@ -409,9 +414,9 @@
 
               {/* ── Fil rouge + point voyageur ── */}
               <svg className="meca-svg" viewBox="0 0 900 380" preserveAspectRatio="none" aria-hidden="true">
-                <path d="M 240,200 C 360,200 360,285 450,285 C 540,285 540,190 660,190"
-                  fill="none" stroke="#ef4444" strokeWidth="2.5" strokeLinecap="round" opacity="0.65"/>
-                <circle ref={dotRef} cx="240" cy="200" r="8" fill="#a78bfa" opacity="0"/>
+                <path d="M 230,195 C 370,195 370,255 450,255 C 530,255 530,195 670,195"
+                  fill="none" stroke="#ef4444" strokeWidth="2.5" strokeLinecap="round" opacity="0.7"/>
+                <circle ref={dotRef} cx="230" cy="195" r="8" fill="#a78bfa" opacity="0"/>
               </svg>
 
             </div>
