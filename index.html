@@ -11,12 +11,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Manrope:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&family=JetBrains+Mono:wght@400;500&display=swap">
 
-  <link rel="stylesheet" href="landing/colors_and_type.css?v=81">
-  <link rel="stylesheet" href="landing/landing.css?v=81">
-  <link rel="stylesheet" href="landing/landing-b.css?v=81">
-  <link rel="stylesheet" href="landing/landing-layouts.css?v=81">
-  <link rel="stylesheet" href="landing/landing-hero-wow.css?v=81">
-  <link rel="stylesheet" href="landing/landing-schema.css?v=81">
+  <link rel="stylesheet" href="landing/colors_and_type.css?v=82">
+  <link rel="stylesheet" href="landing/landing.css?v=82">
+  <link rel="stylesheet" href="landing/landing-b.css?v=82">
+  <link rel="stylesheet" href="landing/landing-layouts.css?v=82">
+  <link rel="stylesheet" href="landing/landing-hero-wow.css?v=82">
+  <link rel="stylesheet" href="landing/landing-schema.css?v=82">
 
   <!-- Meta Pixel -->
   <script>
@@ -284,14 +284,7 @@
                     {sx: -20, sy:  20, qx:  8, qy: 20},
                   ].map((pt, i) => (
                     <g key={i} opacity="0">
-                      <g>
-                        <animateTransform attributeName="transform" type="scale"
-                          values="0.6;1;1;1;1;1"
-                          keyTimes="0;0.017;0.033;0.1;0.117;1"
-                          dur="30s" repeatCount="indefinite" begin={`${i * 5}s`}/>
-                        <image href="landing/logo%20personne.png" x="-8" y="-15" width="16" height="19"
-                          filter="url(#person-gray)"/>
-                      </g>
+                      <circle cx="0" cy="0" r="4" fill="#94a3b8"/>
                       <animate attributeName="opacity"
                         values="0;0.9;0.9;0.9;0;0"
                         keyTimes="0;0.017;0.033;0.1;0.117;1"
