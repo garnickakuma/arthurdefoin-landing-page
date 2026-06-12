@@ -1010,7 +1010,7 @@ image-slot { display: block; background: var(--ivoire-2); }
   display: flex;
   gap: 16px;
   will-change: transform;
-  align-items: stretch;
+  align-items: flex-start;
 }
 
 /* ── Chaque carte dans le rail ── */
@@ -1051,31 +1051,7 @@ image-slot { display: block; background: var(--ivoire-2); }
 }
 
 /* ── Cartes fantômes ── */
-.sim-ghost {
-  background: white;
-  border: 1px solid rgba(180,148,52,0.12);
-  border-radius: 20px;
-  padding: 24px 14px;
-  min-height: 200px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  justify-content: center;
-  gap: 4px;
-  position: relative;
-  height: 100%;
-  box-shadow: 0 3px 16px rgba(0,0,0,0.05);
-}
-.sim-ghost::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 50%; transform: translateX(-50%);
-  width: 36px; height: 2px;
-  background: linear-gradient(90deg, #b8892a, #f0d882, #b8892a);
-  border-radius: 0 0 4px 4px;
-  opacity: 0.5;
-}
+/* sim-ghost supprimé — morphing via .stc-active / .stc-inactive */
 
 /* ── Contenu des cartes ── */
 .sim-card-top {
@@ -1106,9 +1082,7 @@ image-slot { display: block; background: var(--ivoire-2); }
   letter-spacing: -0.04em;
   font-variant-numeric: lining-nums tabular-nums;
 }
-.sim-ghost .sim-card-plus  { font-size: clamp(20px, 2.2vw, 30px); }
-.sim-ghost .sim-card-count { font-size: clamp(40px, 4.5vw, 58px); line-height: 1; }
-.sim-ghost .sim-card-count-lbl { font-size: 10px; }
+/* tailles ghost déplacées vers .stc-inactive (voir ci-dessous) */
 .sim-card-count-lbl {
   font-family: var(--sans);
   font-size: 12px;
@@ -1133,21 +1107,51 @@ image-slot { display: block; background: var(--ivoire-2); }
   color: var(--plomb);
   letter-spacing: 0.1em;
 }
-.sim-ghost-ca {
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-weight: 700;
-  font-size: clamp(16px, 2vw, 22px);
-  color: var(--encre);
-  letter-spacing: -0.02em;
-  font-variant-numeric: lining-nums tabular-nums;
-  margin-top: 8px;
+
+/* ── Morphing transitions ── */
+.sim-card-plus  { transition: font-size 0.42s cubic-bezier(0.16,1,0.3,1); }
+.sim-card-count { transition: font-size 0.42s cubic-bezier(0.16,1,0.3,1); }
+.sim-card-ca    { transition: font-size 0.42s cubic-bezier(0.16,1,0.3,1), margin-top 0.42s ease; }
+.sim-card-ca-lbl { transition: font-size 0.42s ease; }
+.sim-card-main  {
+  transition:
+    padding  0.42s cubic-bezier(0.16,1,0.3,1),
+    min-height 0.42s cubic-bezier(0.16,1,0.3,1);
 }
-.sim-ghost-ca-lbl {
-  font-family: var(--sans);
-  font-size: 11px;
-  color: var(--plomb);
-  letter-spacing: 0.08em;
+
+/* État inactif (ghost) */
+.stc-inactive .sim-card-main {
+  padding: 28px 18px;
+  min-height: 180px;
+  justify-content: center;
+  cursor: pointer;
 }
+.stc-inactive .sim-card-plus  { font-size: clamp(18px, 2vw, 26px); }
+.stc-inactive .sim-card-count { font-size: clamp(36px, 4vw, 54px); line-height: 1; }
+.stc-inactive .sim-card-count-lbl { font-size: 9px; }
+.stc-inactive .sim-card-ca    { font-size: clamp(14px, 1.8vw, 20px); margin-top: 8px; }
+.stc-inactive .sim-card-ca-lbl { font-size: 10px; }
+
+/* Section qui s'expand/collapse */
+.sim-card-expand {
+  width: 100%;
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    max-height 0.52s cubic-bezier(0.16,1,0.3,1),
+    opacity    0.35s ease;
+}
+.stc-active .sim-card-expand {
+  max-height: 320px;
+  opacity: 1;
+  pointer-events: auto;
+  transition:
+    max-height 0.55s cubic-bezier(0.16,1,0.3,1),
+    opacity    0.4s ease 0.08s;
+}
+
 .sim-card-divider {
   width: 56px; height: 1px;
   background: linear-gradient(90deg, transparent, rgba(180,148,52,0.35), transparent);
@@ -1236,12 +1240,7 @@ image-slot { display: block; background: var(--ivoire-2); }
   .sim-track-card.stc-active { animation: simFloat 4.5s ease-in-out infinite; }
   .sim-card-main { padding: 48px 36px 44px; min-height: 400px; }
   .sim-card-count { font-size: clamp(84px, 9vw, 120px); }
-  /* Ghost cards desktop : plus hauts, moins écrasés */
-  .sim-ghost {
-    min-height: 360px;
-    padding: 32px 20px;
-    transform: scale(0.92) translateY(10px);
-  }
+
 }
 
 @media (max-width: 860px) {
@@ -1579,7 +1578,7 @@ image-slot { display: block; background: var(--ivoire-2); }
 .avis-section .section-head h2 em {
   color: rgba(255,255,255,0.92) !important;
 }
-.avis-section .section-head .eyebrow .rule { background: #c9a84c; }
+.avis-section .section-head .eyebrow .rule { background: #a78bfa; }
 .avis-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -1603,7 +1602,7 @@ image-slot { display: block; background: var(--ivoire-2); }
   position: absolute;
   top: 0; left: 28px;
   width: 40px; height: 2px;
-  background: linear-gradient(90deg, #b8892a, #f0d882);
+  background: linear-gradient(90deg, #6d4ab0, #a78bfa, #6d4ab0);
   border-radius: 0 0 4px 4px;
 }
 .avis-card:hover {
@@ -1612,7 +1611,7 @@ image-slot { display: block; background: var(--ivoire-2); }
   box-shadow: 0 12px 40px rgba(0,0,0,0.35);
 }
 .avis-stars { display: flex; gap: 3px; }
-.avis-star { color: #f0c660; font-size: 15px; line-height: 1; }
+.avis-star { color: #a78bfa; font-size: 15px; line-height: 1; }
 .avis-quote {
   font-family: var(--serif);
   font-size: 15px;
@@ -1632,7 +1631,7 @@ image-slot { display: block; background: var(--ivoire-2); }
 .avis-avatar {
   width: 40px; height: 40px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #c9a84c, #e8c97a);
+  background: linear-gradient(135deg, #7c5cbf, #a78bfa);
   display: flex; align-items: center; justify-content: center;
   font-family: 'Plus Jakarta Sans', sans-serif;
   font-weight: 700; font-size: 13px; color: white; flex: none;

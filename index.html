@@ -11,12 +11,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Manrope:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&family=JetBrains+Mono:wght@400;500&display=swap">
 
-  <link rel="stylesheet" href="landing/colors_and_type.css?v=59">
-  <link rel="stylesheet" href="landing/landing.css?v=59">
-  <link rel="stylesheet" href="landing/landing-b.css?v=59">
-  <link rel="stylesheet" href="landing/landing-layouts.css?v=59">
-  <link rel="stylesheet" href="landing/landing-hero-wow.css?v=59">
-  <link rel="stylesheet" href="landing/landing-schema.css?v=59">
+  <link rel="stylesheet" href="landing/colors_and_type.css?v=61">
+  <link rel="stylesheet" href="landing/landing.css?v=61">
+  <link rel="stylesheet" href="landing/landing-b.css?v=61">
+  <link rel="stylesheet" href="landing/landing-layouts.css?v=61">
+  <link rel="stylesheet" href="landing/landing-hero-wow.css?v=61">
+  <link rel="stylesheet" href="landing/landing-schema.css?v=61">
 
   <!-- Meta Pixel -->
   <script>
@@ -363,42 +363,6 @@
         </svg>
       );
     }
-    function Benefices() {
-      React.useEffect(() => { if (window.lucide) window.lucide.createIcons(); });
-      const items = [
-        { n:'01', icon:'user-round-search', title:'Des prospects qualifiés', desc:"Des photographes intéressés laissent leurs coordonnées via un formulaire. Vous recevez des leads chauds — déjà séduits par vos images, prêts à parler d'un shooting.", list:['Leads reçus par e-mail ou SMS','Ciblage local ou national','Vous rappelez, vous closez'], tag:'Idéal pour les prestations mariage ' },
-        { n:'02', icon:'calendar-check', title:'Des réservations automatiques', desc:"Vous proposez des séances gratuites ? Je mets en place un tunnel de vente : les prospects réservent eux-mêmes leur créneau et deviennent vos clients, sans intervention de votre part.", list:['Tunnel de réservation complet','Agenda qui se remplit seul','Conversion en vente à la séance'], tag:'Idéal si vous avez ou voulez faire des réservations gratuites' },
-        { n:'03', icon:'eye', title:'De la visibilité', desc:"Faire connaître votre studio, votre site et vos pages Facebook & Instagram. On installe votre nom dans l'esprit de votre clientèle locale — pour qu'on pense à vous le moment venu.", list:['Trafic vers votre site','Croissance des abonnés Insta / FB','Notoriété sur votre zone'], tag:'Idéal pour s\'installer durablement' },
-      ];
-      return (
-        <section className="section" id="benefices">
-          <div className="container">
-            <div className="section-head">
-              <div>
-                <div className="eyebrow"><span className="rule"></span><span className="num">07</span><span>OBJECTIFS</span></div>
-                <h2>Trois façons<br /><em>de remplir votre agenda</em>.</h2>
-              </div>
-              <p className="lede">La publicité Meta n'est pas une dépense — c'est un investissement que l'on choisit selon votre objectif. On définit ensemble lequel de ces trois leviers sert le mieux votre studio.</p>
-            </div>
-            <div className="benefices-grid">
-              {items.map(b => (
-                <div className="benefice" key={b.n}>
-                  <div className="b-head">
-                    <span className="b-num">{b.n}</span>
-                    <i className="b-ico" data-lucide={b.icon} style={{width:28,height:28}}></i>
-                  </div>
-                  <h3>{b.title}</h3>
-                  <p>{b.desc}</p>
-                  <ul className="b-list">{b.list.map((f,i) => <li key={i}><Dot />{f}</li>)}</ul>
-                  <span className="b-tag">{b.tag}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      );
-    }
-
 
     let _simSnapshot = {};
 
@@ -638,18 +602,18 @@
                   const dist = Math.abs(i - cardIdx);
                   return (
                     <div key={i}
-                      className={"sim-track-card" + (active ? " stc-active" : "")}
-                      style={{ ...cardStyle, opacity: Math.max(0.3, 1 - dist * 0.3) }}
+                      className={"sim-track-card" + (active ? " stc-active" : " stc-inactive")}
+                      style={{ ...cardStyle, opacity: Math.max(0.35, 1 - dist * 0.28) }}
                       onClick={() => { if (!isDraggingRef.current && !active) navigateTo(i); }}>
-                      {active ? (
-                        <div className="sim-card-main">
-                          <div className="sim-card-top">
-                            <span className="sim-card-plus">+</span>
-                            <span className="sim-card-count">{card.clients}</span>
-                          </div>
-                          <div className="sim-card-count-lbl">clients par mois</div>
-                          <div className="sim-card-ca">{fmtEUR(card.revenue)}</div>
-                          <div className="sim-card-ca-lbl">de chiffre d'affaires</div>
+                      <div className="sim-card-main">
+                        <div className="sim-card-top">
+                          <span className="sim-card-plus">+</span>
+                          <span className="sim-card-count">{card.clients}</span>
+                        </div>
+                        <div className="sim-card-count-lbl">clients par mois</div>
+                        <div className="sim-card-ca">{fmtEUR(card.revenue)}</div>
+                        <div className="sim-card-ca-lbl">de chiffre d'affaires</div>
+                        <div className="sim-card-expand">
                           <div className="sim-card-divider"></div>
                           <div className="sim-card-costs">
                             <div className="sim-card-cost-row">
@@ -667,17 +631,7 @@
                             </div>
                           </div>
                         </div>
-                      ) : (
-                        <div className="sim-ghost">
-                          <div className="sim-card-top">
-                            <span className="sim-card-plus">+</span>
-                            <span className="sim-card-count">{card.clients}</span>
-                          </div>
-                          <div className="sim-card-count-lbl">clients / mois</div>
-                          <div className="sim-ghost-ca">{fmtEUR(card.revenue)}</div>
-                          <div className="sim-ghost-ca-lbl">de CA</div>
-                        </div>
-                      )}
+                      </div>
                     </div>
                   );
                 })}
@@ -1172,7 +1126,6 @@
             <Callback simData={simData} lpChoice={lpChoice} />
             <Schema />
             <Studio />
-            <Benefices />
             <Avis />
           </main>
           <Footer />
