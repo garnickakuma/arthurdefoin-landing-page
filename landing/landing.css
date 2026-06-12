@@ -1010,7 +1010,7 @@ image-slot { display: block; background: var(--ivoire-2); }
   display: flex;
   gap: 16px;
   will-change: transform;
-  align-items: flex-start;
+  align-items: stretch;
 }
 
 /* ── Chaque carte dans le rail ── */
@@ -1018,6 +1018,8 @@ image-slot { display: block; background: var(--ivoire-2); }
   flex: 0 0 auto;          /* taille gérée par JS en px */
   cursor: pointer;
   transition: opacity .3s ease;
+  display: flex;
+  flex-direction: column;
 }
 .sim-track-card.stc-active {
   cursor: default;
@@ -1035,7 +1037,7 @@ image-slot { display: block; background: var(--ivoire-2); }
   align-items: center;
   text-align: center;
   gap: 4px;
-  min-height: 360px;
+  flex: 1;
   justify-content: center;
   position: relative;
   pointer-events: none;
@@ -1134,7 +1136,7 @@ image-slot { display: block; background: var(--ivoire-2); }
 .sim-card-divider {
   width: 56px; height: 1px;
   background: linear-gradient(90deg, transparent, rgba(180,148,52,0.35), transparent);
-  margin: 18px 0;
+  margin: 18px auto;
 }
 .sim-card-costs {
   display: flex;
@@ -1144,7 +1146,7 @@ image-slot { display: block; background: var(--ivoire-2); }
 }
 .sim-card-cost-row {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   gap: 8px;
   font-family: var(--sans);
@@ -1217,7 +1219,7 @@ image-slot { display: block; background: var(--ivoire-2); }
 @media (min-width: 860px) {
   .sim-viewport { perspective: 1400px; }
   .sim-track-card.stc-active { animation: simFloat 4.5s ease-in-out infinite; }
-  .sim-card-main { padding: 48px 36px 44px; min-height: 400px; }
+  .sim-card-main { padding: 48px 36px 44px; }
   .sim-card-count { font-size: clamp(84px, 9vw, 120px); }
 
 }
@@ -1225,7 +1227,7 @@ image-slot { display: block; background: var(--ivoire-2); }
 @media (max-width: 860px) {
   .sim-pre { grid-template-columns: 1fr; gap: 20px; }
   .sim-viewport { margin-top: 28px; }
-  .sim-card-main { padding: 36px 22px 32px; min-height: 310px; }
+  .sim-card-main { padding: 36px 22px 32px; }
   .sim-card-count { font-size: clamp(72px, 18vw, 96px); }
   .sim-nav-row { margin-top: 20px; gap: 16px; }
   .sim-nav-btn { width: 42px; height: 42px; }
@@ -1548,16 +1550,6 @@ image-slot { display: block; background: var(--ivoire-2); }
 }
 
 /* ----------  Avis clients  ---------- */
-.avis-section {
-  background: #1e1a30;
-}
-.avis-section .section-head .eyebrow,
-.avis-section .section-head .eyebrow .num,
-.avis-section .section-head h2,
-.avis-section .section-head h2 em {
-  color: rgba(255,255,255,0.92) !important;
-}
-.avis-section .section-head .eyebrow .rule { background: #a78bfa; }
 .avis-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -1565,8 +1557,8 @@ image-slot { display: block; background: var(--ivoire-2); }
   margin-top: 48px;
 }
 .avis-card {
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.10);
+  background: var(--blanc);
+  border: 1px solid var(--sable);
   border-radius: var(--r-md);
   padding: 28px 24px 24px;
   display: flex;
@@ -1574,7 +1566,6 @@ image-slot { display: block; background: var(--ivoire-2); }
   gap: 16px;
   position: relative;
   transition: transform .2s ease, box-shadow .2s ease;
-  backdrop-filter: blur(8px);
 }
 .avis-card::before {
   content: '';
@@ -1586,8 +1577,7 @@ image-slot { display: block; background: var(--ivoire-2); }
 }
 .avis-card:hover {
   transform: translateY(-3px);
-  background: rgba(255,255,255,0.10);
-  box-shadow: 0 12px 40px rgba(0,0,0,0.35);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.09);
 }
 .avis-stars { display: flex; gap: 3px; }
 .avis-star { color: #a78bfa; font-size: 15px; line-height: 1; }
@@ -1595,7 +1585,7 @@ image-slot { display: block; background: var(--ivoire-2); }
   font-family: var(--serif);
   font-size: 15px;
   line-height: 1.65;
-  color: rgba(255,255,255,0.85);
+  color: var(--encre);
   flex: 1;
   font-style: italic;
   font-weight: 400;
@@ -1605,7 +1595,7 @@ image-slot { display: block; background: var(--ivoire-2); }
   align-items: center;
   gap: 12px;
   padding-top: 12px;
-  border-top: 1px solid rgba(255,255,255,0.10);
+  border-top: 1px solid var(--sable);
 }
 .avis-avatar {
   width: 40px; height: 40px;
@@ -1616,8 +1606,8 @@ image-slot { display: block; background: var(--ivoire-2); }
   font-weight: 700; font-size: 13px; color: white; flex: none;
 }
 .avis-meta { display: flex; flex-direction: column; gap: 1px; }
-.avis-meta strong { font-family: var(--sans); font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.92); }
-.avis-meta span   { font-family: var(--sans); font-size: 12px; color: rgba(255,255,255,0.50); }
+.avis-meta strong { font-family: var(--sans); font-size: 13px; font-weight: 600; color: var(--encre); }
+.avis-meta span   { font-family: var(--sans); font-size: 12px; color: var(--plomb); }
 @media (max-width: 860px)  { .avis-grid { grid-template-columns: 1fr; gap: 16px; } }
 @media (min-width: 861px) and (max-width: 1100px) { .avis-grid { grid-template-columns: repeat(2, 1fr); } }
 
