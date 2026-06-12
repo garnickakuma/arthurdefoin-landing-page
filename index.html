@@ -11,12 +11,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Manrope:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&family=JetBrains+Mono:wght@400;500&display=swap">
 
-  <link rel="stylesheet" href="landing/colors_and_type.css?v=36">
-  <link rel="stylesheet" href="landing/landing.css?v=36">
-  <link rel="stylesheet" href="landing/landing-b.css?v=36">
-  <link rel="stylesheet" href="landing/landing-layouts.css?v=36">
-  <link rel="stylesheet" href="landing/landing-hero-wow.css?v=36">
-  <link rel="stylesheet" href="landing/landing-schema.css?v=36">
+  <link rel="stylesheet" href="landing/colors_and_type.css?v=37">
+  <link rel="stylesheet" href="landing/landing.css?v=37">
+  <link rel="stylesheet" href="landing/landing-b.css?v=37">
+  <link rel="stylesheet" href="landing/landing-layouts.css?v=37">
+  <link rel="stylesheet" href="landing/landing-hero-wow.css?v=37">
+  <link rel="stylesheet" href="landing/landing-schema.css?v=37">
 
   <!-- Meta Pixel -->
   <script>
@@ -630,14 +630,29 @@
       );
     }
     // ─── Tunnel de vente ─────────────────────────────────────────────────────
-    function Tunnel() {
+    function Tunnel({onTunnelChange}) {
+      const [pubChecked, setPubChecked] = React.useState(false);
+      const [lpChoice, setLpChoice] = React.useState(null);
+      const [readyChecked, setReadyChecked] = React.useState(false);
       const [slide, setSlide] = React.useState(0);
+      const allChecked = pubChecked && lpChoice !== null && readyChecked;
       const go = id => e => { e.preventDefault(); const el = document.getElementById(id); if (el) window.scrollTo({top:el.offsetTop-60,behavior:'smooth'}); };
-      const steps = [
-        { n:'01', ico:'megaphone', title:'Campagne Meta Ads', desc:'Je crée et pilote vos publicités sur Facebook et Instagram. Ciblage précis, visuels testés, budget optimisé — je gère tout.' },
-        { n:'02', ico:'layout', title:'Landing page dédiée', desc:'Une page de capture conçue pour convertir les visiteurs en prospects qualifiés, avec votre identité visuelle.' },
-        { n:'03', ico:'calendar-check', title:'Contact & Réservation', desc:'Les leads arrivent directement dans votre boîte. Vous n\'avez plus qu\'à shooter — je m\'occupe du reste.' },
+      React.useEffect(() => { if (window.lucide) window.lucide.createIcons(); });
+      React.useEffect(() => {
+        if (onTunnelChange) onTunnelChange({pubChecked, lpChoice, readyChecked, allChecked});
+      }, [pubChecked, lpChoice, readyChecked]);
+
+      const lpSlides = [
+        {id:1,label:'Mariage · Luxe',        accent:'#C4A882',bg:'#FAF7F3'},
+        {id:2,label:'Studio · Portrait',      accent:'#8A7FA8',bg:'#F5F3FA'},
+        {id:3,label:'Extérieur · Nature',     accent:'#7A9E8B',bg:'#F3F8F5'},
+        {id:4,label:'Mariage · Bohème',       accent:'#C49478',bg:'#FBF5F1'},
+        {id:5,label:'Studio · Mode',          accent:'#6B8BB5',bg:'#F1F4FB'},
+        {id:6,label:'Famille · Lifestyle',    accent:'#A88A7A',bg:'#F8F4F1'},
+        {id:7,label:'Newborn · Douceur',      accent:'#C4A09A',bg:'#FBF5F4'},
+        {id:8,label:'Corporate · Business',   accent:'#5A7A8A',bg:'#F1F5F7'},
       ];
+
       return (
         <section className="section tunnel" id="tunnel">
           <div className="container">
@@ -648,58 +663,96 @@
               </div>
               <p className="lede">Pub, landing page, contacts qualifiés : je construis et pilote tout le tunnel. Vous signez, vous shootez.</p>
             </div>
+
             <div className="tunnel-steps">
-              {steps.map(s => (
-                <div key={s.n} className="tunnel-step">
-                  <div className="ts-num">{s.n}</div>
-                  <div className="ts-ico"><i data-lucide={s.ico}></i></div>
-                  <h3 className="ts-title">{s.title}</h3>
-                  <p className="ts-desc">{s.desc}</p>
+
+              {/* ── Étape 1 ── */}
+              <div className={"tunnel-step tst-card" + (pubChecked ? " tst-done" : "")}>
+                <div className="ts-num">01</div>
+                <div className="ts-ico"><i data-lucide="megaphone"></i></div>
+                <h3 className="ts-title">Campagne Meta Ads</h3>
+                <p className="ts-desc">Je crée et pilote vos publicités sur Facebook et Instagram. Ciblage précis, visuels testés, budget optimisé — je gère tout.</p>
+                <label className="tst-check">
+                  <input type="checkbox" checked={pubChecked} onChange={e => setPubChecked(e.target.checked)} />
+                  <span>Je souhaite qu'on lance mes publicités</span>
+                </label>
+              </div>
+
+              {/* ── Étape 2 ── */}
+              <div className={"tunnel-step tst-card" + (lpChoice ? " tst-done" : "")}>
+                <div className="ts-num">02</div>
+                <div className="ts-ico"><i data-lucide="layout"></i></div>
+                <h3 className="ts-title">Landing page dédiée</h3>
+                <p className="ts-desc">Une page de capture conçue pour convertir les visiteurs en prospects qualifiés, avec votre identité visuelle.</p>
+
+                <div className="lp-carousel-incard">
+                  <div className="lp-carousel">
+                    <button className="lpc-btn" onClick={() => setSlide(s => Math.max(0, s-1))} disabled={slide===0} aria-label="Précédent">‹</button>
+                    <div className="lpc-track">
+                      {lpSlides.slice(slide, slide+3).map(lp => (
+                        <div key={lp.id} className="lpc-card" style={{background:lp.bg}}>
+                          <div className="lpc-header" style={{background:lp.accent}}>
+                            <div className="lpc-dot"></div><div className="lpc-dot"></div><div className="lpc-dot"></div>
+                            <div className="lpc-nav-bar" style={{background:'rgba(255,255,255,0.3)'}}></div>
+                          </div>
+                          <div className="lpc-hero" style={{background:lp.accent+'33'}}></div>
+                          <div className="lpc-lines">
+                            <div className="lpc-line lpc-line-lg" style={{background:lp.accent+'99'}}></div>
+                            <div className="lpc-line lpc-line-sm" style={{background:lp.accent+'55'}}></div>
+                            <div className="lpc-cta-mock" style={{background:lp.accent}}></div>
+                          </div>
+                          <span className="lpc-label">{lp.label}</span>
+                        </div>
+                      ))}
+                    </div>
+                    <button className="lpc-btn" onClick={() => setSlide(s => Math.min(5, s+1))} disabled={slide>=5} aria-label="Suivant">›</button>
+                  </div>
                 </div>
-              ))}
+
+                <div className="tst-radio-group">
+                  <label className={"tst-radio" + (lpChoice==='need' ? " active" : "")}>
+                    <input type="radio" name="lp" value="need" checked={lpChoice==='need'} onChange={() => setLpChoice('need')} />
+                    <span>J'ai besoin d'une landing page qui convertit</span>
+                  </label>
+                  <label className={"tst-radio" + (lpChoice==='have' ? " active" : "")}>
+                    <input type="radio" name="lp" value="have" checked={lpChoice==='have'} onChange={() => setLpChoice('have')} />
+                    <span>J'ai déjà une landing page qui convertit</span>
+                  </label>
+                </div>
+              </div>
+
+              {/* ── Étape 3 ── */}
+              <div className={"tunnel-step tst-card" + (readyChecked ? " tst-done" : "")}>
+                <div className="ts-num">03</div>
+                <div className="ts-ico"><i data-lucide="calendar-check"></i></div>
+                <h3 className="ts-title">Contact & Réservation</h3>
+                <p className="ts-desc">Les leads arrivent directement dans votre boîte. Vous n'avez plus qu'à shooter — je m'occupe du reste.</p>
+                <label className="tst-check">
+                  <input type="checkbox" checked={readyChecked} onChange={e => setReadyChecked(e.target.checked)} />
+                  <span>Je suis prêt.e à recevoir des clients</span>
+                </label>
+              </div>
+
             </div>
 
-            <div className="lp-carousel-wrap">
-              <div className="eyebrow" style={{marginTop:40,marginBottom:20}}><span className="rule"></span><span>Exemples de landing pages</span></div>
-              <div className="lp-carousel">
-                <button className="lpc-btn" onClick={() => setSlide(s => Math.max(0, s-1))} disabled={slide===0} aria-label="Précédent">‹</button>
-                <div className="lpc-track">
-                  {[
-                    {id:1,label:'Mariage · Luxe',        accent:'#C4A882',bg:'#FAF7F3'},
-                    {id:2,label:'Studio · Portrait',      accent:'#8A7FA8',bg:'#F5F3FA'},
-                    {id:3,label:'Extérieur · Nature',     accent:'#7A9E8B',bg:'#F3F8F5'},
-                    {id:4,label:'Mariage · Bohème',       accent:'#C49478',bg:'#FBF5F1'},
-                    {id:5,label:'Studio · Mode',          accent:'#6B8BB5',bg:'#F1F4FB'},
-                    {id:6,label:'Famille · Lifestyle',    accent:'#A88A7A',bg:'#F8F4F1'},
-                    {id:7,label:'Newborn · Douceur',      accent:'#C4A09A',bg:'#FBF5F4'},
-                    {id:8,label:'Corporate · Business',   accent:'#5A7A8A',bg:'#F1F5F7'},
-                  ].slice(slide, slide+4).map(lp => (
-                    <div key={lp.id} className="lpc-card" style={{background:lp.bg}}>
-                      <div className="lpc-header" style={{background:lp.accent}}>
-                        <div className="lpc-dot"></div><div className="lpc-dot"></div><div className="lpc-dot"></div>
-                        <div className="lpc-nav-bar" style={{background:'rgba(255,255,255,0.3)'}}></div>
-                      </div>
-                      <div className="lpc-hero" style={{background:lp.accent+'33'}}></div>
-                      <div className="lpc-lines">
-                        <div className="lpc-line lpc-line-lg" style={{background:lp.accent+'99'}}></div>
-                        <div className="lpc-line lpc-line-sm" style={{background:lp.accent+'55'}}></div>
-                        <div className="lpc-cta-mock" style={{background:lp.accent}}></div>
-                      </div>
-                      <span className="lpc-label">{lp.label}</span>
-                    </div>
-                  ))}
-                </div>
-                <button className="lpc-btn" onClick={() => setSlide(s => Math.min(4, s+1))} disabled={slide>=4} aria-label="Suivant">›</button>
-              </div>
-            </div>
             <div className="tunnel-cta">
-              <a className="btn btn-gold" href="#rappel" onClick={go('rappel')}>Je veux ce système pour mon studio <span className="arrow">→</span></a>
+              {allChecked ? (
+                <a className="btn btn-gold" href="#rappel" onClick={go('rappel')}>Faire une demande de devis <span className="arrow">→</span></a>
+              ) : (
+                <div className="tst-progress">
+                  <div className="tst-progress-dots">
+                    <span className={"tst-dot" + (pubChecked ? " done" : "")}></span>
+                    <span className={"tst-dot" + (lpChoice ? " done" : "")}></span>
+                    <span className={"tst-dot" + (readyChecked ? " done" : "")}></span>
+                  </div>
+                  <span className="tst-progress-lbl">Cochez les 3 étapes pour envoyer une demande de devis</span>
+                </div>
+              )}
             </div>
           </div>
         </section>
       );
     }
-
     // ─── Formulaire de contact ────────────────────────────────────────────────
     const ICO_PATHS = {
       video:'Pm22 8-6 4 6 4V8Z|R2,6,14,12,2',
@@ -719,11 +772,13 @@
         </svg>
       );
     }
-    function Callback({simData}) {
+    function Callback({simData, tunnelData}) {
       const [form, setForm] = React.useState({prenom:'', telephone:'', email:''});
       const [status, setStatus] = React.useState('idle');
       const update = k => e => setForm(f => ({...f, [k]: e.target.value}));
       const fmtN = n => n != null ? Math.round(n) + ' €' : '—';
+      const td = tunnelData || {};
+      const lpLabel = td.lpChoice === 'need' ? "J'ai besoin d'une landing page" : td.lpChoice === 'have' ? "J'ai déjà une landing page" : '—';
 
       const submit = async e => {
         e.preventDefault();
@@ -735,19 +790,22 @@
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
               access_key: '8ff579b2-c217-4683-95bf-49ccd0b57c4d',
-              subject: `Nouveau prospect — ${form.prenom} (${sim.spec||'?'}, ${sim.pub||'?'}€ pub)`,
+              subject: `Demande de devis — ${form.prenom} (${sim.spec||'?'}, ${sim.pub||'?'}€ pub)`,
               'Prénom': form.prenom,
               'Email': form.email,
               'Téléphone': form.telephone,
               '— Simulation —': '─────────────',
               'Prestation': sim.spec || '—',
               'Panier moyen': sim.cart ? sim.cart + ' €' : '—',
-              'Dépense pub': sim.pub ? sim.pub + ' €/mois' : '—',
+              'Budget pub': sim.pub ? sim.pub + ' €/mois' : '—',
               'CA estimé': fmtN(sim.revenue),
-              'Leads estimés': sim.volume ? Math.round(sim.volume) : '—',
-              'Prestations signées': sim.clients ? Math.round(sim.clients) : '—',
+              'Clients estimés': sim.clients ? Math.round(sim.clients) : '—',
               'Bénéfice estimé': fmtN(sim.benefice),
               'Abonnement': fmtN(sim.abo),
+              '— Besoins —': '─────────────',
+              'Publicités': td.pubChecked ? '✓ Souhaite lancer des publicités' : '—',
+              'Landing page': lpLabel,
+              'Disponibilité': td.readyChecked ? '✓ Prêt.e à recevoir des clients' : '—',
             })
           });
           const data = await res.json();
@@ -756,14 +814,16 @@
         } catch { setStatus('error'); }
       };
 
+      const hasRecap = (simData && simData.pub > 0) || td.pubChecked || td.lpChoice || td.readyChecked;
+
       return (
         <section className="section callback" id="rappel">
           <div className="container">
             <div className="callback-inner">
               <div>
-                <div className="eyebrow"><span className="rule"></span><span className="num">03</span><span>On en parle&nbsp;?</span></div>
-                <h2>Laissez vos coordonnées, <em>je vous rappelle</em>.</h2>
-                <p className="lede">On fait le point sur votre activité et ce que Meta Ads peut vous rapporter concrètement. Aucun engagement.</p>
+                <div className="eyebrow"><span className="rule"></span><span className="num">04</span><span>Devis</span></div>
+                <h2>Demande de devis —<br /><em>sans engagement</em></h2>
+                <p className="lede">Je vous rappelle pour faire le point sur votre activité et vous proposer une offre sur-mesure. Réponse sous 24h.</p>
                 <div className="cb-assur">
                   <span><Ico n="user" /> Réponse sous <strong>24h</strong></span>
                   <span><Ico n="video" /> Appel de <strong>30 min</strong></span>
@@ -774,19 +834,34 @@
                 {status === 'success' ? (
                   <div className="cform-success">
                     <div className="cform-success-ico">✓</div>
-                    <h3>Reçu&nbsp;!</h3>
+                    <h3>Demande envoyée&nbsp;!</h3>
                     <p>Je vous rappelle dans les 24h. À très vite.</p>
                   </div>
                 ) : (
                   <form onSubmit={submit} noValidate>
-                    {simData && simData.pub > 0 && (
+                    {hasRecap && (
                       <div className="cform-recap">
-                        <span className="cform-recap-intro">D&apos;après le simulateur vous souhaitez&nbsp;:</span>
-                        <ul className="cform-recap-list">
-                          <li>Investir <strong>{fmtEUR(simData.pub)}</strong></li>
-                          <li>Obtenir <strong>{simData.clients ? Math.round(simData.clients) : '—'} clients</strong></li>
-                          <li>Gagner <strong>{simData.revenue ? fmtEUR(simData.revenue) : '—'}</strong></li>
-                        </ul>
+                        {simData && simData.pub > 0 && (
+                          <>
+                            <span className="cform-recap-intro">D'après le simulateur vous souhaitez&nbsp;:</span>
+                            <ul className="cform-recap-list">
+                              <li>Investir <strong>{fmtEUR(simData.pub)}</strong></li>
+                              <li>Obtenir <strong>{simData.clients ? Math.round(simData.clients) : '—'} clients</strong></li>
+                              <li>Gagner <strong>{simData.revenue ? fmtEUR(simData.revenue) : '—'}</strong></li>
+                            </ul>
+                          </>
+                        )}
+                        {(td.pubChecked || td.lpChoice || td.readyChecked) && (
+                          <>
+                            <span className="cform-recap-intro" style={{marginTop: simData && simData.pub > 0 ? 12 : 0}}>Vos besoins&nbsp;:</span>
+                            <ul className="cform-recap-list">
+                              {td.pubChecked && <li>Lancer des publicités Meta Ads</li>}
+                              {td.lpChoice === 'need' && <li>Créer une landing page qui convertit</li>}
+                              {td.lpChoice === 'have' && <li>J'ai déjà une landing page</li>}
+                              {td.readyChecked && <li>Prêt.e à recevoir des clients</li>}
+                            </ul>
+                          </>
+                        )}
                       </div>
                     )}
                     <div className="cform-field">
@@ -803,7 +878,7 @@
                     </div>
                     {status === 'error' && <p className="cform-error">Une erreur est survenue, réessayez.</p>}
                     <button className="btn btn-gold cform-submit" type="submit" disabled={status==='sending'}>
-                      {status==='sending' ? 'Envoi…' : 'Je veux être rappelé(e) →'}
+                      {status==='sending' ? 'Envoi…' : 'Envoyer ma demande de devis →'}
                     </button>
                     <p className="cform-legal">Coordonnées utilisées uniquement pour vous recontacter.</p>
                   </form>
@@ -814,7 +889,6 @@
         </section>
       );
     }
-
     // ─── Footer ───────────────────────────────────────────────────────────────
     function Footer() {
       const go = id => e => { e.preventDefault(); const el = document.getElementById(id); if (el) window.scrollTo({top:el.offsetTop-60,behavior:'smooth'}); };
@@ -867,6 +941,7 @@
     // ─── App ──────────────────────────────────────────────────────────────────
     function App() {
       const [simData, setSimData] = React.useState({});
+      const [tunnelData, setTunnelData] = React.useState({});
       React.useEffect(() => { if (window.lucide) window.lucide.createIcons(); });
       return (
         <div className="page">
@@ -875,8 +950,8 @@
           <main>
             <HeroWow variant="anime" />
             <Simulateur onSimChange={setSimData} />
-            <Tunnel />
-            <Callback simData={simData} />
+            <Tunnel onTunnelChange={setTunnelData} />
+            <Callback simData={simData} tunnelData={tunnelData} />
             <Schema />
             <Studio />
             <Benefices />
