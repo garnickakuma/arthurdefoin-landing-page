@@ -1230,13 +1230,18 @@ image-slot { display: block; background: var(--ivoire-2); }
   background: linear-gradient(90deg, #c9a84c, #f0d882);
 }
 
-/* ── Desktop : cartes plus larges, float lent ── */
+/* ── Desktop : 3 cartes visibles — centre dominant, côtés bien lisibles ── */
 @media (min-width: 860px) {
   .sim-viewport { perspective: 1400px; }
-  /* flex-basis desktop injectée par JS */
   .sim-track-card.stc-active { animation: simFloat 4.5s ease-in-out infinite; }
-  .sim-card-main { padding: 52px 44px 48px; min-height: 380px; }
-  .sim-card-count { font-size: clamp(84px, 10vw, 128px); }
+  .sim-card-main { padding: 48px 36px 44px; min-height: 400px; }
+  .sim-card-count { font-size: clamp(84px, 9vw, 120px); }
+  /* Ghost cards desktop : plus hauts, moins écrasés */
+  .sim-ghost {
+    min-height: 360px;
+    padding: 32px 20px;
+    transform: scale(0.92) translateY(10px);
+  }
 }
 
 @media (max-width: 860px) {
