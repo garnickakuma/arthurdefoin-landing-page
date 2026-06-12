@@ -1550,13 +1550,34 @@ image-slot { display: block; background: var(--ivoire-2); }
 }
 
 /* ----------  Avis clients  ---------- */
-.avis-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+.avis-marquee-outer {
   margin-top: 48px;
+  overflow: hidden;
+}
+.avis-marquee-row {
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+.avis-marquee-track {
+  display: flex;
+  gap: 20px;
+  width: max-content;
+  animation: avis-scroll-left 50s linear infinite;
+}
+.avis-marquee-reverse .avis-marquee-track {
+  animation: avis-scroll-right 50s linear infinite;
+}
+@keyframes avis-scroll-left {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+@keyframes avis-scroll-right {
+  from { transform: translateX(-50%); }
+  to   { transform: translateX(0); }
 }
 .avis-card {
+  width: 320px;
+  flex: 0 0 320px;
   background: var(--blanc);
   border: 1px solid var(--sable);
   border-radius: var(--r-md);
@@ -1575,10 +1596,7 @@ image-slot { display: block; background: var(--ivoire-2); }
   background: linear-gradient(90deg, #6d4ab0, #a78bfa, #6d4ab0);
   border-radius: 0 0 4px 4px;
 }
-.avis-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 40px rgba(0,0,0,0.09);
-}
+/* pas de :hover — défilement automatique, pas d'interaction */
 .avis-stars { display: flex; gap: 3px; }
 .avis-star { color: #a78bfa; font-size: 15px; line-height: 1; }
 .avis-quote {
@@ -1608,8 +1626,9 @@ image-slot { display: block; background: var(--ivoire-2); }
 .avis-meta { display: flex; flex-direction: column; gap: 1px; }
 .avis-meta strong { font-family: var(--sans); font-size: 13px; font-weight: 600; color: var(--encre); }
 .avis-meta span   { font-family: var(--sans); font-size: 12px; color: var(--plomb); }
-@media (max-width: 860px)  { .avis-grid { grid-template-columns: 1fr; gap: 16px; } }
-@media (min-width: 861px) and (max-width: 1100px) { .avis-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 860px) {
+  .avis-card { width: 280px; flex: 0 0 280px; padding: 22px 18px 18px; }
+}
 
 /* ----------  Responsive  ---------- */
 @media (max-width: 980px) {
