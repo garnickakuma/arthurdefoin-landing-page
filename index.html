@@ -11,12 +11,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Manrope:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&family=JetBrains+Mono:wght@400;500&display=swap">
 
-  <link rel="stylesheet" href="landing/colors_and_type.css?v=73">
-  <link rel="stylesheet" href="landing/landing.css?v=73">
-  <link rel="stylesheet" href="landing/landing-b.css?v=73">
-  <link rel="stylesheet" href="landing/landing-layouts.css?v=73">
-  <link rel="stylesheet" href="landing/landing-hero-wow.css?v=73">
-  <link rel="stylesheet" href="landing/landing-schema.css?v=73">
+  <link rel="stylesheet" href="landing/colors_and_type.css?v=74">
+  <link rel="stylesheet" href="landing/landing.css?v=74">
+  <link rel="stylesheet" href="landing/landing-b.css?v=74">
+  <link rel="stylesheet" href="landing/landing-layouts.css?v=74">
+  <link rel="stylesheet" href="landing/landing-hero-wow.css?v=74">
+  <link rel="stylesheet" href="landing/landing-schema.css?v=74">
 
   <!-- Meta Pixel -->
   <script>
@@ -227,6 +227,24 @@
     // ─── Schema ───────────────────────────────────────────────────────────────
     function Schema() {
       React.useEffect(() => { if (window.lucide) window.lucide.createIcons(); });
+      // Positions pré-calculées sur le chemin bezier + angle de rotation (tangente + 90°)
+      // Chemin : M 150,195 C 240,330 360,115 450,215 C 540,315 660,115 750,195
+      const fps = [
+        {x:172, y:221, a:131, lr: 1},
+        {x:222, y:241, a: 91, lr:-1},
+        {x:275, y:229, a: 68, lr: 1},
+        {x:325, y:206, a: 66, lr:-1},
+        {x:378, y:189, a: 81, lr: 1},
+        {x:428, y:197, a:120, lr:-1},
+        {x:472, y:234, a:121, lr: 1},
+        {x:522, y:243, a: 82, lr:-1},
+        {x:575, y:225, a: 65, lr: 1},
+        {x:625, y:199, a: 63, lr:-1},
+        {x:678, y:179, a: 77, lr: 1},
+        {x:728, y:181, a:112, lr:-1},
+      ];
+      const N = fps.length;
+      const dur = 6; // secondes pour un cycle complet
       return (
         <section className="section schema" id="mecanisme">
           <div className="container">
@@ -236,7 +254,6 @@
               <p className="lede">Vous photographiez — tout le reste tourne sans vous.</p>
             </div>
             <div className="meca-scene">
-              {/* Cartes */}
               <div className="meca-card meca-c1">
                 <div className="meca-num">01</div>
                 <div className="meca-ico"><i data-lucide="megaphone"></i></div>
@@ -256,41 +273,26 @@
                 <p className="meca-sub">Vous recevez des prospects qualifiés — vous n'avez plus qu'à décrocher.</p>
               </div>
 
-              {/* Chemin + bonhomme */}
               <svg className="meca-svg" viewBox="0 0 900 380" preserveAspectRatio="none" aria-hidden="true">
-                <path id="meca-path"
-                  d="M 150,195 C 240,330 360,115 450,215 C 540,315 660,115 750,195"
-                  fill="none" stroke="#a78bfa" strokeWidth="3" strokeDasharray="10 7" opacity="0.55"/>
-                {/* Petit bonhomme */}
-                <g>
-                  {/* tête */}
-                  <circle cx="0" cy="-13" r="5.5" fill="#a78bfa"/>
-                  {/* corps */}
-                  <line x1="0" y1="-7" x2="0" y2="5" stroke="#6d4ab0" strokeWidth="2.5" strokeLinecap="round"/>
-                  {/* bras gauche */}
-                  <line x1="0" y1="-2" x2="-8" y2="5" stroke="#6d4ab0" strokeWidth="2" strokeLinecap="round">
-                    <animateTransform attributeName="transform" type="rotate"
-                      values="30 0 -2;-30 0 -2;30 0 -2" dur="0.52s" repeatCount="indefinite" additive="sum"/>
-                  </line>
-                  {/* bras droit */}
-                  <line x1="0" y1="-2" x2="8" y2="5" stroke="#6d4ab0" strokeWidth="2" strokeLinecap="round">
-                    <animateTransform attributeName="transform" type="rotate"
-                      values="-30 0 -2;30 0 -2;-30 0 -2" dur="0.52s" repeatCount="indefinite" additive="sum"/>
-                  </line>
-                  {/* jambe gauche */}
-                  <line x1="0" y1="5" x2="-6" y2="16" stroke="#6d4ab0" strokeWidth="2" strokeLinecap="round">
-                    <animateTransform attributeName="transform" type="rotate"
-                      values="35 0 5;-35 0 5;35 0 5" dur="0.52s" repeatCount="indefinite" additive="sum"/>
-                  </line>
-                  {/* jambe droite */}
-                  <line x1="0" y1="5" x2="6" y2="16" stroke="#6d4ab0" strokeWidth="2" strokeLinecap="round">
-                    <animateTransform attributeName="transform" type="rotate"
-                      values="-35 0 5;35 0 5;-35 0 5" dur="0.52s" repeatCount="indefinite" additive="sum"/>
-                  </line>
-                  <animateMotion dur="7s" repeatCount="indefinite" rotate="auto">
-                    <mpath href="#meca-path"/>
-                  </animateMotion>
-                </g>
+                <defs>
+                  {/* Forme d'empreinte : talon en bas, orteils en haut */}
+                  <g id="fp-shape">
+                    <ellipse cx="0" cy="1" rx="5" ry="7.5" fill="currentColor"/>
+                    <circle cx="-3.8" cy="-7.5" r="2.1" fill="currentColor"/>
+                    <circle cx="-1.2" cy="-9.2" r="1.9" fill="currentColor"/>
+                    <circle cx="1.5" cy="-9.2" r="1.9" fill="currentColor"/>
+                    <circle cx="4" cy="-7.5" r="2.1" fill="currentColor"/>
+                  </g>
+                </defs>
+
+                {fps.map((fp, i) => (
+                  <g key={i}
+                    transform={`translate(${fp.x},${fp.y}) rotate(${fp.a + fp.lr * 11})`}
+                    className="meca-fp"
+                    style={{animationDelay: `${-(i * dur / N).toFixed(2)}s`, animationDuration: `${dur}s`}}>
+                    <use href="#fp-shape" transform={fp.lr === -1 ? 'scale(-1,1)' : ''}/>
+                  </g>
+                ))}
               </svg>
             </div>
           </div>
