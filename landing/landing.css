@@ -1005,7 +1005,7 @@ image-slot { display: block; background: var(--ivoire-2); }
 .sim-viewport.is-dragging { cursor: grabbing; }
 
 /* ── Rail de toutes les cartes ── */
-.sim-track {
+.sim-carousel-track {
   display: flex;
   gap: 16px;
   will-change: transform;
