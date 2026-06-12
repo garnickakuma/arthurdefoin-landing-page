@@ -396,8 +396,11 @@ body { background: var(--ivoire); }
 }
 
 .cform-recap { background: var(--sable); border: 1px solid var(--sable-fonce); border-radius: 10px; padding: 16px 18px; margin-bottom: 20px; }
-.cform-recap-sentence { font-family: var(--sans); font-size: 14px; color: var(--plomb); line-height: 1.6; margin: 0; }
-.cform-recap-sentence strong { color: var(--encre); font-weight: 600; }
+.cform-recap-intro { font-family: var(--sans); font-size: 12px; letter-spacing: 0.04em; color: var(--plomb); display: block; margin-bottom: 10px; }
+.cform-recap-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.cform-recap-list li { font-family: var(--sans); font-size: 14px; color: var(--plomb); display: flex; align-items: baseline; gap: 8px; }
+.cform-recap-list li::before { content: '•'; color: var(--or); font-size: 16px; flex: none; }
+.cform-recap-list strong { color: var(--encre); font-weight: 600; }
 
 .cform-field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
 .cform-label { font-family: var(--sans); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--plomb); }
