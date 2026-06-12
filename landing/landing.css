@@ -1014,7 +1014,7 @@ image-slot { display: block; background: var(--ivoire-2); }
 
 /* ── Chaque carte dans le rail ── */
 .sim-track-card {
-  flex: 0 0 calc(100% - 96px);
+  flex: 0 0 auto;          /* taille gérée par JS en px */
   cursor: pointer;
   transition: opacity .3s ease;
 }
@@ -1232,7 +1232,7 @@ image-slot { display: block; background: var(--ivoire-2); }
 /* ── Desktop : cartes plus larges, float lent ── */
 @media (min-width: 860px) {
   .sim-viewport { perspective: 1400px; }
-  .sim-track-card { flex: 0 0 calc(60% - 8px); }
+  /* flex-basis desktop injectée par JS */
   .sim-track-card.stc-active { animation: simFloat 4.5s ease-in-out infinite; }
   .sim-card-main { padding: 52px 44px 48px; min-height: 380px; }
   .sim-card-count { font-size: clamp(84px, 10vw, 128px); }
@@ -1351,6 +1351,16 @@ image-slot { display: block; background: var(--ivoire-2); }
 }
 
 /* ----------  Avis clients  ---------- */
+.avis-section {
+  background: #1e1a30;
+}
+.avis-section .section-head .eyebrow,
+.avis-section .section-head .eyebrow .num,
+.avis-section .section-head h2,
+.avis-section .section-head h2 em {
+  color: rgba(255,255,255,0.92) !important;
+}
+.avis-section .section-head .eyebrow .rule { background: #c9a84c; }
 .avis-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -1358,8 +1368,8 @@ image-slot { display: block; background: var(--ivoire-2); }
   margin-top: 48px;
 }
 .avis-card {
-  background: white;
-  border: 1px solid var(--sable);
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.10);
   border-radius: var(--r-md);
   padding: 28px 24px 24px;
   display: flex;
@@ -1367,6 +1377,7 @@ image-slot { display: block; background: var(--ivoire-2); }
   gap: 16px;
   position: relative;
   transition: transform .2s ease, box-shadow .2s ease;
+  backdrop-filter: blur(8px);
 }
 .avis-card::before {
   content: '';
@@ -1376,14 +1387,18 @@ image-slot { display: block; background: var(--ivoire-2); }
   background: linear-gradient(90deg, #b8892a, #f0d882);
   border-radius: 0 0 4px 4px;
 }
-.avis-card:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,0,0,0.09); }
+.avis-card:hover {
+  transform: translateY(-3px);
+  background: rgba(255,255,255,0.10);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.35);
+}
 .avis-stars { display: flex; gap: 3px; }
-.avis-star { color: #c9a84c; font-size: 15px; line-height: 1; }
+.avis-star { color: #f0c660; font-size: 15px; line-height: 1; }
 .avis-quote {
   font-family: var(--serif);
   font-size: 15px;
   line-height: 1.65;
-  color: var(--encre);
+  color: rgba(255,255,255,0.85);
   flex: 1;
   font-style: italic;
   font-weight: 400;
@@ -1393,7 +1408,7 @@ image-slot { display: block; background: var(--ivoire-2); }
   align-items: center;
   gap: 12px;
   padding-top: 12px;
-  border-top: 1px solid var(--sable);
+  border-top: 1px solid rgba(255,255,255,0.10);
 }
 .avis-avatar {
   width: 40px; height: 40px;
@@ -1404,8 +1419,8 @@ image-slot { display: block; background: var(--ivoire-2); }
   font-weight: 700; font-size: 13px; color: white; flex: none;
 }
 .avis-meta { display: flex; flex-direction: column; gap: 1px; }
-.avis-meta strong { font-family: var(--sans); font-size: 13px; font-weight: 600; color: var(--encre); }
-.avis-meta span   { font-family: var(--sans); font-size: 12px; color: var(--plomb); }
+.avis-meta strong { font-family: var(--sans); font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.92); }
+.avis-meta span   { font-family: var(--sans); font-size: 12px; color: rgba(255,255,255,0.50); }
 @media (max-width: 860px)  { .avis-grid { grid-template-columns: 1fr; gap: 16px; } }
 @media (min-width: 861px) and (max-width: 1100px) { .avis-grid { grid-template-columns: repeat(2, 1fr); } }
 
