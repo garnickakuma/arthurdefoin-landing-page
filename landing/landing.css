@@ -851,7 +851,7 @@ image-slot { display: block; background: var(--ivoire-2); }
   user-select: none;
 }
 .stc-value:hover { opacity: 0.75; }
-.stc-value em {
+.stc-num {
   font-family: var(--serif);
   font-style: normal;
   font-weight: 400;
