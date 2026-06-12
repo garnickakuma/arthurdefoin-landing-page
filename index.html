@@ -11,12 +11,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Manrope:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&family=JetBrains+Mono:wght@400;500&display=swap">
 
-  <link rel="stylesheet" href="landing/colors_and_type.css?v=50">
-  <link rel="stylesheet" href="landing/landing.css?v=50">
-  <link rel="stylesheet" href="landing/landing-b.css?v=50">
-  <link rel="stylesheet" href="landing/landing-layouts.css?v=50">
-  <link rel="stylesheet" href="landing/landing-hero-wow.css?v=50">
-  <link rel="stylesheet" href="landing/landing-schema.css?v=50">
+  <link rel="stylesheet" href="landing/colors_and_type.css?v=51">
+  <link rel="stylesheet" href="landing/landing.css?v=51">
+  <link rel="stylesheet" href="landing/landing-b.css?v=51">
+  <link rel="stylesheet" href="landing/landing-layouts.css?v=51">
+  <link rel="stylesheet" href="landing/landing-hero-wow.css?v=51">
+  <link rel="stylesheet" href="landing/landing-schema.css?v=51">
 
   <!-- Meta Pixel -->
   <script>
@@ -971,6 +971,54 @@
         </section>
       );
     }
+    // ─── Avis ─────────────────────────────────────────────────────────────────
+    function Avis() {
+      const reviews = [
+        { initiales:'SL', name:'Sophie L.', city:'Lyon', spec:'Mariage', note:5,
+          quote:"En 3 mois j'ai rempli mon agenda mariage pour la saison entière. Arthur a géré tout le suivi des campagnes — moi j'ai juste eu à répondre aux demandes." },
+        { initiales:'TM', name:'Thomas M.', city:'Bordeaux', spec:'Studio · Portrait', note:5,
+          quote:"J'avais peur d'investir en pub. Premier mois : +14 séances vendues. Le simulateur m'avait annoncé +12, c'est bluffant de précision." },
+        { initiales:'CA', name:'Clara A.', city:'Bruxelles', spec:'Nouveau-né', note:5,
+          quote:"Les leads arrivent déjà qualifiés, ils ont vu mes photos avant de me contacter. Le taux de conversion est bien meilleur qu'avec le bouche-à-oreille seul." },
+        { initiales:'RP', name:'Rémi P.', city:'Paris', spec:'Studio · Mode', note:5,
+          quote:"J'étais sceptique sur Meta pour la photo de mode. Arthur a construit des ciblages très précis et les résultats ont dépassé mes attentes dès le deuxième mois." },
+        { initiales:'MV', name:'Manon V.', city:'Nantes', spec:'Famille', note:5,
+          quote:"Le tunnel de réservation automatique change la vie. Mon agenda se remplit pendant que je travaille. Je regrette de ne pas avoir commencé plus tôt." },
+        { initiales:'JB', name:'Julien B.', city:'Genève', spec:'Mariage', note:5,
+          quote:"Arthur comprend vraiment les photographes, il est photographe lui-même. Cette double compétence fait toute la différence dans la façon dont il présente le travail." },
+      ];
+      return (
+        <section className="section" id="avis">
+          <div className="container">
+            <div className="section-head">
+              <div>
+                <div className="eyebrow"><span className="rule"></span><span className="num">08</span><span>Avis clients</span></div>
+                <h2>Ce que disent<br /><em>les photographes</em>.</h2>
+              </div>
+              <p className="lede">Des photographes de toute la France, Belgique et Suisse qui ont confié leur publicité Meta.</p>
+            </div>
+            <div className="avis-grid">
+              {reviews.map((r, i) => (
+                <div className="avis-card" key={i}>
+                  <div className="avis-stars">
+                    {[...Array(r.note)].map((_,j) => <span key={j} className="avis-star">★</span>)}
+                  </div>
+                  <p className="avis-quote">"{r.quote}"</p>
+                  <div className="avis-author">
+                    <div className="avis-avatar">{r.initiales}</div>
+                    <div className="avis-meta">
+                      <strong>{r.name}</strong>
+                      <span>{r.spec} · {r.city}</span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+    }
+
     // ─── Footer ───────────────────────────────────────────────────────────────
     function Footer() {
       const go = id => e => { e.preventDefault(); const el = document.getElementById(id); if (el) window.scrollTo({top:el.offsetTop-60,behavior:'smooth'}); };
@@ -1037,6 +1085,7 @@
             <Schema />
             <Studio />
             <Benefices />
+            <Avis />
           </main>
           <Footer />
         </div>
