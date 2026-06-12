@@ -11,12 +11,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Manrope:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&family=JetBrains+Mono:wght@400;500&display=swap">
 
-  <link rel="stylesheet" href="landing/colors_and_type.css?v=24">
-  <link rel="stylesheet" href="landing/landing.css?v=24">
-  <link rel="stylesheet" href="landing/landing-b.css?v=24">
-  <link rel="stylesheet" href="landing/landing-layouts.css?v=24">
-  <link rel="stylesheet" href="landing/landing-hero-wow.css?v=24">
-  <link rel="stylesheet" href="landing/landing-schema.css?v=24">
+  <link rel="stylesheet" href="landing/colors_and_type.css?v=25">
+  <link rel="stylesheet" href="landing/landing.css?v=25">
+  <link rel="stylesheet" href="landing/landing-b.css?v=25">
+  <link rel="stylesheet" href="landing/landing-layouts.css?v=25">
+  <link rel="stylesheet" href="landing/landing-hero-wow.css?v=25">
+  <link rel="stylesheet" href="landing/landing-schema.css?v=25">
 
   <!-- Meta Pixel -->
   <script>
@@ -495,122 +495,123 @@
       const [editVal, setEditVal] = React.useState('');
       const startEdit = field => {
         setEditField(field);
-        setEditVal(field === 'clients' ? String(Math.round(result.clients)) : String(Math.round(result.revenue)));
+        if (field === 'pub') setEditVal(String(pub));
+        else if (field === 'clients') setEditVal(String(Math.round(result.clients)));
+        else setEditVal(String(Math.round(result.revenue)));
       };
       const applyEdit = () => {
         const v = parseFloat(editVal);
         if (!isNaN(v) && v > 0) {
-          const newPub = editField === 'clients'
-            ? Math.round(v * CPL * 100 / conv)
-            : Math.round(v * CPL * 100 / (conv * cart));
-          setPub(Math.max(PUB_MIN, Math.min(PUB_MAX, newPub)));
+          if (editField === 'pub') setPub(Math.max(PUB_MIN, Math.min(PUB_MAX, Math.round(v))));
+          else if (editField === 'clients') setPub(Math.max(PUB_MIN, Math.min(PUB_MAX, Math.round(v * CPL * 100 / conv))));
+          else setPub(Math.max(PUB_MIN, Math.min(PUB_MAX, Math.round(v * CPL * 100 / (conv * cart)))));
         }
         setEditField(null);
       };
       const onEditKey = e => { if (e.key === 'Enter') applyEdit(); if (e.key === 'Escape') setEditField(null); };
-      const dVolume = useCounterSim(result.volume);
-      const dClients = useCounterSim(result.clients);
-      const dRevenue = useCounterSim(result.revenue);
+      const dVolume   = useCounterSim(result.volume);
+      const dClients  = useCounterSim(result.clients);
+      const dRevenue  = useCounterSim(result.revenue);
       const dBenefice = useCounterSim(result.benefice);
-      const dRoas = useCounterSim(result.roas);
-      const dAbo = useCounterSim(result.abo);
+      const dRoas     = useCounterSim(result.roas);
+      const dAbo      = useCounterSim(result.abo);
       const go = id => e => { e.preventDefault(); const el = document.getElementById(id); if (el) window.scrollTo({top:el.offsetTop-60,behavior:'smooth'}); };
       React.useEffect(() => { if (window.lucide) window.lucide.createIcons(); });
       React.useEffect(() => { if (onSimChange) onSimChange({spec, cart, pub, ...result}); }, [spec, cart, pub, result]);
+
+      const triVal = (field, display) => {
+        if (editField === field) return (
+          <input className={"stc-input" + (field === 'revenue' ? ' stc-input-accent' : '')}
+            type="number" min="1" autoFocus value={editVal}
+            onChange={e => setEditVal(e.target.value)} onBlur={applyEdit} onKeyDown={onEditKey} />
+        );
+        return (
+          <div className={"stc-value" + (field === 'revenue' ? ' stc-value-accent' : '')}
+            onClick={() => startEdit(field)} title="Cliquer pour modifier">
+            <em>{display}</em><span className="stc-edit">✎</span>
+          </div>
+        );
+      };
+
       return (
         <section className="section" id="simulateur">
           <div className="container">
-            <div className="section-head">
+            <div className="section-head" style={{marginBottom:0}}>
               <div>
                 <div className="eyebrow"><span className="rule"></span><span className="num">02</span><span>Simulateur</span></div>
                 <h2>Combien de clients <em>par mois</em>&nbsp;?</h2>
               </div>
             </div>
-            <div className="sim">
-              <div className="sim-controls">
-                <h3>Votre activité</h3>
-                <div className="sim-field">
-                  <div className="sim-field-head"><span className="sim-field-lbl">Quelle prestation mettre en avant&nbsp;?</span></div>
-                  <div className="sim-chips">
-                    {SIM_SPECIALITES.map(s => <button key={s} className={"sim-chip"+(spec===s?" active":"")} onClick={() => pickSpec(s)}>{s}</button>)}
-                  </div>
-                </div>
-                <div className="sim-field">
-                  <div className="sim-field-head"><span className="sim-field-lbl">Panier moyen par client</span></div>
-                  <div className="sim-input-wrap">
-                    <input className="sim-input" type="number" min="0" step="10" value={cart}
-                      onChange={e => { const v = parseInt(e.target.value, 10); setCart(isNaN(v) ? 0 : Math.max(0, v)); }}
-                      onFocus={e => e.target.select()} />
-                    <span className="sim-input-suffix">€</span>
-                  </div>
-                </div>
-                <div className="sim-field" style={{marginBottom:0}}>
-                  <div className="sim-field-head">
-                    <span className="sim-field-lbl">Dépense publicitaire mensuelle</span>
-                    <span className="sim-field-val"><em>{fmtInt(pub)}</em>&nbsp;€</span>
-                  </div>
+
+            <div className="sim-trio">
+              <div className="sim-trio-card">
+                <span className="stc-label">Budget pub mensuel</span>
+                {triVal('pub', fmtInt(pub) + ' €')}
+                <div style={{marginTop:14}}>
                   <SimSlider value={pub} min={PUB_MIN} max={PUB_MAX} step={50} onChange={setPub} ticks={['100 €','1 800 €','3 500 €']} />
-                  <div className="sim-abo-badge">
-                    <i data-lucide="plus-circle"></i>
-                    <span><strong>{fmtEUR(dAbo)}</strong> d'abonnement <span className="sim-abo-sub">(gestion &amp; optimisation, non inclus dans les projections)</span></span>
-                  </div>
+                </div>
+                <div className="sim-abo-badge" style={{marginTop:12}}>
+                  <i data-lucide="plus-circle"></i>
+                  <span><strong>{fmtEUR(dAbo)}</strong> d'abonnement <span className="sim-abo-sub">(non inclus dans les projections)</span></span>
                 </div>
               </div>
-              <div className="sim-result">
-                <div className="sim-res-dual">
-                  <div className="sim-res-metric">
-                    <span className="res-eyebrow">Nouveaux clients <span className="res-edit-hint">✎</span></span>
-                    {editField === 'clients' ? (
-                      <div className="res-num res-num-clients">
-                        <input className="res-input" type="number" min="1" autoFocus value={editVal}
-                          onChange={e => setEditVal(e.target.value)} onBlur={applyEdit} onKeyDown={onEditKey} />
-                      </div>
-                    ) : (
-                      <div className="res-num res-num-clients res-num-editable" onClick={() => startEdit('clients')}>
-                        <em>{fmtInt(dClients)}</em>
-                      </div>
-                    )}
-                    <span className="res-unit">{fmtInt(dVolume)} leads · {conv}&nbsp;% conversion</span>
-                  </div>
-                  <div className="sim-res-metric">
-                    <span className="res-eyebrow">Chiffre d'affaires <span className="res-edit-hint">✎</span></span>
-                    {editField === 'revenue' ? (
-                      <div className="res-num res-num-ca">
-                        <input className="res-input" type="number" min="1" autoFocus value={editVal}
-                          onChange={e => setEditVal(e.target.value)} onBlur={applyEdit} onKeyDown={onEditKey} />
-                      </div>
-                    ) : (
-                      <div className="res-num res-num-ca res-num-editable" onClick={() => startEdit('revenue')}>
-                        <em>{fmtEUR(dRevenue)}</em>
-                      </div>
-                    )}
-                    <span className="res-unit">dép. pub déduite → <em style={{color:'var(--or)'}}>{fmtEUR(dBenefice)}</em></span>
-                  </div>
-                </div>
-                <button className="sim-toggle-detail" onClick={() => setShowDetail(d => !d)}>
-                  {showDetail ? 'Masquer le détail ↑' : 'Voir le détail ↓'}
-                </button>
-                {showDetail && (
-                  <div className="sim-breakdown">
-                    <div className="sim-row"><span className="k">Leads qualifiés</span><span className="v">{fmtInt(dVolume)}</span></div>
-                    <div className="sim-row"><span className="k">Prestations signées <em className="k-sub">à {conv}&nbsp;% de conversion</em></span><span className="v">{fmtInt(dClients)}</span></div>
-                    <div className="sim-row"><span className="k">Chiffre d'affaires</span><span className="v">{fmtEUR(dRevenue)}</span></div>
-                    <div className="sim-row"><span className="k">Dépense publicitaire</span><span className="v">− {fmtEUR(pub)}</span></div>
-                    <div className="sim-row"><span className="k">Bénéfice net</span><span className="v"><em>{fmtEUR(dBenefice)}</em></span></div>
-                    <div className="sim-row"><span className="k">Retour sur investissement (ROAS)</span><span className="v"><em>{fmtX(dRoas)}</em></span></div>
-                    <div className="sim-row sim-row-abo"><span className="k">+ Abonnement <em className="k-sub">hors projections</em></span><span className="v">{fmtEUR(dAbo)}</span></div>
-                  </div>
-                )}
-                <div className="sim-cta-wrap">
-                  <a className="btn btn-gold" href="#tunnel" onClick={go('tunnel')}>Je veux gagner ces clients <span className="arrow">→</span></a>
+
+              <div className="sim-trio-sep"><span>→</span></div>
+
+              <div className="sim-trio-card">
+                <span className="stc-label">Nouveaux clients</span>
+                {triVal('clients', fmtInt(dClients))}
+                <span className="stc-sub">{fmtInt(dVolume)} leads · {conv}&nbsp;% conversion</span>
+              </div>
+
+              <div className="sim-trio-sep"><span>=</span></div>
+
+              <div className="sim-trio-card sim-trio-card-accent">
+                <span className="stc-label">Chiffre d'affaires</span>
+                {triVal('revenue', fmtEUR(dRevenue))}
+                <span className="stc-sub">Bénéfice → <strong>{fmtEUR(dBenefice)}</strong></span>
+              </div>
+            </div>
+
+            <div className="sim-secondary">
+              <div className="sim-sec-field">
+                <span className="sim-field-lbl">Prestation mise en avant</span>
+                <div className="sim-chips">
+                  {SIM_SPECIALITES.map(s => <button key={s} className={"sim-chip"+(spec===s?" active":"")} onClick={() => pickSpec(s)}>{s}</button>)}
                 </div>
               </div>
+              <div className="sim-sec-field">
+                <span className="sim-field-lbl">Panier moyen par client</span>
+                <div className="sim-input-wrap">
+                  <input className="sim-input" type="number" min="0" step="10" value={cart}
+                    onChange={e => { const v = parseInt(e.target.value,10); setCart(isNaN(v)?0:Math.max(0,v)); }}
+                    onFocus={e => e.target.select()} />
+                  <span className="sim-input-suffix">€</span>
+                </div>
+              </div>
+            </div>
+
+            <button className="sim-toggle-detail" onClick={() => setShowDetail(d => !d)} style={{marginTop:20}}>
+              {showDetail ? 'Masquer le détail ↑' : 'Voir le détail ↓'}
+            </button>
+            {showDetail && (
+              <div className="sim-breakdown">
+                <div className="sim-row"><span className="k">Leads qualifiés</span><span className="v">{fmtInt(dVolume)}</span></div>
+                <div className="sim-row"><span className="k">Prestations signées <em className="k-sub">à {conv}&nbsp;% de conversion</em></span><span className="v">{fmtInt(dClients)}</span></div>
+                <div className="sim-row"><span className="k">Chiffre d'affaires</span><span className="v">{fmtEUR(dRevenue)}</span></div>
+                <div className="sim-row"><span className="k">Dépense publicitaire</span><span className="v">− {fmtEUR(pub)}</span></div>
+                <div className="sim-row"><span className="k">Bénéfice net</span><span className="v"><em>{fmtEUR(dBenefice)}</em></span></div>
+                <div className="sim-row"><span className="k">Retour sur investissement (ROAS)</span><span className="v"><em>{fmtX(dRoas)}</em></span></div>
+                <div className="sim-row sim-row-abo"><span className="k">+ Abonnement <em className="k-sub">hors projections</em></span><span className="v">{fmtEUR(dAbo)}</span></div>
+              </div>
+            )}
+            <div className="sim-cta-wrap">
+              <a className="btn btn-gold" href="#tunnel" onClick={go('tunnel')}>Je veux gagner ces clients <span className="arrow">→</span></a>
             </div>
           </div>
         </section>
       );
     }
-
     // ─── Tunnel de vente ─────────────────────────────────────────────────────
     function Tunnel() {
       const go = id => e => { e.preventDefault(); const el = document.getElementById(id); if (el) window.scrollTo({top:el.offsetTop-60,behavior:'smooth'}); };
