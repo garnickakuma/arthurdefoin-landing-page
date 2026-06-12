@@ -238,7 +238,7 @@ body { background: var(--ivoire); }
 
 /* ----------  Callback  ---------- */
 .callback {
-  background: var(--ivoire-2);
+  background: var(--blanc);
 }
 .callback-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 96px; align-items: center; }
 .callback h2 { margin: 16px 0 0; }
