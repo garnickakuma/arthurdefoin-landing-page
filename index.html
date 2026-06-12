@@ -11,12 +11,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Manrope:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&family=JetBrains+Mono:wght@400;500&display=swap">
 
-  <link rel="stylesheet" href="landing/colors_and_type.css?v=39">
-  <link rel="stylesheet" href="landing/landing.css?v=39">
-  <link rel="stylesheet" href="landing/landing-b.css?v=39">
-  <link rel="stylesheet" href="landing/landing-layouts.css?v=39">
-  <link rel="stylesheet" href="landing/landing-hero-wow.css?v=39">
-  <link rel="stylesheet" href="landing/landing-schema.css?v=39">
+  <link rel="stylesheet" href="landing/colors_and_type.css?v=40">
+  <link rel="stylesheet" href="landing/landing.css?v=40">
+  <link rel="stylesheet" href="landing/landing-b.css?v=40">
+  <link rel="stylesheet" href="landing/landing-layouts.css?v=40">
+  <link rel="stylesheet" href="landing/landing-hero-wow.css?v=40">
+  <link rel="stylesheet" href="landing/landing-schema.css?v=40">
 
   <!-- Meta Pixel -->
   <script>
@@ -639,7 +639,7 @@
       const step2Ref = React.useRef(null);
       const step3Ref = React.useRef(null);
       const ctaRef   = React.useRef(null);
-      const scrollTo = ref => { if (ref.current && window.innerWidth < 960) setTimeout(() => ref.current.scrollIntoView({behavior:"smooth",block:"start"}), 220); };
+      const scrollTo = ref => { if (ref.current && window.innerWidth < 960) setTimeout(() => ref.current.scrollIntoView({behavior:"smooth",block:"center"}), 220); };
       const go = id => e => { e.preventDefault(); const el = document.getElementById(id); if (el) window.scrollTo({top:el.offsetTop-60,behavior:'smooth'}); };
       React.useEffect(() => { if (window.lucide) window.lucide.createIcons(); });
       React.useEffect(() => {
