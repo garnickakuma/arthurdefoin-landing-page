@@ -244,9 +244,9 @@
         }
 
         /* ── 3 points d'ancrage fixes du fil rouge ── */
-        const A1 = {x:180, y:215}; // sous logo Meta carte 1
-        const A2 = {x:450, y:298}; // centre carte 2
-        const A3 = {x:718, y:215}; // pied téléphone carte 3
+        const A1 = {x:135, y:160}; // sous logo Meta carte 1
+        const A2 = {x:450, y:250}; // milieu carte 2
+        const A3 = {x:765, y:165}; // pied téléphone carte 3
 
         /* control points oscillants — mis à jour chaque frame */
         const CX = [
@@ -446,9 +446,9 @@
               {/* ── Fil rouge ondulant + point voyageur ── */}
               <svg className="meca-svg" viewBox="0 0 900 380" preserveAspectRatio="none" aria-hidden="true">
                 <path ref={pathRef}
-                  d={`M ${180},${215} C ${180+103},${215} ${450-103},${298} ${450},${298} C ${450+103},${298} ${718-103},${215} ${718},${215}`}
+                  d={`M 135,160 C 186,160 399,250 450,250 C 501,250 714,165 765,165`}
                   fill="none" stroke="#ef4444" strokeWidth="2.5" strokeLinecap="round" opacity="0.72"/>
-                <circle ref={dotRef} cx="180" cy="215" r="8" fill="#a78bfa" opacity="0"/>
+                <circle ref={dotRef} cx="135" cy="160" r="8" fill="#a78bfa" opacity="0"/>
               </svg>
 
             </div>
