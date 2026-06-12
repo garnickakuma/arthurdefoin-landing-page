@@ -778,12 +778,32 @@ image-slot { display: block; background: var(--ivoire-2); }
   opacity: 0.7;
 }
 
+/* ----------  Simulator pre-fields  ---------- */
+.sim-pre {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  margin-top: 40px;
+  padding: 28px 32px;
+  background: var(--sable);
+  border-radius: var(--r-md);
+}
+.sim-pre-field { display: flex; flex-direction: column; gap: 12px; }
+.sim-field-lbl {
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--plomb);
+}
+
 /* ----------  Simulator trio  ---------- */
 .sim-trio {
   display: grid;
   grid-template-columns: 1fr auto 1fr auto 1fr;
   gap: 0;
-  margin-top: 40px;
+  margin-top: 20px;
   border: 1px solid var(--sable);
   border-radius: var(--r-md);
   overflow: hidden;
@@ -792,12 +812,10 @@ image-slot { display: block; background: var(--ivoire-2); }
   padding: 32px 28px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
   background: #fff;
 }
-.sim-trio-card-accent {
-  background: var(--porcelaine);
-}
+.sim-trio-card-accent { background: var(--porcelaine); }
 .sim-trio-sep {
   display: flex;
   align-items: center;
@@ -816,7 +834,6 @@ image-slot { display: block; background: var(--ivoire-2); }
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--plomb);
-  margin-bottom: 4px;
 }
 .stc-value {
   cursor: pointer;
@@ -831,13 +848,12 @@ image-slot { display: block; background: var(--ivoire-2); }
   font-family: var(--serif);
   font-style: italic;
   font-weight: 400;
-  font-size: 52px;
+  font-size: clamp(36px, 3.2vw, 52px);
   line-height: 1;
   letter-spacing: -0.03em;
-  color: var(--encre);
+  color: var(--or);
   font-variant-numeric: lining-nums tabular-nums;
 }
-.stc-value-accent em { color: var(--or); }
 .stc-edit {
   font-style: normal;
   font-size: 14px;
@@ -853,62 +869,37 @@ image-slot { display: block; background: var(--ivoire-2); }
   color: var(--plomb);
   letter-spacing: 0.02em;
 }
+.stc-slider { margin-top: 4px; }
 .stc-input {
   font-family: var(--serif);
   font-style: italic;
   font-weight: 400;
-  font-size: 52px;
+  font-size: clamp(36px, 3.2vw, 52px);
   line-height: 1;
   letter-spacing: -0.03em;
-  color: var(--encre);
+  color: var(--or);
   font-variant-numeric: lining-nums tabular-nums;
   background: transparent;
   border: none;
-  border-bottom: 2px solid var(--encre);
+  border-bottom: 2px solid var(--or);
   outline: none;
   width: 100%;
   padding: 0;
   -moz-appearance: textfield;
 }
-.stc-input-accent {
-  color: var(--or);
-  border-bottom-color: var(--or);
-}
 .stc-input::-webkit-outer-spin-button,
 .stc-input::-webkit-inner-spin-button { -webkit-appearance: none; }
 
-.sim-secondary {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 24px;
-  margin-top: 28px;
-  padding: 24px 28px;
-  background: var(--sable);
-  border-radius: var(--r-md);
-}
-.sim-sec-field { display: flex; flex-direction: column; gap: 10px; }
-.sim-field-lbl {
-  font-family: var(--sans);
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--plomb);
-}
-
 @media (max-width: 860px) {
+  .sim-pre { grid-template-columns: 1fr; gap: 20px; }
   .sim-trio {
     grid-template-columns: 1fr;
-    grid-template-rows: auto auto auto auto auto;
   }
   .sim-trio-sep {
     min-width: unset;
-    min-height: 36px;
+    min-height: 32px;
     padding: 0;
-    writing-mode: horizontal-tb;
-    transform: rotate(90deg);
   }
-  .sim-secondary { grid-template-columns: 1fr; }
 }
 
 .res-volume {
