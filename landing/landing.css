@@ -967,28 +967,14 @@ image-slot { display: block; background: var(--ivoire-2); }
 
 /* ── Keyframes ── */
 @keyframes simFloat {
-  0%   { transform: translateY(0px)   rotateY(-1.6deg) rotateZ(-0.4deg); box-shadow: 0 8px 40px rgba(0,0,0,0.09), 0 2px 8px rgba(0,0,0,0.05); }
-  50%  { transform: translateY(-8px)  rotateY( 1.6deg) rotateZ( 0.4deg); box-shadow: 0 28px 72px rgba(0,0,0,0.14), 0 4px 16px rgba(0,0,0,0.07); }
-  100% { transform: translateY(0px)   rotateY(-1.6deg) rotateZ(-0.4deg); box-shadow: 0 8px 40px rgba(0,0,0,0.09), 0 2px 8px rgba(0,0,0,0.05); }
+  0%   { transform: translateY(0px)   rotateY(-1.6deg) rotateZ(-0.4deg); filter: drop-shadow(0 8px 32px rgba(0,0,0,0.10)); }
+  50%  { transform: translateY(-8px)  rotateY( 1.6deg) rotateZ( 0.4deg); filter: drop-shadow(0 24px 64px rgba(0,0,0,0.15)); }
+  100% { transform: translateY(0px)   rotateY(-1.6deg) rotateZ(-0.4deg); filter: drop-shadow(0 8px 32px rgba(0,0,0,0.10)); }
 }
 @keyframes simFloatMobile {
-  0%   { transform: translateY(0px)   rotateY(-5.5deg) rotateZ(-1.5deg); box-shadow: 0 6px 30px rgba(0,0,0,0.09); }
-  50%  { transform: translateY(-7px)  rotateY( 5.5deg) rotateZ( 1.5deg); box-shadow: 0 22px 60px rgba(0,0,0,0.14); }
-  100% { transform: translateY(0px)   rotateY(-5.5deg) rotateZ(-1.5deg); box-shadow: 0 6px 30px rgba(0,0,0,0.09); }
-}
-@keyframes ghostFadeIn {
-  from { opacity: 0; transform: scale(0.82) translateY(14px); }
-  to   { opacity: 0.42; transform: scale(0.88) translateY(8px); }
-}
-@keyframes simSlideOutLeft  { to   { transform: translateX(-72%) rotateY(22deg)  scale(0.84); opacity: 0; } }
-@keyframes simSlideOutRight { to   { transform: translateX(72%)  rotateY(-22deg) scale(0.84); opacity: 0; } }
-@keyframes simSlideInLeft  {
-  from { transform: translateX(72%)  rotateY(-22deg) scale(0.84); opacity: 0; }
-  to   { transform: translateX(0)    rotateY(0)      scale(1);    opacity: 1; }
-}
-@keyframes simSlideInRight {
-  from { transform: translateX(-72%) rotateY(22deg)  scale(0.84); opacity: 0; }
-  to   { transform: translateX(0)    rotateY(0)      scale(1);    opacity: 1; }
+  0%   { transform: translateY(0px)   rotateY(-5.5deg) rotateZ(-1.5deg); }
+  50%  { transform: translateY(-6px)  rotateY( 5.5deg) rotateZ( 1.5deg); }
+  100% { transform: translateY(0px)   rotateY(-5.5deg) rotateZ(-1.5deg); }
 }
 @keyframes arrowBreath {
   0%, 100% { box-shadow: 0 0 0 0   rgba(180,148,52,0.55); transform: scale(1); }
@@ -1005,91 +991,54 @@ image-slot { display: block; background: var(--ivoire-2); }
   60%       { transform: translateX(1px); }
 }
 
-/* ── Stage : 3 colonnes desktop ── */
-.sim-stage {
-  display: grid;
-  grid-template-columns: 1fr 1.55fr 1fr;
-  gap: 20px;
-  align-items: center;
-  margin-top: 36px;
-  perspective: 1200px;
-}
-
-/* ── Cartes fantômes (côtés) ── */
-.sim-ghost {
-  background: white;
-  border: 1px solid rgba(180,148,52,0.13);
-  border-radius: 20px;
-  padding: 28px 18px;
-  min-height: 240px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  justify-content: center;
-  gap: 4px;
-  cursor: pointer;
-  opacity: 0.42;
-  transform: scale(0.88) translateY(8px);
-  transition: opacity .3s ease, transform .32s ease, box-shadow .3s ease;
-  box-shadow: 0 4px 18px rgba(0,0,0,0.06);
-  position: relative;
+/* ── Viewport clip ── */
+.sim-viewport {
   overflow: hidden;
-  animation: ghostFadeIn .35s cubic-bezier(0.16,1,0.3,1) both;
+  width: 100%;
+  margin-top: 36px;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  perspective: 1200px;
+  touch-action: pan-y;
 }
-.sim-ghost::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 50%; transform: translateX(-50%);
-  width: 40px; height: 2px;
-  background: linear-gradient(90deg, #b8892a, #f0d882, #b8892a);
-  border-radius: 0 0 4px 4px;
-  opacity: 0.55;
-}
-.sim-ghost:hover:not(.sim-ghost-empty) {
-  opacity: 0.7;
-  transform: scale(0.91) translateY(4px);
-  box-shadow: 0 10px 36px rgba(0,0,0,0.12);
-}
-.sim-ghost.sim-ghost-empty {
-  opacity: 0;
-  pointer-events: none;
-}
-.sim-ghost .sim-card-plus  { font-size: clamp(22px, 2.2vw, 32px); }
-.sim-ghost .sim-card-count { font-size: clamp(42px, 4.5vw, 60px); line-height: 1; }
-.sim-ghost .sim-card-count-lbl { font-size: 10px; letter-spacing: 0.16em; }
-.sim-ghost-ca {
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-weight: 700;
-  font-size: clamp(18px, 2vw, 26px);
-  color: var(--encre);
-  letter-spacing: -0.02em;
-  font-variant-numeric: lining-nums tabular-nums;
-  margin-top: 10px;
-}
-.sim-ghost-ca-lbl {
-  font-family: var(--sans);
-  font-size: 11px;
-  color: var(--plomb);
-  letter-spacing: 0.08em;
+.sim-viewport.is-dragging { cursor: grabbing; }
+
+/* ── Rail de toutes les cartes ── */
+.sim-track {
+  display: flex;
+  gap: 16px;
+  will-change: transform;
+  align-items: stretch;
 }
 
-/* ── Carte active (centre) ── */
+/* ── Chaque carte dans le rail ── */
+.sim-track-card {
+  flex: 0 0 calc(100% - 96px);
+  cursor: pointer;
+  transition: opacity .3s ease;
+}
+.sim-track-card.stc-active {
+  cursor: default;
+  animation: simFloatMobile 2.2s ease-in-out infinite;
+}
+
+/* ── Carte active ── */
 .sim-card-main {
   background: white;
   border: 1px solid rgba(180,148,52,0.2);
   border-radius: 24px;
-  padding: 52px 44px 48px;
+  padding: 52px 40px 48px;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
   gap: 4px;
-  min-height: 380px;
+  min-height: 360px;
   justify-content: center;
   position: relative;
-  transform-origin: center center;
-  will-change: transform, opacity;
+  pointer-events: none;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.09), 0 2px 8px rgba(0,0,0,0.05);
 }
 .sim-card-main::before {
   content: '';
@@ -1100,14 +1049,34 @@ image-slot { display: block; background: var(--ivoire-2); }
   border-radius: 0 0 6px 6px;
 }
 
-/* Animation states */
-.sim-card-idle        { animation: simFloat 4.5s ease-in-out infinite; }
-.sim-card-out-left    { animation: simSlideOutLeft  .19s cubic-bezier(0.55,0,1,0.45) both; }
-.sim-card-out-right   { animation: simSlideOutRight .19s cubic-bezier(0.55,0,1,0.45) both; }
-.sim-card-in-left     { animation: simSlideInLeft   .32s cubic-bezier(0.16,1,0.3,1) both; }
-.sim-card-in-right    { animation: simSlideInRight  .32s cubic-bezier(0.16,1,0.3,1) both; }
+/* ── Cartes fantômes ── */
+.sim-ghost {
+  background: white;
+  border: 1px solid rgba(180,148,52,0.12);
+  border-radius: 20px;
+  padding: 24px 14px;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  gap: 4px;
+  position: relative;
+  height: 100%;
+  box-shadow: 0 3px 16px rgba(0,0,0,0.05);
+}
+.sim-ghost::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 50%; transform: translateX(-50%);
+  width: 36px; height: 2px;
+  background: linear-gradient(90deg, #b8892a, #f0d882, #b8892a);
+  border-radius: 0 0 4px 4px;
+  opacity: 0.5;
+}
 
-/* ── Contenu carte active ── */
+/* ── Contenu des cartes ── */
 .sim-card-top {
   display: flex;
   align-items: baseline;
@@ -1136,6 +1105,9 @@ image-slot { display: block; background: var(--ivoire-2); }
   letter-spacing: -0.04em;
   font-variant-numeric: lining-nums tabular-nums;
 }
+.sim-ghost .sim-card-plus  { font-size: clamp(20px, 2.2vw, 30px); }
+.sim-ghost .sim-card-count { font-size: clamp(40px, 4.5vw, 58px); line-height: 1; }
+.sim-ghost .sim-card-count-lbl { font-size: 10px; }
 .sim-card-count-lbl {
   font-family: var(--sans);
   font-size: 12px;
@@ -1148,11 +1120,11 @@ image-slot { display: block; background: var(--ivoire-2); }
 .sim-card-ca {
   font-family: 'Plus Jakarta Sans', sans-serif;
   font-weight: 700;
-  font-size: clamp(30px, 4.5vw, 50px);
+  font-size: clamp(28px, 4vw, 46px);
   color: var(--encre);
   letter-spacing: -0.025em;
   font-variant-numeric: lining-nums tabular-nums;
-  margin-top: 18px;
+  margin-top: 16px;
 }
 .sim-card-ca-lbl {
   font-family: var(--sans);
@@ -1160,10 +1132,25 @@ image-slot { display: block; background: var(--ivoire-2); }
   color: var(--plomb);
   letter-spacing: 0.1em;
 }
+.sim-ghost-ca {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700;
+  font-size: clamp(16px, 2vw, 22px);
+  color: var(--encre);
+  letter-spacing: -0.02em;
+  font-variant-numeric: lining-nums tabular-nums;
+  margin-top: 8px;
+}
+.sim-ghost-ca-lbl {
+  font-family: var(--sans);
+  font-size: 11px;
+  color: var(--plomb);
+  letter-spacing: 0.08em;
+}
 .sim-card-divider {
   width: 56px; height: 1px;
   background: linear-gradient(90deg, transparent, rgba(180,148,52,0.35), transparent);
-  margin: 20px 0;
+  margin: 18px 0;
 }
 .sim-card-costs {
   display: flex;
@@ -1191,7 +1178,7 @@ image-slot { display: block; background: var(--ivoire-2); }
 .sim-card-benefit .sim-card-benefit-val { color: #3a9e68; font-weight: 700; }
 .sim-card-benefit i[data-lucide] { color: #3a9e68; opacity: 0.7; }
 
-/* ── Nav row (flèches + dots) ── */
+/* ── Nav row ── */
 .sim-nav-row {
   display: flex;
   align-items: center;
@@ -1216,11 +1203,8 @@ image-slot { display: block; background: var(--ivoire-2); }
 .sim-nav-next svg { animation: arrowBounce 2.4s ease-in-out infinite; }
 .sim-nav-prev svg { animation: arrowBounceLeft 2.4s ease-in-out infinite; }
 .sim-nav-btn:hover:not(:disabled) {
-  background: var(--encre);
-  color: white;
-  border-color: var(--encre);
-  transform: scale(1.1);
-  animation: none;
+  background: var(--encre); color: white; border-color: var(--encre);
+  transform: scale(1.1); animation: none;
   box-shadow: 0 4px 24px rgba(0,0,0,0.18);
 }
 .sim-nav-btn:hover:not(:disabled) svg { animation: none; }
@@ -1234,13 +1218,10 @@ image-slot { display: block; background: var(--ivoire-2); }
   gap: 7px;
 }
 .sim-dot {
-  height: 8px;
-  width: 8px;
+  height: 8px; width: 8px;
   border-radius: 4px;
   background: var(--sable-fonce);
-  border: none;
-  cursor: pointer;
-  padding: 0;
+  border: none; cursor: pointer; padding: 0;
   transition: width .4s cubic-bezier(0.34,1.56,0.64,1), background .2s;
 }
 .sim-dot.active {
@@ -1248,40 +1229,18 @@ image-slot { display: block; background: var(--ivoire-2); }
   background: linear-gradient(90deg, #c9a84c, #f0d882);
 }
 
+/* ── Desktop : cartes plus larges, float lent ── */
+@media (min-width: 860px) {
+  .sim-viewport { perspective: 1400px; }
+  .sim-track-card { flex: 0 0 calc(60% - 8px); }
+  .sim-track-card.stc-active { animation: simFloat 4.5s ease-in-out infinite; }
+  .sim-card-main { padding: 52px 44px 48px; min-height: 380px; }
+  .sim-card-count { font-size: clamp(84px, 10vw, 128px); }
+}
+
 @media (max-width: 860px) {
   .sim-pre { grid-template-columns: 1fr; gap: 20px; }
-
-  /* Peek carousel : slivers des cartes voisines visibles sur les côtés */
-  .sim-stage {
-    grid-template-columns: 44px 1fr 44px;
-    gap: 10px;
-    align-items: stretch;
-    margin-top: 28px;
-    perspective: 800px;
-  }
-  .sim-ghost {
-    display: flex;
-    overflow: hidden;
-    padding: 0;
-    border-radius: 16px;
-    min-height: 0;
-    transform: none;
-    opacity: 0.55;
-    animation: none;
-    transition: none;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
-  }
-  .sim-ghost::before { width: 20px; opacity: 0.7; }
-  .sim-ghost .sim-card-plus,
-  .sim-ghost .sim-card-count,
-  .sim-ghost .sim-card-count-lbl,
-  .sim-ghost-ca,
-  .sim-ghost-ca-lbl { display: none; }
-  .sim-ghost:hover:not(.sim-ghost-empty) { transform: none; opacity: 0.55; }
-
-  /* Rotation plus forte et plus rapide sur mobile */
-  .sim-card-idle { animation: simFloatMobile 2.2s ease-in-out infinite; }
-
+  .sim-viewport { margin-top: 28px; }
   .sim-card-main { padding: 36px 22px 32px; min-height: 310px; }
   .sim-card-count { font-size: clamp(72px, 18vw, 96px); }
   .sim-nav-row { margin-top: 20px; gap: 16px; }
