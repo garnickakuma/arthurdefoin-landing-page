@@ -486,6 +486,7 @@ body { background: var(--ivoire); }
 .cform-label { font-family: var(--sans); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--plomb); }
 .cform-input { font-family: var(--sans); font-size: 15px; padding: 12px 14px; border: 1.5px solid var(--sable-fonce); border-radius: 10px; background: var(--blanc); color: var(--encre); outline: none; transition: border-color .15s, box-shadow .15s; width: 100%; box-sizing: border-box; }
 .cform-input:focus { border-color: var(--or); box-shadow: 0 0 0 3px var(--or-voile); }
+.cform-select { appearance: none; -webkit-appearance: none; cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
 .cform-input::placeholder { color: var(--pierre); }
 .cform-submit { width: 100%; justify-content: center; margin-top: 4px; font-size: 15px; }
 .cform-legal { font-family: var(--sans); font-size: 11px; color: var(--pierre); text-align: center; margin-top: 10px; }
