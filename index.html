@@ -11,12 +11,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Manrope:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&family=JetBrains+Mono:wght@400;500&display=swap">
 
-  <link rel="stylesheet" href="landing/colors_and_type.css?v=40">
-  <link rel="stylesheet" href="landing/landing.css?v=40">
-  <link rel="stylesheet" href="landing/landing-b.css?v=40">
-  <link rel="stylesheet" href="landing/landing-layouts.css?v=40">
-  <link rel="stylesheet" href="landing/landing-hero-wow.css?v=40">
-  <link rel="stylesheet" href="landing/landing-schema.css?v=40">
+  <link rel="stylesheet" href="landing/colors_and_type.css?v=42">
+  <link rel="stylesheet" href="landing/landing.css?v=42">
+  <link rel="stylesheet" href="landing/landing-b.css?v=42">
+  <link rel="stylesheet" href="landing/landing-layouts.css?v=42">
+  <link rel="stylesheet" href="landing/landing-hero-wow.css?v=42">
+  <link rel="stylesheet" href="landing/landing-schema.css?v=42">
 
   <!-- Meta Pixel -->
   <script>
@@ -477,71 +477,42 @@
     function Simulateur({onSimChange}) {
       const [spec, setSpec] = React.useState('Studio');
       const [cart, setCart] = React.useState(200);
-      const [pub, setPub] = React.useState(PUB_DEFAUT);
-      const conv = convForSpec(spec, cart);
+      const [cardIdx, setCardIdx] = React.useState(0);
+      const [anim, setAnim] = React.useState(true);
+      const touchX = React.useRef(null);
       const pickSpec = s => { setSpec(s); setCart(panierForSpec(s)); };
+      const conv = convForSpec(spec, cart);
 
-      const result = React.useMemo(() => {
-        const abo = calcAbo(pub);
-        const volume = pub / CPL;
-        const clients = volume * (conv / 100);
+      const targets = [10, 20, 30, 40, 50, 60];
+      const cards = targets.map(clients => {
+        const pub = Math.round(clients * CPL * 100 / conv);
         const revenue = clients * cart;
-        const benefice = revenue - pub;
-        const roas = pub > 0 ? revenue / pub : 0;
-        return {abo, volume, clients, revenue, benefice, roas};
-      }, [cart, conv, pub]);
+        const abo = calcAbo(pub);
+        return { clients, pub, revenue, abo };
+      });
+      const cur = cards[cardIdx];
 
-      const [showDetail, setShowDetail] = React.useState(false);
-      const [editField, setEditField] = React.useState(null);
-      const [editVal, setEditVal] = React.useState('');
-
-      const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
-
-      const startEdit = field => {
-        setEditField(field);
-        if (field === 'pub') setEditVal(String(pub));
-        else if (field === 'clients') setEditVal(String(Math.round(result.clients)));
-        else setEditVal(String(Math.round(result.revenue)));
+      const goTo = idx => {
+        setAnim(false);
+        setTimeout(() => { setCardIdx(idx); setAnim(true); }, 80);
       };
-      const applyEdit = () => {
-        const v = parseFloat(editVal);
-        if (!isNaN(v) && v > 0) {
-          if (editField === 'pub') setPub(clamp(Math.round(v), PUB_MIN, PUB_MAX));
-          else if (editField === 'clients') setPub(clamp(Math.round(v * CPL * 100 / conv), PUB_MIN, PUB_MAX));
-          else setPub(clamp(Math.round(v * CPL * 100 / (conv * cart)), PUB_MIN, PUB_MAX));
-        }
-        setEditField(null);
+      const prev = () => { if (cardIdx > 0) goTo(cardIdx - 1); };
+      const next = () => { if (cardIdx < cards.length - 1) goTo(cardIdx + 1); };
+
+      const onTouchStart = e => { touchX.current = e.touches[0].clientX; };
+      const onTouchEnd = e => {
+        if (touchX.current === null) return;
+        const dx = e.changedTouches[0].clientX - touchX.current;
+        if (dx < -40) next();
+        else if (dx > 40) prev();
+        touchX.current = null;
       };
-      const onEditKey = e => { if (e.key === 'Enter') applyEdit(); if (e.key === 'Escape') setEditField(null); };
-
-      const dVolume   = useCounterSim(result.volume);
-      const dClients  = useCounterSim(result.clients);
-      const dRevenue  = useCounterSim(result.revenue);
-      const dBenefice = useCounterSim(result.benefice);
-      const dRoas     = useCounterSim(result.roas);
-      const dAbo      = useCounterSim(result.abo);
-
-      const maxClients = Math.ceil(PUB_MAX / CPL * conv / 100);
-      const minClients = Math.max(1, Math.floor(PUB_MIN / CPL * conv / 100));
-      const maxRevenue = Math.ceil(maxClients * cart / 50) * 50;
-      const minRevenue = Math.max(50, Math.floor(minClients * cart / 50) * 50);
 
       const go = id => e => { e.preventDefault(); const el = document.getElementById(id); if (el) window.scrollTo({top:el.offsetTop-60,behavior:'smooth'}); };
       React.useEffect(() => { if (window.lucide) window.lucide.createIcons(); });
-      React.useEffect(() => { if (onSimChange) onSimChange({spec, cart, pub, ...result}); }, [spec, cart, pub, result]);
-
-      const triVal = (field, display) => {
-        if (editField === field) return (
-          <input className="stc-input" type="number" min="1" autoFocus
-            value={editVal} onChange={e => setEditVal(e.target.value)}
-            onBlur={applyEdit} onKeyDown={onEditKey} />
-        );
-        return (
-          <div className="stc-value" onClick={() => startEdit(field)} title="Cliquer pour modifier">
-            <span className="stc-num">{display}</span><span className="stc-edit">✎</span>
-          </div>
-        );
-      };
+      React.useEffect(() => {
+        if (onSimChange) onSimChange({ spec, cart, pub: cur.pub, clients: cur.clients, revenue: cur.revenue, abo: cur.abo, volume: cur.pub / CPL, benefice: cur.revenue - cur.pub });
+      }, [spec, cart, cardIdx]);
 
       return (
         <section className="section" id="simulateur">
@@ -571,59 +542,48 @@
               </div>
             </div>
 
-            <div className="sim-trio">
-              <div className="sim-trio-card">
-                <span className="stc-label">Budget pub mensuel</span>
-                {triVal('pub', fmtInt(pub) + ' €')}
-                <div className="stc-slider">
-                  <SimSlider value={pub} min={PUB_MIN} max={PUB_MAX} step={50} onChange={setPub}
-                    ticks={['100 €','1 800 €','3 500 €']} />
+            <div className="sim-carousel-wrap"
+              onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
+
+              <button className="sim-nav-btn" onClick={prev} disabled={cardIdx===0} aria-label="Précédent">‹</button>
+
+              <div className={"sim-card-main" + (anim ? " sim-card-in" : " sim-card-out")}>
+                <div className="sim-card-top">
+                  <span className="sim-card-plus">+</span>
+                  <span className="sim-card-count">{cur.clients}</span>
                 </div>
-                <div className="sim-abo-badge">
-                  <i data-lucide="plus-circle"></i>
-                  <span><strong>{fmtEUR(dAbo)}</strong> / mois — <span className="sim-abo-sub">Mise en place, Gestion &amp; Optimisation des campagnes</span></span>
+                <div className="sim-card-count-lbl">clients par mois</div>
+
+                <div className="sim-card-ca">{fmtEUR(cur.revenue)}</div>
+                <div className="sim-card-ca-lbl">de chiffre d'affaires</div>
+
+                <div className="sim-card-divider"></div>
+
+                <div className="sim-card-costs">
+                  <div className="sim-card-cost-row">
+                    <i data-lucide="megaphone"></i>
+                    <span><strong>{fmtEUR(cur.pub)}</strong> de publicité / mois</span>
+                  </div>
+                  <div className="sim-card-cost-row">
+                    <i data-lucide="plus-circle"></i>
+                    <span><strong>{fmtEUR(cur.abo)}</strong> d'abonnement / mois</span>
+                  </div>
                 </div>
               </div>
 
-              <div className="sim-trio-card">
-                <span className="stc-label">Nouveaux clients</span>
-                {triVal('clients', fmtInt(dClients))}
-                <div className="stc-slider">
-                  <SimSlider value={result.clients} min={minClients} max={maxClients} step={1}
-                    onChange={v => setPub(clamp(Math.round(v * CPL * 100 / conv), PUB_MIN, PUB_MAX))}
-                    ticks={[String(minClients), String(Math.round(maxClients/2)), String(maxClients)]} />
-                </div>
-                <span className="stc-sub">{fmtInt(dVolume)} leads&nbsp;· {conv}&nbsp;% conversion</span>
-              </div>
-
-              <div className="sim-trio-card sim-trio-card-accent">
-                <span className="stc-label">Chiffre d'affaires</span>
-                {triVal('revenue', fmtEUR(dRevenue))}
-                <div className="stc-slider">
-                  <SimSlider value={result.revenue} min={minRevenue} max={maxRevenue} step={50}
-                    onChange={v => setPub(clamp(Math.round(v * CPL * 100 / (conv * cart)), PUB_MIN, PUB_MAX))}
-                    ticks={[fmtEUR(minRevenue), fmtEUR(Math.round(maxRevenue/2/50)*50), fmtEUR(maxRevenue)]} />
-                </div>
-                <span className="stc-sub">Bénéfice&nbsp;→ <strong>{fmtEUR(dBenefice)}</strong></span>
-              </div>
+              <button className="sim-nav-btn" onClick={next} disabled={cardIdx===cards.length-1} aria-label="Suivant">›</button>
             </div>
 
-            <button className="sim-toggle-detail" onClick={() => setShowDetail(d => !d)} style={{marginTop:24}}>
-              {showDetail ? 'Masquer le détail ↑' : 'Voir le détail ↓'}
-            </button>
-            {showDetail && (
-              <div className="sim-breakdown">
-                <div className="sim-row"><span className="k">Leads qualifiés</span><span className="v">{fmtInt(dVolume)}</span></div>
-                <div className="sim-row"><span className="k">Prestations signées <em className="k-sub">à {conv}&nbsp;% de conversion</em></span><span className="v">{fmtInt(dClients)}</span></div>
-                <div className="sim-row"><span className="k">Chiffre d'affaires</span><span className="v">{fmtEUR(dRevenue)}</span></div>
-                <div className="sim-row"><span className="k">Dépense publicitaire</span><span className="v">− {fmtEUR(pub)}</span></div>
-                <div className="sim-row"><span className="k">Bénéfice net</span><span className="v"><em>{fmtEUR(dBenefice)}</em></span></div>
-                <div className="sim-row"><span className="k">Retour sur investissement (ROAS)</span><span className="v"><em>{fmtX(dRoas)}</em></span></div>
-                <div className="sim-row sim-row-abo"><span className="k">+ Abonnement <em className="k-sub">hors projections</em></span><span className="v">{fmtEUR(dAbo)}</span></div>
-              </div>
-            )}
-            <div className="sim-cta-wrap">
-              <a className="btn btn-gold" href="#tunnel" onClick={go('tunnel')}>Je veux gagner ces clients <span className="arrow">→</span></a>
+            <div className="sim-dots">
+              {cards.map((card, i) => (
+                <button key={i} className={"sim-dot"+(i===cardIdx?" active":"")}
+                  onClick={() => goTo(i)} aria-label={"+" + card.clients + " clients"}>
+                </button>
+              ))}
+            </div>
+
+            <div className="sim-cta-wrap" style={{marginTop:32}}>
+              <a className="btn btn-gold" href="#tunnel" onClick={go('tunnel')}>Je veux ces clients <span className="arrow">→</span></a>
             </div>
           </div>
         </section>
