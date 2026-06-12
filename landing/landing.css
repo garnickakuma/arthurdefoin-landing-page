@@ -977,8 +977,8 @@ image-slot { display: block; background: var(--ivoire-2); }
   100% { transform: translateY(0px)   rotateY(-2.5deg) rotateZ(-0.7deg); }
 }
 @keyframes arrowBreath {
-  0%, 100% { box-shadow: 0 0 0 0   rgba(180,148,52,0.55); transform: scale(1); }
-  50%       { box-shadow: 0 0 0 9px rgba(180,148,52,0);    transform: scale(0.93); }
+  0%, 100% { box-shadow: 0 0 0 0   rgba(109,74,176,0.55); transform: scale(1); }
+  50%       { box-shadow: 0 0 0 9px rgba(109,74,176,0);    transform: scale(0.93); }
 }
 @keyframes arrowBounce {
   0%, 100% { transform: translateX(0); }
@@ -1029,7 +1029,7 @@ image-slot { display: block; background: var(--ivoire-2); }
 /* ── Carte active ── */
 .sim-card-main {
   background: white;
-  border: 1px solid rgba(180,148,52,0.2);
+  border: 1px solid rgba(109,74,176,0.18);
   border-radius: 24px;
   padding: 52px 40px 48px;
   display: flex;
@@ -1048,7 +1048,7 @@ image-slot { display: block; background: var(--ivoire-2); }
   position: absolute;
   top: 0; left: 50%; transform: translateX(-50%);
   width: 64px; height: 3px;
-  background: linear-gradient(90deg, #b8892a, #f0d882, #b8892a);
+  background: linear-gradient(90deg, #6d4ab0, #a78bfa, #6d4ab0);
   border-radius: 0 0 6px 6px;
 }
 
@@ -1066,7 +1066,7 @@ image-slot { display: block; background: var(--ivoire-2); }
   font-family: 'Plus Jakarta Sans', sans-serif;
   font-weight: 800;
   font-size: clamp(38px, 5.5vw, 60px);
-  background: linear-gradient(135deg, #a87828, #f0d882, #c9a84c);
+  background: linear-gradient(135deg, #6d4ab0, #c4b5fd, #a78bfa);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -1076,7 +1076,7 @@ image-slot { display: block; background: var(--ivoire-2); }
   font-family: 'Plus Jakarta Sans', sans-serif;
   font-weight: 800;
   font-size: clamp(84px, 12vw, 128px);
-  background: linear-gradient(140deg, #a87828, #f5e090, #c9a84c);
+  background: linear-gradient(140deg, #6d4ab0, #d8b4fe, #a78bfa);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -1135,7 +1135,7 @@ image-slot { display: block; background: var(--ivoire-2); }
 
 .sim-card-divider {
   width: 56px; height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(180,148,52,0.35), transparent);
+  background: linear-gradient(90deg, transparent, rgba(109,74,176,0.35), transparent);
   margin: 18px auto;
 }
 .sim-card-costs {
@@ -1177,7 +1177,7 @@ image-slot { display: block; background: var(--ivoire-2); }
   width: 50px; height: 50px;
   border-radius: 50%;
   background: white;
-  border: 1.5px solid rgba(180,148,52,0.4);
+  border: 1.5px solid rgba(109,74,176,0.3);
   cursor: pointer;
   color: var(--encre);
   display: flex; align-items: center; justify-content: center;
@@ -1212,7 +1212,7 @@ image-slot { display: block; background: var(--ivoire-2); }
 }
 .sim-dot.active {
   width: 30px;
-  background: linear-gradient(90deg, #c9a84c, #f0d882);
+  background: linear-gradient(90deg, #6d4ab0, #a78bfa);
 }
 
 /* ── Desktop : 3 cartes visibles — centre dominant, côtés bien lisibles ── */
