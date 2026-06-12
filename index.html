@@ -11,12 +11,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Manrope:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&family=JetBrains+Mono:wght@400;500&display=swap">
 
-  <link rel="stylesheet" href="landing/colors_and_type.css?v=20">
-  <link rel="stylesheet" href="landing/landing.css?v=20">
-  <link rel="stylesheet" href="landing/landing-b.css?v=20">
-  <link rel="stylesheet" href="landing/landing-layouts.css?v=20">
-  <link rel="stylesheet" href="landing/landing-hero-wow.css?v=20">
-  <link rel="stylesheet" href="landing/landing-schema.css?v=20">
+  <link rel="stylesheet" href="landing/colors_and_type.css?v=21">
+  <link rel="stylesheet" href="landing/landing.css?v=21">
+  <link rel="stylesheet" href="landing/landing-b.css?v=21">
+  <link rel="stylesheet" href="landing/landing-layouts.css?v=21">
+  <link rel="stylesheet" href="landing/landing-hero-wow.css?v=21">
+  <link rel="stylesheet" href="landing/landing-schema.css?v=21">
 
   <!-- Meta Pixel -->
   <script>
@@ -413,8 +413,9 @@
     const PANIER_PAR_SPEC = { Mariage: 1500 };
     const panierForSpec = s => PANIER_PAR_SPEC[s] ?? 150;
     function calcAbo(pub) {
-      if (pub <= 500) return 390 + pub * 0.2;
-      return 490 + (pub - 500) * 0.15;
+      if (pub <= 390) return 390;
+      if (pub <= 490) return pub;
+      return 490 + (pub - 490) * 0.15;
     }
     function useCounterSim(value, duration=480) {
       const [display, setDisplay] = React.useState(value);
