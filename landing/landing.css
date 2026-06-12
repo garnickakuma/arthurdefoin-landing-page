@@ -972,9 +972,9 @@ image-slot { display: block; background: var(--ivoire-2); }
   100% { transform: translateY(0px)   rotateY(-1.6deg) rotateZ(-0.4deg); filter: drop-shadow(0 8px 32px rgba(0,0,0,0.10)); }
 }
 @keyframes simFloatMobile {
-  0%   { transform: translateY(0px)   rotateY(-5.5deg) rotateZ(-1.5deg); }
-  50%  { transform: translateY(-6px)  rotateY( 5.5deg) rotateZ( 1.5deg); }
-  100% { transform: translateY(0px)   rotateY(-5.5deg) rotateZ(-1.5deg); }
+  0%   { transform: translateY(0px)   rotateY(-2.5deg) rotateZ(-0.7deg); }
+  50%  { transform: translateY(-4px)  rotateY( 2.5deg) rotateZ( 0.7deg); }
+  100% { transform: translateY(0px)   rotateY(-2.5deg) rotateZ(-0.7deg); }
 }
 @keyframes arrowBreath {
   0%, 100% { box-shadow: 0 0 0 0   rgba(180,148,52,0.55); transform: scale(1); }
@@ -996,6 +996,7 @@ image-slot { display: block; background: var(--ivoire-2); }
   overflow: hidden;
   width: 100%;
   margin-top: 36px;
+  padding: 18px 0;        /* espace pour l'animation translateY + rotateZ */
   cursor: grab;
   user-select: none;
   -webkit-user-select: none;
