@@ -11,12 +11,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Manrope:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&family=JetBrains+Mono:wght@400;500&display=swap">
 
-  <link rel="stylesheet" href="landing/colors_and_type.css?v=72">
-  <link rel="stylesheet" href="landing/landing.css?v=72">
-  <link rel="stylesheet" href="landing/landing-b.css?v=72">
-  <link rel="stylesheet" href="landing/landing-layouts.css?v=72">
-  <link rel="stylesheet" href="landing/landing-hero-wow.css?v=72">
-  <link rel="stylesheet" href="landing/landing-schema.css?v=72">
+  <link rel="stylesheet" href="landing/colors_and_type.css?v=73">
+  <link rel="stylesheet" href="landing/landing.css?v=73">
+  <link rel="stylesheet" href="landing/landing-b.css?v=73">
+  <link rel="stylesheet" href="landing/landing-layouts.css?v=73">
+  <link rel="stylesheet" href="landing/landing-hero-wow.css?v=73">
+  <link rel="stylesheet" href="landing/landing-schema.css?v=73">
 
   <!-- Meta Pixel -->
   <script>
@@ -226,46 +226,72 @@
 
     // ─── Schema ───────────────────────────────────────────────────────────────
     function Schema() {
-      const steps = [
-        { ico: 'camera', step: '1', title: 'Vous photographiez', sub: 'Vous faites ce que vous faites de mieux.' },
-        { ico: 'megaphone', step: '2', title: 'Je place vos images', sub: 'Campagnes Meta ciblées sur les bons profils.' },
-        { ico: 'users', step: '3', title: 'Des prospects qualifiés', sub: 'Les bonnes personnes vous écrivent.' },
-        { ico: 'trending-up', step: '4', title: 'Votre CA augmente', sub: 'Automatiquement, mois après mois.', payoff: true },
-      ];
       React.useEffect(() => { if (window.lucide) window.lucide.createIcons(); });
       return (
         <section className="section schema" id="mecanisme">
           <div className="container">
             <div className="schema-head">
               <div className="eyebrow"><span className="rule"></span><span className="num">03</span><span>Le mécanisme</span></div>
-              <h2>Vous photographiez. <em>Le reste tourne tout seul.</em></h2>
-              <p className="lede">Pas de tunnel compliqué : quatre temps, et une boucle qui s'entretient d'elle-même pendant que vous êtes derrière l'objectif.</p>
+              <h2>Trois étapes. <em>Votre agenda se remplit.</em></h2>
+              <p className="lede">Vous photographiez — tout le reste tourne sans vous.</p>
             </div>
-            <div className="schema-flow">
-              {steps.map((s, i) => (
-                <React.Fragment key={s.step}>
-                  <div className={"node" + (s.payoff ? " payoff" : "")}>
-                    <div className="node-badge"><i data-lucide={s.ico}></i></div>
-                    <div className="node-step">{s.step}</div>
-                    <div className="node-title">{s.title}</div>
-                    <div className="node-sub">{s.sub}</div>
-                  </div>
-                  {i < steps.length - 1 && (
-                    <div className="connector" style={{ '--d': i * 0.5 + 's' }}>
-                      <span className="dot"></span>
-                      <i data-lucide="chevron-right"></i>
-                    </div>
-                  )}
-                </React.Fragment>
-              ))}
-            </div>
-            <div className="schema-loop">
-              <span className="loop-line"></span>
-              <span className="loop-chip">
-                <i data-lucide="refresh-cw"></i>
-                En continu — pendant que vous photographiez
-              </span>
-              <span className="loop-line"></span>
+            <div className="meca-scene">
+              {/* Cartes */}
+              <div className="meca-card meca-c1">
+                <div className="meca-num">01</div>
+                <div className="meca-ico"><i data-lucide="megaphone"></i></div>
+                <strong className="meca-title">Pub Meta ciblée</strong>
+                <p className="meca-sub">Vos photos diffusées aux bons profils, au bon moment.</p>
+              </div>
+              <div className="meca-card meca-c2">
+                <div className="meca-num">02</div>
+                <div className="meca-ico"><i data-lucide="monitor"></i></div>
+                <strong className="meca-title">Landing page qui convertit</strong>
+                <p className="meca-sub">Une page pensée pour transformer les clics en demandes de contact.</p>
+              </div>
+              <div className="meca-card meca-c3">
+                <div className="meca-num">03</div>
+                <div className="meca-ico"><i data-lucide="phone"></i></div>
+                <strong className="meca-title">Échange avec le photographe</strong>
+                <p className="meca-sub">Vous recevez des prospects qualifiés — vous n'avez plus qu'à décrocher.</p>
+              </div>
+
+              {/* Chemin + bonhomme */}
+              <svg className="meca-svg" viewBox="0 0 900 380" preserveAspectRatio="none" aria-hidden="true">
+                <path id="meca-path"
+                  d="M 150,195 C 240,330 360,115 450,215 C 540,315 660,115 750,195"
+                  fill="none" stroke="#a78bfa" strokeWidth="3" strokeDasharray="10 7" opacity="0.55"/>
+                {/* Petit bonhomme */}
+                <g>
+                  {/* tête */}
+                  <circle cx="0" cy="-13" r="5.5" fill="#a78bfa"/>
+                  {/* corps */}
+                  <line x1="0" y1="-7" x2="0" y2="5" stroke="#6d4ab0" strokeWidth="2.5" strokeLinecap="round"/>
+                  {/* bras gauche */}
+                  <line x1="0" y1="-2" x2="-8" y2="5" stroke="#6d4ab0" strokeWidth="2" strokeLinecap="round">
+                    <animateTransform attributeName="transform" type="rotate"
+                      values="30 0 -2;-30 0 -2;30 0 -2" dur="0.52s" repeatCount="indefinite" additive="sum"/>
+                  </line>
+                  {/* bras droit */}
+                  <line x1="0" y1="-2" x2="8" y2="5" stroke="#6d4ab0" strokeWidth="2" strokeLinecap="round">
+                    <animateTransform attributeName="transform" type="rotate"
+                      values="-30 0 -2;30 0 -2;-30 0 -2" dur="0.52s" repeatCount="indefinite" additive="sum"/>
+                  </line>
+                  {/* jambe gauche */}
+                  <line x1="0" y1="5" x2="-6" y2="16" stroke="#6d4ab0" strokeWidth="2" strokeLinecap="round">
+                    <animateTransform attributeName="transform" type="rotate"
+                      values="35 0 5;-35 0 5;35 0 5" dur="0.52s" repeatCount="indefinite" additive="sum"/>
+                  </line>
+                  {/* jambe droite */}
+                  <line x1="0" y1="5" x2="6" y2="16" stroke="#6d4ab0" strokeWidth="2" strokeLinecap="round">
+                    <animateTransform attributeName="transform" type="rotate"
+                      values="-35 0 5;35 0 5;-35 0 5" dur="0.52s" repeatCount="indefinite" additive="sum"/>
+                  </line>
+                  <animateMotion dur="7s" repeatCount="indefinite" rotate="auto">
+                    <mpath href="#meca-path"/>
+                  </animateMotion>
+                </g>
+              </svg>
             </div>
           </div>
         </section>
