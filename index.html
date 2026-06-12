@@ -11,12 +11,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Manrope:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&family=JetBrains+Mono:wght@400;500&display=swap">
 
-  <link rel="stylesheet" href="landing/colors_and_type.css?v=44">
-  <link rel="stylesheet" href="landing/landing.css?v=44">
-  <link rel="stylesheet" href="landing/landing-b.css?v=44">
-  <link rel="stylesheet" href="landing/landing-layouts.css?v=44">
-  <link rel="stylesheet" href="landing/landing-hero-wow.css?v=44">
-  <link rel="stylesheet" href="landing/landing-schema.css?v=44">
+  <link rel="stylesheet" href="landing/colors_and_type.css?v=46">
+  <link rel="stylesheet" href="landing/landing.css?v=46">
+  <link rel="stylesheet" href="landing/landing-b.css?v=46">
+  <link rel="stylesheet" href="landing/landing-layouts.css?v=46">
+  <link rel="stylesheet" href="landing/landing-hero-wow.css?v=46">
+  <link rel="stylesheet" href="landing/landing-schema.css?v=46">
 
   <!-- Meta Pixel -->
   <script>
@@ -478,8 +478,8 @@
       const [spec, setSpec] = React.useState('Studio');
       const [cart, setCart] = React.useState(200);
       const [cardIdx, setCardIdx] = React.useState(0);
-      const [animPhase, setAnimPhase] = React.useState('idle'); // 'idle'|'out'|'in'
-      const [animDir,  setAnimDir]  = React.useState(1);        // 1=next -1=prev
+      const [animPhase, setAnimPhase] = React.useState('idle');
+      const [animDir,  setAnimDir]  = React.useState(1);
       const touchX    = React.useRef(null);
       const animTimer = React.useRef(null);
 
@@ -532,6 +532,18 @@
         if (onSimChange) onSimChange({ spec, cart, pub: cur.pub, clients: cur.clients, revenue: cur.revenue, abo: cur.abo, volume: cur.pub / CPL, benefice: cur.revenue - cur.pub });
       }, [spec, cart, cardIdx]);
 
+      const GhostCard = ({card}) => (
+        <React.Fragment>
+          <div className="sim-card-top">
+            <span className="sim-card-plus">+</span>
+            <span className="sim-card-count">{card.clients}</span>
+          </div>
+          <div className="sim-card-count-lbl">clients / mois</div>
+          <div className="sim-ghost-ca">{fmtEUR(card.revenue)}</div>
+          <div className="sim-ghost-ca-lbl">de CA</div>
+        </React.Fragment>
+      );
+
       return (
         <section className="section" id="simulateur">
           <div className="container">
@@ -560,11 +572,12 @@
               </div>
             </div>
 
-            <div className="sim-carousel-wrap" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
+            <div className="sim-stage" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
 
-              <button className="sim-nav-btn sim-nav-prev" onClick={prev} disabled={cardIdx===0} aria-label="Précédent">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-              </button>
+              <div className={"sim-ghost sim-ghost-prev" + (cardIdx === 0 ? " sim-ghost-empty" : "")}
+                onClick={() => cardIdx > 0 && goTo(cardIdx - 1)}>
+                {cardIdx > 0 && <GhostCard card={cards[cardIdx - 1]} />}
+              </div>
 
               <div className={cardCls}>
                 <div className="sim-card-top">
@@ -595,21 +608,31 @@
                 </div>
               </div>
 
+              <div className={"sim-ghost sim-ghost-next" + (cardIdx === cards.length - 1 ? " sim-ghost-empty" : "")}
+                onClick={() => cardIdx < cards.length - 1 && goTo(cardIdx + 1)}>
+                {cardIdx < cards.length - 1 && <GhostCard card={cards[cardIdx + 1]} />}
+              </div>
+
+            </div>
+
+            <div className="sim-nav-row">
+              <button className="sim-nav-btn sim-nav-prev" onClick={prev} disabled={cardIdx===0} aria-label="Précédent">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+              </button>
+              <div className="sim-dots">
+                {cards.map((card, i) => (
+                  <button key={i} className={"sim-dot"+(i===cardIdx?" active":"")}
+                    onClick={() => goTo(i)} aria-label={"+" + card.clients + " clients"}>
+                  </button>
+                ))}
+              </div>
               <button className="sim-nav-btn sim-nav-next" onClick={next} disabled={cardIdx===cards.length-1} aria-label="Suivant">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
               </button>
             </div>
 
-            <div className="sim-dots">
-              {cards.map((card, i) => (
-                <button key={i} className={"sim-dot"+(i===cardIdx?" active":"")}
-                  onClick={() => goTo(i)} aria-label={"+" + card.clients + " clients"}>
-                </button>
-              ))}
-            </div>
-
             <div className="sim-cta-wrap" style={{marginTop:36}}>
-              <a className="btn btn-gold" href="#tunnel" onClick={go('tunnel')}>Je veux ces clients <span className="arrow">→</span></a>
+              <a className="btn btn-gold" href="#tunnel" onClick={go('tunnel')}>Je veux ces clients <span className="arrow" style={{display:'inline-block',transform:'rotate(45deg)',marginLeft:'4px'}}>→</span></a>
             </div>
           </div>
         </section>

@@ -995,51 +995,77 @@ image-slot { display: block; background: var(--ivoire-2); }
   40%       { transform: translateX(-3px); }
   60%       { transform: translateX(1px); }
 }
-@keyframes dotSlide {
-  from { width: 9px; }
-  to   { width: 28px; }
-}
 
-/* ── Layout ── */
-.sim-carousel-wrap {
-  display: flex;
-  align-items: center;
+/* ── Stage : 3 colonnes desktop ── */
+.sim-stage {
+  display: grid;
+  grid-template-columns: 1fr 1.55fr 1fr;
   gap: 20px;
+  align-items: center;
   margin-top: 36px;
   perspective: 1200px;
 }
 
-/* ── Nav arrows ── */
-.sim-nav-btn {
-  flex: none;
-  width: 50px; height: 50px;
-  border-radius: 50%;
+/* ── Cartes fantômes (côtés) ── */
+.sim-ghost {
   background: white;
-  border: 1.5px solid rgba(180,148,52,0.4);
+  border: 1px solid rgba(180,148,52,0.13);
+  border-radius: 20px;
+  padding: 28px 18px;
+  min-height: 240px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  gap: 4px;
   cursor: pointer;
+  opacity: 0.42;
+  transform: scale(0.88) translateY(8px);
+  transition: opacity .3s ease, transform .32s ease, box-shadow .3s ease;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.06);
+  position: relative;
+  overflow: hidden;
+}
+.sim-ghost::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 50%; transform: translateX(-50%);
+  width: 40px; height: 2px;
+  background: linear-gradient(90deg, #b8892a, #f0d882, #b8892a);
+  border-radius: 0 0 4px 4px;
+  opacity: 0.55;
+}
+.sim-ghost:hover:not(.sim-ghost-empty) {
+  opacity: 0.7;
+  transform: scale(0.91) translateY(4px);
+  box-shadow: 0 10px 36px rgba(0,0,0,0.12);
+}
+.sim-ghost.sim-ghost-empty {
+  opacity: 0;
+  pointer-events: none;
+}
+.sim-ghost .sim-card-plus  { font-size: clamp(22px, 2.2vw, 32px); }
+.sim-ghost .sim-card-count { font-size: clamp(42px, 4.5vw, 60px); line-height: 1; }
+.sim-ghost .sim-card-count-lbl { font-size: 10px; letter-spacing: 0.16em; }
+.sim-ghost-ca {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700;
+  font-size: clamp(18px, 2vw, 26px);
   color: var(--encre);
-  display: flex; align-items: center; justify-content: center;
-  transition: background .2s, border-color .2s, color .2s, transform .15s;
-  animation: arrowBreath 2.4s ease-in-out infinite;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  letter-spacing: -0.02em;
+  font-variant-numeric: lining-nums tabular-nums;
+  margin-top: 10px;
 }
-.sim-nav-btn svg { display: block; }
-.sim-nav-next svg { animation: arrowBounce 2.4s ease-in-out infinite; }
-.sim-nav-prev svg { animation: arrowBounceLeft 2.4s ease-in-out infinite; }
-.sim-nav-btn:hover:not(:disabled) {
-  background: var(--encre);
-  color: white;
-  border-color: var(--encre);
-  transform: scale(1.1);
-  animation: none;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+.sim-ghost-ca-lbl {
+  font-family: var(--sans);
+  font-size: 11px;
+  color: var(--plomb);
+  letter-spacing: 0.08em;
 }
-.sim-nav-btn:hover:not(:disabled) svg { animation: none; }
-.sim-nav-btn:disabled { opacity: 0.15; cursor: default; animation: none; }
 
-/* ── Card ── */
+/* ── Carte active (centre) ── */
 .sim-card-main {
-  flex: 1;
   background: white;
   border: 1px solid rgba(180,148,52,0.2);
   border-radius: 24px;
@@ -1071,7 +1097,7 @@ image-slot { display: block; background: var(--ivoire-2); }
 .sim-card-in-left     { animation: simSlideInLeft   .32s cubic-bezier(0.16,1,0.3,1) both; }
 .sim-card-in-right    { animation: simSlideInRight  .32s cubic-bezier(0.16,1,0.3,1) both; }
 
-/* ── Card content ── */
+/* ── Contenu carte active ── */
 .sim-card-top {
   display: flex;
   align-items: baseline;
@@ -1155,13 +1181,47 @@ image-slot { display: block; background: var(--ivoire-2); }
 .sim-card-benefit .sim-card-benefit-val { color: #3a9e68; font-weight: 700; }
 .sim-card-benefit i[data-lucide] { color: #3a9e68; opacity: 0.7; }
 
+/* ── Nav row (flèches + dots) ── */
+.sim-nav-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 24px;
+}
+.sim-nav-btn {
+  flex: none;
+  width: 50px; height: 50px;
+  border-radius: 50%;
+  background: white;
+  border: 1.5px solid rgba(180,148,52,0.4);
+  cursor: pointer;
+  color: var(--encre);
+  display: flex; align-items: center; justify-content: center;
+  transition: background .2s, border-color .2s, color .2s, transform .15s;
+  animation: arrowBreath 2.4s ease-in-out infinite;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+.sim-nav-btn svg { display: block; }
+.sim-nav-next svg { animation: arrowBounce 2.4s ease-in-out infinite; }
+.sim-nav-prev svg { animation: arrowBounceLeft 2.4s ease-in-out infinite; }
+.sim-nav-btn:hover:not(:disabled) {
+  background: var(--encre);
+  color: white;
+  border-color: var(--encre);
+  transform: scale(1.1);
+  animation: none;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+}
+.sim-nav-btn:hover:not(:disabled) svg { animation: none; }
+.sim-nav-btn:disabled { opacity: 0.15; cursor: default; animation: none; }
+
 /* ── Dots ── */
 .sim-dots {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 7px;
-  margin-top: 28px;
 }
 .sim-dot {
   height: 8px;
@@ -1180,21 +1240,19 @@ image-slot { display: block; background: var(--ivoire-2); }
 
 @media (max-width: 860px) {
   .sim-pre { grid-template-columns: 1fr; gap: 20px; }
-  .sim-carousel-wrap { gap: 12px; perspective: 800px; }
-  .sim-nav-btn { width: 42px; height: 42px; }
+  .sim-stage {
+    grid-template-columns: 1fr;
+    gap: 0;
+    margin-top: 28px;
+    perspective: none;
+  }
+  .sim-ghost { display: none; }
   .sim-card-main { padding: 36px 22px 32px; min-height: 310px; }
   .sim-card-count { font-size: clamp(72px, 18vw, 96px); }
+  .sim-nav-row { margin-top: 20px; gap: 16px; }
+  .sim-nav-btn { width: 42px; height: 42px; }
 }
 
-.res-volume {
-  display: flex; align-items: baseline; gap: 12px; padding-bottom: 4px;
-}
-.res-volume .rv-num {
-  font-family: var(--serif); font-weight: 300; font-size: 52px; line-height: 1;
-  color: var(--encre); font-variant-numeric: lining-nums tabular-nums; letter-spacing: -0.02em;
-}
-.res-volume .rv-lbl { font-family: var(--sans); font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--plomb); }
-.sim-result .res-num.benefice-num { font-size: 76px; }
 /* ----------  Simulator result cards  ---------- */
 .sim-res-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 .sim-res-card { background: #fff; border: 1px solid rgba(139,92,246,0.16); border-radius: 20px; padding: 28px 14px 24px; display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; box-shadow: 0 0 28px rgba(139,92,246,0.10), 0 2px 12px rgba(139,92,246,0.05); }
