@@ -1108,29 +1108,8 @@ image-slot { display: block; background: var(--ivoire-2); }
   letter-spacing: 0.1em;
 }
 
-/* ── Morphing transitions ── */
-.sim-card-plus  { transition: font-size 0.42s cubic-bezier(0.16,1,0.3,1); }
-.sim-card-count { transition: font-size 0.42s cubic-bezier(0.16,1,0.3,1); }
-.sim-card-ca    { transition: font-size 0.42s cubic-bezier(0.16,1,0.3,1), margin-top 0.42s ease; }
-.sim-card-ca-lbl { transition: font-size 0.42s ease; }
-.sim-card-main  {
-  transition:
-    padding  0.42s cubic-bezier(0.16,1,0.3,1),
-    min-height 0.42s cubic-bezier(0.16,1,0.3,1);
-}
-
-/* État inactif (ghost) */
-.stc-inactive .sim-card-main {
-  padding: 28px 18px;
-  min-height: 180px;
-  justify-content: center;
-  cursor: pointer;
-}
-.stc-inactive .sim-card-plus  { font-size: clamp(18px, 2vw, 26px); }
-.stc-inactive .sim-card-count { font-size: clamp(36px, 4vw, 54px); line-height: 1; }
-.stc-inactive .sim-card-count-lbl { font-size: 9px; }
-.stc-inactive .sim-card-ca    { font-size: clamp(14px, 1.8vw, 20px); margin-top: 8px; }
-.stc-inactive .sim-card-ca-lbl { font-size: 10px; }
+/* ── Morphing : seule la section coûts s'expand, les cartes gardent leur taille ── */
+.stc-inactive .sim-card-main { cursor: pointer; }
 
 /* Section qui s'expand/collapse */
 .sim-card-expand {
