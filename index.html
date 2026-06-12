@@ -666,7 +666,7 @@
       );
     }
     // ─── Tunnel de vente ─────────────────────────────────────────────────────
-    function Offre({visible, lpChoice, onLpChoice}) {
+    function Offre({visible, lpChoice, onLpChoice, onDevisClick}) {
       const viewportRef   = React.useRef(null);
       const [vpW, setVpW] = React.useState(0);
       const [ready, setReady] = React.useState(false);
@@ -860,9 +860,9 @@
 
               {lpChoice && (
                 <div className="sim-cta-wrap" style={{marginTop:32}}>
-                  <a className="btn btn-gold" href="#rappel" onClick={go('rappel')}>
+                  <button className="btn btn-gold" onClick={() => { if (onDevisClick) onDevisClick(); }}>
                     Demander un devis <span style={{display:'inline-block',transform:'rotate(45deg)',marginLeft:'4px'}}>→</span>
-                  </a>
+                  </button>
                 </div>
               )}
 
@@ -1104,6 +1104,7 @@
     function App() {
       const [simData, setSimData] = React.useState({});
       const [offreVisible, setOffreVisible] = React.useState(false);
+      const [devisVisible, setDevisVisible] = React.useState(false);
       const [lpChoice, setLpChoice] = React.useState(null);
       React.useEffect(() => { if (window.lucide) window.lucide.createIcons(); });
 
@@ -1115,6 +1116,14 @@
         }, 80);
       };
 
+      const handleDevisClick = () => {
+        setDevisVisible(true);
+        setTimeout(() => {
+          const el = document.getElementById('rappel');
+          if (el) window.scrollTo({top: el.offsetTop - 60, behavior: 'smooth'});
+        }, 80);
+      };
+
       return (
         <div className="page">
           <Nav />
@@ -1122,8 +1131,8 @@
           <main>
             <HeroWow variant="anime" />
             <Simulateur onSimChange={setSimData} onCtaClick={handleCtaClick} />
-            <Offre visible={offreVisible} lpChoice={lpChoice} onLpChoice={setLpChoice} />
-            <Callback simData={simData} lpChoice={lpChoice} />
+            <Offre visible={offreVisible} lpChoice={lpChoice} onLpChoice={setLpChoice} onDevisClick={handleDevisClick} />
+            {devisVisible && <Callback simData={simData} lpChoice={lpChoice} />}
             <Schema />
             <Studio />
             <Avis />
