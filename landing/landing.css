@@ -967,8 +967,9 @@ image-slot { display: block; background: var(--ivoire-2); }
 
 /* ── Keyframes ── */
 @keyframes simFloat {
-  0%, 100% { transform: translateY(0px);  box-shadow: 0 8px 40px rgba(0,0,0,0.09), 0 2px 8px rgba(0,0,0,0.05); }
-  50%       { transform: translateY(-8px); box-shadow: 0 28px 72px rgba(0,0,0,0.14), 0 4px 16px rgba(0,0,0,0.07); }
+  0%   { transform: translateY(0px)   rotateY(-1.6deg) rotateZ(-0.4deg); box-shadow: 0 8px 40px rgba(0,0,0,0.09), 0 2px 8px rgba(0,0,0,0.05); }
+  50%  { transform: translateY(-8px)  rotateY( 1.6deg) rotateZ( 0.4deg); box-shadow: 0 28px 72px rgba(0,0,0,0.14), 0 4px 16px rgba(0,0,0,0.07); }
+  100% { transform: translateY(0px)   rotateY(-1.6deg) rotateZ(-0.4deg); box-shadow: 0 8px 40px rgba(0,0,0,0.09), 0 2px 8px rgba(0,0,0,0.05); }
 }
 @keyframes simSlideOutLeft  { to   { transform: translateX(-55%) rotateY(18deg)  scale(0.88); opacity: 0; } }
 @keyframes simSlideOutRight { to   { transform: translateX(55%)  rotateY(-18deg) scale(0.88); opacity: 0; } }
@@ -1145,6 +1146,14 @@ image-slot { display: block; background: var(--ivoire-2); }
 }
 .sim-card-cost-row i[data-lucide] { width: 14px; height: 14px; flex: none; opacity: 0.4; }
 .sim-card-cost-row strong { color: var(--encre); font-weight: 600; }
+.sim-card-costs-sep {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(52,168,100,0.28), transparent);
+  margin: 4px 0;
+}
+.sim-card-benefit .sim-card-benefit-val { color: #3a9e68; font-weight: 700; }
+.sim-card-benefit i[data-lucide] { color: #3a9e68; opacity: 0.7; }
 
 /* ── Dots ── */
 .sim-dots {
