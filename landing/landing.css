@@ -319,6 +319,82 @@ body { background: var(--ivoire); }
 .tunnel-cta { display: flex; justify-content: center; margin-top: 48px; }
 @media (max-width: 768px) { .tunnel-steps { grid-template-columns: 1fr; gap: 32px; } }
 
+/* ----------  Landing page carousel  ---------- */
+.lp-carousel-wrap { margin-top: 8px; }
+.lp-carousel {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.lpc-btn {
+  flex: none;
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--sable-fonce);
+  background: var(--blanc);
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--encre);
+  display: flex; align-items: center; justify-content: center;
+  transition: background .15s, border-color .15s;
+}
+.lpc-btn:hover:not(:disabled) { background: var(--encre); color: var(--blanc); border-color: var(--encre); }
+.lpc-btn:disabled { opacity: 0.3; cursor: default; }
+.lpc-track {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  overflow: hidden;
+}
+.lpc-card {
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--sable);
+  display: flex;
+  flex-direction: column;
+  transition: transform .2s var(--ease-out), box-shadow .2s;
+  cursor: pointer;
+}
+.lpc-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.10); }
+.lpc-header {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 8px;
+}
+.lpc-dot { width: 5px; height: 5px; border-radius: 50%; background: rgba(255,255,255,0.5); }
+.lpc-nav-bar { flex: 1; height: 4px; border-radius: 2px; margin-left: 6px; }
+.lpc-hero {
+  height: 60px;
+  margin: 8px 8px 0;
+  border-radius: 6px;
+}
+.lpc-lines {
+  padding: 8px 8px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.lpc-line { height: 5px; border-radius: 3px; }
+.lpc-line-lg { width: 80%; }
+.lpc-line-sm { width: 55%; }
+.lpc-cta-mock { height: 16px; border-radius: 4px; width: 60%; margin-top: 4px; opacity: 0.85; }
+.lpc-label {
+  font-family: var(--sans);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: var(--plomb);
+  text-align: center;
+  padding: 6px 4px 8px;
+  border-top: 1px solid var(--sable);
+}
+@media (max-width: 700px) {
+  .lpc-track { grid-template-columns: repeat(2, 1fr); }
+}
+
 .cform-recap { background: var(--sable); border: 1px solid var(--sable-fonce); border-radius: 10px; padding: 12px 14px; margin-bottom: 20px; }
 .cform-recap-lbl { font-family: var(--sans); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--pierre); display: block; margin-bottom: 6px; }
 .cform-recap-grid { display: flex; flex-direction: column; gap: 3px; font-family: var(--sans); font-size: 13px; color: var(--plomb); }

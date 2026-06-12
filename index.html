@@ -11,12 +11,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Manrope:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&family=JetBrains+Mono:wght@400;500&display=swap">
 
-  <link rel="stylesheet" href="landing/colors_and_type.css?v=32">
-  <link rel="stylesheet" href="landing/landing.css?v=32">
-  <link rel="stylesheet" href="landing/landing-b.css?v=32">
-  <link rel="stylesheet" href="landing/landing-layouts.css?v=32">
-  <link rel="stylesheet" href="landing/landing-hero-wow.css?v=32">
-  <link rel="stylesheet" href="landing/landing-schema.css?v=32">
+  <link rel="stylesheet" href="landing/colors_and_type.css?v=33">
+  <link rel="stylesheet" href="landing/landing.css?v=33">
+  <link rel="stylesheet" href="landing/landing-b.css?v=33">
+  <link rel="stylesheet" href="landing/landing-layouts.css?v=33">
+  <link rel="stylesheet" href="landing/landing-hero-wow.css?v=33">
+  <link rel="stylesheet" href="landing/landing-schema.css?v=33">
 
   <!-- Meta Pixel -->
   <script>
@@ -631,6 +631,7 @@
     }
     // ─── Tunnel de vente ─────────────────────────────────────────────────────
     function Tunnel() {
+      const [slide, setSlide] = React.useState(0);
       const go = id => e => { e.preventDefault(); const el = document.getElementById(id); if (el) window.scrollTo({top:el.offsetTop-60,behavior:'smooth'}); };
       const steps = [
         { n:'01', ico:'megaphone', title:'Campagne Meta Ads', desc:'Je crée et pilote vos publicités sur Facebook et Instagram. Ciblage précis, visuels testés, budget optimisé — je gère tout.' },
@@ -656,6 +657,40 @@
                   <p className="ts-desc">{s.desc}</p>
                 </div>
               ))}
+            </div>
+
+            <div className="lp-carousel-wrap">
+              <div className="eyebrow" style={{marginTop:40,marginBottom:20}}><span className="rule"></span><span>Exemples de landing pages</span></div>
+              <div className="lp-carousel">
+                <button className="lpc-btn" onClick={() => setSlide(s => Math.max(0, s-1))} disabled={slide===0} aria-label="Précédent">‹</button>
+                <div className="lpc-track">
+                  {[
+                    {id:1,label:'Mariage · Luxe',        accent:'#C4A882',bg:'#FAF7F3'},
+                    {id:2,label:'Studio · Portrait',      accent:'#8A7FA8',bg:'#F5F3FA'},
+                    {id:3,label:'Extérieur · Nature',     accent:'#7A9E8B',bg:'#F3F8F5'},
+                    {id:4,label:'Mariage · Bohème',       accent:'#C49478',bg:'#FBF5F1'},
+                    {id:5,label:'Studio · Mode',          accent:'#6B8BB5',bg:'#F1F4FB'},
+                    {id:6,label:'Famille · Lifestyle',    accent:'#A88A7A',bg:'#F8F4F1'},
+                    {id:7,label:'Newborn · Douceur',      accent:'#C4A09A',bg:'#FBF5F4'},
+                    {id:8,label:'Corporate · Business',   accent:'#5A7A8A',bg:'#F1F5F7'},
+                  ].slice(slide, slide+4).map(lp => (
+                    <div key={lp.id} className="lpc-card" style={{background:lp.bg}}>
+                      <div className="lpc-header" style={{background:lp.accent}}>
+                        <div className="lpc-dot"></div><div className="lpc-dot"></div><div className="lpc-dot"></div>
+                        <div className="lpc-nav-bar" style={{background:'rgba(255,255,255,0.3)'}}></div>
+                      </div>
+                      <div className="lpc-hero" style={{background:lp.accent+'33'}}></div>
+                      <div className="lpc-lines">
+                        <div className="lpc-line lpc-line-lg" style={{background:lp.accent+'99'}}></div>
+                        <div className="lpc-line lpc-line-sm" style={{background:lp.accent+'55'}}></div>
+                        <div className="lpc-cta-mock" style={{background:lp.accent}}></div>
+                      </div>
+                      <span className="lpc-label">{lp.label}</span>
+                    </div>
+                  ))}
+                </div>
+                <button className="lpc-btn" onClick={() => setSlide(s => Math.min(4, s+1))} disabled={slide>=4} aria-label="Suivant">›</button>
+              </div>
             </div>
             <div className="tunnel-cta">
               <a className="btn btn-gold" href="#rappel" onClick={go('rappel')}>Je veux ce système pour mon studio <span className="arrow">→</span></a>
