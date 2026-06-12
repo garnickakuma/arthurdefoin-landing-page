@@ -11,12 +11,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Manrope:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&family=JetBrains+Mono:wght@400;500&display=swap">
 
-  <link rel="stylesheet" href="landing/colors_and_type.css?v=67">
-  <link rel="stylesheet" href="landing/landing.css?v=67">
-  <link rel="stylesheet" href="landing/landing-b.css?v=67">
-  <link rel="stylesheet" href="landing/landing-layouts.css?v=67">
-  <link rel="stylesheet" href="landing/landing-hero-wow.css?v=67">
-  <link rel="stylesheet" href="landing/landing-schema.css?v=67">
+  <link rel="stylesheet" href="landing/colors_and_type.css?v=68">
+  <link rel="stylesheet" href="landing/landing.css?v=68">
+  <link rel="stylesheet" href="landing/landing-b.css?v=68">
+  <link rel="stylesheet" href="landing/landing-layouts.css?v=68">
+  <link rel="stylesheet" href="landing/landing-hero-wow.css?v=68">
+  <link rel="stylesheet" href="landing/landing-schema.css?v=68">
 
   <!-- Meta Pixel -->
   <script>
@@ -52,7 +52,7 @@
     function TweakToggle() { return null; }
 
     // ─── Nav ─────────────────────────────────────────────────────────────────
-    function Nav({ ctaLabel = 'Réserver un appel' }) {
+    function Nav({ ctaLabel = 'Tester le simulateur' }) {
       const [scrolled, setScrolled] = React.useState(false);
       const [open, setOpen] = React.useState(false);
       React.useEffect(() => {
@@ -80,11 +80,12 @@
               </a>
               <div className="nav-links">
                 <a onClick={go('simulateur')}>Simulateur</a>
-                <a onClick={go('mecanisme')}>Méthode</a>
+                <a onClick={go('mecanisme')}>Le mécanisme</a>
                 <a onClick={go('studio')}>Mon studio</a>
-                <button className="nav-cta nav-cta-mobile" onClick={go('rappel')}>{ctaLabel}</button>
+                <a onClick={go('avis')}>Avis</a>
+                <button className="nav-cta nav-cta-mobile" onClick={go('simulateur')}>{ctaLabel}</button>
               </div>
-              <button className="nav-cta nav-cta-desktop" onClick={go('rappel')}>{ctaLabel}</button>
+              <button className="nav-cta nav-cta-desktop" onClick={go('simulateur')}>{ctaLabel}</button>
               <button className="nav-burger" aria-label="Menu" aria-expanded={open} onClick={() => setOpen(o => !o)}>
                 <i data-lucide={open ? 'x' : 'menu'}></i>
               </button>
@@ -97,9 +98,11 @@
     // ─── SideRail ────────────────────────────────────────────────────────────
     function SideRail() {
       const sections = [
-        { id: 'top', n: '01' }, { id: 'simulateur', n: '02' },
-        { id: 'rappel', n: '03' },
-        { id: 'mecanisme', n: '05' }, { id: 'studio', n: '06' },
+        { id: 'top', n: '01' },
+        { id: 'simulateur', n: '02' },
+        { id: 'mecanisme', n: '03' },
+        { id: 'studio', n: '04' },
+        { id: 'avis', n: '05' },
       ];
       const [active, setActive] = React.useState('top');
       React.useEffect(() => {
@@ -234,7 +237,7 @@
         <section className="section schema" id="mecanisme">
           <div className="container">
             <div className="schema-head">
-              <div className="eyebrow"><span className="rule"></span><span className="num">05</span><span>Le mécanisme</span></div>
+              <div className="eyebrow"><span className="rule"></span><span className="num">03</span><span>Le mécanisme</span></div>
               <h2>Vous photographiez. <em>Le reste tourne tout seul.</em></h2>
               <p className="lede">Pas de tunnel compliqué : quatre temps, et une boucle qui s'entretient d'elle-même pendant que vous êtes derrière l'objectif.</p>
             </div>
@@ -293,7 +296,7 @@
           <div className="container">
             <div className="studio-inner">
               <div className="studio-head">
-                <div className="eyebrow"><span className="rule"></span><span className="num">06</span><span>LE STUDIO AMOUR ET LUMIÈRE</span></div>
+                <div className="eyebrow"><span className="rule"></span><span className="num">04</span><span>LE STUDIO AMOUR ET LUMIÈRE</span></div>
                 <h2>Je connais votre métier —<br /><em>je le vis aussi</em>.</h2>
               </div>
               <div className="studio-gallery">
@@ -1053,7 +1056,7 @@
           <div className="container">
             <div className="section-head">
               <div>
-                <div className="eyebrow"><span className="rule"></span><span className="num">08</span><span>Avis clients</span></div>
+                <div className="eyebrow"><span className="rule"></span><span className="num">05</span><span>Avis clients</span></div>
                 <h2>Ce que disent<br /><em>les photographes</em>.</h2>
               </div>
               <p className="lede">Des photographes de toute la France, Belgique et Suisse qui ont confié leur publicité Meta.</p>
@@ -1112,7 +1115,7 @@
                 <h4>Contact</h4>
                 <ul>
                   <li><a>defoin.arthur@gmail.com</a></li>
-                  <li><a href="#rappel" onClick={go('rappel')}>Réserver un appel</a></li>
+                  <li><a href="#simulateur" onClick={go('simulateur')}>Tester le simulateur</a></li>
                   <li><a>France · Belgique · Suisse</a></li>
                 </ul>
               </div>
