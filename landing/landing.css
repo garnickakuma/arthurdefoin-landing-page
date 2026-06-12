@@ -1489,6 +1489,14 @@ image-slot { display: block; background: var(--ivoire-2); }
 .offre-radio.active .offre-radio-icon {
   border-color: var(--or); background: var(--or-voile);
 }
+.offre-radio-sub {
+  display: block;
+  font-size: 11px;
+  color: var(--plomb);
+  letter-spacing: 0.03em;
+  margin-top: 3px;
+  font-weight: 400;
+}
 
 /* ----------  Simulator — services additionnels  ---------- */
 .sim-services { margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--sable); }
