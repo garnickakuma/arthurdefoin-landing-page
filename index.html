@@ -11,12 +11,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Manrope:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&family=JetBrains+Mono:wght@400;500&display=swap">
 
-  <link rel="stylesheet" href="landing/colors_and_type.css?v=74">
-  <link rel="stylesheet" href="landing/landing.css?v=74">
-  <link rel="stylesheet" href="landing/landing-b.css?v=74">
-  <link rel="stylesheet" href="landing/landing-layouts.css?v=74">
-  <link rel="stylesheet" href="landing/landing-hero-wow.css?v=74">
-  <link rel="stylesheet" href="landing/landing-schema.css?v=74">
+  <link rel="stylesheet" href="landing/colors_and_type.css?v=75">
+  <link rel="stylesheet" href="landing/landing.css?v=75">
+  <link rel="stylesheet" href="landing/landing-b.css?v=75">
+  <link rel="stylesheet" href="landing/landing-layouts.css?v=75">
+  <link rel="stylesheet" href="landing/landing-hero-wow.css?v=75">
+  <link rel="stylesheet" href="landing/landing-schema.css?v=75">
 
   <!-- Meta Pixel -->
   <script>
@@ -254,21 +254,118 @@
               <p className="lede">Vous photographiez — tout le reste tourne sans vous.</p>
             </div>
             <div className="meca-scene">
+              {/* ── CARTE 1 : Pub Meta ── */}
               <div className="meca-card meca-c1">
                 <div className="meca-num">01</div>
-                <div className="meca-ico"><i data-lucide="megaphone"></i></div>
+                <svg className="meca-anim" viewBox="0 0 80 70" overflow="visible">
+                  {/* Bague de glow violet — pulse à chaque arrivée de dot */}
+                  <circle cx="40" cy="36" fill="none" stroke="#a78bfa" r="19" strokeWidth="0" opacity="0">
+                    <animate attributeName="r"            values="19;25;31"     keyTimes="0;0.35;1" dur="0.45s" repeatCount="indefinite" begin="1.7s" calcMode="spline" keySplines="0.2,0,0.4,1;0.2,0,0.4,1"/>
+                    <animate attributeName="stroke-width" values="7;3;0"        keyTimes="0;0.35;1" dur="0.45s" repeatCount="indefinite" begin="1.7s"/>
+                    <animate attributeName="opacity"      values="0.65;0.25;0"  keyTimes="0;0.35;1" dur="0.45s" repeatCount="indefinite" begin="1.7s"/>
+                  </circle>
+                  {/* Mégaphone */}
+                  <g transform="translate(40,36)">
+                    <path d="M-10,-8 L11,-15 L11,15 L-10,8 Z" fill="#6d4ab0"/>
+                    <rect x="-18" y="-6" width="8" height="12" rx="2" fill="#6d4ab0"/>
+                    <path d="M13,-11 Q20,0 20,0 Q20,0 13,11" fill="none" stroke="#a78bfa" strokeWidth="2.5" strokeLinecap="round"/>
+                    <path d="M15,-16 Q25,0 25,0 Q25,0 15,16" fill="none" stroke="#a78bfa" strokeWidth="1.5" strokeLinecap="round" opacity="0.38"/>
+                  </g>
+                  {/* 6 points gris attirés vers le logo — 1 toutes les 0.45s */}
+                  {[
+                    {sx:40, sy:4,  d:0   },
+                    {sx:73, sy:10, d:0.45},
+                    {sx:77, sy:36, d:0.9 },
+                    {sx:69, sy:64, d:1.35},
+                    {sx:11, sy:64, d:1.8 },
+                    {sx:4,  sy:36, d:2.25},
+                  ].map((pt, i) => (
+                    <circle key={i} r="3.5" fill="#94a3b8" opacity="0">
+                      <animate attributeName="cx"      from={pt.sx} to="40"             dur="1.8s" repeatCount="indefinite" begin={`${pt.d}s`}/>
+                      <animate attributeName="cy"      from={pt.sy} to="36"             dur="1.8s" repeatCount="indefinite" begin={`${pt.d}s`}/>
+                      <animate attributeName="r"       values="3.5;3.5;1.2;0"           keyTimes="0;0.62;0.88;1" dur="1.8s" repeatCount="indefinite" begin={`${pt.d}s`}/>
+                      <animate attributeName="opacity" values="0;0.78;0.78;0"           keyTimes="0;0.12;0.82;1" dur="1.8s" repeatCount="indefinite" begin={`${pt.d}s`}/>
+                    </circle>
+                  ))}
+                </svg>
                 <strong className="meca-title">Pub Meta ciblée</strong>
                 <p className="meca-sub">Vos photos diffusées aux bons profils, au bon moment.</p>
               </div>
+
+              {/* ── CARTE 2 : Landing page ── */}
               <div className="meca-card meca-c2">
                 <div className="meca-num">02</div>
-                <div className="meca-ico"><i data-lucide="monitor"></i></div>
+                <svg className="meca-anim" viewBox="0 0 80 70" overflow="visible">
+                  {/* Icône page */}
+                  <rect x="22" y="6" width="36" height="26" rx="3" fill="none" stroke="#6d4ab0" strokeWidth="1.5" opacity="0.35"/>
+                  <line x1="26" y1="11" x2="54" y2="11" stroke="#6d4ab0" strokeWidth="1.2" opacity="0.28"/>
+                  <line x1="26" y1="15" x2="48" y2="15" stroke="#6d4ab0" strokeWidth="1.2" opacity="0.28"/>
+                  <line x1="26" y1="19" x2="52" y2="19" stroke="#6d4ab0" strokeWidth="1.2" opacity="0.28"/>
+                  {/* Fil rouge */}
+                  <line x1="4" y1="48" x2="76" y2="48" stroke="#ef4444" strokeWidth="2.5" strokeLinecap="round" opacity="0.6"/>
+                  <path d="M 72,43 L 78,48 L 72,53" fill="none" stroke="#ef4444" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" opacity="0.6"/>
+                  {/* 5 points qui traversent jusqu'au bout (~70%) */}
+                  {[0, 0.6, 1.2, 1.8, 2.4].map((delay, i) => (
+                    <circle key={i} r="3.5" fill="#94a3b8" opacity="0">
+                      <animate attributeName="cx"      from="4"  to="76"               dur="2.1s" repeatCount="indefinite" begin={`${delay}s`}/>
+                      <animate attributeName="cy"      from="48" to="48"               dur="2.1s" repeatCount="indefinite" begin={`${delay}s`}/>
+                      <animate attributeName="opacity" values="0;0.8;0.8;0" keyTimes="0;0.1;0.88;1" dur="2.1s" repeatCount="indefinite" begin={`${delay}s`}/>
+                    </circle>
+                  ))}
+                  {/* 2 points qui décrochent (~30%) — glissent puis tombent */}
+                  {[0.3, 1.5].map((delay, i) => (
+                    <circle key={i+5} r="3" fill="#94a3b8" opacity="0">
+                      <animate attributeName="cx"      values="4;38;42"                 keyTimes="0;0.5;1" dur="2.1s" repeatCount="indefinite" begin={`${delay}s`}/>
+                      <animate attributeName="cy"      values="48;48;63"                keyTimes="0;0.5;1" dur="2.1s" repeatCount="indefinite" begin={`${delay}s`} calcMode="spline" keySplines="0,0,1,1;0.4,0,0.7,1"/>
+                      <animate attributeName="opacity" values="0;0.7;0.55;0" keyTimes="0;0.1;0.5;1" dur="2.1s" repeatCount="indefinite" begin={`${delay}s`}/>
+                    </circle>
+                  ))}
+                </svg>
                 <strong className="meca-title">Landing page qui convertit</strong>
                 <p className="meca-sub">Une page pensée pour transformer les clics en demandes de contact.</p>
               </div>
+
+              {/* ── CARTE 3 : Échange photographe ── */}
               <div className="meca-card meca-c3">
                 <div className="meca-num">03</div>
-                <div className="meca-ico"><i data-lucide="phone"></i></div>
+                <svg className="meca-anim" viewBox="0 0 80 70" overflow="visible">
+                  <defs>
+                    <filter id="vglow3" x="-80%" y="-80%" width="260%" height="260%">
+                      <feGaussianBlur stdDeviation="3.5" result="blur"/>
+                      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                    </filter>
+                  </defs>
+                  {/* Fil rouge vers le téléphone */}
+                  <line x1="4" y1="40" x2="55" y2="40" stroke="#ef4444" strokeWidth="2.5" strokeLinecap="round" opacity="0.6"/>
+                  {/* Smartphone */}
+                  <g transform="translate(65,40)">
+                    <rect x="-10" y="-17" width="20" height="30" rx="4" fill="none" stroke="#6d4ab0" strokeWidth="2.2"/>
+                    <circle cx="0" cy="10" r="2.2" fill="#6d4ab0"/>
+                    <line x1="-5" y1="-12" x2="5" y2="-12" stroke="#6d4ab0" strokeWidth="1.5" strokeLinecap="round" opacity="0.45"/>
+                  </g>
+                  {/* Bague de glow violet autour du téléphone */}
+                  <circle cx="65" cy="40" fill="none" stroke="#a78bfa" r="15" strokeWidth="0" opacity="0">
+                    <animate attributeName="r"            values="15;21;27"     keyTimes="0;0.38;1" dur="0.9s" repeatCount="indefinite" begin="1.6s" calcMode="spline" keySplines="0.2,0,0.4,1;0.2,0,0.4,1"/>
+                    <animate attributeName="stroke-width" values="5;2;0"        keyTimes="0;0.38;1" dur="0.9s" repeatCount="indefinite" begin="1.6s"/>
+                    <animate attributeName="opacity"      values="0.6;0.22;0"   keyTimes="0;0.38;1" dur="0.9s" repeatCount="indefinite" begin="1.6s"/>
+                  </circle>
+                  {/* 4 points gris entrent dans le téléphone */}
+                  {[0, 0.9, 1.8, 2.7].map((delay, i) => (
+                    <circle key={i} r="3.5" fill="#94a3b8" opacity="0">
+                      <animate attributeName="cx"      from="4"  to="56"               dur="1.8s" repeatCount="indefinite" begin={`${delay}s`}/>
+                      <animate attributeName="cy"      from="40" to="40"               dur="1.8s" repeatCount="indefinite" begin={`${delay}s`}/>
+                      <animate attributeName="opacity" values="0;0.8;0.8;0" keyTimes="0;0.1;0.88;1" dur="1.8s" repeatCount="indefinite" begin={`${delay}s`}/>
+                    </circle>
+                  ))}
+                  {/* Client signé — boule violet rougeoyante qui sort du téléphone (1 sur 2) */}
+                  {[1.55, 5.35].map((delay, i) => (
+                    <circle key={i+10} r="5.5" fill="#a78bfa" opacity="0" filter="url(#vglow3)">
+                      <animate attributeName="cy"      values="40;24;12"        keyTimes="0;0.55;1"  dur="1.4s" repeatCount="indefinite" begin={`${delay}s`} calcMode="spline" keySplines="0.4,0,0.2,1;0.3,0,0.7,1"/>
+                      <animate attributeName="opacity" values="0;1;0.9;0"       keyTimes="0;0.22;0.7;1" dur="1.4s" repeatCount="indefinite" begin={`${delay}s`}/>
+                      <animate attributeName="r"       values="5.5;7.5;5.5"     keyTimes="0;0.5;1"   dur="1.4s" repeatCount="indefinite" begin={`${delay}s`}/>
+                    </circle>
+                  ))}
+                </svg>
                 <strong className="meca-title">Échange avec le photographe</strong>
                 <p className="meca-sub">Vous recevez des prospects qualifiés — vous n'avez plus qu'à décrocher.</p>
               </div>
