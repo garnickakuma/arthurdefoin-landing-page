@@ -757,6 +757,10 @@ image-slot { display: block; background: var(--ivoire-2); }
 .sim-res-metric { display: flex; flex-direction: column; gap: 4px; }
 .res-num-clients { font-size: 64px !important; }
 .res-num-ca { font-size: 44px !important; }
+.res-num-editable { cursor: pointer; transition: opacity .15s; }
+.res-num-editable:hover { opacity: 0.75; }
+.res-edit-hint { font-size: 11px; color: var(--pierre); font-style: normal; letter-spacing: 0; text-transform: none; margin-left: 4px; opacity: 0.6; }
+.res-input { font-family: var(--serif); font-style: italic; color: var(--or); font-weight: 400; background: transparent; border: none; border-bottom: 2px solid var(--or); outline: none; width: 100%; font-size: inherit; line-height: 1; padding: 0; }
 
 .sim-abo-badge {
   display: flex; align-items: flex-start; gap: 8px;
