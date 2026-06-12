@@ -11,12 +11,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Manrope:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&family=JetBrains+Mono:wght@400;500&display=swap">
 
-  <link rel="stylesheet" href="landing/colors_and_type.css?v=38">
-  <link rel="stylesheet" href="landing/landing.css?v=38">
-  <link rel="stylesheet" href="landing/landing-b.css?v=38">
-  <link rel="stylesheet" href="landing/landing-layouts.css?v=38">
-  <link rel="stylesheet" href="landing/landing-hero-wow.css?v=38">
-  <link rel="stylesheet" href="landing/landing-schema.css?v=38">
+  <link rel="stylesheet" href="landing/colors_and_type.css?v=39">
+  <link rel="stylesheet" href="landing/landing.css?v=39">
+  <link rel="stylesheet" href="landing/landing-b.css?v=39">
+  <link rel="stylesheet" href="landing/landing-layouts.css?v=39">
+  <link rel="stylesheet" href="landing/landing-hero-wow.css?v=39">
+  <link rel="stylesheet" href="landing/landing-schema.css?v=39">
 
   <!-- Meta Pixel -->
   <script>
@@ -636,6 +636,10 @@
       const [readyChecked, setReadyChecked] = React.useState(false);
       const [slide, setSlide] = React.useState(0);
       const allChecked = pubChecked && lpChoice !== null && readyChecked;
+      const step2Ref = React.useRef(null);
+      const step3Ref = React.useRef(null);
+      const ctaRef   = React.useRef(null);
+      const scrollTo = ref => { if (ref.current && window.innerWidth < 960) setTimeout(() => ref.current.scrollIntoView({behavior:"smooth",block:"start"}), 220); };
       const go = id => e => { e.preventDefault(); const el = document.getElementById(id); if (el) window.scrollTo({top:el.offsetTop-60,behavior:'smooth'}); };
       React.useEffect(() => { if (window.lucide) window.lucide.createIcons(); });
       React.useEffect(() => {
@@ -673,13 +677,13 @@
                 <h3 className="ts-title">Campagne Meta Ads</h3>
                 <p className="ts-desc">Je crée et pilote vos publicités sur Facebook et Instagram. Ciblage précis, visuels testés, budget optimisé — je gère tout.</p>
                 <label className="tst-check">
-                  <input type="checkbox" checked={pubChecked} onChange={e => setPubChecked(e.target.checked)} />
+                  <input type="checkbox" checked={pubChecked} onChange={e => { setPubChecked(e.target.checked); if (e.target.checked) scrollTo(step2Ref); }} />
                   <span>Je souhaite qu'on lance mes publicités</span>
                 </label>
               </div>
 
               {/* ── Étape 2 ── */}
-              <div className={"tunnel-step tst-card" + (lpChoice ? " tst-done" : "")}>
+              <div ref={step2Ref} className={"tunnel-step tst-card" + (lpChoice ? " tst-done" : "")}>
                 <div className="ts-num">02</div>
                 <div className="ts-ico"><i data-lucide="layout"></i></div>
                 <h3 className="ts-title">Landing page dédiée</h3>
@@ -711,31 +715,31 @@
 
                 <div className="tst-radio-group">
                   <label className={"tst-radio" + (lpChoice==='need' ? " active" : "")}>
-                    <input type="radio" name="lp" value="need" checked={lpChoice==='need'} onChange={() => setLpChoice('need')} />
+                    <input type="radio" name="lp" value="need" checked={lpChoice==='need'} onChange={() => { setLpChoice('need'); scrollTo(step3Ref); }} />
                     <span>J'ai besoin d'une landing page qui convertit</span>
                   </label>
                   <label className={"tst-radio" + (lpChoice==='have' ? " active" : "")}>
-                    <input type="radio" name="lp" value="have" checked={lpChoice==='have'} onChange={() => setLpChoice('have')} />
+                    <input type="radio" name="lp" value="have" checked={lpChoice==='have'} onChange={() => { setLpChoice('have'); scrollTo(step3Ref); }} />
                     <span>J'ai déjà une landing page qui convertit</span>
                   </label>
                 </div>
               </div>
 
               {/* ── Étape 3 ── */}
-              <div className={"tunnel-step tst-card" + (readyChecked ? " tst-done" : "")}>
+              <div ref={step3Ref} className={"tunnel-step tst-card" + (readyChecked ? " tst-done" : "")}>
                 <div className="ts-num">03</div>
                 <div className="ts-ico"><i data-lucide="calendar-check"></i></div>
                 <h3 className="ts-title">Contact & Réservation</h3>
                 <p className="ts-desc">Les leads arrivent directement dans votre boîte. Vous n'avez plus qu'à shooter — je m'occupe du reste.</p>
                 <label className="tst-check">
-                  <input type="checkbox" checked={readyChecked} onChange={e => setReadyChecked(e.target.checked)} />
+                  <input type="checkbox" checked={readyChecked} onChange={e => { setReadyChecked(e.target.checked); if (e.target.checked) scrollTo(ctaRef); }} />
                   <span>Je suis prêt.e à recevoir des clients</span>
                 </label>
               </div>
 
             </div>
 
-            <div className="tunnel-cta">
+            <div ref={ctaRef} className="tunnel-cta">
               {allChecked ? (
                 <a className="btn btn-gold" href="#rappel" onClick={go('rappel')}>Faire une demande de devis <span className="arrow">→</span></a>
               ) : (
