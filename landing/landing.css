@@ -971,14 +971,23 @@ image-slot { display: block; background: var(--ivoire-2); }
   50%  { transform: translateY(-8px)  rotateY( 1.6deg) rotateZ( 0.4deg); box-shadow: 0 28px 72px rgba(0,0,0,0.14), 0 4px 16px rgba(0,0,0,0.07); }
   100% { transform: translateY(0px)   rotateY(-1.6deg) rotateZ(-0.4deg); box-shadow: 0 8px 40px rgba(0,0,0,0.09), 0 2px 8px rgba(0,0,0,0.05); }
 }
-@keyframes simSlideOutLeft  { to   { transform: translateX(-55%) rotateY(18deg)  scale(0.88); opacity: 0; } }
-@keyframes simSlideOutRight { to   { transform: translateX(55%)  rotateY(-18deg) scale(0.88); opacity: 0; } }
+@keyframes simFloatMobile {
+  0%   { transform: translateY(0px)   rotateY(-5.5deg) rotateZ(-1.5deg); box-shadow: 0 6px 30px rgba(0,0,0,0.09); }
+  50%  { transform: translateY(-7px)  rotateY( 5.5deg) rotateZ( 1.5deg); box-shadow: 0 22px 60px rgba(0,0,0,0.14); }
+  100% { transform: translateY(0px)   rotateY(-5.5deg) rotateZ(-1.5deg); box-shadow: 0 6px 30px rgba(0,0,0,0.09); }
+}
+@keyframes ghostFadeIn {
+  from { opacity: 0; transform: scale(0.82) translateY(14px); }
+  to   { opacity: 0.42; transform: scale(0.88) translateY(8px); }
+}
+@keyframes simSlideOutLeft  { to   { transform: translateX(-72%) rotateY(22deg)  scale(0.84); opacity: 0; } }
+@keyframes simSlideOutRight { to   { transform: translateX(72%)  rotateY(-22deg) scale(0.84); opacity: 0; } }
 @keyframes simSlideInLeft  {
-  from { transform: translateX(55%)  rotateY(-18deg) scale(0.88); opacity: 0; }
+  from { transform: translateX(72%)  rotateY(-22deg) scale(0.84); opacity: 0; }
   to   { transform: translateX(0)    rotateY(0)      scale(1);    opacity: 1; }
 }
 @keyframes simSlideInRight {
-  from { transform: translateX(-55%) rotateY(18deg)  scale(0.88); opacity: 0; }
+  from { transform: translateX(-72%) rotateY(22deg)  scale(0.84); opacity: 0; }
   to   { transform: translateX(0)    rotateY(0)      scale(1);    opacity: 1; }
 }
 @keyframes arrowBreath {
@@ -1026,6 +1035,7 @@ image-slot { display: block; background: var(--ivoire-2); }
   box-shadow: 0 4px 18px rgba(0,0,0,0.06);
   position: relative;
   overflow: hidden;
+  animation: ghostFadeIn .35s cubic-bezier(0.16,1,0.3,1) both;
 }
 .sim-ghost::before {
   content: '';
@@ -1240,13 +1250,38 @@ image-slot { display: block; background: var(--ivoire-2); }
 
 @media (max-width: 860px) {
   .sim-pre { grid-template-columns: 1fr; gap: 20px; }
+
+  /* Peek carousel : slivers des cartes voisines visibles sur les côtés */
   .sim-stage {
-    grid-template-columns: 1fr;
-    gap: 0;
+    grid-template-columns: 44px 1fr 44px;
+    gap: 10px;
+    align-items: stretch;
     margin-top: 28px;
-    perspective: none;
+    perspective: 800px;
   }
-  .sim-ghost { display: none; }
+  .sim-ghost {
+    display: flex;
+    overflow: hidden;
+    padding: 0;
+    border-radius: 16px;
+    min-height: 0;
+    transform: none;
+    opacity: 0.55;
+    animation: none;
+    transition: none;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  }
+  .sim-ghost::before { width: 20px; opacity: 0.7; }
+  .sim-ghost .sim-card-plus,
+  .sim-ghost .sim-card-count,
+  .sim-ghost .sim-card-count-lbl,
+  .sim-ghost-ca,
+  .sim-ghost-ca-lbl { display: none; }
+  .sim-ghost:hover:not(.sim-ghost-empty) { transform: none; opacity: 0.55; }
+
+  /* Rotation plus forte et plus rapide sur mobile */
+  .sim-card-idle { animation: simFloatMobile 2.2s ease-in-out infinite; }
+
   .sim-card-main { padding: 36px 22px 32px; min-height: 310px; }
   .sim-card-count { font-size: clamp(72px, 18vw, 96px); }
   .sim-nav-row { margin-top: 20px; gap: 16px; }
