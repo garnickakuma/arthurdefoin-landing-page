@@ -11,12 +11,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Manrope:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&family=JetBrains+Mono:wght@400;500&display=swap">
 
-  <link rel="stylesheet" href="landing/colors_and_type.css?v=78">
-  <link rel="stylesheet" href="landing/landing.css?v=78">
-  <link rel="stylesheet" href="landing/landing-b.css?v=78">
-  <link rel="stylesheet" href="landing/landing-layouts.css?v=78">
-  <link rel="stylesheet" href="landing/landing-hero-wow.css?v=78">
-  <link rel="stylesheet" href="landing/landing-schema.css?v=78">
+  <link rel="stylesheet" href="landing/colors_and_type.css?v=79">
+  <link rel="stylesheet" href="landing/landing.css?v=79">
+  <link rel="stylesheet" href="landing/landing-b.css?v=79">
+  <link rel="stylesheet" href="landing/landing-layouts.css?v=79">
+  <link rel="stylesheet" href="landing/landing-hero-wow.css?v=79">
+  <link rel="stylesheet" href="landing/landing-schema.css?v=79">
 
   <!-- Meta Pixel -->
   <script>
@@ -258,9 +258,9 @@
               <div className="meca-card meca-c1">
                 <div className="meca-num">01</div>
                 <svg className="meca-anim" viewBox="0 0 80 72" overflow="visible">
-                  {/* Logo Meta — ∞ figure-8 avec trous intérieurs, flash violet à chaque arrivée */}
+                  {/* Logo Meta — boucles larges (ratio ~1.4:1) + flash violet à chaque arrivée */}
                   <path fillRule="evenodd" fill="#1877F2"
-                    d="M 40,26 C 37,19 11,19 11,35 C 11,51 37,51 40,44 C 43,51 69,51 69,35 C 69,19 43,19 40,26 Z M 14,35 A 12,9 0 0 0 38,35 A 12,9 0 0 0 14,35 Z M 42,35 A 12,9 0 0 0 66,35 A 12,9 0 0 0 42,35 Z">
+                    d="M 40,30 C 43,24 62,24 68,36 C 74,47 60,48 52,48 C 46,48 43,44 40,42 C 37,44 34,48 28,48 C 20,48 6,47 12,36 C 18,24 37,24 40,30 Z M 14,37 A 12,8 0 0 0 38,37 A 12,8 0 0 0 14,37 Z M 42,37 A 12,8 0 0 0 66,37 A 12,8 0 0 0 42,37 Z">
                     <animate attributeName="fill"
                       values="#a78bfa;#1877F2;#1877F2"
                       keyTimes="0;0.12;1"
@@ -276,14 +276,14 @@
                     {sx: -18, sy:  22, qx:  8, qy: 20},
                   ].map((pt, i) => (
                     <g key={i} opacity="0">
-                      <circle cx="0" cy="-7" r="4.5" fill="#94a3b8"/>
-                      <path d="M -8,-1 C -12,0 -12,5 -12,11 L -4,11 L -4,7 L 4,7 L 4,11 L 12,11 C 12,5 12,0 8,-1 C 6,-4 -6,-4 -8,-1 Z" fill="#94a3b8"/>
+                      <circle cx="0" cy="-6" r="4" fill="#94a3b8"/>
+                      <path d="M -9,0 C -13,1 -13,6 -13,12 L 13,12 C 13,6 13,1 9,0 C 7,-4 -7,-4 -9,0 Z" fill="#94a3b8"/>
                       <animate attributeName="opacity"
                         values="0;0.85;0.85;0.85;0;0"
                         keyTimes="0;0.017;0.033;0.1;0.117;1"
                         dur="30s" repeatCount="indefinite" begin={`${i * 5}s`}/>
                       <animateMotion
-                        path={`M ${pt.sx},${pt.sy} Q ${pt.qx},${pt.qy} 40,35`}
+                        path={`M ${pt.sx},${pt.sy} Q ${pt.qx},${pt.qy} 40,36`}
                         keyPoints="0;0;0;1;1;1"
                         keyTimes="0;0.017;0.033;0.1;0.117;1"
                         calcMode="spline"
