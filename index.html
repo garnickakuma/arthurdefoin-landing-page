@@ -592,13 +592,28 @@
         const was = isDraggingRef.current;
         isDraggingRef.current = false;
         setIsDragging(false); setDragX(0);
-        if (was) { if (dx < -15) next(); else if (dx > 15) prev(); }
+        if (was) {
+          if (dx < -15) next(); else if (dx > 15) prev();
+        } else {
+          const t = e.changedTouches[0];
+          const el = document.elementFromPoint(t.clientX, t.clientY);
+          const cardEl = el && el.closest('.sim-track-card');
+          if (cardEl && viewportRef.current) {
+            const cards = viewportRef.current.querySelectorAll('.sim-track-card');
+            const ci = Array.from(cards).indexOf(cardEl);
+            if (ci !== -1 && ci !== cardIdx) navigateTo(ci);
+          }
+        }
         touchX0.current = null;
       };
 
-      const onMouseDown = e => {
+      const onPointerDown = e => {
         hintedRef.current = true;
+        if (e.pointerType === 'touch') return;
         if (e.button !== 0) return;
+        const vp = e.currentTarget;
+        vp.setPointerCapture(e.pointerId);
+        isDraggingRef.current = false;
         const x0 = e.clientX;
         const idx0 = cardIdx;
         let dragged = false;
@@ -611,17 +626,23 @@
         };
         const onUp = ev => {
           const dx = ev.clientX - x0;
-          isDraggingRef.current = false;
-          setIsDragging(false); setDragX(0);
+          isDraggingRef.current = false; setIsDragging(false); setDragX(0);
+          vp.removeEventListener('pointermove', onMove);
+          vp.removeEventListener('pointerup', onUp);
           if (dragged) {
             if (dx < -15 && idx0 < cardsData.length - 1) navigateTo(idx0 + 1);
             else if (dx > 15 && idx0 > 0) navigateTo(idx0 - 1);
+          } else {
+            const cardEl = ev.target.closest('.sim-track-card');
+            if (cardEl) {
+              const cards = vp.querySelectorAll('.sim-track-card');
+              const ci = Array.from(cards).indexOf(cardEl);
+              if (ci !== -1 && ci !== idx0) navigateTo(ci);
+            }
           }
-          document.removeEventListener('mousemove', onMove);
-          document.removeEventListener('mouseup', onUp);
         };
-        document.addEventListener('mousemove', onMove);
-        document.addEventListener('mouseup', onUp);
+        vp.addEventListener('pointermove', onMove);
+        vp.addEventListener('pointerup', onUp);
       };
 
       const go = id => e => { e.preventDefault(); const el = document.getElementById(id); if (el) window.scrollTo({top:el.offsetTop-60,behavior:'smooth'}); };
@@ -713,7 +734,7 @@
               onTouchStart={onTouchStart}
               onTouchMove={onTouchMove}
               onTouchEnd={onTouchEnd}
-              onMouseDown={onMouseDown}>
+              onPointerDown={onPointerDown}>
               <div className="sim-carousel-track" style={trackStyle}>
                 {cardsData.map((card, i) => {
                   const active = i === cardIdx;
@@ -721,8 +742,7 @@
                   return (
                     <div key={i}
                       className={"sim-track-card" + (active ? " stc-active" : " stc-inactive")}
-                      style={{ ...cardStyle, opacity: Math.max(0.35, 1 - dist * 0.28) }}
-                      onClick={() => { if (!isDraggingRef.current && !active) navigateTo(i); }}>
+                      style={{ ...cardStyle, opacity: Math.max(0.35, 1 - dist * 0.28) }}>
                       <div className="sim-card-main">
                         <div className="sim-card-top">
                           <span className="sim-card-plus">+</span>
