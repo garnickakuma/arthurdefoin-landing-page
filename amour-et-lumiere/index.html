@@ -447,6 +447,48 @@
       font-size:var(--text-base);color:var(--ink-900)}
     .lp-review__meta{font-family:var(--font-body);font-size:var(--text-sm);color:var(--text-muted)}
 
+    /* ── ADRESSE STUDIO ────────────────────────────────────────── */
+    function StudioAddressSection() {
+      return (
+        <section className="lp-addr" id="adresse">
+          <div className="lp-addr__inner">
+            <div>
+              <span className="al-eyebrow">Nous trouver</span>
+              <h2 className="lp-addr__title">Le studio, à Bègles</h2>
+              <div className="lp-addr__rows">
+                <div className="lp-addr__row">
+                  <span className="lp-addr__row-icon"><Icons.Pin /></span>
+                  <div className="lp-addr__row-body">
+                    <strong>Adresse</strong>
+                    <p>À compléter — Bègles (33130)</p>
+                  </div>
+                </div>
+                <div className="lp-addr__row">
+                  <span className="lp-addr__row-icon"><Icons.Calendar /></span>
+                  <div className="lp-addr__row-body">
+                    <strong>Uniquement sur rendez-vous</strong>
+                    <p>Réservez votre créneau en ligne — on vous confirme la date et l&rsquo;adresse exacte par email.</p>
+                  </div>
+                </div>
+                <div className="lp-addr__row">
+                  <span className="lp-addr__row-icon"><Icons.Camera /></span>
+                  <div className="lp-addr__row-body">
+                    <strong>Parking</strong>
+                    <p>À compléter</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="lp-addr__map">
+              {/* Remplacer par : <iframe src="https://www.google.com/maps/embed?pb=..." allowFullScreen loading="lazy" /> */}
+              <Icons.Pin />
+              <span>Plan d&rsquo;accès — à intégrer</span>
+            </div>
+          </div>
+        </section>
+      );
+    }
+
     /* ── BOOKING BAND ────────────────────────────────────────── */
     .lp-book{position:relative;overflow:hidden}
     .lp-book__media{position:absolute;inset:0}
@@ -644,6 +686,38 @@
 
     .lp-disabled{opacity:.45;pointer-events:none}
 
+    /* ── ADRESSE ─────────────────────────────────────────────── */
+    .lp-addr{background:var(--bg-surface);border-top:1px solid var(--border-soft)}
+    .lp-addr__inner{max-width:var(--container-xl);margin-inline:auto;
+      padding:var(--space-12) var(--space-6);
+      display:grid;grid-template-columns:1fr 1fr;gap:var(--space-12);align-items:center}
+    .lp-addr__title{font-size:clamp(1.9rem,3.6vw,var(--text-2xl));margin:var(--space-2) 0 var(--space-7)}
+    .lp-addr__rows{display:flex;flex-direction:column;gap:var(--space-5)}
+    .lp-addr__row{display:flex;gap:var(--space-4);align-items:flex-start}
+    .lp-addr__row-icon{flex:none;display:inline-flex;align-items:center;justify-content:center;
+      width:44px;height:44px;border-radius:var(--radius-circle);
+      background:var(--sage-100);color:var(--sage-700);font-size:20px;margin-top:2px}
+    .lp-addr__row-body strong{display:block;font-family:var(--font-body);
+      font-weight:var(--fw-semibold);font-size:var(--text-base);color:var(--ink-900)}
+    .lp-addr__row-body p{font-size:var(--text-sm);color:var(--text-muted);
+      margin:.3rem 0 0;line-height:var(--lh-relaxed)}
+    .lp-addr__map{border-radius:var(--radius-xl);overflow:hidden;aspect-ratio:4/3;
+      box-shadow:var(--shadow-md);background:var(--sand);
+      display:flex;flex-direction:column;align-items:center;justify-content:center;
+      gap:var(--space-2);color:var(--text-faint);font-family:var(--font-body);font-size:var(--text-sm)}
+    .lp-addr__map svg{width:2em;height:2em;color:var(--sage-400)}
+    .lp-addr__map iframe{width:100%;height:100%;border:0;display:block}
+
+    /* ── REVIEWS — GOOGLE PLACEHOLDER ───────────────────────── */
+    .lp-reviews__ph{display:flex;flex-direction:column;align-items:center;
+      gap:var(--space-4);padding:var(--space-12) var(--space-6);text-align:center;
+      background:var(--bg-surface);border-radius:var(--radius-xl);
+      box-shadow:var(--shadow-inset-hairline);max-width:42rem;margin:0 auto}
+    .lp-reviews__ph-icon{display:inline-flex;align-items:center;justify-content:center;
+      width:64px;height:64px;border-radius:var(--radius-circle);
+      background:var(--sage-100);color:var(--sage-700);font-size:28px}
+    .lp-reviews__ph p{font-size:var(--text-md);color:var(--text-muted);margin:0;max-width:30rem}
+
     /* ── RESPONSIVE ──────────────────────────────────────────── */
     @media(max-width:960px){
       .lp-header__nav{display:none}
@@ -651,6 +725,7 @@
       .lp-prest__grid{grid-template-columns:repeat(2,1fr)}
       .lp-formules{grid-template-columns:1fr}
       .lp-about{grid-template-columns:1fr}
+      .lp-addr__inner{grid-template-columns:1fr}
       .lp-packs__list--cols{grid-template-columns:1fr}
       .lp-packs__list--cols .lp-pack-row:nth-child(2){border-top:1px solid var(--border-soft)}
       .lp-gal__grid{grid-template-columns:repeat(2,1fr)}
@@ -722,14 +797,7 @@
       { label:'Tableau en aluminium',  size:'40×60', price:'119 €', icon:'Frame' },
       { label:'Album photo prestige',  size:'26 pages', price:'149 €', icon:'Book' },
     ];
-    const REVIEWS = [
-      { name:'Camille & Tom',  meta:'Séance famille',  rating:5, text:'Une heure à rire sans jamais nous sentir observés. Les photos nous ressemblent vraiment — on a tout pris.' },
-      { name:'Léa',            meta:'Grossesse',       rating:5, text:'Arthur et Pierre-Henri m\'ont mise à l\'aise dès la première minute. Des images douces, pleines de lumière, exactement ce que j\'espérais.' },
-      { name:'Sophie & Marc',  meta:'Nouveau-né',      rating:5, text:'Patients et bienveillants avec notre tout-petit. On garde des souvenirs bouleversants de ses premiers jours.' },
-      { name:'Inès',           meta:'Portrait',        rating:5, text:'Je redoutais l\'exercice et finalement j\'ai adoré. Un regard juste, sans artifice. Le résultat est magnifique.' },
-      { name:'Julie & Karim',  meta:'Couple',          rating:5, text:'Aucune pose forcée, que des vrais moments. On a pris le pack galerie complète — impossible de choisir, on les aimait toutes.' },
-      { name:'Marie',          meta:'Enfants',         rating:5, text:'Mes enfants se sont amusés tout du long. Des photos vivantes, naturelles, livrées très vite. Merci à vous deux.' },
-    ];
+    // REVIEWS: connecter l'API Google Places — voir instructions dans le code
 
     /* ── ICONS ─────────────────────────────────────────────────── */
     const I = (paths) => (props) => (
@@ -826,7 +894,7 @@
         host.addEventListener('scroll', onScroll);
         return () => host.removeEventListener('scroll', onScroll);
       }, []);
-      const links = [['Le studio','#studio'],['Prestations','#prestations'],['Tarifs','#tarifs'],['Galerie','#galerie'],['Avis','#avis']];
+      const links = [['Galerie','#galerie'],['Tarifs','#tarifs'],['Prestations','#prestations'],['Le studio','#studio'],['Avis','#avis']];
       return (
         <header className={'lp-header' + (scrolled ? ' lp-header--solid' : '')}>
           <div className="lp-header__inner">
@@ -1139,34 +1207,17 @@
       );
     }
 
-    /* ── REVIEWS ────────────────────────────────────────────────── */
+    /* ── REVIEWS — placeholder Google ──────────────────────────── */
     function ReviewsSection() {
-      const Stars = ({ n=5 }) => (
-        <span className="lp-review__stars" aria-label={`${n} sur 5`}>
-          {[0,1,2,3,4].map(i => <Icons.Star key={i} style={{ opacity: i < n ? 1 : 0.22 }} />)}
-        </span>
-      );
       return (
         <section className="lp-reviews" id="avis">
           <div className="lp-reviews__head">
-            <span className="al-eyebrow">Leurs avis</span>
+            <span className="al-eyebrow">Avis clients</span>
             <h2 className="lp-reviews__title">Ce que nos familles en gardent</h2>
-            <p className="lp-reviews__lead">
-              Quelques mots de celles et ceux qui sont passés devant notre objectif.
-            </p>
           </div>
-          <div className="lp-reviews__grid">
-            {REVIEWS.map((r, i) => (
-              <figure key={i} className="lp-review">
-                <span className="lp-review__mark" aria-hidden="true"><Icons.Quote /></span>
-                <Stars n={r.rating || 5} />
-                <blockquote className="lp-review__text">{r.text}</blockquote>
-                <figcaption className="lp-review__by">
-                  <span className="lp-review__name">{r.name}</span>
-                  <span className="lp-review__meta">{r.meta}</span>
-                </figcaption>
-              </figure>
-            ))}
+          <div className="lp-reviews__ph">
+            <span className="lp-reviews__ph-icon"><Icons.Star /></span>
+            <p>Nos avis Google seront affichés ici — connexion Places API à venir.</p>
           </div>
         </section>
       );
@@ -1516,10 +1567,11 @@
           <main>
             <Hero onBook={openBooking} />
             <OfferSection onBook={openBooking} />
-            <PrestationsSection />
-            <PricingSection onBook={openBooking} />
-            <AboutSection />
             <GallerySection />
+            <PricingSection onBook={openBooking} />
+            <PrestationsSection />
+            <AboutSection />
+            <StudioAddressSection />
             <ReviewsSection />
             <BookingCTA onBook={openBooking} />
           </main>
