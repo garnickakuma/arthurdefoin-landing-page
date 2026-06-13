@@ -14,12 +14,19 @@
   margin-top: 64px;
 }
 
+/* ---- Contouring animé (@property — angle du gradient, pas rotation) ---- */
+@property --bspin {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
 /* ---- Cartes ---- */
 .meca-card {
   position: absolute;
   width: calc(30% - 16px);
   background: var(--blanc);
-  border: 2px solid #7c3aed;
+  border: none;
   border-radius: var(--r-md);
   padding: 28px 20px 24px;
   box-shadow: 0 8px 32px rgba(0,0,0,0.07), 0 2px 8px rgba(0,0,0,0.04);
@@ -37,10 +44,40 @@
   width: 36px; height: 2px;
   background: linear-gradient(90deg, #6d4ab0, #a78bfa, #6d4ab0);
   border-radius: 0 0 4px 4px;
+  z-index: 1;
 }
+.meca-card::after {
+  --bspin: 0deg;
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: var(--r-md);
+  padding: 2px;
+  background: conic-gradient(from var(--bspin),
+    rgba(109,74,176,0.15) 0%,
+    rgba(109,74,176,0.4)  30%,
+    #a78bfa               46%,
+    #fff                  50%,
+    #a78bfa               54%,
+    rgba(109,74,176,0.4)  70%,
+    rgba(109,74,176,0.15) 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+          mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: destination-out;
+          mask-composite: exclude;
+  animation: bspin 3s linear infinite;
+  pointer-events: none;
+}
+@keyframes bspin { to { --bspin: 360deg; } }
+
 .meca-c1 { left: 0;   top: 20px;  animation: mecaFloat 4.2s ease-in-out infinite; }
 .meca-c2 { left: 35%; top: 110px; animation: mecaFloat 4.2s ease-in-out infinite; animation-delay: -1.5s; }
 .meca-c3 { right: 0;  top: 20px;  animation: mecaFloat 4.2s ease-in-out infinite; animation-delay: -2.9s; }
+
+.meca-c1::after { animation-delay: 0s,    0s; }
+.meca-c2::after { animation-delay: 0s, -1.0s; }
+.meca-c3::after { animation-delay: 0s, -2.0s; }
 
 @keyframes mecaFloat {
   0%, 100% { transform: translateY(0px); }
