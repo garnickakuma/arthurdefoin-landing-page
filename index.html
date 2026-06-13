@@ -82,7 +82,6 @@
                 <a onClick={go('mecanisme')}>Le mécanisme</a>
                 <a onClick={go('simulateur')} className="nav-link-sim">Simulateur</a>
                 <a onClick={go('studio')}>Mon studio</a>
-                <a onClick={go('avis')}>Avis</a>
                 <button className="nav-cta nav-cta-mobile" onClick={go('simulateur')}>{ctaLabel}</button>
               </div>
               <button className="nav-cta nav-cta-desktop" onClick={go('simulateur')}>{ctaLabel}</button>
@@ -102,7 +101,6 @@
         { id: 'mecanisme', n: '02' },
         { id: 'simulateur', n: '03' },
         { id: 'studio', n: '04' },
-        { id: 'avis', n: '05' },
       ];
       const [active, setActive] = React.useState('top');
       React.useEffect(() => {
@@ -1288,80 +1286,6 @@
         </section>
       );
     }
-    // ─── Avis ─────────────────────────────────────────────────────────────────
-    function Avis() {
-      const row1 = [
-        { name:'Thomas', city:'Bordeaux', spec:'Studio · Portrait', note:5,
-          quote:"J'avais peur d'investir sans garantie. Premier mois, +14 séances réservées. J'avais du mal à y croire honnêtement." },
-        { name:'Clara', city:'Bruxelles', spec:'Nouveau-né', note:5,
-          quote:"Les gens qui me contactent ont déjà vu mes photos, ils savent à peu près ce qu'ils veulent. C'est beaucoup plus simple que des prospects froids." },
-        { name:'Rémi', city:'Paris', spec:'Studio · Mode', note:5,
-          quote:"J'étais sceptique sur Meta pour la photo de mode. Arthur a construit des ciblages très précis et les résultats ont dépassé mes attentes dès le deuxième mois." },
-        { name:'Lucie', city:'Marseille', spec:'Boudoir', note:5,
-          quote:"Je ne pensais pas que la pub Meta pouvait fonctionner pour du boudoir. Arthur a créé des visuels qui intriguent sans tout montrer. Le carnet est plein." },
-        { name:'Antoine', city:'Toulouse', spec:'Mariage', note:5,
-          quote:"Avant j'avais des séances mariage de temps en temps. Après 2 mois, j'ai dû fermer des dates — c'est quelque chose que j'anticipais pas aussi vite." },
-        { name:'Camille', city:'Strasbourg', spec:'Nouveau-né', note:5,
-          quote:"Ce que j'apprécie c'est la transparence totale sur le budget. Je sais exactement où part chaque euro et quel retour ça génère. Aucune surprise." },
-      ];
-      const row2 = [
-        { name:'Manon', city:'Nantes', spec:'Famille', note:5,
-          quote:"Mon agenda se remplit même quand je suis en séance. C'est ce qui m'a le plus surprise — le fait que ça tourne sans que j'aie besoin d'être là." },
-        { name:'Julien', city:'Genève', spec:'Mariage', note:5,
-          quote:"Arthur comprend vraiment les photographes, il est photographe lui-même. Cette double compétence fait toute la différence dans la façon dont il présente le travail." },
-        { name:'Pierre', city:'Lausanne', spec:'Portrait', note:5,
-          quote:"Mes créneaux portrait corporate étaient à moitié vides. Arthur a ciblé les cadres et indépendants locaux. Maintenant je suis complet 3 semaines à l'avance." },
-        { name:'Élodie', city:'Montpellier', spec:'Famille', note:5,
-          quote:"Les familles qui me contactent via les pubs arrivent déjà avec une idée de mon style. Beaucoup moins de temps à expliquer, beaucoup plus de séances qui se concrétisent." },
-        { name:'Nicolas', city:'Lille', spec:'Studio · Mode', note:5,
-          quote:"J'hésitais longtemps à cause du budget. Ce qui m'a décidé c'est de voir les chiffres posés clairement — et dans les faits, ça a suivi." },
-        { name:'Sarah', city:'Rennes', spec:'Mariage', note:5,
-          quote:"Arthur fait partie de mon équipe comme un prestataire mariage. Il s'adapte aux saisons, ajuste les cibles. Je n'ai plus à me soucier de trouver des clients." },
-      ];
-      const Card = ({r}) => (
-        <div className="avis-card">
-          <div className="avis-stars">
-            {[...Array(r.note)].map((_,j) => <span key={j} className="avis-star">★</span>)}
-          </div>
-          <p className="avis-quote">"{r.quote}"</p>
-          <div className="avis-author">
-            <div className="avis-avatar">{r.name[0]}</div>
-            <div className="avis-meta">
-              <strong>{r.name[0]}.</strong>
-              <span>{r.spec} · {r.city}</span>
-            </div>
-          </div>
-        </div>
-      );
-      return (
-        <section className="section avis-section" id="avis">
-          <div className="container">
-            <div className="section-head">
-              <div>
-                <div className="eyebrow"><span className="rule"></span><span className="num">05</span><span>Avis clients</span></div>
-                <h2>Ce que disent<br /><em>les photographes</em>.</h2>
-              </div>
-              <p className="lede">Des photographes de toute la France, Belgique et Suisse qui ont confié leur publicité Meta.</p>
-            </div>
-          </div>
-          <div className="avis-marquee-outer">
-            <div className="avis-marquee-row">
-              <div className="avis-marquee-track">
-                {row1.map((r,i) => <Card key={i} r={r} />)}
-                {row1.map((r,i) => <Card key={'b'+i} r={r} />)}
-              </div>
-            </div>
-            <div className="avis-marquee-row avis-marquee-reverse">
-              <div className="avis-marquee-track">
-                {row2.map((r,i) => <Card key={i} r={r} />)}
-                {row2.map((r,i) => <Card key={'b'+i} r={r} />)}
-              </div>
-            </div>
-          </div>
-        </section>
-      );
-    }
-
     // ─── Footer ───────────────────────────────────────────────────────────────
     function Footer() {
       const go = id => e => { e.preventDefault(); const el = document.getElementById(id); if (el) window.scrollTo({top:el.offsetTop-60,behavior:'smooth'}); };
@@ -1439,7 +1363,6 @@
             <Offre lpChoice={lpChoice} onLpChoice={handleLpChoice} onDevisClick={() => scrollTo('rappel')} />
             <Callback simData={simData} />
             <Studio />
-            <Avis />
           </main>
           <Footer />
         </div>
