@@ -123,9 +123,50 @@ h3.meca-title {
 @media (max-width: 860px) {
   .meca-scene {
     grid-template-columns: 1fr;
-    gap: 14px;
-    margin-top: 40px;
+    gap: 10px;
+    margin-top: 36px;
     padding-bottom: 0;
   }
   .meca-c2 { margin-top: 0; }
+
+  .meca-card {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    border-radius: 16px;
+    animation: none;
+  }
+
+  .meca-illus {
+    width: 90px;
+    min-width: 90px;
+    height: auto;
+    border-radius: 0;
+    background: linear-gradient(180deg, #ede9fe 0%, #f5f2ff 100%);
+  }
+
+  .meca-illus svg {
+    width: 52px;
+    height: 46px;
+  }
+
+  .meca-body {
+    padding: 14px 18px 16px;
+    flex: 1;
+  }
+
+  h3.meca-title {
+    font-size: 15px;
+    margin-bottom: 5px;
+  }
+
+  .meca-sub {
+    font-size: 12px;
+    line-height: 1.55;
+  }
+
+  .meca-step {
+    margin-bottom: 6px;
+    font-size: 9px;
+  }
 }
