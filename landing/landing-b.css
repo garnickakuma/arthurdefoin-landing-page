@@ -114,6 +114,7 @@ h1 em, h2 em, h3 em, .hero h1 em, .display em {
 .nav-brand .tag { color: var(--or); }
 .nav-links a { font-weight: 600; border-bottom: 0; }
 .nav-links a:hover { color: var(--or); border-bottom: 0; }
+.nav-link-sim { color: #7c3aed !important; font-weight: 700 !important; }
 .nav-cta { border-radius: var(--r-pill); background: var(--or); padding: 12px 22px; font-weight: 700; }
 .nav-cta:hover { background: var(--or-sombre); }
 
