@@ -592,7 +592,7 @@
         const was = isDraggingRef.current;
         isDraggingRef.current = false;
         setIsDragging(false); setDragX(0);
-        if (was) { if (dx < -60) next(); else if (dx > 60) prev(); }
+        if (was) { if (dx < -30) next(); else if (dx > 30) prev(); }
         touchX0.current = null;
       };
 
@@ -614,8 +614,8 @@
           isDraggingRef.current = false;
           setIsDragging(false); setDragX(0);
           if (dragged) {
-            if (dx < -60 && idx0 < cardsData.length - 1) navigateTo(idx0 + 1);
-            else if (dx > 60 && idx0 > 0) navigateTo(idx0 - 1);
+            if (dx < -30 && idx0 < cardsData.length - 1) navigateTo(idx0 + 1);
+            else if (dx > 30 && idx0 > 0) navigateTo(idx0 - 1);
           }
           document.removeEventListener('mousemove', onMove);
           document.removeEventListener('mouseup', onUp);
@@ -849,7 +849,7 @@
         const dx = e.changedTouches[0].clientX - touchX0.current;
         const was = isDraggingRef.current;
         isDraggingRef.current = false; setIsDragging(false); setDragX(0);
-        if (was) { if (dx < -60) next(); else if (dx > 60) prev(); }
+        if (was) { if (dx < -30) next(); else if (dx > 30) prev(); }
         touchX0.current = null;
       };
       const onMouseDown = e => {
@@ -863,8 +863,8 @@
           const dx = ev.clientX - x0;
           isDraggingRef.current = false; setIsDragging(false); setDragX(0);
           if (dragged) {
-            if (dx < -60 && idx0 < lpStyles.length - 1) navigateTo(idx0 + 1);
-            else if (dx > 60 && idx0 > 0) navigateTo(idx0 - 1);
+            if (dx < -30 && idx0 < lpStyles.length - 1) navigateTo(idx0 + 1);
+            else if (dx > 30 && idx0 > 0) navigateTo(idx0 - 1);
           }
           document.removeEventListener('mousemove', onMove);
           document.removeEventListener('mouseup', onUp);
