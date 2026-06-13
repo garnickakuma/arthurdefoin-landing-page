@@ -521,11 +521,20 @@ body { background: var(--ivoire); }
 .cfw-connector { flex: 1; height: 2px; background: var(--sable); margin-top: 16px; transition: background 0.4s; }
 .cfw-connector.done { background: var(--or); }
 
-.cfw-panel { background: #fff; border-radius: 20px; box-shadow: 0 4px 28px rgba(0,0,0,0.08); padding: 36px; animation: cfwIn 0.3s ease; }
-@keyframes cfwIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+.cfw-panel { background: #fff; border-radius: 20px; box-shadow: 0 4px 28px rgba(0,0,0,0.08); padding: 36px; }
 .cfw-title { font-size: clamp(17px, 2.5vw, 21px); font-weight: 800; text-align: center; margin: 0 0 28px; color: var(--encre); }
 
-.cfw-cards-scroll { display: flex; gap: 10px; overflow-x: auto; padding: 4px 2px 12px; scrollbar-width: none; margin-bottom: 4px; }
+.cfw-spec-chips { display: flex; gap: 8px; justify-content: center; margin-bottom: 20px; flex-wrap: wrap; }
+.cfw-spec-chip {
+  padding: 8px 18px; border-radius: 999px; font-size: 13px; font-weight: 700;
+  border: 2px solid var(--sable-fonce); background: var(--ivoire); color: var(--graphite);
+  cursor: pointer; transition: all 0.18s;
+}
+.cfw-spec-chip:hover { border-color: var(--or-clair); color: var(--or); }
+.cfw-spec-chip.active { background: var(--or); border-color: var(--or); color: #fff; }
+.cfw-subtitle { font-size: 14px; font-weight: 700; color: var(--plomb); text-align: center; margin: 0 0 16px; }
+
+.cfw-cards-scroll { display: flex; gap: 10px; overflow-x: auto; overflow-y: visible; padding: 4px 2px 12px; scrollbar-width: none; margin-bottom: 4px; -webkit-overflow-scrolling: touch; }
 .cfw-cards-scroll::-webkit-scrollbar { display: none; }
 .cfw-mini-card {
   flex: 0 0 auto; min-width: 116px;
