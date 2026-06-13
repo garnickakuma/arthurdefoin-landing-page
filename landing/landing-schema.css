@@ -1,5 +1,5 @@
 /* ============================================================
-   Mécanisme — 3 cartes flottantes + chemin animé
+   Mécanisme — 3 cartes repensées v91
    ============================================================ */
 .schema { background: var(--ivoire-2); }
 .schema-head { max-width: 720px; margin: 0 auto; text-align: center; }
@@ -9,122 +9,130 @@
 
 /* ---- Scène ---- */
 .meca-scene {
-  position: relative;
-  height: 380px;
-  margin-top: 64px;
-}
-
-/* ---- Contouring animé (@property — angle du gradient, pas rotation) ---- */
-@property --bspin {
-  syntax: '<angle>';
-  initial-value: 0deg;
-  inherits: false;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  align-items: start;
+  margin-top: 56px;
+  padding-bottom: 20px;
 }
 
 /* ---- Cartes ---- */
 .meca-card {
-  position: absolute;
-  width: calc(30% - 16px);
-  background: var(--blanc);
-  border: 2px solid rgba(255,255,255,0.85);
-  border-radius: var(--r-md);
-  padding: 28px 20px 24px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.07), 0 2px 8px rgba(0,0,0,0.04);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 10px;
-  z-index: 2;
+  background: #fff;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow:
+    0 2px 8px rgba(109,40,217,0.07),
+    0 8px 36px rgba(0,0,0,0.08);
+  transition: box-shadow 0.35s ease;
+  will-change: transform;
+  animation: mecaFloat 5s ease-in-out infinite;
 }
-.meca-card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 50%; transform: translateX(-50%);
-  width: 36px; height: 2px;
-  background: linear-gradient(90deg, #6d4ab0, #a78bfa, #6d4ab0);
-  border-radius: 0 0 4px 4px;
-  z-index: 1;
+.meca-card:hover {
+  box-shadow:
+    0 6px 24px rgba(109,40,217,0.18),
+    0 20px 56px rgba(0,0,0,0.12);
 }
-/* Spot violet — visible uniquement sur la carte active */
-.meca-card::after {
-  --bspin: 0deg;
-  content: '';
-  position: absolute;
-  inset: -2px;
-  border-radius: var(--r-md);
-  padding: 2px;
-  background: conic-gradient(from var(--bspin),
-    transparent           0%,
-    transparent          42%,
-    rgba(109,74,176,0.5) 46%,
-    #7c3aed              50%,
-    rgba(109,74,176,0.5) 54%,
-    transparent          58%,
-    transparent         100%
-  );
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-          mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: destination-out;
-          mask-composite: exclude;
-  opacity: 0;
-  pointer-events: none;
-}
-.meca-active::after {
-  opacity: 1;
-  animation: bspin 3s linear 1 forwards;
-}
-@keyframes bspin { from { --bspin: 0deg; } to { --bspin: 360deg; } }
+.meca-card:hover .meca-illus { filter: brightness(1.07); }
 
-.meca-c1 { left: 0;   top: 20px;  animation: mecaFloat 4.2s ease-in-out infinite; }
-.meca-c2 { left: 35%; top: 110px; animation: mecaFloat 4.2s ease-in-out infinite; animation-delay: -1.5s; }
-.meca-c3 { right: 0;  top: 20px;  animation: mecaFloat 4.2s ease-in-out infinite; animation-delay: -2.9s; }
+.meca-c1 { animation-delay: 0s; }
+.meca-c2 { animation-delay: -1.7s; margin-top: 44px; }
+.meca-c3 { animation-delay: -3.3s; }
 
 @keyframes mecaFloat {
   0%, 100% { transform: translateY(0px); }
-  50%       { transform: translateY(-10px); }
+  50%       { transform: translateY(-12px); }
 }
 
+/* ---- Zone illustration ---- */
+.meca-illus {
+  height: 168px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  transition: filter 0.35s ease;
+}
+.meca-i1 { background: linear-gradient(145deg, #5b21b6 0%, #3b0764 100%); }
+.meca-i2 { background: linear-gradient(145deg, #6d28d9 0%, #4c1d95 100%); }
+.meca-i3 { background: linear-gradient(145deg, #7c3aed 0%, #5b21b6 100%); }
 
-.meca-num {
+/* Reflet doux en haut à gauche */
+.meca-illus::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 60% at 25% 20%, rgba(255,255,255,0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.meca-illus svg {
+  width: 100px;
+  height: 88px;
+  position: relative;
+  z-index: 1;
+  filter: drop-shadow(0 6px 20px rgba(0,0,0,0.25));
+}
+
+/* Numéro en filigrane */
+.meca-wm {
+  position: absolute;
+  right: 12px;
+  bottom: -18px;
+  font-size: 112px;
+  font-weight: 900;
   font-family: var(--sans);
-  font-size: 10px; font-weight: 700;
-  letter-spacing: 0.2em;
-  color: #a78bfa;
+  color: rgba(255,255,255,0.1);
+  line-height: 1;
+  letter-spacing: -6px;
+  pointer-events: none;
+  user-select: none;
 }
-.meca-anim {
-  width: 100%;
-  height: 80px;
+
+/* ---- Corps de la carte ---- */
+.meca-body {
+  padding: 22px 24px 28px;
+}
+
+.meca-step {
   display: block;
-  overflow: visible;
-}
-.meca-title {
   font-family: var(--sans);
-  font-size: 15px; font-weight: 700;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #7c3aed;
+  margin-bottom: 10px;
+}
+
+h3.meca-title {
+  font-family: var(--sans);
+  font-size: 17px;
+  font-weight: 700;
   color: var(--encre);
   line-height: 1.25;
+  margin: 0 0 8px;
 }
+
 .meca-sub {
   font-family: var(--serif);
   font-size: 13px;
   color: var(--plomb);
-  line-height: 1.55;
+  line-height: 1.6;
   font-style: italic;
+  margin: 0;
 }
 
-/* ---- Mobile : pile verticale ---- */
+/* ---- Mobile ---- */
 @media (max-width: 860px) {
   .meca-scene {
-    height: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
+    grid-template-columns: 1fr;
+    gap: 14px;
     margin-top: 40px;
+    padding-bottom: 0;
   }
-  .meca-card {
-    position: static;
-    width: 100%;
-    animation: none;
-  }
-  .meca-c2 { top: auto; left: auto; }
+  .meca-c2 { margin-top: 0; }
+  .meca-card { animation: none; }
 }
