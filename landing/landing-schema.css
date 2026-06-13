@@ -37,10 +37,46 @@
   width: 36px; height: 2px;
   background: linear-gradient(90deg, #6d4ab0, #a78bfa, #6d4ab0);
   border-radius: 0 0 4px 4px;
+  z-index: 2;
 }
+
+/* ---- Contouring lumineux ---- */
+@property --ca {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+.meca-card::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: var(--r-md);
+  padding: 1.5px;
+  background: conic-gradient(from var(--ca),
+    transparent 0%,
+    transparent 68%,
+    #6d4ab0 78%,
+    #c4b5fd 85%,
+    #6d4ab0 92%,
+    transparent 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask:         linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: destination-out;
+  mask-composite: exclude;
+  animation: card-spin 3.6s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+@keyframes card-spin { to { --ca: 360deg; } }
+
 .meca-c1 { left: 0;   top: 20px;  animation: mecaFloat 4.2s ease-in-out infinite; }
 .meca-c2 { left: 35%; top: 110px; animation: mecaFloat 4.2s ease-in-out infinite; animation-delay: -1.5s; }
 .meca-c3 { right: 0;  top: 20px;  animation: mecaFloat 4.2s ease-in-out infinite; animation-delay: -2.9s; }
+
+.meca-c1::after { animation-delay:    0s; }
+.meca-c2::after { animation-delay: -1.2s; }
+.meca-c3::after { animation-delay: -2.4s; }
 
 @keyframes mecaFloat {
   0%, 100% { transform: translateY(0px); }
