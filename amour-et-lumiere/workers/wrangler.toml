@@ -1,0 +1,19 @@
+name = "amour-et-lumiere-api"
+main = "api.js"
+compatibility_date = "2024-09-23"
+compatibility_flags = ["nodejs_compat"]
+
+# Variables publiques (non-sensibles) — les secrets vont dans le dashboard
+# [vars]
+# FROM_EMAIL = "reservations@amouretlumiere.fr"
+
+# Secrets à ajouter via :  npx wrangler secret put NOM_DU_SECRET
+#   STRIPE_SECRET_KEY   →  sk_live_...
+#   RESEND_API_KEY      →  re_...
+#   STUDIO_EMAIL        →  defoin.arthur@gmail.com
+#   FROM_EMAIL          →  reservations@amouretlumiere.fr
+
+# Route custom (optionnel) — à configurer après connexion du domaine
+# [[routes]]
+# pattern = "api.amouretlumiere.fr/*"
+# zone_name = "amouretlumiere.fr"

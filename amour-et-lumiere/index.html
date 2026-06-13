@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,400&family=Mulish:wght@400;500;600;700&family=Parisienne&display=swap" rel="stylesheet">
+  <script src="https://js.stripe.com/v3/" crossorigin></script>
   <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin></script>
   <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin></script>
   <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin></script>
@@ -655,6 +656,13 @@
     .lp-bk-secure{display:flex;align-items:center;gap:.5em;font-family:var(--font-body);
       font-size:var(--text-xs);color:var(--text-muted);margin:var(--space-4) 0 0}
     .lp-bk-secure svg{width:1.15em;height:1.15em;color:var(--sage-600)}
+
+    /* ── Stripe card element ─────────────────────────────────── */
+    .lp-stripe-element{background:var(--bg-raised);border:1.5px solid var(--stone-200);
+      border-radius:var(--radius-md);padding:.85rem .9rem;margin-top:var(--space-5);
+      transition:border-color var(--dur-fast) var(--ease-soft)}
+    .lp-bk-error{font-family:var(--font-body);font-size:var(--text-sm);
+      color:var(--error-fg);margin:var(--space-3) 0 0}
 
     .lp-bk__foot{display:flex;align-items:center;justify-content:space-between;
       gap:var(--space-4);margin-top:var(--space-7)}
@@ -1311,22 +1319,66 @@
       );
     }
 
+    /* ── CONFIG STRIPE + API ──────────────────────────────────────── */
+    // Remplacer avec votre vraie clé publique Stripe (pk_live_... ou pk_test_...)
+    const STRIPE_PK = 'pk_test_VOTRE_CLE_PUBLIQUE';
+    // URL du Cloudflare Worker après déploiement
+    const API_BASE  = 'https://amour-et-lumiere-api.VOTRE_SUBDOMAIN.workers.dev';
+
     /* ── BOOKING MODAL (wizard 5 étapes) ────────────────────────── */
     function BookingModal({ open, onClose }) {
       const STEPS = ['Formule','Prestation','Pack','Coordonnées','Paiement'];
       const empty = {
         step:0, done:false, formule:null, prest:null, packIdx:null, bw:false,
         contact:{ prenom:'', nom:'', email:'', tel:'', message:'' },
-        payChoice:'total', card:{ num:'', exp:'', cvc:'', name:'' }, processing:false,
+        payChoice:'total', processing:false, cardComplete:false, payError:null,
       };
       const [s, setS] = React.useState(empty);
       const set = patch => setS(prev => ({ ...prev, ...patch }));
       const setContact = (k, v) => setS(prev => ({ ...prev, contact: { ...prev.contact, [k]:v } }));
-      const setCard    = (k, v) => setS(prev => ({ ...prev, card:    { ...prev.card,    [k]:v } }));
 
+      const stripeRef   = React.useRef(null);
+      const cardRef     = React.useRef(null);
+      const cardElemRef = React.useRef(null);
+
+      // Réinitialiser à la fermeture
       React.useEffect(() => {
-        if (!open) { const t = setTimeout(() => setS(empty), 220); return () => clearTimeout(t); }
+        if (!open) {
+          const t = setTimeout(() => {
+            setS(empty);
+            if (cardElemRef.current) { cardElemRef.current.destroy(); cardElemRef.current = null; }
+          }, 220);
+          return () => clearTimeout(t);
+        }
       }, [open]);
+
+      // Monter le CardElement quand on arrive à l'étape paiement
+      React.useEffect(() => {
+        if (!open || s.step !== 4 || s.done) return;
+        const t = setTimeout(() => {
+          if (!cardRef.current || cardElemRef.current) return;
+          if (!stripeRef.current) stripeRef.current = window.Stripe(STRIPE_PK);
+          const elements = stripeRef.current.elements();
+          const card = elements.create('card', {
+            hidePostalCode: true,
+            style: {
+              base: {
+                fontFamily: "'Mulish', system-ui, sans-serif",
+                fontSize: '16px', color: '#26241F',
+                '::placeholder': { color: '#8B8374' },
+              },
+              invalid: { color: '#A8503E' },
+            },
+          });
+          card.mount(cardRef.current);
+          card.on('change', e => set({ cardComplete: e.complete, payError: e.error?.message || null }));
+          cardElemRef.current = card;
+        }, 60);
+        return () => {
+          clearTimeout(t);
+          if (cardElemRef.current) { cardElemRef.current.destroy(); cardElemRef.current = null; }
+        };
+      }, [open, s.step, s.done]);
 
       React.useEffect(() => {
         const onKey = e => { if (e.key === 'Escape') onClose(); };
@@ -1355,15 +1407,71 @@
         !!s.formule,
         !!s.prest,
         s.packIdx != null,
-        s.contact.prenom.trim() && emailOk && s.contact.tel.trim(),
-        s.card.num.trim().length >= 12 && s.card.exp.trim() && s.card.cvc.trim().length >= 3 && s.card.name.trim(),
+        !!(s.contact.prenom.trim() && emailOk && s.contact.tel.trim()),
+        s.cardComplete,
       ][s.step];
 
       const next = () => set({ step: Math.min(STEPS.length - 1, s.step + 1) });
       const back = () => set({ step: Math.max(0, s.step - 1) });
-      const pay  = () => {
-        set({ processing:true });
-        setTimeout(() => set({ processing:false, done:true }), 1200);
+
+      const pay = async () => {
+        set({ processing:true, payError:null });
+        try {
+          // 1. Créer le PaymentIntent côté serveur
+          const res = await fetch(`${API_BASE}/create-payment-intent`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              amount: due * 100,
+              currency: 'eur',
+              metadata: {
+                formule: s.formule,
+                prest:   prestObj?.title || s.prest,
+                pack:    pack?.label || '',
+                bw:      s.bw ? 'oui' : 'non',
+                nom:     `${s.contact.prenom} ${s.contact.nom}`.trim(),
+                email:   s.contact.email,
+                tel:     s.contact.tel,
+              },
+            }),
+          });
+          if (!res.ok) throw new Error('Erreur serveur, veuillez réessayer.');
+          const { clientSecret, error: serverError } = await res.json();
+          if (serverError) throw new Error(serverError);
+
+          // 2. Confirmer le paiement avec Stripe.js
+          const { paymentIntent, error: stripeError } =
+            await stripeRef.current.confirmCardPayment(clientSecret, {
+              payment_method: {
+                card: cardElemRef.current,
+                billing_details: {
+                  name:  `${s.contact.prenom} ${s.contact.nom}`.trim(),
+                  email: s.contact.email,
+                  phone: s.contact.tel,
+                },
+              },
+            });
+          if (stripeError) throw new Error(stripeError.message);
+
+          // 3. Envoyer les emails de confirmation
+          await fetch(`${API_BASE}/send-confirmation`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              paymentIntentId: paymentIntent.id,
+              contact: s.contact,
+              formule: s.formule,
+              prest:   prestObj?.title,
+              pack:    pack?.label,
+              total:   fmt(due),
+              bw:      s.bw,
+            }),
+          });
+
+          set({ processing:false, done:true });
+        } catch(e) {
+          set({ processing:false, payError: e.message });
+        }
       };
 
       const helperText = [
@@ -1550,22 +1658,9 @@
                       {s.payChoice === 'acompte' && (
                         <p className="lp-bk-note">Solde de {fmt(total - due)} à régler le jour de la séance.</p>
                       )}
-                      <div className="lp-bk-card-grid">
-                        <div className="lp-bk-form__full">
-                          <TextField label="Numéro de carte" icon={<Icons.CreditCard />} inputMode="numeric"
-                            placeholder="1234 5678 9012 3456"
-                            value={s.card.num} onChange={e => setCard('num', e.target.value)} />
-                        </div>
-                        <TextField label="Expiration" placeholder="MM / AA"
-                          value={s.card.exp} onChange={e => setCard('exp', e.target.value)} />
-                        <TextField label="CVC" placeholder="123" inputMode="numeric"
-                          value={s.card.cvc} onChange={e => setCard('cvc', e.target.value)} />
-                        <div className="lp-bk-form__full">
-                          <TextField label="Titulaire de la carte" placeholder="Prénom Nom"
-                            value={s.card.name} onChange={e => setCard('name', e.target.value)} />
-                        </div>
-                      </div>
-                      <p className="lp-bk-secure"><Icons.Shield /> Paiement chiffré et sécurisé · aucune donnée bancaire conservée</p>
+                      <div ref={cardRef} className="lp-stripe-element" />
+                      {s.payError && <p className="lp-bk-error">{s.payError}</p>}
+                      <p className="lp-bk-secure"><Icons.Shield /> Paiement chiffré par Stripe · aucune donnée bancaire conservée</p>
                     </>
                   )}
                 </div>
