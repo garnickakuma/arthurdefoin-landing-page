@@ -1075,6 +1075,13 @@
           if (dragged) {
             if (dx < -15 && idx0 < miniCards.length - 1) setMiniIdx(idx0 + 1);
             else if (dx > 15 && idx0 > 0) setMiniIdx(idx0 - 1);
+          } else {
+            const cardEl = ev.target.closest('.cfw-mini-card');
+            if (cardEl) {
+              const cards = vp.querySelectorAll('.cfw-mini-card');
+              const ci = Array.from(cards).indexOf(cardEl);
+              if (ci !== -1) { setSelClients(miniCards[ci].clients); setSelAbo(miniCards[ci].abo); setMiniIdx(ci); }
+            }
           }
         };
         vp.addEventListener('pointermove', onMove);
@@ -1174,8 +1181,7 @@
                         {miniCards.map((c, i) => (
                           <div key={c.clients}
                             className={"cfw-mini-card" + (selClients === c.clients ? ' selected' : '')}
-                            style={{ opacity: Math.max(0.4, 1 - Math.abs(i - miniIdx) * 0.28) }}
-                            onClick={() => { setSelClients(c.clients); setSelAbo(c.abo); setMiniIdx(i); }}>
+                            style={{ opacity: Math.max(0.4, 1 - Math.abs(i - miniIdx) * 0.28) }}>
                             <span className="cfw-mini-num">+{c.clients}</span>
                             <span className="cfw-mini-lbl">clients / mois</span>
                             {selClients === c.clients && <span className="cfw-mini-badge">✓</span>}
