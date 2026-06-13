@@ -14,51 +14,10 @@
   margin-top: 64px;
 }
 
-/* ---- Wrappers positionnés (float + glow) ---- */
-.meca-c1,
-.meca-c2,
-.meca-c3 {
+/* ---- Cartes ---- */
+.meca-card {
   position: absolute;
   width: calc(30% - 16px);
-}
-.meca-c1 { left: 0;   top: 20px;  animation: mecaFloat 4.2s ease-in-out infinite; }
-.meca-c2 { left: 35%; top: 110px; animation: mecaFloat 4.2s ease-in-out infinite; animation-delay: -1.5s; }
-.meca-c3 { right: 0;  top: 20px;  animation: mecaFloat 4.2s ease-in-out infinite; animation-delay: -2.9s; }
-
-@keyframes mecaFloat {
-  0%, 100% { transform: translateY(0px); }
-  50%       { transform: translateY(-10px); }
-}
-
-/* ---- Contouring lumineux (div sibling) ---- */
-.meca-glow {
-  position: absolute;
-  inset: -2px;
-  border-radius: var(--r-md);
-  background: conic-gradient(
-    from 0deg,
-    transparent 0%,
-    transparent 62%,
-    #6d4ab0 74%,
-    #c4b5fd 82%,
-    #6d4ab0 90%,
-    transparent 100%
-  );
-  animation: card-spin 3.6s linear infinite;
-  pointer-events: none;
-}
-.meca-g1 { animation-delay:    0s; }
-.meca-g2 { animation-delay: -1.2s; }
-.meca-g3 { animation-delay: -2.4s; }
-
-@keyframes card-spin {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
-}
-
-/* ---- Carte (positionnée au-dessus du glow) ---- */
-.meca-card {
-  position: relative;
   background: var(--blanc);
   border: 1px solid var(--sable);
   border-radius: var(--r-md);
@@ -69,6 +28,7 @@
   align-items: center;
   text-align: center;
   gap: 10px;
+  z-index: 2;
 }
 .meca-card::before {
   content: '';
@@ -77,6 +37,54 @@
   width: 36px; height: 2px;
   background: linear-gradient(90deg, #6d4ab0, #a78bfa, #6d4ab0);
   border-radius: 0 0 4px 4px;
+}
+.meca-c1 { left: 0;   top: 20px;  animation: mecaFloat 4.2s ease-in-out infinite; }
+.meca-c2 { left: 35%; top: 110px; animation: mecaFloat 4.2s ease-in-out infinite; animation-delay: -1.5s; }
+.meca-c3 { right: 0;  top: 20px;  animation: mecaFloat 4.2s ease-in-out infinite; animation-delay: -2.9s; }
+
+@keyframes mecaFloat {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-10px); }
+}
+
+/* ---- Contouring lumineux (divs synchronisés avec les cartes) ---- */
+.meca-glow {
+  position: absolute;
+  width: calc(30% - 12px); /* même que carte + 4px (2px chaque côté) */
+  height: 242px;            /* hauteur approx des cartes + 4px */
+  border-radius: var(--r-md);
+  background: conic-gradient(
+    from 0deg,
+    transparent 0%,
+    transparent 62%,
+    #6d4ab0 74%,
+    #c4b5fd 82%,
+    #6d4ab0 90%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+/* Même position que les cartes, décalées de -2px */
+.meca-g1 {
+  left: -2px; top: 18px;
+  animation: mecaFloat 4.2s ease-in-out infinite, card-spin 3.6s linear infinite;
+  animation-delay: 0s, 0s;
+}
+.meca-g2 {
+  left: calc(35% - 2px); top: 108px;
+  animation: mecaFloat 4.2s ease-in-out infinite, card-spin 3.6s linear infinite;
+  animation-delay: -1.5s, -1.2s;
+}
+.meca-g3 {
+  right: -2px; top: 18px;
+  animation: mecaFloat 4.2s ease-in-out infinite, card-spin 3.6s linear infinite;
+  animation-delay: -2.9s, -2.4s;
+}
+
+@keyframes card-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
 }
 
 .meca-num {
@@ -114,10 +122,11 @@
     gap: 16px;
     margin-top: 40px;
   }
-  .meca-c1, .meca-c2, .meca-c3 {
+  .meca-card {
     position: static;
     width: 100%;
     animation: none;
   }
+  .meca-c2 { top: auto; left: auto; }
   .meca-glow { display: none; }
 }
