@@ -1207,18 +1207,55 @@
       );
     }
 
-    /* ── REVIEWS — placeholder Google ──────────────────────────── */
+    /* ── REVIEWS — Google Places (généré au build) ─────────────── */
     function ReviewsSection() {
+      const [data, setData] = React.useState(null);
+      React.useEffect(() => {
+        fetch('reviews.json')
+          .then(r => r.ok ? r.json() : null)
+          .then(setData)
+          .catch(() => {});
+      }, []);
+
+      const Stars = ({ n=5 }) => (
+        <span className="lp-review__stars" aria-label={`${n} sur 5`}>
+          {[0,1,2,3,4].map(i => <Icons.Star key={i} style={{ opacity: i < n ? 1 : 0.22 }} />)}
+        </span>
+      );
+
+      const hasReviews = data && data.reviews && data.reviews.length > 0;
+
       return (
         <section className="lp-reviews" id="avis">
           <div className="lp-reviews__head">
-            <span className="al-eyebrow">Avis clients</span>
+            <span className="al-eyebrow">Avis Google</span>
             <h2 className="lp-reviews__title">Ce que nos familles en gardent</h2>
+            {hasReviews && data.rating && (
+              <p className="lp-reviews__lead">
+                {data.rating.toFixed(1)}/5 · {data.total} avis sur Google
+              </p>
+            )}
           </div>
-          <div className="lp-reviews__ph">
-            <span className="lp-reviews__ph-icon"><Icons.Star /></span>
-            <p>Nos avis Google seront affichés ici — connexion Places API à venir.</p>
-          </div>
+          {hasReviews ? (
+            <div className="lp-reviews__grid">
+              {data.reviews.map((r, i) => (
+                <figure key={i} className="lp-review">
+                  <span className="lp-review__mark" aria-hidden="true"><Icons.Quote /></span>
+                  <Stars n={r.rating || 5} />
+                  <blockquote className="lp-review__text">{r.text}</blockquote>
+                  <figcaption className="lp-review__by">
+                    <span className="lp-review__name">{r.name}</span>
+                    {r.time && <span className="lp-review__meta">{r.time}</span>}
+                  </figcaption>
+                </figure>
+              ))}
+            </div>
+          ) : (
+            <div className="lp-reviews__ph">
+              <span className="lp-reviews__ph-icon"><Icons.Star /></span>
+              <p>Nos avis Google apparaîtront ici dès que la fiche sera connectée.</p>
+            </div>
+          )}
         </section>
       );
     }
