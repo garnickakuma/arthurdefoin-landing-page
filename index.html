@@ -532,7 +532,7 @@
       const isMariage = spec === 'Mariage';
       const targets = isMariage ? [2, 5, 10, 20] : [10, 20, 30, 40, 50, 60];
       const aboFixe = isMariage
-        ? { 2: 390, 5: 490, 10: 640, 20: 790 }
+        ? { 2: 390, 5: 490, 10: 640, 20: 990 }
         : { 10: 390, 20: 490, 30: 570, 40: 650, 50: 720, 60: 790 };
       const cardsData = targets.map(clients => {
         const pub = Math.round(clients * CPL * 100 / conv);
