@@ -1046,12 +1046,18 @@
       const [miniDragX, setMiniDragX] = React.useState(0);
       const miniVpRef = React.useRef(null);
       const [miniVpW, setMiniVpW] = React.useState(0);
+      const successRef = React.useRef(null);
       React.useEffect(() => {
         if (!miniVpRef.current) return;
         const ro = new ResizeObserver(e => setMiniVpW(e[0].contentRect.width));
         ro.observe(miniVpRef.current);
         return () => ro.disconnect();
       }, []);
+      React.useEffect(() => {
+        if (status === 'success' && successRef.current) {
+          setTimeout(() => successRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' }), 80);
+        }
+      }, [status]);
       const isMariage = formSpec === 'Mariage';
       const targets = isMariage ? [2, 5, 10, 20] : [10, 20, 30, 40, 50, 60];
       const aboFixe = isMariage
@@ -1153,10 +1159,10 @@
             </div>
 
             {status === 'success' ? (
-              <div className="cfw-success">
+              <div className="cfw-success" ref={successRef}>
                 <div className="cfw-success-ico">✓</div>
                 <h3>Demande envoyée !</h3>
-                <p>Je vous recontacte le plus vite possible. À très vite !</p>
+                <p>Je vous recontacte très bientôt. À très vite.</p>
               </div>
             ) : (
               <div className="cform-wizard">
