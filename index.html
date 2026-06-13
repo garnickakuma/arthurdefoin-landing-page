@@ -829,7 +829,7 @@
         const ro = new ResizeObserver(measure);
         if (viewportRef.current) ro.observe(viewportRef.current);
         return () => { clearTimeout(t); ro.disconnect(); };
-      }, [visible]);
+      }, []);
 
       const lpStyles = [
         {id:'luxe',      label:'Luxe',          tagline:'Prestige & raffinement',     bg:'#1c1510', accent:'#c9a84c', dark:true},
