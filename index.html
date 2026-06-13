@@ -530,10 +530,11 @@
       const conv = convForSpec(spec, cart);
 
       const targets = [10, 20, 30, 40, 50, 60];
+      const aboFixe = { 10: 390, 20: 470, 30: 550, 40: 630, 50: 710, 60: 790 };
       const cardsData = targets.map(clients => {
         const pub = Math.round(clients * CPL * 100 / conv);
         const revenue = clients * cart;
-        const abo = calcAbo(pub);
+        const abo = aboFixe[clients] ?? calcAbo(pub);
         return { clients, pub, revenue, abo };
       });
       const cur = cardsData[cardIdx];
