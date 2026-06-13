@@ -588,7 +588,7 @@ body { background: var(--ivoire); }
 }
 .cfw-lp-have.active .cfw-lp-have-box { background: var(--or); border-color: var(--or); color: #fff; }
 
-.cfw-next { width: 100%; justify-content: center; margin-top: 20px; font-size: 15px; }
+.cfw-next { display: block; margin: 20px auto 0; padding: 11px 28px; font-size: 14px; width: auto; }
 .cfw-next.cfw-disabled { opacity: 0.38; cursor: default; }
 .cfw-select { width: 100%; }
 
