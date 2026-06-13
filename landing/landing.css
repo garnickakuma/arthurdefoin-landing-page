@@ -1148,7 +1148,7 @@ image-slot { display: block; background: var(--ivoire-2); }
 .sim-card-cost-row {
   display: flex;
   align-items: flex-start;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 8px;
   font-family: var(--sans);
   font-size: 14px;

@@ -71,21 +71,6 @@
   z-index: 1;
 }
 
-/* Numéro en filigrane discret */
-.meca-wm {
-  position: absolute;
-  right: 10px;
-  bottom: -22px;
-  font-size: 120px;
-  font-weight: 900;
-  font-family: var(--sans);
-  color: rgba(109,40,217,0.055);
-  line-height: 1;
-  letter-spacing: -6px;
-  pointer-events: none;
-  user-select: none;
-}
-
 /* ---- Corps de la carte ---- */
 .meca-body {
   padding: 20px 24px 26px;
