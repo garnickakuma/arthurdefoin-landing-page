@@ -1291,7 +1291,7 @@
         setLpChoice(choice);
         setTimeout(() => {
           const btn = document.querySelector('.offre-devis-wrap');
-          if (btn) window.scrollTo({ top: btn.getBoundingClientRect().top + window.scrollY - 80, behavior: 'smooth' });
+          if (btn) { const r = btn.getBoundingClientRect(); window.scrollTo({ top: r.top + window.scrollY - window.innerHeight / 2 + r.height / 2, behavior: 'smooth' }); }
         }, 80);
       };
 
