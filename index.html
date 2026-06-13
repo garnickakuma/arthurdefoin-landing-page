@@ -1001,9 +1001,9 @@
               </div>
 
               {lpChoice && (
-                <div className="sim-cta-wrap" style={{marginTop:32}}>
+                <div className="offre-devis-wrap" style={{marginTop:32}}>
                   <button className="btn btn-gold" onClick={() => { if (onDevisClick) onDevisClick(); }}>
-                    Demander un devis <span style={{display:'inline-block',transform:'rotate(45deg)',marginLeft:'4px'}}>→</span>
+                    Demander un devis <span className="arrow">↓</span>
                   </button>
                 </div>
               )}
@@ -1290,7 +1290,7 @@
       const handleLpChoice = (choice) => {
         setLpChoice(choice);
         setTimeout(() => {
-          const btn = document.querySelector('.sim-cta-wrap');
+          const btn = document.querySelector('.offre-devis-wrap');
           if (btn) window.scrollTo({ top: btn.getBoundingClientRect().top + window.scrollY - 80, behavior: 'smooth' });
         }, 80);
       };
