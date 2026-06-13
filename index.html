@@ -1218,6 +1218,14 @@
       const [lpChoice, setLpChoice] = React.useState(null);
       React.useEffect(() => { if (window.lucide) window.lucide.createIcons(); });
 
+      const handleLpChoice = (choice) => {
+        setLpChoice(choice);
+        setTimeout(() => {
+          const btn = document.querySelector('.sim-cta-wrap');
+          if (btn) window.scrollTo({ top: btn.getBoundingClientRect().top + window.scrollY - 80, behavior: 'smooth' });
+        }, 80);
+      };
+
       const handleCtaClick = () => {
         setOffreVisible(true);
         setTimeout(() => {
@@ -1242,7 +1250,7 @@
             <HeroWow variant="anime" />
             <Schema />
             <Simulateur onSimChange={setSimData} onCtaClick={handleCtaClick} />
-            <Offre visible={offreVisible} lpChoice={lpChoice} onLpChoice={setLpChoice} onDevisClick={handleDevisClick} />
+            <Offre visible={offreVisible} lpChoice={lpChoice} onLpChoice={handleLpChoice} onDevisClick={handleDevisClick} />
             {devisVisible && <Callback simData={simData} lpChoice={lpChoice} />}
             <Studio />
             <Avis />
