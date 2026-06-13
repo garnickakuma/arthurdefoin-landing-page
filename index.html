@@ -523,6 +523,8 @@
       const touchX0 = React.useRef(null);
       const touchY0 = React.useRef(null);
       const [simCtaChecked, setSimCtaChecked] = React.useState(false);
+      const [isHinting, setIsHinting] = React.useState(false);
+      const hintedRef = React.useRef(false);
 
       const pickSpec = s => { setSpec(s); setCart(panierForSpec(s)); };
       const conv = convForSpec(spec, cart);
@@ -568,6 +570,7 @@
       const next = () => navigateTo(cardIdx + 1);
 
       const onTouchStart = e => {
+        hintedRef.current = true;
         touchX0.current = e.touches[0].clientX;
         touchY0.current = e.touches[0].clientY;
         isDraggingRef.current = false;
@@ -594,6 +597,7 @@
       };
 
       const onMouseDown = e => {
+        hintedRef.current = true;
         if (e.button !== 0) return;
         const x0 = e.clientX;
         const idx0 = cardIdx;
@@ -626,9 +630,38 @@
         if (onSimChange) onSimChange({ spec, cart, pub: cur.pub, clients: cur.clients, revenue: cur.revenue, abo: cur.abo, volume: cur.pub / CPL, benefice: cur.revenue - cur.pub });
       }, [spec, cart, cardIdx]);
 
+      // Hint swipe : nudge la première carte vers la gauche au premier affichage
+      React.useEffect(() => {
+        const section = document.getElementById('simulateur');
+        if (!section) return;
+        const obs = new IntersectionObserver(([entry]) => {
+          if (entry.isIntersecting && !hintedRef.current) {
+            obs.disconnect();
+            setTimeout(() => {
+              if (hintedRef.current) return;
+              hintedRef.current = true;
+              setIsHinting(true);
+              const duration = 900;
+              const maxShift = -34;
+              let start = null;
+              const tick = (ts) => {
+                if (!start) start = ts;
+                const t = Math.min((ts - start) / duration, 1);
+                setDragX(Math.sin(t * Math.PI) * maxShift);
+                if (t < 1) requestAnimationFrame(tick);
+                else { setDragX(0); setIsHinting(false); }
+              };
+              requestAnimationFrame(tick);
+            }, 1800);
+          }
+        }, { threshold: 0.5 });
+        obs.observe(section);
+        return () => obs.disconnect();
+      }, []);
+
       const trackStyle = {
         transform: `translateX(${trackX}px)`,
-        transition: isDragging ? 'none' : 'transform 0.44s cubic-bezier(0.34, 1.56, 0.64, 1)',
+        transition: (isDragging || isHinting) ? 'none' : 'transform 0.44s cubic-bezier(0.34, 1.56, 0.64, 1)',
       };
 
       const cardStyle = cardW > 0 ? { flex: `0 0 ${cardW}px`, width: `${cardW}px` } : {};
