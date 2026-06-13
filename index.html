@@ -226,169 +226,6 @@
 
     // ─── Schema ───────────────────────────────────────────────────────────────
     function Schema() {
-      const circleRefs = React.useRef([]);
-      const glowRef    = React.useRef(null);
-      const dotRef     = React.useRef(null);
-      const pathRef    = React.useRef(null);
-
-      React.useEffect(() => {
-        if (window.lucide) window.lucide.createIcons();
-
-        /* ── Bezier helper ── */
-        function bez(P, t) {
-          const m = 1-t;
-          return {
-            x: m*m*m*P[0].x + 3*m*m*t*P[1].x + 3*m*t*t*P[2].x + t*t*t*P[3].x,
-            y: m*m*m*P[0].y + 3*m*m*t*P[1].y + 3*m*t*t*P[2].y + t*t*t*P[3].y,
-          };
-        }
-
-        /* ── 3 points d'ancrage fixes du fil rouge ── */
-        const A1 = {x:135, y:160}; // sous logo Meta carte 1
-        const A2 = {x:450, y:250}; // milieu carte 2
-        const A3 = {x:765, y:165}; // pied téléphone carte 3
-
-        /* control points oscillants — mis à jour chaque frame */
-        const CX = [
-          {x: A1.x+(A2.x-A1.x)*0.38, y: A1.y},
-          {x: A2.x-(A2.x-A1.x)*0.38, y: A2.y},
-          {x: A2.x+(A3.x-A2.x)*0.38, y: A2.y},
-          {x: A3.x-(A3.x-A2.x)*0.38, y: A3.y},
-        ];
-
-        function getDotPos(p) {
-          return p <= 0.5
-            ? bez([A1,CX[0],CX[1],A2], p*2)
-            : bez([A2,CX[2],CX[3],A3], (p-0.5)*2);
-        }
-
-        /* ── Billes ── */
-        const LOGO = {x:40, y:36};
-        const LOGO_R = 17; // rayon d'exclusion autour du logo
-        const B = {x1:5, y1:5, x2:75, y2:67};
-        const balls = Array.from({length:6}, (_,i) => {
-          const a = (i/6)*Math.PI*2 + Math.random()*0.8;
-          const d = LOGO_R + 4 + Math.random()*18;
-          return {
-            x: Math.max(B.x1, Math.min(B.x2, LOGO.x+Math.cos(a)*d)),
-            y: Math.max(B.y1, Math.min(B.y2, LOGO.y+Math.sin(a)*d)),
-            vx: (Math.random()-0.5)*0.22,
-            vy: (Math.random()-0.5)*0.22,
-            phase: 'wander', t: 0,
-          };
-        });
-
-        let activeIdx=0, frame=0;
-        let glow={on:false,t:0};
-        let dot={on:false,t:0};
-        const DOT_FRAMES = 140;
-
-        function sa(el,n,v){ if(el) el.setAttribute(n,String(v)); }
-
-        let rafId;
-        function tick() {
-          frame++;
-
-          /* trigger rush every ~200 frames */
-          if (frame % 200 === 0 && balls[activeIdx].phase==='wander') {
-            balls[activeIdx].phase='violet'; balls[activeIdx].t=0;
-          }
-
-          /* ── ondulation du fil rouge ── */
-          const wt = frame / 60;
-          const amp = 24;
-          CX[0].y = A1.y + Math.sin(wt*0.7       )*amp;
-          CX[1].y = A2.y + Math.sin(wt*0.7 + 2.1 )*amp;
-          CX[2].y = A2.y + Math.sin(wt*0.7 + 4.2 )*amp;
-          CX[3].y = A3.y + Math.sin(wt*0.7 + 6.3 )*amp;
-          sa(pathRef.current,'d',
-            `M ${A1.x},${A1.y} C ${CX[0].x},${CX[0].y} ${CX[1].x},${CX[1].y} ${A2.x},${A2.y} C ${CX[2].x},${CX[2].y} ${CX[3].x},${CX[3].y} ${A3.x},${A3.y}`
-          );
-
-          /* glow sur logo */
-          if (glow.on) {
-            glow.t++;
-            const p=glow.t/50;
-            const op=p<0.25?p/0.25*0.85:0.85*(1-(p-0.25)/0.75);
-            sa(glowRef.current,'opacity',Math.max(0,op).toFixed(2));
-            sa(glowRef.current,'rx',(28+p*30).toFixed(1));
-            sa(glowRef.current,'ry',(11+p*14).toFixed(1));
-            sa(glowRef.current,'stroke-width',Math.max(0,14*(1-p)).toFixed(1));
-            if(glow.t>=50){glow.on=false;sa(glowRef.current,'opacity','0');}
-          }
-
-          /* point voyageur le long du fil rouge */
-          if (dot.on) {
-            dot.t++;
-            const raw=dot.t/DOT_FRAMES;
-            const ease=raw<0.5?2*raw*raw:1-Math.pow(-2*raw+2,2)/2;
-            const pos=getDotPos(Math.min(ease,1));
-            const op=raw<0.08?raw/0.08:raw>0.88?(1-raw)/0.12:1;
-            sa(dotRef.current,'cx',pos.x.toFixed(1));
-            sa(dotRef.current,'cy',pos.y.toFixed(1));
-            sa(dotRef.current,'opacity',Math.max(0,op*0.92).toFixed(2));
-            if(dot.t>=DOT_FRAMES){dot.on=false;sa(dotRef.current,'opacity','0');}
-          }
-
-          /* animation des billes */
-          balls.forEach((b,i) => {
-            const el=circleRefs.current[i];
-            if(!el) return;
-            if (b.phase==='wander') {
-              if(Math.random()<0.025){b.vx+=(Math.random()-0.5)*0.18;b.vy+=(Math.random()-0.5)*0.18;}
-              const spd=Math.sqrt(b.vx*b.vx+b.vy*b.vy);
-              if(spd>0.28){b.vx*=0.28/spd;b.vy*=0.28/spd;}
-              if(spd<0.06&&spd>0){b.vx*=0.1/spd;b.vy*=0.1/spd;}
-              b.x+=b.vx; b.y+=b.vy;
-              if(b.x<B.x1){b.x=B.x1;b.vx=Math.abs(b.vx);}
-              if(b.x>B.x2){b.x=B.x2;b.vx=-Math.abs(b.vx);}
-              if(b.y<B.y1){b.y=B.y1;b.vy=Math.abs(b.vy);}
-              if(b.y>B.y2){b.y=B.y2;b.vy=-Math.abs(b.vy);}
-              /* répulsion logo */
-              const ldx=b.x-LOGO.x, ldy=b.y-LOGO.y;
-              const ld=Math.sqrt(ldx*ldx+ldy*ldy);
-              if(ld<LOGO_R&&ld>0){const f=(LOGO_R-ld)/LOGO_R*0.18;b.vx+=ldx/ld*f;b.vy+=ldy/ld*f;}
-              sa(el,'fill','#94a3b8');sa(el,'r','4');sa(el,'opacity','0.85');
-            } else if (b.phase==='violet') {
-              b.t++;
-              b.vx*=0.88;b.vy*=0.88;b.x+=b.vx;b.y+=b.vy;
-              sa(el,'fill','#a78bfa');sa(el,'r',(4+b.t/35*2.5).toFixed(1));sa(el,'opacity','0.9');
-              if(b.t>=35){b.phase='rush';b.t=0;}
-            } else if (b.phase==='rush') {
-              b.t++;
-              const dx=LOGO.x-b.x,dy=LOGO.y-b.y,dist=Math.sqrt(dx*dx+dy*dy);
-              if(dist<2.5){
-                b.phase='absorbed';b.t=0;b.x=LOGO.x;b.y=LOGO.y;
-                glow.on=true;glow.t=0;
-                dot.on=true;dot.t=0;
-                activeIdx=(activeIdx+1)%6;
-              } else {
-                const spd=0.4+b.t*0.12;
-                b.x+=(dx/dist)*Math.min(spd,dist);
-                b.y+=(dy/dist)*Math.min(spd,dist);
-              }
-              sa(el,'fill','#a78bfa');sa(el,'r','5');sa(el,'opacity','0.9');
-            } else if (b.phase==='absorbed') {
-              b.t++;
-              sa(el,'opacity',Math.max(0,0.9-b.t/20).toFixed(2));
-              if(b.t>=25){
-                const a=Math.random()*Math.PI*2,d=14+Math.random()*20;
-                b.x=Math.max(B.x1,Math.min(B.x2,LOGO.x+Math.cos(a)*d));
-                b.y=Math.max(B.y1,Math.min(B.y2,LOGO.y+Math.sin(a)*d));
-                b.vx=(Math.random()-0.5)*0.5;b.vy=(Math.random()-0.5)*0.5;
-                b.phase='wander';b.t=0;
-                sa(el,'fill','#94a3b8');sa(el,'r','4');sa(el,'opacity','0.85');
-              }
-            }
-            sa(el,'cx',b.x.toFixed(2));sa(el,'cy',b.y.toFixed(2));
-          });
-
-          rafId=requestAnimationFrame(tick);
-        }
-        rafId=requestAnimationFrame(tick);
-        return ()=>cancelAnimationFrame(rafId);
-      }, []);
-
       return (
         <section className="section schema" id="mecanisme">
           <div className="container">
@@ -402,12 +239,8 @@
               {/* ── CARTE 1 : Pub Meta ── */}
               <div className="meca-card meca-c1">
                 <div className="meca-num">01</div>
-                <svg className="meca-anim" viewBox="0 0 80 72" overflow="visible">
+                <svg className="meca-anim" viewBox="0 0 80 72">
                   <image href="landing/logo%20meta.png?v=1" xlinkHref="landing/logo%20meta.png?v=1" x="8" y="25" width="64" height="22"/>
-                  <ellipse ref={glowRef} cx="40" cy="36" rx="28" ry="11" fill="none" stroke="#a78bfa" strokeWidth="0" opacity="0"/>
-                  {Array.from({length:6},(_,i) => (
-                    <circle key={i} ref={el=>{circleRefs.current[i]=el;}} cx="40" cy="36" r="4" fill="#94a3b8" opacity="0.85"/>
-                  ))}
                 </svg>
                 <strong className="meca-title">Pub Meta ciblée</strong>
                 <p className="meca-sub">Vos photos diffusées aux bons profils, au bon moment.</p>
@@ -426,15 +259,12 @@
                 <div className="meca-num">03</div>
                 <svg className="meca-anim" viewBox="0 0 80 70">
                   <g transform="translate(40,35)">
-                    {/* Handle — rendu en premier (derrière les ellipses) */}
                     <path d="M -9,-12 C -6,-3 6,3 9,12"
                       stroke="#c8bfec" strokeWidth="14" strokeLinecap="round" fill="none"/>
                     <path d="M -9,-12 C -6,-3 6,3 9,12"
                       stroke="#6d4ab0" strokeWidth="2" strokeLinecap="round" fill="none"/>
-                    {/* Écouteur (haut-gauche) */}
                     <ellipse cx="-9" cy="-19" rx="9.5" ry="7" fill="#ede9f6" stroke="#6d4ab0" strokeWidth="1.8"/>
                     <ellipse cx="-9" cy="-19" rx="4.5" ry="3.2" fill="none" stroke="#6d4ab0" strokeWidth="1" opacity="0.45"/>
-                    {/* Micro (bas-droite) */}
                     <ellipse cx="9" cy="19" rx="9.5" ry="7" fill="#ede9f6" stroke="#6d4ab0" strokeWidth="1.8"/>
                     <ellipse cx="9" cy="19" rx="4.5" ry="3.2" fill="none" stroke="#6d4ab0" strokeWidth="1" opacity="0.45"/>
                   </g>
@@ -442,14 +272,6 @@
                 <strong className="meca-title">Échange avec le photographe</strong>
                 <p className="meca-sub">Vous recevez des prospects qualifiés — vous n'avez plus qu'à décrocher.</p>
               </div>
-
-              {/* ── Fil rouge ondulant + point voyageur ── */}
-              <svg className="meca-svg" viewBox="0 0 900 380" preserveAspectRatio="none" aria-hidden="true">
-                <path ref={pathRef}
-                  d={`M 135,160 C 186,160 399,250 450,250 C 501,250 714,165 765,165`}
-                  fill="none" stroke="#ef4444" strokeWidth="2.5" strokeLinecap="round" opacity="0.72"/>
-                <circle ref={dotRef} cx="135" cy="160" r="8" fill="#a78bfa" opacity="0"/>
-              </svg>
 
             </div>
           </div>
