@@ -630,17 +630,18 @@
         if (onSimChange) onSimChange({ spec, cart, pub: cur.pub, clients: cur.clients, revenue: cur.revenue, abo: cur.abo, volume: cur.pub / CPL, benefice: cur.revenue - cur.pub });
       }, [spec, cart, cardIdx]);
 
-      // Hint swipe : 2 nudges rapides si le visiteur n'interagit pas
+      // Hint swipe : double nudge en boucle jusqu'à interaction
       React.useEffect(() => {
         const section = document.getElementById('simulateur');
         if (!section) return;
+        let loopTimer = null;
         const obs = new IntersectionObserver(([entry]) => {
           if (entry.isIntersecting && !hintedRef.current) {
             obs.disconnect();
-            const playHint = (cb) => {
+            const oneNudge = (cb) => {
               if (hintedRef.current) return;
               setIsHinting(true);
-              const duration = 650;
+              const duration = 500;
               const maxShift = -32;
               let start = null;
               const tick = (ts) => {
@@ -653,15 +654,22 @@
               };
               requestAnimationFrame(tick);
             };
-            setTimeout(() => {
-              playHint(() => {
-                setTimeout(() => { playHint(null); }, 2800);
+            const doubleNudge = (cb) => {
+              oneNudge(() => {
+                setTimeout(() => oneNudge(cb), 180);
               });
-            }, 1800);
+            };
+            const loop = () => {
+              if (hintedRef.current) return;
+              doubleNudge(() => {
+                loopTimer = setTimeout(loop, 2800);
+              });
+            };
+            loopTimer = setTimeout(loop, 1800);
           }
         }, { threshold: 0.5 });
         obs.observe(section);
-        return () => obs.disconnect();
+        return () => { obs.disconnect(); clearTimeout(loopTimer); };
       }, []);
 
       const trackStyle = {
