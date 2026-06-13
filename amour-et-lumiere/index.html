@@ -424,6 +424,9 @@
     .lp-gal__item--0{grid-row:span 2}
     .lp-gal__item--3{grid-column:span 2}
     .lp-gal__item--4{grid-row:span 2}
+    .lp-gal__item--7{grid-column:span 2}
+    .lp-gal__item--8{grid-row:span 2}
+    .lp-gal__item--11{grid-column:span 2}
 
     /* ── REVIEWS ─────────────────────────────────────────────── */
     .lp-reviews{max-width:var(--container-xl);margin-inline:auto;padding:var(--space-12) var(--space-6)}
@@ -776,18 +779,27 @@
 
     /* ── DATA ─────────────────────────────────────────────────── */
     const PRESTATIONS = [
-      { id:'famille',   title:'Famille',    img:'assets/images/hero_famille.jpg', desc:'Tous réunis, complices, dans la lumière.' },
-      { id:'grossesse', title:'Grossesse',  img:'assets/images/g2.jpg',           desc:'Célébrer ces mois si particuliers.' },
-      { id:'nouveau',   title:'Nouveau-né', img:'assets/images/g5_newborn.jpg',   desc:'Les tout premiers jours, tout en douceur.' },
-      { id:'enfant',    title:'Enfants',    img:'assets/images/g3.jpg',           desc:'Leur regard, leur âge, leur caractère.' },
-      { id:'couple',    title:'Couple',     img:'assets/images/g1.jpg',           desc:'À deux, simplement, avec tendresse.' },
-      { id:'portrait',  title:'Portrait',   img:'assets/images/g4.jpg',           desc:'Un portrait sincère et intemporel.' },
+      { id:'famille',   title:'Famille',    img:'assets/images/s08.jpg', desc:'Tous réunis, complices, dans la lumière.' },
+      { id:'grossesse', title:'Grossesse',  img:'assets/images/s21.jpg', desc:'Célébrer ces mois si particuliers.' },
+      { id:'nouveau',   title:'Nouveau-né', img:'assets/images/s17.jpg', desc:'Les tout premiers jours, tout en douceur.' },
+      { id:'enfant',    title:'Enfants',    img:'assets/images/s05.jpg', desc:'Leur regard, leur âge, leur caractère.' },
+      { id:'couple',    title:'Couple',     img:'assets/images/e07.jpg', desc:'À deux, simplement, avec tendresse.' },
+      { id:'portrait',  title:'Portrait',   img:'assets/images/s09.jpg', desc:'Un portrait sincère et intemporel.' },
     ];
 
     const GALLERY = [
-      'assets/images/g1.jpg','assets/images/hero_famille.jpg',
-      'assets/images/g3.jpg','assets/images/g5_newborn.jpg',
-      'assets/images/g2.jpg','assets/images/g4.jpg',
+      'assets/images/s17.jpg',
+      'assets/images/s21.jpg',
+      'assets/images/e07.jpg',
+      'assets/images/s05.jpg',
+      'assets/images/s09.jpg',
+      'assets/images/e01.jpg',
+      'assets/images/s08.jpg',
+      'assets/images/e11.jpg',
+      'assets/images/s04.jpg',
+      'assets/images/s13.jpg',
+      'assets/images/e05.jpg',
+      'assets/images/s24.jpg',
     ];
 
     const PACKS_STUDIO = [
@@ -966,16 +978,16 @@
           <div className="lp-pins">
             <div className="lp-pins__stage" aria-hidden="true">
               <figure className="lp-pins__ph lp-pins__ph--1">
-                <PinSlot pool={PIN_POOL} start="assets/images/g4.jpg" interval={3200} />
+                <PinSlot pool={PIN_POOL} start="assets/images/s09.jpg" interval={3200} />
               </figure>
               <figure className="lp-pins__ph lp-pins__ph--2">
-                <PinSlot pool={PIN_POOL} start="assets/images/g5_newborn.jpg" interval={3900} />
+                <PinSlot pool={PIN_POOL} start="assets/images/s17.jpg" interval={3900} />
               </figure>
               <figure className="lp-pins__ph lp-pins__ph--3">
-                <PinSlot pool={PIN_POOL} start="assets/images/g3.jpg" interval={4500} />
+                <PinSlot pool={PIN_POOL} start="assets/images/e07.jpg" interval={4500} />
               </figure>
               <figure className="lp-pins__ph lp-pins__ph--4">
-                <PinSlot pool={PIN_POOL} start="assets/images/hero_famille.jpg" interval={5200} />
+                <PinSlot pool={PIN_POOL} start="assets/images/s21.jpg" interval={5200} />
               </figure>
             </div>
             <div className="lp-pins__copy">
@@ -1168,11 +1180,11 @@
         <section className="lp-about" id="studio">
           <div className="lp-about__duo">
             <figure className="lp-duo__item">
-              <img src="assets/images/g4.jpg" alt="Arthur, photographe" />
+              <img src="assets/images/arthur.jpg" alt="Arthur, photographe" />
               <figcaption>Arthur</figcaption>
             </figure>
             <figure className="lp-duo__item">
-              <img src="assets/images/g2.jpg" alt="Pierre-Henri, photographe" />
+              <img src="assets/images/pierre-henri.jpg" alt="Pierre-Henri, photographe" />
               <figcaption>Pierre-Henri</figcaption>
             </figure>
             <span className="lp-about__chip"><Icons.Pin /> Bègles · Gironde</span>
@@ -1277,7 +1289,7 @@
       return (
         <section className="lp-book">
           <div className="lp-book__media">
-            <img src="assets/images/g5_newborn.jpg" alt="" />
+            <img src="assets/images/e07.jpg" alt="" />
             <div className="lp-book__scrim" />
           </div>
           <div className="lp-book__inner">
