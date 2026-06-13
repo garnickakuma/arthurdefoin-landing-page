@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Manrope:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&family=JetBrains+Mono:wght@400;500&display=swap">
 
   <link rel="stylesheet" href="landing/colors_and_type.css?v=87">
-  <link rel="stylesheet" href="landing/landing.css?v=99">
+  <link rel="stylesheet" href="landing/landing.css?v=100">
   <link rel="stylesheet" href="landing/landing-b.css?v=94">
   <link rel="stylesheet" href="landing/landing-layouts.css?v=87">
   <link rel="stylesheet" href="landing/landing-hero-wow.css?v=87">
@@ -808,7 +808,7 @@
       );
     }
     // ─── Tunnel de vente ─────────────────────────────────────────────────────
-    function Offre({visible, lpChoice, onLpChoice, onDevisClick}) {
+    function Offre({lpChoice, onLpChoice, onDevisClick}) {
       const viewportRef   = React.useRef(null);
       const [vpW, setVpW] = React.useState(0);
       const [ready, setReady] = React.useState(false);
@@ -820,7 +820,6 @@
       const touchY0 = React.useRef(null);
 
       React.useEffect(() => {
-        if (!visible) return;
         const measure = () => {
           if (!viewportRef.current) return;
           const w = viewportRef.current.offsetWidth;
@@ -1043,12 +1042,44 @@
       const [status, setStatus] = React.useState('idle');
 
       const [formSpec, setFormSpec] = React.useState((simData && simData.spec) || 'Studio');
+      const [miniIdx, setMiniIdx] = React.useState(0);
+      const [miniDragX, setMiniDragX] = React.useState(0);
+      const miniVpRef = React.useRef(null);
+      const [miniVpW, setMiniVpW] = React.useState(0);
+      React.useEffect(() => {
+        if (!miniVpRef.current) return;
+        const ro = new ResizeObserver(e => setMiniVpW(e[0].contentRect.width));
+        ro.observe(miniVpRef.current);
+        return () => ro.disconnect();
+      }, []);
       const isMariage = formSpec === 'Mariage';
       const targets = isMariage ? [2, 5, 10, 20] : [10, 20, 30, 40, 50, 60];
       const aboFixe = isMariage
         ? {2:390, 5:490, 10:640, 20:990}
         : {10:390, 20:490, 30:570, 40:650, 50:720, 60:790};
       const miniCards = targets.map(n => ({clients:n, abo:aboFixe[n]}));
+      const MINI_W = 148, MINI_GAP = 12, MINI_STEP = MINI_W + MINI_GAP;
+      const miniTrackX = miniVpW ? miniVpW / 2 - miniIdx * MINI_STEP - MINI_W / 2 + miniDragX : 0;
+      const miniPointerDown = e => {
+        if (e.button !== 0 && e.pointerType !== 'touch') return;
+        const vp = e.currentTarget;
+        vp.setPointerCapture(e.pointerId);
+        const x0 = e.clientX, idx0 = miniIdx;
+        let dragged = false;
+        const onMove = ev => { const dx = ev.clientX - x0; if (Math.abs(dx) > 4) { dragged = true; setMiniDragX(dx); } };
+        const onUp = ev => {
+          const dx = ev.clientX - x0;
+          setMiniDragX(0);
+          vp.removeEventListener('pointermove', onMove);
+          vp.removeEventListener('pointerup', onUp);
+          if (dragged) {
+            if (dx < -15 && idx0 < miniCards.length - 1) setMiniIdx(idx0 + 1);
+            else if (dx > 15 && idx0 > 0) setMiniIdx(idx0 - 1);
+          }
+        };
+        vp.addEventListener('pointermove', onMove);
+        vp.addEventListener('pointerup', onUp);
+      };
 
       const update = k => e => setForm(f => ({...f, [k]:e.target.value}));
 
@@ -1096,16 +1127,7 @@
                 <span><Ico n="video" /> Appel de <strong>30 min</strong></span>
                 <span><Ico n="shield" /> Aucun <strong>engagement</strong></span>
               </div>
-            </div>
-
-            {status === 'success' ? (
-              <div className="cfw-success">
-                <div className="cfw-success-ico">✓</div>
-                <h3>Demande envoyée !</h3>
-                <p>Je vous recontacte le plus vite possible. À très vite !</p>
-              </div>
-            ) : (
-              <div className="cform-wizard">
+              {status !== 'success' && (
                 <div className="cfw-progress">
                   {steps.map((lbl, i) => (
                     <React.Fragment key={i}>
@@ -1119,6 +1141,17 @@
                     </React.Fragment>
                   ))}
                 </div>
+              )}
+            </div>
+
+            {status === 'success' ? (
+              <div className="cfw-success">
+                <div className="cfw-success-ico">✓</div>
+                <h3>Demande envoyée !</h3>
+                <p>Je vous recontacte le plus vite possible. À très vite !</p>
+              </div>
+            ) : (
+              <div className="cform-wizard">
 
                 {step === 1 && (
                   <div className="cfw-panel">
@@ -1127,22 +1160,33 @@
                       {SIM_SPECIALITES.map(s => (
                         <button key={s}
                           className={"cfw-spec-chip" + (formSpec === s ? ' active' : '')}
-                          onClick={() => { setFormSpec(s); setSelClients(null); setSelAbo(null); }}>
+                          onClick={() => { setFormSpec(s); setSelClients(null); setSelAbo(null); setMiniIdx(0); }}>
                           {s}
                         </button>
                       ))}
                     </div>
                     <p className="cfw-subtitle">Combien de clients par mois souhaitez-vous ?</p>
-                    <div className="cfw-cards-scroll" style={{WebkitOverflowScrolling:'touch', touchAction:'pan-x'}}>
-                      {miniCards.map(c => (
-                        <div key={c.clients}
-                          className={"cfw-mini-card" + (selClients === c.clients ? ' selected' : '')}
-                          onPointerDown={e => { e.currentTarget.setPointerCapture(e.pointerId); }}
-                          onClick={() => { setSelClients(c.clients); setSelAbo(c.abo); }}>
-                          <span className="cfw-mini-num">+{c.clients}</span>
-                          <span className="cfw-mini-lbl">clients / mois</span>
-                          {selClients === c.clients && <span className="cfw-mini-badge">✓</span>}
-                        </div>
+                    <div ref={miniVpRef} className="cfw-carousel-vp" onPointerDown={miniPointerDown}>
+                      <div className="cfw-carousel-track" style={{
+                        transform: `translateX(${miniTrackX}px)`,
+                        transition: miniDragX ? 'none' : 'transform 0.35s cubic-bezier(.22,.68,0,1.2)'
+                      }}>
+                        {miniCards.map((c, i) => (
+                          <div key={c.clients}
+                            className={"cfw-mini-card" + (selClients === c.clients ? ' selected' : '')}
+                            style={{ opacity: Math.max(0.4, 1 - Math.abs(i - miniIdx) * 0.28) }}
+                            onClick={() => { setSelClients(c.clients); setSelAbo(c.abo); setMiniIdx(i); }}>
+                            <span className="cfw-mini-num">+{c.clients}</span>
+                            <span className="cfw-mini-lbl">clients / mois</span>
+                            {selClients === c.clients && <span className="cfw-mini-badge">✓</span>}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="cfw-dots">
+                      {miniCards.map((_, i) => (
+                        <button key={i} className={"cfw-dot-mini" + (i === miniIdx ? ' active' : '')}
+                          onClick={() => setMiniIdx(i)} />
                       ))}
                     </div>
                     <button className={"btn btn-primary cfw-next" + (!selClients ? ' cfw-disabled' : '')}
@@ -1358,32 +1402,16 @@
     // ─── App ──────────────────────────────────────────────────────────────────
     function App() {
       const [simData, setSimData] = React.useState({});
-      const [offreVisible, setOffreVisible] = React.useState(false);
-      const [devisVisible, setDevisVisible] = React.useState(false);
       const [lpChoice, setLpChoice] = React.useState(null);
       React.useEffect(() => { if (window.lucide) window.lucide.createIcons(); });
 
-      const handleLpChoice = (choice) => {
+      const scrollTo = id => { const el = document.getElementById(id); if (el) window.scrollTo({top: el.offsetTop - 60, behavior: 'smooth'}); };
+
+      const handleLpChoice = choice => {
         setLpChoice(choice);
         setTimeout(() => {
           const btn = document.querySelector('.offre-devis-wrap');
           if (btn) { const r = btn.getBoundingClientRect(); window.scrollTo({ top: r.top + window.scrollY - window.innerHeight / 2 + r.height / 2, behavior: 'smooth' }); }
-        }, 80);
-      };
-
-      const handleCtaClick = () => {
-        setOffreVisible(true);
-        setTimeout(() => {
-          const el = document.getElementById('offre');
-          if (el) window.scrollTo({top: el.offsetTop - 60, behavior: 'smooth'});
-        }, 80);
-      };
-
-      const handleDevisClick = () => {
-        setDevisVisible(true);
-        setTimeout(() => {
-          const el = document.getElementById('rappel');
-          if (el) window.scrollTo({top: el.offsetTop - 60, behavior: 'smooth'});
         }, 80);
       };
 
@@ -1394,9 +1422,9 @@
           <main>
             <HeroWow variant="anime" />
             <Schema />
-            <Simulateur onSimChange={setSimData} onCtaClick={handleCtaClick} />
-            <Offre visible={offreVisible} lpChoice={lpChoice} onLpChoice={handleLpChoice} onDevisClick={handleDevisClick} />
-            {devisVisible && <Callback simData={simData} />}
+            <Simulateur onSimChange={setSimData} onCtaClick={() => scrollTo('offre')} />
+            <Offre lpChoice={lpChoice} onLpChoice={handleLpChoice} onDevisClick={() => scrollTo('rappel')} />
+            <Callback simData={simData} />
             <Studio />
             <Avis />
           </main>

@@ -504,7 +504,7 @@ body { background: var(--ivoire); }
 
 .cform-wizard { max-width: 640px; margin: 0 auto; }
 
-.cfw-progress { display: flex; align-items: flex-start; margin-bottom: 36px; }
+.cfw-progress { display: flex; align-items: flex-start; margin: 36px auto 0; max-width: 480px; }
 .cfw-step-item { display: flex; flex-direction: column; align-items: center; gap: 6px; flex: 0 0 auto; }
 .cfw-dot {
   width: 32px; height: 32px; border-radius: 50%;
@@ -534,8 +534,12 @@ body { background: var(--ivoire); }
 .cfw-spec-chip.active { background: var(--or); border-color: var(--or); color: #fff; }
 .cfw-subtitle { font-size: 14px; font-weight: 700; color: var(--plomb); text-align: center; margin: 0 0 16px; }
 
-.cfw-cards-scroll { display: flex; gap: 10px; overflow-x: auto; overflow-y: visible; padding: 4px 2px 12px; scrollbar-width: none; margin-bottom: 4px; -webkit-overflow-scrolling: touch; }
-.cfw-cards-scroll::-webkit-scrollbar { display: none; }
+.cfw-carousel-vp { overflow: hidden; width: 100%; cursor: grab; user-select: none; -webkit-user-select: none; padding: 8px 0 12px; }
+.cfw-carousel-vp:active { cursor: grabbing; }
+.cfw-carousel-track { display: flex; gap: 12px; width: max-content; }
+.cfw-dots { display: flex; gap: 7px; justify-content: center; margin: 4px 0 8px; }
+.cfw-dot-mini { width: 7px; height: 7px; border-radius: 4px; background: var(--sable-fonce); border: none; cursor: pointer; padding: 0; transition: all 0.25s; }
+.cfw-dot-mini.active { width: 22px; background: var(--or); }
 .cfw-mini-card {
   flex: 0 0 auto; min-width: 116px;
   background: var(--ivoire); border: 2px solid var(--sable); border-radius: 14px;
