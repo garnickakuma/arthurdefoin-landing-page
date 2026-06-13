@@ -496,6 +496,104 @@ body { background: var(--ivoire); }
 .cform-success h3 { font-family: var(--serif); font-size: 28px; color: var(--encre); margin: 0; }
 .cform-success p { font-family: var(--sans); font-size: 15px; color: var(--plomb); margin: 0; }
 
+/* ----------  Wizard devis multi-étapes  ---------- */
+.cfw-head { text-align: center; max-width: 600px; margin: 0 auto 48px; }
+.cfw-head h2 { margin: 0 0 12px; }
+.cfw-head .lede { margin: 0 auto; }
+.cfw-head .cb-assur { justify-content: center; margin-top: 28px; }
+
+.cform-wizard { max-width: 640px; margin: 0 auto; }
+
+.cfw-progress { display: flex; align-items: flex-start; margin-bottom: 36px; }
+.cfw-step-item { display: flex; flex-direction: column; align-items: center; gap: 6px; flex: 0 0 auto; }
+.cfw-dot {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--sable); color: var(--pierre);
+  font-size: 12px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.3s, color 0.3s;
+}
+.cfw-step-item.active .cfw-dot,
+.cfw-step-item.done .cfw-dot { background: var(--or); color: #fff; }
+.cfw-step-name { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--pierre); text-align: center; white-space: nowrap; }
+.cfw-step-item.active .cfw-step-name { color: var(--or); }
+.cfw-step-item.done .cfw-step-name { color: var(--plomb); }
+.cfw-connector { flex: 1; height: 2px; background: var(--sable); margin-top: 16px; transition: background 0.4s; }
+.cfw-connector.done { background: var(--or); }
+
+.cfw-panel { background: #fff; border-radius: 20px; box-shadow: 0 4px 28px rgba(0,0,0,0.08); padding: 36px; animation: cfwIn 0.3s ease; }
+@keyframes cfwIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+.cfw-title { font-size: clamp(17px, 2.5vw, 21px); font-weight: 800; text-align: center; margin: 0 0 28px; color: var(--encre); }
+
+.cfw-cards-scroll { display: flex; gap: 10px; overflow-x: auto; padding: 4px 2px 12px; scrollbar-width: none; margin-bottom: 4px; }
+.cfw-cards-scroll::-webkit-scrollbar { display: none; }
+.cfw-mini-card {
+  flex: 0 0 auto; min-width: 116px;
+  background: var(--ivoire); border: 2px solid var(--sable); border-radius: 14px;
+  padding: 18px 14px; text-align: center; cursor: pointer; position: relative;
+  transition: border-color 0.18s, transform 0.15s;
+}
+.cfw-mini-card:hover { border-color: var(--or-clair); transform: translateY(-2px); }
+.cfw-mini-card.selected { border-color: var(--or); background: var(--or-voile); box-shadow: 0 0 0 3px rgba(139,92,246,0.13); }
+.cfw-mini-num {
+  display: block; font-size: 30px; font-weight: 800; line-height: 1;
+  background: linear-gradient(135deg, #6d4ab0, #a78bfa);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; padding-right: 0.06em;
+}
+.cfw-mini-lbl { display: block; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--plomb); margin-top: 4px; }
+.cfw-mini-abo { display: block; font-size: 14px; font-weight: 700; color: var(--encre); margin-top: 10px; }
+.cfw-mini-abo-sub { font-size: 11px; font-weight: 400; color: var(--plomb); }
+.cfw-mini-badge {
+  position: absolute; top: 6px; right: 6px;
+  width: 18px; height: 18px; background: var(--or); color: #fff;
+  border-radius: 50%; font-size: 10px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+}
+
+.cfw-lp-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+.cfw-lp-card {
+  background: var(--ivoire); border: 2px solid var(--sable); border-radius: 14px;
+  padding: 20px 16px; cursor: pointer; transition: border-color 0.18s;
+}
+.cfw-lp-card:hover { border-color: var(--or-clair); }
+.cfw-lp-card.selected { border-color: var(--or); background: var(--or-voile); box-shadow: 0 0 0 3px rgba(139,92,246,0.10); }
+.cfw-lp-badge { display: inline-block; font-size: 10px; font-weight: 700; color: var(--or); background: rgba(139,92,246,0.10); padding: 3px 10px; border-radius: 999px; margin-bottom: 10px; }
+.cfw-lp-badge-plus { color: #5b21b6; background: rgba(91,33,182,0.10); }
+.cfw-lp-title { font-size: 15px; font-weight: 800; margin: 0 0 5px; color: var(--encre); }
+.cfw-lp-desc { font-size: 12px; color: var(--plomb); margin: 0; line-height: 1.5; }
+.cfw-lp-sel { font-size: 11px; font-weight: 700; color: var(--or); margin-top: 10px; }
+.cfw-lp-have {
+  display: flex; align-items: center; gap: 10px;
+  padding: 13px 16px; background: var(--ivoire); border: 2px solid var(--sable);
+  border-radius: 12px; cursor: pointer; font-weight: 600; font-size: 14px;
+  color: var(--graphite); transition: border-color 0.18s; user-select: none;
+}
+.cfw-lp-have:hover { border-color: var(--or-clair); }
+.cfw-lp-have.active { border-color: var(--or); background: var(--or-voile); }
+.cfw-lp-have-box {
+  width: 20px; height: 20px; flex-shrink: 0;
+  border: 2px solid var(--sable-fonce); border-radius: 5px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; color: var(--or); transition: all 0.18s;
+}
+.cfw-lp-have.active .cfw-lp-have-box { background: var(--or); border-color: var(--or); color: #fff; }
+
+.cfw-next { width: 100%; justify-content: center; margin-top: 20px; font-size: 15px; }
+.cfw-next.cfw-disabled { opacity: 0.38; cursor: default; }
+.cfw-select { width: 100%; }
+
+.cfw-success { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 64px 24px; max-width: 480px; margin: 0 auto; }
+.cfw-success-ico { width: 64px; height: 64px; border-radius: 50%; background: var(--or); color: #fff; font-size: 28px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; }
+.cfw-success h3 { font-size: 28px; margin: 0 0 12px; }
+.cfw-success p { font-size: 16px; color: var(--plomb); margin: 0; }
+
+@media (max-width: 600px) {
+  .cfw-lp-cards { grid-template-columns: 1fr; }
+  .cfw-panel { padding: 20px 16px; }
+  .cfw-step-name { display: none; }
+}
+
 /* ----------  Footer  ---------- */
 .footer { padding: 64px 0 48px; border-top: 1px solid var(--sable); background: var(--ivoire); }
 .footer-grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: 48px; }

@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Manrope:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&family=JetBrains+Mono:wght@400;500&display=swap">
 
   <link rel="stylesheet" href="landing/colors_and_type.css?v=87">
-  <link rel="stylesheet" href="landing/landing.css?v=96">
+  <link rel="stylesheet" href="landing/landing.css?v=97">
   <link rel="stylesheet" href="landing/landing-b.css?v=94">
   <link rel="stylesheet" href="landing/landing-layouts.css?v=87">
   <link rel="stylesheet" href="landing/landing-hero-wow.css?v=87">
@@ -1033,38 +1033,48 @@
         </svg>
       );
     }
-    function Callback({simData, lpChoice}) {
-      const [form, setForm] = React.useState({prenom:'', telephone:'', email:'', lancement:''});
+    function Callback({simData}) {
+      const [step, setStep] = React.useState(1);
+      const [selClients, setSelClients] = React.useState(null);
+      const [selAbo, setSelAbo] = React.useState(null);
+      const [lpFormChoice, setLpFormChoice] = React.useState(null);
+      const [lancement, setLancement] = React.useState('');
+      const [form, setForm] = React.useState({prenom:'', telephone:'', email:''});
       const [status, setStatus] = React.useState('idle');
-      const update = k => e => setForm(f => ({...f, [k]: e.target.value}));
-      const fmtN = n => n != null ? Math.round(n) + ' €' : '—';
-      const lpLabel = lpChoice === 'need' ? "J'ai besoin d'une landing page" : lpChoice === 'have' ? "J'ai déjà une landing page" : null;
+
+      const spec = (simData && simData.spec) || '';
+      const isMariage = spec === 'Mariage';
+      const targets = isMariage ? [2, 5, 10, 20] : [10, 20, 30, 40, 50, 60];
+      const aboFixe = isMariage
+        ? {2:390, 5:490, 10:640, 20:990}
+        : {10:390, 20:490, 30:570, 40:650, 50:720, 60:790};
+      const miniCards = targets.map(n => ({clients:n, abo:aboFixe[n]}));
+
+      const update = k => e => setForm(f => ({...f, [k]:e.target.value}));
 
       const submit = async e => {
         e.preventDefault();
         setStatus('sending');
         const sim = simData || {};
+        const lpLabel = lpFormChoice === 'decouverte' ? 'Landing page Découverte'
+          : lpFormChoice === 'complete' ? 'Landing page Complète'
+          : lpFormChoice === 'have' ? 'Possède déjà une landing page'
+          : '—';
         try {
           const res = await fetch('https://api.web3forms.com/submit', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
+            method:'POST', headers:{'Content-Type':'application/json'},
             body: JSON.stringify({
               access_key: '8ff579b2-c217-4683-95bf-49ccd0b57c4d',
-              subject: `Demande de devis — ${form.prenom} (${sim.spec||'?'}, ${sim.pub||'?'}€ pub)`,
+              subject: `Devis — ${form.prenom} (+${selClients||'?'} clients, ${selAbo||'?'}€/mois)`,
               'Prénom': form.prenom,
               'Email': form.email,
               'Téléphone': form.telephone,
-              '— Simulation —': '─────────────',
-              'Prestation': sim.spec || '—',
-              'Panier moyen': sim.cart ? sim.cart + ' €' : '—',
-              'Budget pub': sim.pub ? sim.pub + ' €/mois' : '—',
-              'CA estimé': fmtN(sim.revenue),
-              'Clients estimés': sim.clients ? Math.round(sim.clients) : '—',
-              'Bénéfice estimé': fmtN(sim.benefice),
-              'Abonnement': fmtN(sim.abo),
-              '— Besoins —': '─────────────',
-              'Landing page': lpLabel || '—',
-              'Lancement souhaité': form.lancement || '—',
+              'Clients souhaités': selClients ? '+' + selClients + ' /mois' : '—',
+              'Abonnement mensuel': selAbo ? selAbo + ' €' : '—',
+              'Spécialité (simulateur)': sim.spec || '—',
+              'Budget pub estimé': sim.pub ? sim.pub + ' €/mois' : '—',
+              'Landing page': lpLabel,
+              'Lancement souhaité': lancement || '—',
             })
           });
           const data = await res.json();
@@ -1073,84 +1083,139 @@
         } catch { setStatus('error'); }
       };
 
-      const hasRecap = (simData && simData.pub > 0) || lpChoice;
+      const steps = ['Objectif', 'Landing page', 'Lancement', 'Contact'];
 
       return (
         <section className="section callback" id="rappel">
           <div className="container">
-            <div className="callback-inner">
-              <div>
-                <h2>Demande de devis —<br /><em>sans engagement</em></h2>
-                <p className="lede">Je vous rappelle pour faire le point sur votre activité et vous proposer une offre sur-mesure. Réponse sous 24h.</p>
-                <div className="cb-assur">
-                  <span><Ico n="user" /> Réponse sous <strong>24h</strong></span>
-                  <span><Ico n="video" /> Appel de <strong>30 min</strong></span>
-                  <span><Ico n="shield" /> Aucun <strong>engagement</strong></span>
-                </div>
-              </div>
-              <div className="cb-form">
-                {status === 'success' ? (
-                  <div className="cform-success">
-                    <div className="cform-success-ico">✓</div>
-                    <h3>Demande envoyée&nbsp;!</h3>
-                    <p>Je vous rappelle dans les 24h. À très vite.</p>
-                  </div>
-                ) : (
-                  <form onSubmit={submit} noValidate>
-                    {hasRecap && (
-                      <div className="cform-recap">
-                        {simData && simData.pub > 0 && (
-                          <>
-                            <span className="cform-recap-intro">D'après le simulateur vous souhaitez&nbsp;:</span>
-                            <ul className="cform-recap-list">
-                              <li>Investir <strong>{fmtEUR(simData.pub)}</strong></li>
-                              <li>Obtenir <strong>{simData.clients ? Math.round(simData.clients) : '—'} clients</strong></li>
-                              <li>Gagner <strong>{simData.revenue ? fmtEUR(simData.revenue) : '—'}</strong></li>
-                            </ul>
-                          </>
-                        )}
-                        {lpChoice && (
-                          <>
-                            <span className="cform-recap-intro" style={{marginTop: simData && simData.pub > 0 ? 12 : 0}}>Landing page&nbsp;:</span>
-                            <ul className="cform-recap-list">
-                              {lpChoice === 'need' && <li>Créer une landing page qui convertit</li>}
-                              {lpChoice === 'have' && <li>J'ai déjà une landing page</li>}
-                            </ul>
-                          </>
-                        )}
-                      </div>
-                    )}
-                    <div className="cform-field">
-                      <label className="cform-label">Prénom</label>
-                      <input className="cform-input" type="text" required placeholder="Sophie" value={form.prenom} onChange={update('prenom')} />
-                    </div>
-                    <div className="cform-field">
-                      <label className="cform-label">Téléphone</label>
-                      <input className="cform-input" type="tel" required placeholder="06 12 34 56 78" value={form.telephone} onChange={update('telephone')} />
-                    </div>
-                    <div className="cform-field">
-                      <label className="cform-label">Email</label>
-                      <input className="cform-input" type="email" required placeholder="sophie@studio.fr" value={form.email} onChange={update('email')} />
-                    </div>
-                    <div className="cform-field">
-                      <label className="cform-label">Quand souhaitez-vous lancer vos publicités ?</label>
-                      <select className="cform-input cform-select" value={form.lancement} onChange={update('lancement')}>
-                        <option value="">— Choisissez —</option>
-                        <option value="Dès que possible">Dès que possible</option>
-                        <option value="Dans une semaine">Dans une semaine</option>
-                        <option value="Dans deux semaines">Dans deux semaines</option>
-                        <option value="Autre">Autre</option>
-                      </select>
-                    </div>
-                    {status === 'error' && <p className="cform-error">Une erreur est survenue, réessayez.</p>}
-                    <button className="btn btn-gold cform-submit" type="submit" disabled={status==='sending'}>
-                      {status==='sending' ? 'Envoi…' : 'Envoyer ma demande de devis →'}
-                    </button>
-                    <p className="cform-legal">Coordonnées utilisées uniquement pour vous recontacter.</p>
-                  </form>
-                )}
+            <div className="cfw-head">
+              <h2>Demande de devis — <em>sans engagement</em></h2>
+              <p className="lede">Je vous recontacte sous 24h pour vous proposer une offre sur-mesure.</p>
+              <div className="cb-assur">
+                <span><Ico n="user" /> Réponse sous <strong>24h</strong></span>
+                <span><Ico n="video" /> Appel de <strong>30 min</strong></span>
+                <span><Ico n="shield" /> Aucun <strong>engagement</strong></span>
               </div>
             </div>
+
+            {status === 'success' ? (
+              <div className="cfw-success">
+                <div className="cfw-success-ico">✓</div>
+                <h3>Demande envoyée !</h3>
+                <p>Je vous recontacte le plus vite possible. À très vite !</p>
+              </div>
+            ) : (
+              <div className="cform-wizard">
+                <div className="cfw-progress">
+                  {steps.map((lbl, i) => (
+                    <React.Fragment key={i}>
+                      <div className={"cfw-step-item" + (i+1 === step ? ' active' : '') + (i+1 < step ? ' done' : '')}>
+                        <div className="cfw-dot">{i+1 < step ? '✓' : i+1}</div>
+                        <span className="cfw-step-name">{lbl}</span>
+                      </div>
+                      {i < steps.length - 1 && <div className={"cfw-connector" + (i+1 < step ? ' done' : '')} />}
+                    </React.Fragment>
+                  ))}
+                </div>
+
+                {step === 1 && (
+                  <div className="cfw-panel">
+                    <h3 className="cfw-title">Combien de clients par mois souhaitez-vous ?</h3>
+                    <div className="cfw-cards-scroll">
+                      {miniCards.map(c => (
+                        <div key={c.clients}
+                          className={"cfw-mini-card" + (selClients === c.clients ? ' selected' : '')}
+                          onClick={() => { setSelClients(c.clients); setSelAbo(c.abo); }}>
+                          <span className="cfw-mini-num">+{c.clients}</span>
+                          <span className="cfw-mini-lbl">clients / mois</span>
+                          <span className="cfw-mini-abo">{c.abo}&nbsp;€<span className="cfw-mini-abo-sub">/mois</span></span>
+                          {selClients === c.clients && <span className="cfw-mini-badge">✓</span>}
+                        </div>
+                      ))}
+                    </div>
+                    <button className={"btn btn-primary cfw-next" + (!selClients ? ' cfw-disabled' : '')}
+                      onClick={() => { if (selClients) setStep(2); }}>
+                      Valider mon objectif ↓
+                    </button>
+                  </div>
+                )}
+
+                {step === 2 && (
+                  <div className="cfw-panel">
+                    <h3 className="cfw-title">Avez-vous besoin d'une landing page ?</h3>
+                    <div className="cfw-lp-cards">
+                      <div className={"cfw-lp-card" + (lpFormChoice === 'decouverte' ? ' selected' : '')}
+                        onClick={() => setLpFormChoice('decouverte')}>
+                        <div className="cfw-lp-badge">+30% de conversion en moyenne</div>
+                        <h4 className="cfw-lp-title">Landing page Découverte</h4>
+                        <p className="cfw-lp-desc">Informations principales</p>
+                        {lpFormChoice === 'decouverte' && <div className="cfw-lp-sel">✓ Je souhaite la landing page Découverte</div>}
+                      </div>
+                      <div className={"cfw-lp-card" + (lpFormChoice === 'complete' ? ' selected' : '')}
+                        onClick={() => setLpFormChoice('complete')}>
+                        <div className="cfw-lp-badge cfw-lp-badge-plus">+60% de conversion en moyenne</div>
+                        <h4 className="cfw-lp-title">Landing page Complète</h4>
+                        <p className="cfw-lp-desc">Découverte + tarif affiché + avis clients</p>
+                        {lpFormChoice === 'complete' && <div className="cfw-lp-sel">✓ Je souhaite la landing page Complète</div>}
+                      </div>
+                    </div>
+                    <label className={"cfw-lp-have" + (lpFormChoice === 'have' ? ' active' : '')}
+                      onClick={() => { setLpFormChoice('have'); setTimeout(() => setStep(3), 250); }}>
+                      <span className="cfw-lp-have-box">{lpFormChoice === 'have' ? '✓' : ''}</span>
+                      Je possède déjà ma landing page qui convertit
+                    </label>
+                    {(lpFormChoice === 'decouverte' || lpFormChoice === 'complete') && (
+                      <button className="btn btn-primary cfw-next" onClick={() => setStep(3)}>
+                        Continuer ↓
+                      </button>
+                    )}
+                  </div>
+                )}
+
+                {step === 3 && (
+                  <div className="cfw-panel">
+                    <h3 className="cfw-title">Quand souhaitez-vous lancer vos publicités ?</h3>
+                    <select className="cform-input cform-select cfw-select"
+                      value={lancement} onChange={e => setLancement(e.target.value)}>
+                      <option value="">— Choisissez —</option>
+                      <option value="Dès que possible">Dès que possible</option>
+                      <option value="Dans une semaine">Dans une semaine</option>
+                      <option value="Dans deux semaines">Dans deux semaines</option>
+                      <option value="Autre">Autre</option>
+                    </select>
+                    <button className={"btn btn-primary cfw-next" + (!lancement ? ' cfw-disabled' : '')}
+                      onClick={() => { if (lancement) setStep(4); }}>
+                      Suivant ↓
+                    </button>
+                  </div>
+                )}
+
+                {step === 4 && (
+                  <div className="cfw-panel">
+                    <h3 className="cfw-title">Vos coordonnées</h3>
+                    <form onSubmit={submit} noValidate>
+                      <div className="cform-field">
+                        <label className="cform-label">Prénom</label>
+                        <input className="cform-input" type="text" required placeholder="Sophie" value={form.prenom} onChange={update('prenom')} />
+                      </div>
+                      <div className="cform-field">
+                        <label className="cform-label">Téléphone</label>
+                        <input className="cform-input" type="tel" required placeholder="06 12 34 56 78" value={form.telephone} onChange={update('telephone')} />
+                      </div>
+                      <div className="cform-field">
+                        <label className="cform-label">Email</label>
+                        <input className="cform-input" type="email" required placeholder="sophie@studio.fr" value={form.email} onChange={update('email')} />
+                      </div>
+                      {status === 'error' && <p className="cform-error">Une erreur est survenue, réessayez.</p>}
+                      <button className="btn btn-gold cform-submit" type="submit" disabled={status==='sending'}>
+                        {status==='sending' ? 'Envoi…' : 'Envoyer ma demande de devis ↓'}
+                      </button>
+                      <p className="cform-legal">Je vous recontacte le plus vite possible. À très vite !</p>
+                    </form>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </section>
       );
@@ -1320,7 +1385,7 @@
             <Schema />
             <Simulateur onSimChange={setSimData} onCtaClick={handleCtaClick} />
             <Offre visible={offreVisible} lpChoice={lpChoice} onLpChoice={handleLpChoice} onDevisClick={handleDevisClick} />
-            {devisVisible && <Callback simData={simData} lpChoice={lpChoice} />}
+            {devisVisible && <Callback simData={simData} />}
             <Studio />
             <Avis />
           </main>
