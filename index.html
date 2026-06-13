@@ -1109,7 +1109,9 @@
                 <div className="cfw-progress">
                   {steps.map((lbl, i) => (
                     <React.Fragment key={i}>
-                      <div className={"cfw-step-item" + (i+1 === step ? ' active' : '') + (i+1 < step ? ' done' : '')}>
+                      <div className={"cfw-step-item" + (i+1 === step ? ' active' : '') + (i+1 < step ? ' done' : '')}
+                        style={i+1 < step ? {cursor:'pointer'} : {}}
+                        onClick={() => { if (i+1 < step) setStep(i+1); }}>
                         <div className="cfw-dot">{i+1 < step ? '✓' : i+1}</div>
                         <span className="cfw-step-name">{lbl}</span>
                       </div>
@@ -1170,11 +1172,11 @@
                       </div>
                     </div>
                     <label className={"cfw-lp-have" + (lpFormChoice === 'have' ? ' active' : '')}
-                      onClick={() => { setLpFormChoice('have'); setTimeout(() => setStep(3), 250); }}>
+                      onClick={() => setLpFormChoice(lpFormChoice === 'have' ? null : 'have')}>
                       <span className="cfw-lp-have-box">{lpFormChoice === 'have' ? '✓' : ''}</span>
                       Je possède déjà ma landing page qui convertit
                     </label>
-                    {(lpFormChoice === 'decouverte' || lpFormChoice === 'complete') && (
+                    {lpFormChoice && (
                       <button className="btn btn-primary cfw-next" onClick={() => setStep(3)}>
                         Continuer ↓
                       </button>
