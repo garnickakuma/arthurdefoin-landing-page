@@ -265,50 +265,42 @@
     .lp-pins .lp-poster__eyebrow::before{display:none}
 
     /* ── OFFER ───────────────────────────────────────────────── */
-    .lp-offer{background:var(--sage-900);padding:var(--space-16) var(--space-6) var(--space-12);
-      text-align:center;overflow:hidden}
-    .lp-offer__head{max-width:46rem;margin:0 auto var(--space-12);
+    .lp-offer{background:var(--bg-page);padding:var(--space-16) var(--space-6) var(--space-12);
+      text-align:center}
+    .lp-offer__head{max-width:46rem;margin:0 auto var(--space-10);
       display:flex;flex-direction:column;align-items:center;gap:var(--space-3)}
-    .lp-offer__head .al-eyebrow{color:var(--sage-300)}
-    .lp-offer__title{font-size:clamp(1.9rem,4vw,var(--text-2xl));margin:0;color:#fff;font-weight:var(--fw-light)}
+    .lp-offer__title{font-size:clamp(1.9rem,4vw,var(--text-2xl));margin:0}
     .lp-offer__cta{margin-top:var(--space-10)}
 
-    /* process grid */
-    .lp-process{list-style:none;margin:0 auto;padding:0;max-width:var(--container-xl);
-      display:grid;grid-template-columns:repeat(3,1fr);position:relative}
-    /* connecting line between dots */
-    .lp-process::before{content:'';position:absolute;top:6rem;left:calc(100%/6);right:calc(100%/6);
-      height:1px;background:rgba(255,255,255,.12)}
-    .lp-process__item{display:flex;flex-direction:column;align-items:center;
-      text-align:center;padding:0 var(--space-6) var(--space-6);position:relative}
-    /* ghost number in bg */
-    .lp-process__ghost{font-family:var(--font-display);font-style:italic;font-weight:var(--fw-light);
-      font-size:clamp(5rem,9vw,9rem);line-height:1;color:rgba(255,255,255,.04);
-      position:absolute;top:-1.2rem;left:50%;transform:translateX(-50%);
-      pointer-events:none;user-select:none;white-space:nowrap}
-    /* dot marker */
-    .lp-process__dot{width:11px;height:11px;border-radius:50%;background:var(--sage-400);
-      border:2px solid var(--sage-900);outline:1px solid var(--sage-600);
-      margin-bottom:var(--space-7);position:relative;z-index:1}
-    /* polaroid photo */
-    .lp-process__polaroid{width:clamp(120px,14vw,170px);aspect-ratio:3/4;
-      background:#fff;padding:6px 6px 22px;border-radius:2px;
-      box-shadow:0 12px 40px rgba(0,0,0,.45);margin-bottom:var(--space-7)}
-    .lp-process__item:nth-child(1) .lp-process__polaroid{transform:rotate(-3deg)}
-    .lp-process__item:nth-child(2) .lp-process__polaroid{transform:rotate(2.5deg)}
-    .lp-process__item:nth-child(3) .lp-process__polaroid{transform:rotate(-1.5deg)}
-    .lp-process__polaroid img{width:100%;height:100%;object-fit:cover;display:block}
-    /* step number badge */
-    .lp-process__n{font-family:var(--font-body);font-size:var(--text-xs);font-weight:var(--fw-semibold);
-      letter-spacing:.22em;text-transform:uppercase;color:var(--sage-400);
-      margin-bottom:var(--space-2)}
-    /* title */
-    .lp-process__title{font-family:var(--font-display);font-weight:var(--fw-light);
-      font-size:clamp(1.2rem,2.2vw,1.7rem);line-height:1.15;color:#fff;
-      margin:0 0 var(--space-3)}
-    /* desc */
-    .lp-process__desc{font-size:var(--text-sm);color:rgba(255,255,255,.55);
-      line-height:var(--lh-relaxed);margin:0;max-width:22ch}
+    /* flow éditorial */
+    .lp-flow{display:grid;grid-template-columns:1fr 48px 1fr 48px 1fr;
+      align-items:start;max-width:var(--container-xl);margin:0 auto;padding:0}
+    .lp-flow__sep{display:flex;align-items:center;justify-content:center;
+      padding-top:5.5rem;color:var(--sage-200);font-size:1.6rem;line-height:1;
+      pointer-events:none;user-select:none}
+    .lp-flow__item{display:flex;flex-direction:column;align-items:center;
+      text-align:center;padding:0 var(--space-4)}
+    /* grand numéro décoratif */
+    .lp-flow__num{font-family:var(--font-display);font-style:italic;font-weight:var(--fw-light);
+      font-size:clamp(5rem,9vw,8.5rem);line-height:1;letter-spacing:-.02em;
+      color:var(--sage-100);margin-bottom:var(--space-3);user-select:none}
+    /* icône */
+    .lp-flow__icon{width:54px;height:54px;border-radius:50%;
+      background:var(--bg-raised);border:1.5px solid var(--sage-200);
+      display:inline-flex;align-items:center;justify-content:center;
+      color:var(--sage-700);font-size:20px;
+      box-shadow:var(--shadow-xs);margin-bottom:var(--space-5)}
+    /* label étape */
+    .lp-flow__tag{font-family:var(--font-body);font-size:var(--text-xs);
+      font-weight:var(--fw-semibold);letter-spacing:.22em;text-transform:uppercase;
+      color:var(--sage-400);margin-bottom:var(--space-2)}
+    /* titre */
+    .lp-flow__title{font-family:var(--font-display);font-weight:var(--fw-light);
+      font-size:clamp(1.25rem,2.2vw,1.7rem);line-height:1.15;
+      color:var(--ink-900);margin:0 0 var(--space-3)}
+    /* description */
+    .lp-flow__desc{font-size:var(--text-sm);color:var(--text-muted);
+      line-height:var(--lh-relaxed);margin:0;max-width:24ch}
 
     /* ── PRESTATIONS ─────────────────────────────────────────── */
     .lp-prest{max-width:var(--container-xl);margin-inline:auto;padding:var(--space-12) var(--space-6)}
@@ -721,9 +713,8 @@
     /* ── RESPONSIVE ──────────────────────────────────────────── */
     @media(max-width:960px){
       .lp-header__nav{display:none}
-      .lp-process{grid-template-columns:1fr;gap:var(--space-8)}
-      .lp-process::before{display:none}
-      .lp-process__ghost{font-size:6rem}
+      .lp-flow{grid-template-columns:1fr;gap:0}
+      .lp-flow__sep{padding-top:0;padding-bottom:var(--space-2);transform:rotate(90deg)}
       .lp-prest__grid{grid-template-columns:repeat(2,1fr)}
       .lp-formules{grid-template-columns:1fr}
       .lp-about{grid-template-columns:1fr}
@@ -994,32 +985,32 @@
     /* ── OFFER ──────────────────────────────────────────────────── */
     function OfferSection({ onBook }) {
       const steps = [
-        { n:'01', img:'assets/images/s09.jpg', t:'Vous réservez', d:'Choisissez votre formule et réglez en ligne, en quelques clics.' },
-        { n:'02', img:'assets/images/s08.jpg', t:'On se retrouve', d:'Une séance douce, à votre rythme. Les vrais moments, sans pression.' },
-        { n:'03', img:'assets/images/s17.jpg', t:'Vos photos, sous 48 h', d:'Votre galerie privée. Images retouchées, prêtes à encadrer.' },
+        { n:'01', icon:<Icons.Calendar />, t:'Vous réservez', d:'Choisissez votre formule et réglez en ligne, en quelques clics.' },
+        { n:'02', icon:<Icons.Camera />,   t:'On se retrouve', d:'Une séance douce, à votre rythme. Les vrais moments, sans pression.' },
+        { n:'03', icon:<Icons.Heart />,    t:'Vos photos, 48 h', d:'Votre galerie privée. Images retouchées, prêtes à encadrer.' },
       ];
       return (
         <section className="lp-offer" id="offre">
           <div className="lp-offer__head">
             <span className="al-eyebrow">Comment ça marche</span>
-            <h2 className="lp-offer__title">Réservez, on photographie,<br />vous choisissez vos images.</h2>
+            <h2 className="lp-offer__title">Réservez, on photographie, vous choisissez vos images.</h2>
           </div>
-          <ol className="lp-process">
-            {steps.map(s => (
-              <li key={s.n} className="lp-process__item">
-                <span className="lp-process__ghost">{s.n}</span>
-                <div className="lp-process__dot" />
-                <div className="lp-process__polaroid">
-                  <img src={s.img} alt="" loading="lazy" />
+          <div className="lp-flow" role="list">
+            {steps.map((s, i) => (
+              <React.Fragment key={s.n}>
+                {i > 0 && <div className="lp-flow__sep" aria-hidden="true">→</div>}
+                <div className="lp-flow__item" role="listitem">
+                  <span className="lp-flow__num">{s.n}</span>
+                  <span className="lp-flow__icon">{s.icon}</span>
+                  <span className="lp-flow__tag">Étape {s.n}</span>
+                  <h3 className="lp-flow__title">{s.t}</h3>
+                  <p className="lp-flow__desc">{s.d}</p>
                 </div>
-                <span className="lp-process__n">{s.n}</span>
-                <h3 className="lp-process__title">{s.t}</h3>
-                <p className="lp-process__desc">{s.d}</p>
-              </li>
+              </React.Fragment>
             ))}
-          </ol>
+          </div>
           <div className="lp-offer__cta">
-            <Button variant="on-photo" size="lg" iconRight={<Icons.Arrow />} onClick={onBook}>
+            <Button variant="primary" size="lg" iconRight={<Icons.Arrow />} onClick={onBook}>
               Réserver un créneau
             </Button>
           </div>
