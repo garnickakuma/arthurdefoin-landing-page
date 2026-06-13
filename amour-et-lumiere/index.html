@@ -456,52 +456,6 @@
       font-size:var(--text-base);color:var(--ink-900)}
     .lp-review__meta{font-family:var(--font-body);font-size:var(--text-sm);color:var(--text-muted)}
 
-    /* ── ADRESSE STUDIO ────────────────────────────────────────── */
-    function StudioAddressSection() {
-      return (
-        <section className="lp-addr" id="adresse">
-          <div className="lp-addr__inner">
-            <div>
-              <span className="al-eyebrow">Nous trouver</span>
-              <h2 className="lp-addr__title">Le studio, à Bègles</h2>
-              <div className="lp-addr__rows">
-                <div className="lp-addr__row">
-                  <span className="lp-addr__row-icon"><Icons.Pin /></span>
-                  <div className="lp-addr__row-body">
-                    <strong>Adresse</strong>
-                    <p>2 Allée André Joseph Sire<br />33130 Bègles</p>
-                  </div>
-                </div>
-                <div className="lp-addr__row">
-                  <span className="lp-addr__row-icon"><Icons.Calendar /></span>
-                  <div className="lp-addr__row-body">
-                    <strong>Uniquement sur rendez-vous</strong>
-                    <p>Réservez votre créneau en ligne — on vous confirme la date par email.</p>
-                  </div>
-                </div>
-                <div className="lp-addr__row">
-                  <span className="lp-addr__row-icon"><Icons.Camera /></span>
-                  <div className="lp-addr__row-body">
-                    <strong>À proximité</strong>
-                    <p>Tram B — arrêt Terres Neuves · parking gratuit allée André Joseph Sire</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="lp-addr__map">
-              <iframe
-                src="https://maps.google.com/maps?q=2+All%C3%A9e+Andr%C3%A9+Joseph+Sire+33130+B%C3%A8gles&output=embed&z=16"
-                title="Amour et Lumière — Studio photo à Bègles"
-                allowFullScreen
-                loading="lazy"
-                style={{width:'100%',height:'100%',border:0,display:'block'}}
-              />
-            </div>
-          </div>
-        </section>
-      );
-    }
-
     /* ── BOOKING BAND ────────────────────────────────────────── */
     .lp-book{position:relative;overflow:hidden}
     .lp-book__media{position:absolute;inset:0}
@@ -1211,6 +1165,52 @@
               <Badge tone="brand" icon={<Icons.Camera />}>Studio &amp; extérieur</Badge>
               <Badge tone="brand" icon={<Icons.Heart />}>Sans pression</Badge>
               <Badge tone="brand" icon={<Icons.Star />}>Photos intemporelles</Badge>
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    /* ── ADRESSE STUDIO ────────────────────────────────────────── */
+    function StudioAddressSection() {
+      return (
+        <section className="lp-addr" id="adresse">
+          <div className="lp-addr__inner">
+            <div>
+              <span className="al-eyebrow">Nous trouver</span>
+              <h2 className="lp-addr__title">Le studio, à Bègles</h2>
+              <div className="lp-addr__rows">
+                <div className="lp-addr__row">
+                  <span className="lp-addr__row-icon"><Icons.Pin /></span>
+                  <div className="lp-addr__row-body">
+                    <strong>Adresse</strong>
+                    <p>2 Allée André Joseph Sire<br />33130 Bègles</p>
+                  </div>
+                </div>
+                <div className="lp-addr__row">
+                  <span className="lp-addr__row-icon"><Icons.Calendar /></span>
+                  <div className="lp-addr__row-body">
+                    <strong>Uniquement sur rendez-vous</strong>
+                    <p>Réservez votre créneau en ligne — on vous confirme la date par email.</p>
+                  </div>
+                </div>
+                <div className="lp-addr__row">
+                  <span className="lp-addr__row-icon"><Icons.Camera /></span>
+                  <div className="lp-addr__row-body">
+                    <strong>À proximité</strong>
+                    <p>Tram B — arrêt Terres Neuves · parking gratuit allée André Joseph Sire</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="lp-addr__map">
+              <iframe
+                src="https://maps.google.com/maps?q=2+All%C3%A9e+Andr%C3%A9+Joseph+Sire+33130+B%C3%A8gles&output=embed&z=16"
+                title="Amour et Lumière — Studio photo à Bègles"
+                allowFullScreen
+                loading="lazy"
+                style={{width:'100%',height:'100%',border:0,display:'block'}}
+              />
             </div>
           </div>
         </section>
