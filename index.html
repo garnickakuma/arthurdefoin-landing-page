@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="landing/landing-b.css?v=87">
   <link rel="stylesheet" href="landing/landing-layouts.css?v=87">
   <link rel="stylesheet" href="landing/landing-hero-wow.css?v=87">
-  <link rel="stylesheet" href="landing/landing-schema.css?v=89">
+  <link rel="stylesheet" href="landing/landing-schema.css?v=90">
 
   <!-- Meta Pixel -->
   <script>
@@ -226,6 +226,19 @@
 
     // ─── Schema ───────────────────────────────────────────────────────────────
     function Schema() {
+      React.useEffect(() => {
+        const cards = ['.meca-c1','.meca-c2','.meca-c3'].map(s => document.querySelector(s));
+        let i = 0;
+        cards[0].classList.add('meca-active');
+        const id = setInterval(() => {
+          cards[i].classList.remove('meca-active');
+          i = (i + 1) % 3;
+          void cards[i].offsetWidth; // force reflow pour redémarrer l'animation
+          cards[i].classList.add('meca-active');
+        }, 3000);
+        return () => clearInterval(id);
+      }, []);
+
       return (
         <section className="section schema" id="mecanisme">
           <div className="container">
