@@ -92,7 +92,7 @@ h1 em, h2 em, h3 em, .hero h1 em, .display em {
 .studio { background: var(--peche); }
 .preuves { background: var(--bleu); }
 #simulateur { background: var(--lavande); }
-.callback { background: var(--peche); }
+.callback { background: var(--blanc); }
 .footer { background: var(--ivoire); border-top: 1px solid var(--sable); }
 
 /* ----------  Nav → floating rounded pill  ---------- */
