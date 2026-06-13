@@ -89,7 +89,7 @@ h1 em, h2 em, h3 em, .hero h1 em, .display em {
     var(--ivoire);
 }
 #benefices { background: var(--ivoire); }
-.studio { background: var(--peche); }
+.studio { background: var(--blanc); }
 .preuves { background: var(--bleu); }
 #simulateur { background: var(--lavande); }
 .callback { background: var(--blanc); }

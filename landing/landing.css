@@ -1083,6 +1083,7 @@ image-slot { display: block; background: var(--ivoire-2); }
   background-clip: text;
   line-height: 0.95;
   letter-spacing: -0.04em;
+  padding-right: 0.06em;
   font-variant-numeric: lining-nums tabular-nums;
 }
 /* tailles ghost déplacées vers .stc-inactive (voir ci-dessous) */
