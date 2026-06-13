@@ -1,0 +1,230 @@
+/* ============================================================
+   DA "Bordeaux & Crème" — French luxury, Hermès, Cartier
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&display=swap');
+
+:root {
+  /* Surfaces — crème chaud, peau de veau */
+  --ivoire:      #FDF9F5;
+  --ivoire-2:    #F8F2EC;
+  --porcelaine:  #FFFFFF;
+  --blanc:       #FFFFFF;
+
+  --sable:       #EBE0D6;
+  --sable-fonce: #D9CCBF;
+
+  /* Text — brun charbon chaud */
+  --encre:    #1E1510;
+  --graphite: #3A2B22;
+  --plomb:    #7A6358;
+  --pierre:   #A8968A;
+  --brume:    #C8BAB0;
+
+  /* Accent — bordeaux profond, vin vieux */
+  --or:        #7B1D2E;
+  --or-clair:  #9E2D42;
+  --or-sombre: #550F1E;
+  --or-voile:  #F5E8EB;
+
+  /* Bandes — crèmes chaudes et rosées très douces */
+  --lavande:   #F4EBE8;
+  --peche:     #F8F0EA;
+  --bleu:      #EEF0F5;
+  --menthe:    #EDF2EC;
+
+  --r-sm:  8px;
+  --r-md:  16px;
+  --r-lg:  22px;
+
+  --shadow-fine:  0 1px 0 rgba(30,21,16,0.04);
+  --shadow-card:  0 8px 30px -10px rgba(123,29,46,0.10);
+  --shadow-lift:  0 18px 50px -18px rgba(123,29,46,0.16);
+  --shadow-modal: 0 30px 80px -24px rgba(123,29,46,0.22);
+}
+
+/* ----------  Typographie ---------- */
+body, p, .lede, p.lede, .eyebrow, small, .small, input, select, button, .btn {
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+}
+h1, h2, h3, h4, .display,
+.hero h1, .nav-brand .name, .footer-brand .name, .sim h3, .plan-name {
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif !important;
+  font-weight: 800 !important;
+  font-style: normal !important;
+  letter-spacing: -0.028em;
+}
+h1 em, h2 em, h3 em, .hero h1 em, .display em {
+  font-style: normal !important;
+  font-weight: 800 !important;
+  color: var(--or) !important;
+}
+.eyebrow { font-weight: 700; }
+.eyebrow .num { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; }
+
+.hero-meta .num, .studio-stats .stat .num, .result-card .r-num,
+.sim-field-val, .res-volume .rv-num, .sim-result .res-num, .sim-row .v, .ss2-val,
+.plan-price {
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  font-weight: 800 !important;
+  font-style: normal !important;
+}
+.hero-meta .num em, .studio-stats .stat .num em, .result-card .r-num em,
+.sim-field-val em, .sim-result .res-num em, .sim-row .v em {
+  font-style: normal !important; color: var(--or) !important; font-weight: 800 !important;
+}
+
+/* ----------  Sections ---------- */
+.section + .section { border-top: 0; }
+.section { padding: 104px 0; }
+
+.hero {
+  background:
+    radial-gradient(60% 70% at 70% 22%, #F4EBE8 0%, rgba(244,235,232,0) 70%),
+    radial-gradient(50% 60% at 12% 80%, #F8F0EA 0%, rgba(248,240,234,0) 70%),
+    var(--ivoire);
+}
+#benefices  { background: var(--ivoire); }
+.studio     { background: var(--blanc); }
+.preuves    { background: var(--bleu); }
+#simulateur { background: var(--lavande); }
+.callback   { background: var(--blanc); }
+.footer     { background: var(--ivoire-2); border-top: 1px solid var(--sable); }
+
+/* ----------  Nav ---------- */
+.nav { padding: 16px 0; }
+.nav .container { padding: 0 28px; }
+.nav-inner {
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--sable);
+  border-radius: var(--r-pill);
+  padding: 12px 14px 12px 26px;
+  box-shadow: var(--shadow-card);
+}
+.nav.scrolled { background: transparent; backdrop-filter: none; border-bottom-color: transparent; }
+.nav-brand { align-items: center; gap: 12px; }
+.nav-logo { height: 38px; width: auto; display: block; }
+.nav-brand .brand-text { display: flex; flex-direction: column; gap: 6px; line-height: 1.1; }
+.nav-brand .name { font-size: 19px; }
+.nav-brand .tag { color: var(--or); }
+.nav-links a { font-weight: 600; border-bottom: 0; }
+.nav-links a:hover { color: var(--or); border-bottom: 0; }
+.nav-link-sim { color: var(--or) !important; font-weight: 700 !important; }
+.nav-cta { border-radius: var(--r-pill); background: var(--or); padding: 12px 22px; font-weight: 700; color: #fff; }
+.nav-cta:hover { background: var(--or-sombre); }
+
+/* ----------  Nav responsive ---------- */
+.nav-inner { position: relative; }
+.nav-burger {
+  display: none; align-items: center; justify-content: center;
+  width: 44px; height: 44px; border: 0; background: transparent;
+  color: var(--encre); cursor: pointer; border-radius: var(--r-sm);
+}
+.nav-burger svg { width: 24px; height: 24px; }
+.nav-cta-mobile { display: none; }
+
+@media (max-width: 920px) {
+  .nav-cta-desktop { display: none; }
+  .nav-burger { display: inline-flex; }
+  .nav-brand { flex: 1; justify-content: center; }
+  .nav-brand .name { font-size: 17px; }
+  .nav-logo { height: 32px; }
+  .nav-links {
+    position: absolute; top: calc(100% + 10px); left: 0; right: 0;
+    flex-direction: column; align-items: stretch; gap: 0;
+    background: rgba(255,255,255,0.97);
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--sable); border-radius: var(--r-md);
+    box-shadow: var(--shadow-lift); padding: 6px 22px 20px;
+    display: none;
+  }
+  .nav.menu-open .nav-links { display: flex; }
+  .nav-links a { font-size: 16px; padding: 15px 2px; border-bottom: 1px solid var(--sable); }
+  .nav-links a:last-of-type { border-bottom: 0; }
+  .nav-cta-mobile { display: inline-flex; justify-content: center; margin-top: 16px; }
+}
+
+/* ----------  Boutons ---------- */
+.btn { border-radius: var(--r-pill); font-weight: 700; padding: 16px 28px; }
+.btn .arrow { font-family: inherit; font-style: normal; }
+.btn-primary { background: var(--or); color: #fff; }
+.btn-primary:hover { background: var(--or-sombre); }
+.btn-gold { background: var(--or); color: #fff; }
+.btn-gold:hover { background: var(--or-sombre); }
+.btn-link { border-radius: 0; border-bottom: 2px solid var(--or); color: var(--encre); font-weight: 700; }
+.btn-ghost { border-radius: var(--r-pill); border-color: var(--sable-fonce); }
+.eyebrow .rule { background: var(--or); }
+
+/* ----------  Hero ---------- */
+.hero h1 .small-lead, .callback h2 .small-lead {
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif !important;
+  color: var(--graphite); font-weight: 800; font-style: normal;
+}
+.hero-portrait { border-radius: var(--r-lg); border: 0; box-shadow: var(--shadow-lift); overflow: hidden; }
+.hero-portrait image-slot, .hero-portrait .ph { border-radius: var(--r-lg); }
+.hero-meta { border-top: 1px solid var(--sable); }
+.trust-strip strong { color: var(--or); }
+
+/* ----------  Studio ---------- */
+.studio-gallery image-slot { border-radius: var(--r-md); box-shadow: var(--shadow-card); overflow: hidden; }
+.studio-stats { border-top: 1px solid rgba(123,29,46,0.12); }
+.studio-sign { font-family: 'Plus Jakarta Sans', sans-serif; font-style: normal; font-weight: 500; color: var(--graphite); }
+.studio-sign strong { color: var(--or); font-weight: 700; }
+
+/* ----------  Bénéfices ---------- */
+.benefice { border: 0; border-radius: var(--r-md); box-shadow: var(--shadow-card); padding: 40px 34px; }
+.benefice:nth-child(1) { background: var(--lavande); }
+.benefice:nth-child(2) { background: var(--peche); }
+.benefice:nth-child(3) { background: var(--bleu); }
+.benefice .b-num { font-family: 'Plus Jakarta Sans', sans-serif; font-style: normal; font-weight: 800; color: var(--or); }
+.benefice .b-ico { color: var(--or); }
+.benefice .b-list { border-top: 1px solid rgba(30,21,16,0.08); }
+.benefice .b-list li svg { color: var(--or); }
+.benefice .b-tag { color: var(--plomb); font-weight: 600; }
+
+/* ----------  Résultats ---------- */
+.result-card { border: 0; border-radius: var(--r-md); box-shadow: var(--shadow-card); }
+.result-card .r-meta { color: var(--or); font-weight: 700; }
+.testimonial { border: 0; border-radius: var(--r-md); box-shadow: var(--shadow-card); }
+.testimonial blockquote { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 600; font-style: normal; line-height: 1.5; }
+.testimonial blockquote em { color: var(--or); font-style: normal; font-weight: 700; }
+.testimonial .t-author image-slot { border-radius: 50%; box-shadow: var(--shadow-fine); overflow: hidden; }
+
+/* ----------  Simulateur ---------- */
+.sim { border: 0; border-radius: var(--r-lg); box-shadow: var(--shadow-lift); }
+.sim-controls { border-right: 1px solid var(--sable); background: var(--porcelaine); }
+.sim-result { background: linear-gradient(180deg, #fff 0%, var(--lavande) 100%); }
+.sim-chip { border-radius: var(--r-pill); border-color: var(--sable-fonce); font-weight: 600; }
+.sim-chip.active { background: var(--or); border-color: var(--or); color: #fff; }
+.sim-chip:hover { border-color: var(--or); }
+.sim-seg { border-radius: var(--r-pill); border-color: var(--sable-fonce); overflow: hidden; }
+.sim-seg button { font-weight: 700; }
+.sim-seg button.active { background: var(--or); color: #fff; }
+.sim-seg button + button { border-left-color: var(--sable-fonce); }
+.sim-input { border-radius: 14px; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; }
+.sim-input:focus { border-color: var(--or); box-shadow: 0 0 0 4px var(--or-voile); }
+.sim-input-suffix { font-family: 'Plus Jakarta Sans', sans-serif; font-style: normal; font-weight: 600; }
+.sim-fill { background: var(--or); }
+.sim-thumb { border-color: var(--or); }
+.sim-track { background: var(--sable-fonce); }
+.res-eyebrow, .sim-result .res-eyebrow { color: var(--or) !important; font-weight: 700; }
+.res-volume .rv-lbl { color: var(--plomb); }
+.sim-breakdown { border-top: 1px solid rgba(30,21,16,0.08); }
+.sim-foot { border-top: 1px solid rgba(30,21,16,0.08); }
+.sim-cta-wrap .btn { border-radius: var(--r-pill); }
+
+/* ----------  Formulaire ---------- */
+.cb-form { border: 0; border-radius: var(--r-md); box-shadow: var(--shadow-lift); }
+.cb-field input, .cb-field select { border-radius: 12px; background: var(--ivoire); }
+.cb-field input:focus, .cb-field select:focus { border-color: var(--or); box-shadow: 0 0 0 4px var(--or-voile); }
+.callback h2 .small-lead { color: var(--graphite); font-weight: 800; }
+
+/* ----------  Side rail & footer ---------- */
+.side-rail a.active { color: var(--or); }
+.side-rail a.active::before { background: var(--or); }
+.footer a:hover { color: var(--or); }
+.footer-brand-lockup { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; margin-bottom: 16px; }
+.footer-logo { height: 46px; width: auto; display: block; }
+.footer-brand-lockup .name { white-space: nowrap; }
+::selection { background: var(--or-voile); color: var(--encre); }
