@@ -1278,6 +1278,7 @@ image-slot { display: block; background: var(--ivoire-2); }
 }
 
 .sim-cta-wrap { margin-top: 8px; }
+.offre-devis-wrap { margin-top: 32px; text-align: center; display: flex; justify-content: center; }
 
 /* ── Case à cocher CTA simulateur ── */
 .sim-cta-check {
