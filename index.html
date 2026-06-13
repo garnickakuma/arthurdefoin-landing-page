@@ -630,28 +630,33 @@
         if (onSimChange) onSimChange({ spec, cart, pub: cur.pub, clients: cur.clients, revenue: cur.revenue, abo: cur.abo, volume: cur.pub / CPL, benefice: cur.revenue - cur.pub });
       }, [spec, cart, cardIdx]);
 
-      // Hint swipe : nudge la première carte vers la gauche au premier affichage
+      // Hint swipe : 2 nudges rapides si le visiteur n'interagit pas
       React.useEffect(() => {
         const section = document.getElementById('simulateur');
         if (!section) return;
         const obs = new IntersectionObserver(([entry]) => {
           if (entry.isIntersecting && !hintedRef.current) {
             obs.disconnect();
-            setTimeout(() => {
+            const playHint = (cb) => {
               if (hintedRef.current) return;
-              hintedRef.current = true;
               setIsHinting(true);
-              const duration = 900;
-              const maxShift = -34;
+              const duration = 650;
+              const maxShift = -32;
               let start = null;
               const tick = (ts) => {
+                if (hintedRef.current) { setDragX(0); setIsHinting(false); return; }
                 if (!start) start = ts;
                 const t = Math.min((ts - start) / duration, 1);
                 setDragX(Math.sin(t * Math.PI) * maxShift);
                 if (t < 1) requestAnimationFrame(tick);
-                else { setDragX(0); setIsHinting(false); }
+                else { setDragX(0); setIsHinting(false); if (cb) cb(); }
               };
               requestAnimationFrame(tick);
+            };
+            setTimeout(() => {
+              playHint(() => {
+                setTimeout(() => { playHint(null); }, 2800);
+              });
             }, 1800);
           }
         }, { threshold: 0.5 });
