@@ -324,7 +324,7 @@
       transition:border-color var(--dur-base) var(--ease-soft),
       box-shadow var(--dur-base) var(--ease-soft),transform var(--dur-fast) var(--ease-soft)}
     .lp-formule:hover{border-color:var(--sage-300);box-shadow:var(--shadow-md);transform:translateY(-2px)}
-    .lp-formule__photo{width:clamp(110px,18%,160px);flex:none;overflow:hidden}
+    .lp-formule__photo{width:clamp(110px,18%,160px);aspect-ratio:1/1;flex:none;overflow:hidden;border-radius:calc(var(--radius-xl) - 1.5px) 0 0 calc(var(--radius-xl) - 1.5px)}
     .lp-formule__photo img{width:100%;height:100%;object-fit:cover;
       transition:transform var(--dur-photo) var(--ease-soft)}
     .lp-formule:hover .lp-formule__photo img{transform:scale(1.06)}
@@ -1080,12 +1080,12 @@
 
       const FORMULES = {
         studio: {
-          icon:<Icons.Camera />, img:'assets/images/s08.jpg', name:'En studio', sub:'À Bègles, dans notre lumière',
+          icon:<Icons.Camera />, img:'assets/images/formule-studio.jpg', name:'En studio', sub:'À Bègles, dans notre lumière',
           from:'dès 49 €', packs:PACKS_STUDIO,
           fine:'Séance dans notre studio à Bègles, lumière maîtrisée au flash — douce et flatteuse. Photos retouchées livrées sous 48 h via une galerie privée.',
         },
         exterieur: {
-          icon:<Icons.Sun />, img:'assets/images/e07.jpg', name:'En extérieur', sub:'Sur le lieu de votre choix',
+          icon:<Icons.Sun />, img:'assets/images/formule-exterieur.jpg', name:'En extérieur', sub:'Sur le lieu de votre choix',
           from:'dès 99 €', packs:PACKS_EXTERIEUR,
           fine:'Séance en extérieur autour de Bordeaux, en pleine lumière naturelle (déplacement compris). Photos retouchées livrées sous 48 h.',
         },
