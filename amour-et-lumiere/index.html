@@ -783,12 +783,12 @@
 
     /* ── DATA ─────────────────────────────────────────────────── */
     const PRESTATIONS = [
-      { id:'famille',   title:'Famille',    img:'assets/images/s08.jpg', desc:'Tous réunis, complices, dans la lumière.' },
-      { id:'grossesse', title:'Grossesse',  img:'assets/images/s21.jpg', desc:'Célébrer ces mois si particuliers.' },
-      { id:'nouveau',   title:'Nouveau-né', img:'assets/images/s17.jpg', desc:'Les tout premiers jours, tout en douceur.' },
-      { id:'enfant',    title:'Enfants',    img:'assets/images/s05.jpg', desc:'Leur regard, leur âge, leur caractère.' },
-      { id:'couple',    title:'Couple',     img:'assets/images/e07.jpg', desc:'À deux, simplement, avec tendresse.' },
-      { id:'portrait',  title:'Portrait',   img:'assets/images/s09.jpg', desc:'Un portrait sincère et intemporel.' },
+      { id:'famille',   title:'Famille',    img:'assets/images/prest-famille.jpg',     desc:'Tous réunis, complices, dans la lumière.' },
+      { id:'grossesse', title:'Grossesse',  img:'assets/images/prest-grossesse.jpg',   desc:'Célébrer ces mois si particuliers.' },
+      { id:'nouveau',   title:'Nouveau-né', img:'assets/images/prest-nouveau-ne.jpg',  desc:'Les tout premiers jours, tout en douceur.' },
+      { id:'enfant',    title:'Enfants',    img:'assets/images/prest-enfants.jpg',     desc:'Leur regard, leur âge, leur caractère.' },
+      { id:'couple',    title:'Couple',     img:'assets/images/prest-couple.jpg',      desc:'À deux, simplement, avec tendresse.' },
+      { id:'portrait',  title:'Portrait',   img:'assets/images/prest-portrait.png',    desc:'Un portrait sincère et intemporel.' },
     ];
 
     const GALLERY_STUDIO = [
@@ -1435,7 +1435,7 @@
 
     /* ── BOOKING MODAL (wizard 5 étapes) ────────────────────────── */
     function BookingModal({ open, onClose }) {
-      const STEPS = ['Formule','Prestation','Pack','Coordonnées','Paiement'];
+      const STEPS = ['Prestation','Formule','Pack','Coordonnées','Paiement'];
       const empty = {
         step:0, done:false, formule:null, prest:null, packIdx:null, bw:false,
         contact:{ prenom:'', nom:'', email:'', tel:'', message:'' },
@@ -1512,8 +1512,8 @@
       const emailOk = /.+@.+\..+/.test(s.contact.email);
 
       const canNext = [
-        !!s.formule,
         !!s.prest,
+        !!s.formule,
         s.packIdx != null,
         !!(s.contact.prenom.trim() && emailOk && s.contact.tel.trim()),
         s.cardComplete,
@@ -1583,8 +1583,8 @@
       };
 
       const helperText = [
-        'En studio chez nous à Bègles, ou en extérieur sur le lieu de votre choix.',
         'Le type de séance qui vous ressemble.',
+        'En studio chez nous à Bègles, ou en extérieur sur le lieu de votre choix.',
         'La séance et vos photos retouchées sont comprises dans le prix.',
         'Pour confirmer votre réservation et vous envoyer votre galerie.',
         'Paiement sécurisé. Vous recevez votre reçu par email.',
@@ -1636,7 +1636,7 @@
                 <div className="lp-bk__head">
                   <span className="al-eyebrow">Réservation</span>
                   <h3 className="lp-bk__title">
-                    {['Votre formule','Votre prestation','Votre pack','Vos coordonnées','Paiement'][s.step]}
+                    {['Votre prestation','Votre formule','Votre pack','Vos coordonnées','Paiement'][s.step]}
                   </h3>
                   <p className="lp-bk__helper">{helperText}</p>
                 </div>
@@ -1653,8 +1653,8 @@
                 </div>
 
                 <div className="lp-bk__body">
-                  {/* Step 0 — Formule */}
-                  {s.step === 0 && (
+                  {/* Step 1 — Formule */}
+                  {s.step === 1 && (
                     <div className="lp-bk-opts">
                       {['studio','exterieur'].map(key => {
                         const o = FORMULES[key];
@@ -1673,8 +1673,8 @@
                     </div>
                   )}
 
-                  {/* Step 1 — Prestation */}
-                  {s.step === 1 && (
+                  {/* Step 0 — Prestation */}
+                  {s.step === 0 && (
                     <div className="lp-bk-tiles">
                       {PRESTATIONS.map(p => {
                         const on = s.prest === p.id;
