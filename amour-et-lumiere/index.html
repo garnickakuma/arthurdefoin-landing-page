@@ -393,6 +393,11 @@
     .lp-packs__list--cols .lp-pack-row:nth-child(2){border-top:none}
     .lp-pack-row__ico{display:inline-flex;align-self:center;color:var(--brand)}
     .lp-pack-row__ico svg{width:1.05em;height:1.05em}
+    .lp-pack-row--group{flex-direction:column;align-items:flex-start;gap:4px}
+    .lp-pack-row__sizes{display:flex;flex-wrap:wrap;gap:4px 10px;padding-left:1.7em}
+    .lp-pack-row__size-item{font-family:var(--font-body);font-size:12px;color:var(--text-muted)}
+    .lp-pack-row__size-item strong{color:var(--ink-900);font-weight:600}
+    .lp-packs__list--grouped{display:flex;flex-direction:column}
     .lp-pricing__cta{display:flex;flex-direction:column;align-items:center;
       gap:var(--space-3);margin-top:var(--space-10)}
     .lp-pricing__reassure{display:inline-flex;align-items:center;gap:.5em;
@@ -523,6 +528,8 @@
     .lp-reviews__google-link{font-family:var(--font-body);font-size:13px;color:#70757a;
       text-decoration:none;transition:color .15s}
     .lp-reviews__google-link:hover{color:#1a73e8}
+
+    .lp-divider{border:none;border-top:1px solid var(--border-soft);width:60%;margin:0 auto}
 
     /* ── BOOKING BAND ────────────────────────────────────────── */
     .lp-book{position:relative;overflow:hidden}
@@ -907,12 +914,9 @@
       { label:'Toute la galerie', extra:'en moyenne 40 photos', price:'159 €', featured:true },
     ];
     const PRICING_FORMATS = [
-      { label:'Tirage papier premium', size:'10×15', price:'6 €',   icon:'Image' },
-      { label:'Tirage papier premium', size:'20×30', price:'19 €',  icon:'Image' },
-      { label:'Tableau en aluminium',  size:'20×30', price:'59 €',  icon:'Frame' },
-      { label:'Tableau en aluminium',  size:'30×45', price:'89 €',  icon:'Frame' },
-      { label:'Tableau en aluminium',  size:'40×60', price:'119 €', icon:'Frame' },
-      { label:'Album photo prestige',  size:'26 pages', price:'149 €', icon:'Book' },
+      { label:'Tirage papier premium', icon:'Image', sizes:[{s:'10×15',p:'6 €'},{s:'20×30',p:'19 €'}] },
+      { label:'Tableau en aluminium',  icon:'Frame', sizes:[{s:'20×30',p:'59 €'},{s:'30×45',p:'89 €'},{s:'40×60',p:'119 €'}] },
+      { label:'Album photo prestige',  icon:'Book',  sizes:[{s:'26 pages',p:'149 €'}] },
     ];
     // REVIEWS: connecter l'API Google Places — voir instructions dans le code
 
@@ -1259,7 +1263,7 @@
               </ul>
               <p className="lp-packs__option">
                 <Icons.Image />
-                Option noir &amp; blanc — <strong>+&nbsp;10&nbsp;€</strong> sur vos photos.
+                Option noir &amp; blanc — <strong>+&nbsp;10&nbsp;€</strong>
               </p>
               <p className="lp-packs__fine">{active.fine}</p>
             </div>
@@ -1275,17 +1279,20 @@
               <h3 className="lp-packs__title">En complément</h3>
               <span className="lp-packs__sub">Pour prolonger vos images chez vous</span>
             </header>
-            <ul className="lp-packs__list lp-packs__list--cols">
+            <ul className="lp-packs__list lp-packs__list--grouped">
               {PRICING_FORMATS.map((p, i) => {
                 const Ico = Icons[p.icon] || Icons.Image;
                 return (
-                  <li key={i} className="lp-pack-row">
+                  <li key={i} className="lp-pack-row lp-pack-row--group">
                     <span className="lp-pack-row__label">
                       <span className="lp-pack-row__ico"><Ico /></span>
-                      {p.label}<em>{p.size}</em>
+                      {p.label}
                     </span>
-                    <span className="lp-pack-row__dots" aria-hidden="true" />
-                    <span className="lp-pack-row__price">{p.price}</span>
+                    <span className="lp-pack-row__sizes">
+                      {p.sizes.map(({s, p: pr}) => (
+                        <span key={s} className="lp-pack-row__size-item">{s}&nbsp;<strong>{pr}</strong></span>
+                      ))}
+                    </span>
                   </li>
                 );
               })}
@@ -1971,8 +1978,9 @@
             <GallerySection />
             <PricingSection onBook={openBooking} />
             <PrestationsSection />
-            <AboutSection />
+            <hr className="lp-divider" />
             <StudioAddressSection />
+            <AboutSection />
             <ReviewsSection />
             <BookingCTA onBook={openBooking} />
           </main>
