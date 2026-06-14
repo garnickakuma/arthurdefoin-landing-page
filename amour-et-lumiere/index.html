@@ -454,6 +454,15 @@
     .lp-gal__filter--on{background:var(--sage-700);border-color:var(--sage-700);color:#fff;box-shadow:var(--shadow-sm)}
     .lp-gal__filter--on:hover{background:var(--sage-800);transform:none}
     .lp-gal__filter svg{width:1em;height:1em}
+    .lp-gal__more{text-align:center;margin-top:var(--space-8)}
+    .lp-gal__more-btn{font-family:var(--font-body);font-size:var(--text-sm);font-weight:var(--fw-semibold);
+      display:inline-flex;align-items:center;gap:.5em;cursor:pointer;
+      padding:.7em 1.8em;border-radius:var(--radius-pill);
+      border:1.5px solid var(--sage-300);background:transparent;color:var(--sage-700);
+      transition:all var(--dur-fast) var(--ease-soft)}
+    .lp-gal__more-btn:hover{background:var(--sage-50);border-color:var(--sage-500);transform:translateY(-1px)}
+    .lp-gal__more-btn svg{width:1em;height:1em;transition:transform var(--dur-fast) var(--ease-soft)}
+    .lp-gal__more-btn:hover svg{transform:translateX(3px)}
     .lp-gal__grid{columns:3;column-gap:var(--space-3)}
     .lp-gal__item{margin:0 0 var(--space-3);break-inside:avoid;border-radius:var(--radius-md);overflow:hidden;box-shadow:var(--shadow-sm)}
     .lp-gal__item img{width:100%;height:auto;display:block;
@@ -1262,12 +1271,16 @@
 
     /* ── GALLERY ────────────────────────────────────────────────── */
     function GallerySection() {
+      const PREVIEW = 5;
       const [filter, setFilter] = React.useState('studio');
+      const [showAll, setShowAll] = React.useState(false);
       const tabs = [
         { key:'studio', label:'En studio',    icon:<Icons.Camera /> },
         { key:'ext',    label:'En extérieur', icon:<Icons.Sun />    },
       ];
-      const photos = filter === 'ext' ? GALLERY_EXT : GALLERY_STUDIO;
+      const all = filter === 'ext' ? GALLERY_EXT : GALLERY_STUDIO;
+      const photos = showAll ? all : all.slice(0, PREVIEW);
+      const handleFilter = (key) => { setFilter(key); setShowAll(false); };
       return (
         <section className="lp-gal" id="galerie">
           <div className="lp-gal__head">
@@ -1277,7 +1290,7 @@
               {tabs.map(t => (
                 <button key={t.key} type="button"
                   className={'lp-gal__filter' + (filter === t.key ? ' lp-gal__filter--on' : '')}
-                  onClick={() => setFilter(t.key)}>
+                  onClick={() => handleFilter(t.key)}>
                   {t.icon} {t.label}
                 </button>
               ))}
@@ -1290,6 +1303,14 @@
               </figure>
             ))}
           </div>
+          {!showAll && all.length > PREVIEW && (
+            <div className="lp-gal__more">
+              <button type="button" className="lp-gal__more-btn"
+                onClick={() => setShowAll(true)}>
+                Voir les {all.length - PREVIEW} autres photos <Icons.Arrow />
+              </button>
+            </div>
+          )}
         </section>
       );
     }
