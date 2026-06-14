@@ -67,9 +67,11 @@ body { background: var(--ivoire); }
 .hero .lede { margin-top: 32px; max-width: 460px; }
 .hero-actions { display: flex; gap: 18px; margin-top: 40px; align-items: center; }
 
-/* Hero CTA — fond plein, moins arrondi que le pill par défaut */
+/* Boutons — border-radius unifié 10px sur toute la page */
+.btn, .btn-ghost, .nav-cta, .sim-cta-wrap .btn { border-radius: 10px !important; }
+
+/* Hero CTA */
 .hero-actions .btn-primary {
-  border-radius: 10px;
   padding: 12px 30px;
   font-size: 14px;
   font-weight: 600;
