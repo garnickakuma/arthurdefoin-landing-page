@@ -1597,8 +1597,10 @@ image-slot { display: block; background: var(--ivoire-2); }
   margin: 0;
 }
 @media (max-width: 560px) {
-  .offre-prices { flex-direction: column; gap: 10px; }
-  .offre-prices-sep { padding: 0; }
+  .offre-prices { flex-direction: row; gap: 0; }
+  .offre-prices-sep { padding: 0 8px; }
+  .offre-price-card { padding: 16px 12px 18px; }
+  .offre-price-amount { font-size: clamp(26px, 6vw, 36px); }
 }
 
 @media (max-width: 640px) {
