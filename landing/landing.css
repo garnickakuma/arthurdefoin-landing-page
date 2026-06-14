@@ -52,6 +52,8 @@ body { background: var(--ivoire); }
   display: flex; align-items: center; gap: 14px;
 }
 .eyebrow-big { font-size: 16px; font-weight: 700; letter-spacing: 0.12em; }
+.nav-brand .name { font-weight: 400 !important; letter-spacing: -0.01em; }
+.nav-tag { color: var(--or); opacity: 0.75; font-weight: 400; }
 .eyebrow .num { font-family: var(--mono); font-weight: 400; color: var(--plomb); letter-spacing: 0.1em; }
 .eyebrow .rule { width: 28px; height: 1px; background: var(--or); }
 
