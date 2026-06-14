@@ -458,11 +458,10 @@
     .lp-gal__filter svg{width:1em;height:1em}
     /* mosaïque preview */
     .lp-gal__grid--mosaic{display:grid;
-      grid-template-columns:3fr 2fr 2fr;
+      grid-template-columns:repeat(3,1fr);
       grid-template-rows:repeat(2,clamp(170px,20vw,250px));
       gap:3px;border-radius:var(--radius-xl);overflow:hidden}
     .lp-gal__grid--mosaic .lp-gal__item{margin:0;border-radius:0;box-shadow:none;overflow:hidden}
-    .lp-gal__grid--mosaic .lp-gal__item:first-child{grid-row:span 2}
     .lp-gal__grid--mosaic .lp-gal__item img{width:100%;height:100%;object-fit:cover;
       transition:transform var(--dur-photo) var(--ease-soft)}
     .lp-gal__grid--mosaic .lp-gal__item:hover img{transform:scale(1.04)}
@@ -506,6 +505,20 @@
     .lp-review__stars svg{width:14px;height:14px;fill:#FBBC04;stroke:none}
     .lp-review__text{font-family:var(--font-body);font-size:14px;line-height:1.6;
       color:#3c4043;margin:0}
+    .lp-rating-banner{display:flex;align-items:center;gap:12px;
+      justify-content:center;margin:0 auto var(--space-8);
+      background:#fff;border:1px solid #e8eaed;border-radius:8px;
+      padding:14px 24px;width:fit-content;
+      box-shadow:0 1px 3px rgba(0,0,0,.1)}
+    .lp-rating-banner__score{font-family:var(--font-body);font-size:1.5rem;
+      font-weight:600;color:#202124;line-height:1}
+    .lp-rating-banner__count{font-family:var(--font-body);font-size:14px;
+      color:#70757a}
+    .lp-reviews__more{text-align:center;margin-top:var(--space-6)}
+    .lp-reviews__more-btn{font-family:var(--font-body);font-size:14px;font-weight:600;
+      color:#1a73e8;background:none;border:1px solid #dadce0;border-radius:4px;
+      padding:8px 20px;cursor:pointer;transition:background .15s}
+    .lp-reviews__more-btn:hover{background:#f1f3f4}
 
     /* ── BOOKING BAND ────────────────────────────────────────── */
     .lp-book{position:relative;overflow:hidden}
@@ -743,17 +756,63 @@
       background:var(--sage-100);color:var(--sage-700);font-size:28px}
     .lp-reviews__ph p{font-size:var(--text-md);color:var(--text-muted);margin:0;max-width:30rem}
 
+    /* ── BURGER + MOBILE NAV ──────────────────────────────── */
+    .lp-header__burger{display:none;flex-direction:column;justify-content:center;gap:5px;
+      width:36px;height:36px;background:none;border:none;padding:4px;cursor:pointer;flex:none}
+    .lp-header__burger span{display:block;height:2px;background:var(--ink-700);border-radius:2px}
+    .lp-mob-nav{position:fixed;inset:0;z-index:39;background:rgba(38,36,31,.35);
+      backdrop-filter:blur(2px)}
+    .lp-mob-nav__inner{position:absolute;top:68px;left:var(--space-4);right:var(--space-4);
+      background:var(--bg-raised);border-radius:var(--radius-xl);padding:var(--space-4);
+      box-shadow:var(--shadow-xl);display:flex;flex-direction:column;gap:0}
+    .lp-mob-nav__inner a{font-family:var(--font-body);font-size:var(--text-base);
+      font-weight:var(--fw-semibold);color:var(--ink-700);padding:var(--space-3) var(--space-2);
+      border-bottom:1px solid var(--border-soft);display:block}
+    .lp-mob-nav__inner a:last-of-type{border-bottom:none}
+    .lp-mob-nav__btn{margin-top:var(--space-3);width:100%;justify-content:center}
+
+    /* ── HERO CARD LOGO + NAV LINKS ───────────────────────── */
+    .lp-pins__card-logo{height:30px;width:auto;margin:0 auto var(--space-4);display:none}
+    .lp-pins__nav-links{display:none;align-items:center;justify-content:center;
+      gap:var(--space-3);flex-wrap:nowrap;margin-top:var(--space-4)}
+    .lp-pins__nav-links a{font-family:var(--font-body);font-size:var(--text-sm);
+      font-weight:var(--fw-semibold);color:var(--ink-700);
+      text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+    .lp-pins__nav-links span{color:var(--ink-400);font-size:.7rem}
+
+    /* ── GOOGLE RATING BANNER ─────────────────────────────── */
+    .lp-reviews__banner{display:flex;align-items:center;gap:var(--space-5);
+      background:#fff;border:1px solid #e8eaed;border-radius:8px;
+      padding:14px 20px;margin:0 auto var(--space-8);max-width:360px;
+      box-shadow:0 1px 3px rgba(0,0,0,.10)}
+    .lp-reviews__banner-left{display:flex;flex-direction:column;gap:4px}
+    .lp-reviews__banner-score{display:flex;align-items:center;gap:10px}
+    .lp-reviews__banner-num{font-family:var(--font-body);font-size:2.4rem;
+      font-weight:700;color:#202124;line-height:1}
+    .lp-reviews__banner-stars{display:inline-flex;gap:2px}
+    .lp-reviews__banner-stars svg{width:20px;height:20px;fill:#FBBC04;stroke:none}
+    .lp-reviews__banner-meta{font-family:var(--font-body);font-size:13px;color:#70757a}
+
     /* ── RESPONSIVE ──────────────────────────────────────────── */
     @media(max-width:960px){
       .lp-header__nav{display:none}
-      .lp-flow{grid-template-columns:1fr;gap:0}
-      .lp-flow__sep{padding-top:0;padding-bottom:var(--space-2);transform:rotate(90deg)}
+      .lp-header__burger{display:flex}
+      .lp-flow{grid-template-columns:1fr 24px 1fr 24px 1fr;gap:0}
+      .lp-flow__sep{padding-top:2rem;padding-bottom:0;font-size:1rem;transform:none}
+      .lp-flow__num{font-size:clamp(2.2rem,6vw,3.5rem)}
+      .lp-flow__icon{width:40px;height:40px;font-size:16px;margin-bottom:var(--space-3)}
+      .lp-flow__title{font-size:clamp(.9rem,2.3vw,1.3rem)}
+      .lp-flow__desc{font-size:var(--text-xs);max-width:100%}
+      .lp-flow__item{padding:0 var(--space-2)}
       .lp-prest__grid{grid-template-columns:repeat(2,1fr)}
-      .lp-formules{grid-template-columns:1fr}
+      .lp-formules{grid-template-columns:1fr 1fr;gap:var(--space-3)}
+      .lp-formule__photo{width:52px}
+      .lp-formule__name{font-size:var(--text-md)}
+      .lp-formule__from{font-size:var(--text-sm)}
+      .lp-formule__content{padding:var(--space-3);gap:var(--space-2) var(--space-3)}
       .lp-about{grid-template-columns:1fr}
       .lp-addr__inner{grid-template-columns:1fr}
-      .lp-packs__list--cols{grid-template-columns:1fr}
-      .lp-packs__list--cols .lp-pack-row:nth-child(2){border-top:1px solid var(--border-soft)}
+      .lp-packs__list--cols{grid-template-columns:1fr 1fr}
       .lp-gal__grid{columns:2}
       .lp-reviews__grid{grid-template-columns:1fr 1fr}
       .lp-footer__inner{grid-template-columns:1fr 1fr}
@@ -762,15 +821,21 @@
       .lp-reviews__grid{grid-template-columns:1fr}
       html[data-hero="pins"] .lp-pins{padding:var(--space-8) var(--space-4)}
       .lp-pins .lp-poster__eyebrow{font-size:.6rem;letter-spacing:.1em;white-space:nowrap}
-      .lp-pins__copy{padding:var(--space-6) var(--space-5) var(--space-7);max-width:84vw}
-      .lp-pins__title{font-size:clamp(1.7rem,8vw,2.6rem);margin:var(--space-3) 0 var(--space-5)}
-      .lp-pins .lp-poster__actions{gap:var(--space-3)}
-      .lp-pins .lp-poster__actions .alc-btn{padding:.55em 1.15em;font-size:var(--text-sm)}
+      .lp-pins__copy{padding:var(--space-5) var(--space-5) var(--space-6);max-width:90vw}
+      .lp-pins__title{font-size:clamp(1.7rem,8vw,2.6rem);margin:var(--space-3) 0 var(--space-4)}
+      .lp-pins__card-logo{display:block}
+      .lp-poster__actions{display:none}
+      .lp-pins__nav-links{display:flex}
+      .lp-gal__grid--mosaic{grid-template-rows:repeat(2,28vw)}
       .lp-pins__ph{width:31vw;border-width:4px}
       .lp-pins__ph--1{top:1%;left:11%}
       .lp-pins__ph--2{bottom:2%;left:12%}
       .lp-pins__ph--3{top:1%;right:11%}
       .lp-pins__ph--4{bottom:2%;right:12%}
+    }
+    @media(max-width:480px){
+      .lp-flow__desc{display:none}
+      .lp-flow__sep{padding-top:1.5rem}
     }
     @media(max-width:560px){
       .lp-bk-tiles{grid-template-columns:repeat(2,1fr)}
@@ -937,22 +1002,39 @@
         return () => host.removeEventListener('scroll', onScroll);
       }, []);
       const links = [['Galerie','#galerie'],['Tarifs','#tarifs'],['Prestations','#prestations'],['Le studio','#studio'],['Avis','#avis']];
+      const [menuOpen, setMenuOpen] = React.useState(false);
+      const closeMenu = () => setMenuOpen(false);
       return (
-        <header className={'lp-header' + (scrolled ? ' lp-header--solid' : '')}>
-          <div className="lp-header__inner">
-            <a href="#top" className="lp-header__brand" aria-label="Amour et Lumière — accueil">
-              <img src="assets/logo/logo_ink.png" alt="Amour et Lumière" />
-            </a>
-            <nav className="lp-header__nav">
-              {links.map(([l, h]) => <a key={h} href={h}>{l}</a>)}
-            </nav>
-            <div className="lp-header__cta">
-              <Button variant="primary" size="sm" iconRight={<Icons.Arrow />} onClick={onBook}>
-                Réserver ma séance
-              </Button>
+        <>
+          <header className={'lp-header' + (scrolled ? ' lp-header--solid' : '')}>
+            <div className="lp-header__inner">
+              <a href="#top" className="lp-header__brand" aria-label="Amour et Lumière — accueil">
+                <img src="assets/logo/logo_ink.png" alt="Amour et Lumière" />
+              </a>
+              <nav className="lp-header__nav">
+                {links.map(([l, h]) => <a key={h} href={h}>{l}</a>)}
+              </nav>
+              <div className="lp-header__cta">
+                <Button variant="primary" size="sm" onClick={onBook}>
+                  Réserver ma séance
+                </Button>
+              </div>
+              <button className="lp-header__burger" aria-label="Menu" onClick={() => setMenuOpen(o => !o)}>
+                <span /><span /><span />
+              </button>
             </div>
-          </div>
-        </header>
+          </header>
+          {menuOpen && (
+            <div className="lp-mob-nav" onClick={closeMenu}>
+              <nav className="lp-mob-nav__inner" onClick={e => e.stopPropagation()}>
+                {links.map(([l, h]) => <a key={h} href={h} onClick={closeMenu}>{l}</a>)}
+                <Button variant="primary" size="md" className="lp-mob-nav__btn" onClick={() => { closeMenu(); onBook(); }}>
+                  Réserver ma séance
+                </Button>
+              </nav>
+            </div>
+          )}
+        </>
       );
     }
 
@@ -1020,12 +1102,20 @@
               </figure>
             </div>
             <div className="lp-pins__copy">
+              <img src="assets/logo/logo_ink.png" className="lp-pins__card-logo" alt="" />
               <span className="lp-poster__eyebrow">Bègles · Bordeaux · Bassin d&rsquo;Arcachon</span>
               <h1 className="lp-pins__title">Vos souvenirs,<br /><em>capturés à jamais.</em></h1>
               <div className="lp-poster__actions">
                 <Button variant="secondary" size="lg" href="#galerie">Voir la galerie</Button>
                 <Button variant="secondary" size="lg" href="#tarifs">Voir les tarifs</Button>
                 <Button variant="primary" size="lg" iconRight={<Icons.Arrow />} onClick={onBook}>Réserver ma séance</Button>
+              </div>
+              <div className="lp-pins__nav-links">
+                <a href="#galerie">Voir la galerie</a>
+                <span aria-hidden="true">·</span>
+                <a href="#tarifs">Voir les tarifs</a>
+                <span aria-hidden="true">·</span>
+                <button type="button" onClick={onBook}>Réserver ma séance</button>
               </div>
             </div>
           </div>
@@ -1296,7 +1386,7 @@
 
     /* ── GALLERY ────────────────────────────────────────────────── */
     function GallerySection() {
-      const PREVIEW = 5;
+      const PREVIEW = 6;
       const [filter, setFilter] = React.useState('studio');
       const [showAll, setShowAll] = React.useState(false);
       const tabs = [
@@ -1343,6 +1433,7 @@
     /* ── REVIEWS — Google Places (généré au build) ─────────────── */
     function ReviewsSection() {
       const [data, setData] = React.useState(null);
+      const [showAll, setShowAll] = React.useState(false);
       React.useEffect(() => {
         fetch('reviews.json')
           .then(r => r.ok ? r.json() : null)
@@ -1350,39 +1441,73 @@
           .catch(() => {});
       }, []);
 
+      const AVATAR_COLORS = ['#4285F4','#EA4335','#34A853','#FF6D00','#9C27B0','#00ACC1','#E91E63','#FF7043'];
+      const avatarColor = (name) => AVATAR_COLORS[(name || 'A').charCodeAt(0) % AVATAR_COLORS.length];
+
+      const GoogleLogo = () => (
+        <svg width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+          <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+          <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
+          <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+        </svg>
+      );
+
       const Stars = ({ n=5 }) => (
         <span className="lp-review__stars" aria-label={`${n} sur 5`}>
-          {[0,1,2,3,4].map(i => <Icons.Star key={i} style={{ opacity: i < n ? 1 : 0.22 }} />)}
+          {[0,1,2,3,4].map(i => <Icons.Star key={i} style={{ opacity: i < n ? 1 : 0.25 }} />)}
         </span>
       );
 
       const hasReviews = data && data.reviews && data.reviews.length > 0;
+      const INIT = 3;
 
       return (
         <section className="lp-reviews" id="avis">
           <div className="lp-reviews__head">
             <span className="al-eyebrow">Avis Google</span>
             <h2 className="lp-reviews__title">Ce que nos familles en gardent</h2>
-            {hasReviews && data.rating && (
-              <p className="lp-reviews__lead">
-                {data.rating.toFixed(1)}/5 · {data.total} avis sur Google
-              </p>
-            )}
           </div>
-          {hasReviews ? (
-            <div className="lp-reviews__grid">
-              {data.reviews.map((r, i) => (
-                <figure key={i} className="lp-review">
-                  <span className="lp-review__mark" aria-hidden="true"><Icons.Quote /></span>
-                  <Stars n={r.rating || 5} />
-                  <blockquote className="lp-review__text">{r.text}</blockquote>
-                  <figcaption className="lp-review__by">
-                    <span className="lp-review__name">{r.name}</span>
-                    {r.time && <span className="lp-review__meta">{r.time}</span>}
-                  </figcaption>
-                </figure>
-              ))}
+          {hasReviews && (
+            <div className="lp-rating-banner">
+              <svg className="lp-rating-banner__glogo" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="28" height="28">
+                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
+                <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+              </svg>
+              <span className="lp-rating-banner__score">{data.rating ? data.rating.toFixed(1) : '5'}</span>
+              <Stars n={data.rating || 5} />
+              <span className="lp-rating-banner__count">{data.total} avis</span>
             </div>
+          )}
+          {hasReviews ? (
+            <>
+              <div className="lp-reviews__grid">
+                {(showAll ? data.reviews : data.reviews.slice(0, INIT)).map((r, i) => (
+                  <div key={i} className="lp-review">
+                    <div className="lp-review__top">
+                      <div className="lp-review__author">
+                        <div className="lp-review__avatar" style={{background: avatarColor(r.name || 'A')}}>
+                          {(r.name || 'A')[0].toUpperCase()}
+                        </div>
+                        <span className="lp-review__name">{r.name}</span>
+                      </div>
+                      <span className="lp-review__glogo"><GoogleLogo /></span>
+                    </div>
+                    <Stars n={r.rating || 5} />
+                    <p className="lp-review__text">{r.text}</p>
+                  </div>
+                ))}
+              </div>
+              {!showAll && data.reviews.length > INIT && (
+                <div className="lp-reviews__more">
+                  <button type="button" className="lp-reviews__more-btn" onClick={() => setShowAll(true)}>
+                    Voir plus
+                  </button>
+                </div>
+              )}
+            </>
           ) : (
             <div className="lp-reviews__ph">
               <span className="lp-reviews__ph-icon"><Icons.Star /></span>
