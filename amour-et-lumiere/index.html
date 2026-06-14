@@ -325,7 +325,7 @@
       box-shadow var(--dur-base) var(--ease-soft),transform var(--dur-fast) var(--ease-soft)}
     .lp-formule:hover{border-color:var(--sage-300);box-shadow:var(--shadow-md);transform:translateY(-2px)}
     /* photo illustrative */
-    .lp-formule__photo{width:100%;aspect-ratio:3/2;overflow:hidden;flex:none}
+    .lp-formule__photo{width:100%;height:140px;overflow:hidden;flex:none}
     .lp-formule__photo img{width:100%;height:100%;object-fit:cover;
       transition:transform var(--dur-photo) var(--ease-soft)}
     .lp-formule:hover .lp-formule__photo img{transform:scale(1.04)}
@@ -1251,15 +1251,30 @@
 
     /* ── GALLERY ────────────────────────────────────────────────── */
     function GallerySection() {
+      const [filter, setFilter] = React.useState('studio');
+      const tabs = [
+        { key:'studio', label:'En studio',    icon:<Icons.Camera /> },
+        { key:'ext',    label:'En extérieur', icon:<Icons.Sun />    },
+      ];
+      const photos = filter === 'ext' ? GALLERY_EXT : GALLERY_STUDIO;
       return (
         <section className="lp-gal" id="galerie">
           <div className="lp-gal__head">
             <span className="al-eyebrow">La galerie</span>
             <h2 className="lp-gal__title">Quelques instants capturés</h2>
+            <div className="lp-gal__filters">
+              {tabs.map(t => (
+                <button key={t.key} type="button"
+                  className={'lp-gal__filter' + (filter === t.key ? ' lp-gal__filter--on' : '')}
+                  onClick={() => setFilter(t.key)}>
+                  {t.icon} {t.label}
+                </button>
+              ))}
+            </div>
           </div>
           <div className="lp-gal__grid">
-            {GALLERY.map((src, i) => (
-              <figure key={i} className={`lp-gal__item lp-gal__item--${i}`}>
+            {photos.map((src) => (
+              <figure key={src} className="lp-gal__item">
                 <img src={src} alt="" loading="lazy" />
               </figure>
             ))}
