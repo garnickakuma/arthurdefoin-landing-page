@@ -378,6 +378,7 @@
       padding:var(--space-3) var(--space-4);margin:var(--space-2) 0}
     .lp-pack-row--star+.lp-pack-row{border-top:none}
     .lp-pack-row--star .lp-pack-row__price{color:var(--sage-700)}
+    .lp-packs__option-img{width:36px;height:36px;object-fit:cover;border-radius:var(--radius-sm);flex:none}
     .lp-packs__option{display:flex;align-items:center;gap:.65em;
       font-family:var(--font-body);font-size:var(--text-sm);color:var(--text-body);
       margin:var(--space-5) 0 0;padding:var(--space-3) var(--space-4);
@@ -1305,7 +1306,7 @@
                 ))}
               </ul>
               <p className="lp-packs__option">
-                <Icons.Image />
+                <img src="assets/images/option-nb.jpg" className="lp-packs__option-img" alt="Noir &amp; blanc" />
                 Option noir &amp; blanc — <strong>+&nbsp;10&nbsp;€</strong>
               </p>
               <p className="lp-packs__fine">{active.fine}</p>
