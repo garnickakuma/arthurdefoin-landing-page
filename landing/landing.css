@@ -1535,16 +1535,19 @@ image-slot { display: block; background: var(--ivoire-2); }
 .offre-video-wrap {
   margin: 40px auto 0;
   max-width: 760px;
+  aspect-ratio: 16 / 9;
   border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 8px 40px rgba(0,0,0,0.12);
-  background: var(--ivoire-2);
+  background: #000;
   line-height: 0;
 }
 .offre-video {
   width: 100%;
-  height: auto;
+  height: 100%;
   display: block;
+  object-fit: cover;
+  object-position: center;
   pointer-events: none;
 }
 .offre-prices {
