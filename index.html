@@ -737,7 +737,7 @@
 
             <p className="sim-cards-lbl">Combien de clients voulez-vous par mois&nbsp;?</p>
 
-            <div className={"sim-viewport" + (isDragging ? " is-dragging" : "")}
+            <div id="sim-cards-wrap" className={"sim-viewport" + (isDragging ? " is-dragging" : "")}
               ref={viewportRef}
               style={{ visibility: ready ? 'visible' : 'hidden' }}
               onTouchStart={onTouchStart}
@@ -972,7 +972,7 @@
                   ) : (
                     <p className="cfw-summary-line cfw-summary-missing">
                       <span className="cfw-sum-check cfw-sum-q">?</span>
-                      <a className="cfw-pick-link" href="#simulateur" onClick={e => { e.preventDefault(); const el=document.getElementById('simulateur'); if(el) window.scrollTo({top:el.offsetTop-60,behavior:'smooth'}); }}>
+                      <a className="cfw-pick-link" href="#simulateur" onClick={e => { e.preventDefault(); const el=document.getElementById('sim-cards-wrap'); if(el) el.scrollIntoView({behavior:'smooth',block:'center'}); }}>
                         Choisir le nombre de clients par mois →
                       </a>
                     </p>
