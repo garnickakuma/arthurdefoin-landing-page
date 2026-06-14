@@ -318,19 +318,17 @@
     .lp-pricing__title{font-size:clamp(1.9rem,4vw,var(--text-2xl));margin:0}
     .lp-pricing__lead{font-size:var(--text-md);color:var(--text-muted);margin:0;max-width:40rem}
     .lp-formules{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-5)}
-    .lp-formule{display:flex;flex-direction:column;align-items:stretch;text-align:left;
+    .lp-formule{display:flex;flex-direction:row;align-items:stretch;text-align:left;
       cursor:pointer;background:var(--bg-raised);border:1.5px solid var(--border-hairline);
       border-radius:var(--radius-xl);overflow:hidden;box-shadow:var(--shadow-sm);color:var(--ink-900);
       transition:border-color var(--dur-base) var(--ease-soft),
       box-shadow var(--dur-base) var(--ease-soft),transform var(--dur-fast) var(--ease-soft)}
     .lp-formule:hover{border-color:var(--sage-300);box-shadow:var(--shadow-md);transform:translateY(-2px)}
-    /* photo illustrative */
-    .lp-formule__photo{width:100%;height:140px;overflow:hidden;flex:none}
+    .lp-formule__photo{width:clamp(110px,18%,160px);flex:none;overflow:hidden}
     .lp-formule__photo img{width:100%;height:100%;object-fit:cover;
       transition:transform var(--dur-photo) var(--ease-soft)}
-    .lp-formule:hover .lp-formule__photo img{transform:scale(1.04)}
-    /* contenu sous la photo */
-    .lp-formule__content{display:grid;grid-template-columns:auto 1fr auto;align-items:center;
+    .lp-formule:hover .lp-formule__photo img{transform:scale(1.06)}
+    .lp-formule__content{flex:1;display:grid;grid-template-columns:auto 1fr auto;align-items:center;
       gap:var(--space-3) var(--space-4);padding:var(--space-5)}
     .lp-formule__icon{display:inline-flex;align-items:center;justify-content:center;
       width:48px;height:48px;border-radius:var(--radius-circle);
