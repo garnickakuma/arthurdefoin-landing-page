@@ -443,6 +443,17 @@
     .lp-gal__head{text-align:center;margin-bottom:var(--space-8);
       display:flex;flex-direction:column;align-items:center;gap:var(--space-2)}
     .lp-gal__title{font-size:clamp(1.9rem,4vw,var(--text-2xl));margin:0}
+    .lp-gal__filters{display:flex;gap:var(--space-2);justify-content:center;margin-top:var(--space-5)}
+    .lp-gal__filter{font-family:var(--font-body);font-size:var(--text-sm);font-weight:var(--fw-semibold);
+      display:inline-flex;align-items:center;gap:.45em;cursor:pointer;
+      padding:.55em 1.25em;border-radius:var(--radius-pill);
+      border:1.5px solid var(--sage-200);background:var(--bg-raised);color:var(--sage-700);
+      box-shadow:var(--shadow-xs);
+      transition:all var(--dur-fast) var(--ease-soft)}
+    .lp-gal__filter:hover{border-color:var(--sage-400);background:var(--sage-50);transform:translateY(-1px)}
+    .lp-gal__filter--on{background:var(--sage-700);border-color:var(--sage-700);color:#fff;box-shadow:var(--shadow-sm)}
+    .lp-gal__filter--on:hover{background:var(--sage-800);transform:none}
+    .lp-gal__filter svg{width:1em;height:1em}
     .lp-gal__grid{columns:3;column-gap:var(--space-3)}
     .lp-gal__item{margin:0 0 var(--space-3);break-inside:avoid;border-radius:var(--radius-md);overflow:hidden;box-shadow:var(--shadow-sm)}
     .lp-gal__item img{width:100%;height:auto;display:block;
@@ -763,20 +774,16 @@
       { id:'portrait',  title:'Portrait',   img:'assets/images/s09.jpg', desc:'Un portrait sincère et intemporel.' },
     ];
 
-    const GALLERY = [
-      'assets/images/s17.jpg',
-      'assets/images/s21.jpg',
-      'assets/images/e07.jpg',
-      'assets/images/s05.jpg',
-      'assets/images/s09.jpg',
-      'assets/images/e01.jpg',
-      'assets/images/s08.jpg',
-      'assets/images/e11.jpg',
-      'assets/images/s04.jpg',
-      'assets/images/s13.jpg',
-      'assets/images/e05.jpg',
-      'assets/images/s24.jpg',
+    const GALLERY_STUDIO = [
+      'assets/images/s17.jpg','assets/images/s21.jpg','assets/images/s05.jpg',
+      'assets/images/s09.jpg','assets/images/s08.jpg','assets/images/s04.jpg',
+      'assets/images/s13.jpg','assets/images/s24.jpg',
     ];
+    const GALLERY_EXT = [
+      'assets/images/e07.jpg','assets/images/e01.jpg',
+      'assets/images/e11.jpg','assets/images/e05.jpg',
+    ];
+    const GALLERY = [...GALLERY_STUDIO, ...GALLERY_EXT];
 
     const PACKS_STUDIO = [
       { label:'2 photos',         price:'49 €' },
