@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Manrope:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,500&family=JetBrains+Mono:wght@400;500&display=swap">
 
   <link rel="stylesheet" href="landing/colors_and_type.css?v=87">
-  <link rel="stylesheet" href="landing/landing.css?v=129">
+  <link rel="stylesheet" href="landing/landing.css?v=130">
   <link rel="stylesheet" href="landing/landing-mauve.css?v=2">
   <link rel="stylesheet" href="landing/landing-layouts.css?v=87">
   <link rel="stylesheet" href="landing/landing-hero-wow.css?v=89">
@@ -822,17 +822,16 @@
     // ─── Tunnel de vente ─────────────────────────────────────────────────────
     function Offre({lpChoice, onLpChoice, lpTier, onLpTier}) {
       const vidRef = React.useRef(null);
+      const [vidPlaying, setVidPlaying] = React.useState(false);
       React.useEffect(() => {
         const v = vidRef.current;
         if (!v) return;
         v.muted = true;
         v.defaultMuted = true;
-        const tryPlay = () => { v.muted = true; v.play().catch(() => {}); };
-        tryPlay();
-        ['canplay','loadeddata','loadedmetadata'].forEach(ev => v.addEventListener(ev, tryPlay, { once: true }));
-        const io = new IntersectionObserver(es => { if (es[0].isIntersecting) tryPlay(); }, { threshold: 0.01 });
-        io.observe(v);
-        return () => { io.disconnect(); };
+        v.play().then(() => setVidPlaying(true)).catch(() => setVidPlaying(false));
+        const onPlay = () => setVidPlaying(true);
+        v.addEventListener('play', onPlay);
+        return () => v.removeEventListener('play', onPlay);
       }, []);
       return (
         <div className="offre-reveal offre-open" id="offre">
@@ -854,6 +853,14 @@
                   preload="auto"
                   aria-hidden="true"
                 />
+                {!vidPlaying && (
+                  <button className="offre-play-btn" aria-label="Lire la vidéo" onClick={() => {
+                    const v = vidRef.current;
+                    if (v) { v.muted = true; v.play().then(() => setVidPlaying(true)).catch(() => {}); }
+                  }}>
+                    <svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28"><polygon points="5,3 19,12 5,21"/></svg>
+                  </button>
+                )}
               </div>
 
               <div className="offre-prices">
