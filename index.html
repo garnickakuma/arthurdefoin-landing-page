@@ -826,7 +826,12 @@
         const v = vidRef.current;
         if (!v) return;
         v.muted = true;
-        v.play().catch(() => {});
+        const tryPlay = () => { v.muted = true; v.play().catch(() => {}); };
+        if (v.readyState >= 3) { tryPlay(); }
+        else { v.addEventListener('canplay', tryPlay, { once: true }); }
+        const io = new IntersectionObserver(es => { if (es[0].isIntersecting) tryPlay(); }, { threshold: 0.1 });
+        io.observe(v);
+        return () => { io.disconnect(); v.removeEventListener('canplay', tryPlay); };
       }, []);
       return (
         <div className="offre-reveal offre-open" id="offre">
@@ -844,7 +849,7 @@
                   ref={vidRef}
                   className="offre-video"
                   src="landing/lp-demo.mp4"
-                  muted loop playsInline
+                  autoPlay muted loop playsInline
                   preload="auto"
                   aria-hidden="true"
                 />
