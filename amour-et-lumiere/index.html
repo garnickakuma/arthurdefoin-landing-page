@@ -832,6 +832,17 @@
       .lp-pins__ph--2{bottom:2%;left:12%}
       .lp-pins__ph--3{top:1%;right:11%}
       .lp-pins__ph--4{bottom:2%;right:12%}
+      /* Formules : carte verticale (photo en haut, contenu en bas) */
+      .lp-formule{flex-direction:column;align-items:stretch}
+      .lp-formule__photo{width:100%;aspect-ratio:3/1;flex:none}
+      .lp-formule__content{grid-template-columns:auto 1fr;padding:var(--space-2) var(--space-3) var(--space-3);gap:var(--space-1) var(--space-2);align-items:start}
+      .lp-formule__from{grid-column:1/-1;font-size:var(--text-sm)}
+      .lp-formule__cue{display:none}
+      /* Packs / compléments : 1 colonne pour éviter le débordement */
+      .lp-packs__list--cols{grid-template-columns:1fr;gap:0}
+      .lp-packs__list--cols .lp-pack-row:nth-child(2){border-top:1px solid var(--border-soft)}
+      .lp-packs{overflow:hidden}
+      .lp-complement{overflow:hidden}
     }
     @media(max-width:480px){
       .lp-flow__desc{display:none}
@@ -1425,7 +1436,6 @@
     /* ── REVIEWS — Google Places (généré au build) ─────────────── */
     function ReviewsSection() {
       const [data, setData] = React.useState(null);
-      const [showAll, setShowAll] = React.useState(false);
       React.useEffect(() => {
         fetch('reviews.json')
           .then(r => r.ok ? r.json() : null)
@@ -1452,7 +1462,6 @@
       );
 
       const hasReviews = data && data.reviews && data.reviews.length > 0;
-      const INIT = 3;
 
       return (
         <section className="lp-reviews" id="avis">
@@ -1474,32 +1483,23 @@
             </div>
           )}
           {hasReviews ? (
-            <>
-              <div className="lp-reviews__grid">
-                {(showAll ? data.reviews : data.reviews.slice(0, INIT)).map((r, i) => (
-                  <div key={i} className="lp-review">
-                    <div className="lp-review__top">
-                      <div className="lp-review__author">
-                        <div className="lp-review__avatar" style={{background: avatarColor(r.name || 'A')}}>
-                          {(r.name || 'A')[0].toUpperCase()}
-                        </div>
-                        <span className="lp-review__name">{r.name}</span>
+            <div className="lp-reviews__grid">
+              {data.reviews.map((r, i) => (
+                <div key={i} className="lp-review">
+                  <div className="lp-review__top">
+                    <div className="lp-review__author">
+                      <div className="lp-review__avatar" style={{background: avatarColor(r.name || 'A')}}>
+                        {(r.name || 'A')[0].toUpperCase()}
                       </div>
-                      <span className="lp-review__glogo"><GoogleLogo /></span>
+                      <span className="lp-review__name">{r.name}</span>
                     </div>
-                    <Stars n={r.rating || 5} />
-                    <p className="lp-review__text">{r.text}</p>
+                    <span className="lp-review__glogo"><GoogleLogo /></span>
                   </div>
-                ))}
-              </div>
-              {!showAll && data.reviews.length > INIT && (
-                <div className="lp-reviews__more">
-                  <button type="button" className="lp-reviews__more-btn" onClick={() => setShowAll(true)}>
-                    Voir plus
-                  </button>
+                  <Stars n={r.rating || 5} />
+                  <p className="lp-review__text">{r.text}</p>
                 </div>
-              )}
-            </>
+              ))}
+            </div>
           ) : (
             <div className="lp-reviews__ph">
               <span className="lp-reviews__ph-icon"><Icons.Star /></span>
