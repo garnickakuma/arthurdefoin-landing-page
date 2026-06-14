@@ -837,12 +837,19 @@
       /* Hero : boutons plus petits, sans flèche */
       .lp-poster__actions .alc-btn{font-size:var(--text-sm);padding:var(--space-2) var(--space-4);min-height:0}
       .lp-poster__actions .alc-btn svg{display:none}
-      /* Formules : carte verticale (photo en haut, contenu en bas) */
-      .lp-formule{flex-direction:column;align-items:stretch}
-      .lp-formule__photo{width:100%;aspect-ratio:3/1;flex:none}
-      .lp-formule__content{grid-template-columns:auto 1fr;padding:var(--space-2) var(--space-3) var(--space-3);gap:var(--space-1) var(--space-2);align-items:start}
-      .lp-formule__from{grid-column:1/-1;font-size:var(--text-sm)}
+      /* Formules : carte image plein-fond avec overlay */
+      .lp-formule{flex-direction:column;position:relative;overflow:hidden;min-height:140px;align-items:stretch}
+      .lp-formule__photo{position:absolute;inset:0;width:100%;height:100%;aspect-ratio:unset;flex:none}
+      .lp-formule__photo img{width:100%;height:100%;object-fit:cover}
+      .lp-formule__content{position:relative;z-index:1;display:flex;flex-direction:column;
+        justify-content:flex-end;gap:3px;padding:var(--space-3);min-height:140px;
+        background:linear-gradient(to top,rgba(15,12,8,.8) 45%,transparent 100%)}
+      .lp-formule__icon{display:none}
+      .lp-formule__sub{display:none}
+      .lp-formule__name{color:#fff;font-size:var(--text-sm)}
+      .lp-formule__from{color:rgba(255,255,255,.82);font-size:var(--text-xs);grid-column:unset}
       .lp-formule__cue{display:none}
+      .lp-formule--on .lp-formule__content{background:linear-gradient(to top,rgba(20,38,16,.82) 45%,transparent 100%)}
       /* Packs / compléments : 1 colonne pour éviter le débordement */
       .lp-packs__list--cols{grid-template-columns:1fr;gap:0}
       .lp-packs__list--cols .lp-pack-row:nth-child(2){border-top:1px solid var(--border-soft)}
