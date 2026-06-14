@@ -1716,7 +1716,11 @@
         s.cardComplete,
       ][s.step];
 
-      const next = () => set({ step: Math.min(STEPS.length - 1, s.step + 1) });
+      const next = () => {
+        const ns = Math.min(STEPS.length - 1, s.step + 1);
+        if(ns === STEPS.length - 1 && typeof fbq === 'function') fbq('track','AddPaymentInfo');
+        set({ step: ns });
+      };
       const back = () => set({ step: Math.max(0, s.step - 1) });
 
       const pay = async () => {
@@ -1998,7 +2002,7 @@
     /* ── APP ROOT ─────────────────────────────────────────────────── */
     function App() {
       const [booking, setBooking] = React.useState(false);
-      const openBooking  = React.useCallback(() => setBooking(true),  []);
+      const openBooking  = React.useCallback(() => { setBooking(true); if(typeof fbq==='function') fbq('track','InitiateCheckout'); }, []);
       const closeBooking = React.useCallback(() => setBooking(false), []);
       return (
         <div className="al-scroll">
