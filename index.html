@@ -934,7 +934,7 @@
       }, [status]);
 
       const clients = clientsConfirmed ? (simData && simData.clients) : null;
-      const tierLabel = lpTier === 'decouverte' ? 'Découverte (390€)' : 'Complète (490€)';
+      const tierLabel = lpTier === 'decouverte' ? 'Découverte' : 'Complète';
       const lpSentence = lpChoice === 'have'
         ? 'vous avez déjà une landing page'
         : lpChoice === 'need' ? `vous souhaitez une landing page ${tierLabel}`
