@@ -1195,7 +1195,7 @@ image-slot { display: block; background: var(--ivoire-2); }
   font-family: 'Plus Jakarta Sans', sans-serif;
   font-weight: 800;
   font-size: clamp(38px, 5.5vw, 60px);
-  background: linear-gradient(135deg, #1E52A0, #90B4E8, #4A7FC4);
+  background: linear-gradient(135deg, #5E1F3C, #C4668A, #EBC4D5);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -1205,7 +1205,7 @@ image-slot { display: block; background: var(--ivoire-2); }
   font-family: 'Plus Jakarta Sans', sans-serif;
   font-weight: 800;
   font-size: clamp(84px, 12vw, 128px);
-  background: linear-gradient(140deg, #1E52A0, #A8C8F0, #4A7FC4);
+  background: linear-gradient(140deg, #723558, #C4668A, #EBC4D5);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
