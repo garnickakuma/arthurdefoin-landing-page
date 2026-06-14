@@ -1517,18 +1517,13 @@
                   </div>
                 ))}
               </div>
-              <div className="lp-reviews__more">
-                {!showAll && data.reviews.length > INIT && (
+              {!showAll && data.reviews.length > INIT && (
+                <div className="lp-reviews__more">
                   <button type="button" className="lp-reviews__more-btn" onClick={() => setShowAll(true)}>
                     Voir plus
                   </button>
-                )}
-                {data.total && (
-                  <a className="lp-reviews__google-link" href="https://g.page/r/PLACEHOLDER/review" target="_blank" rel="noopener noreferrer">
-                    Voir les {data.total} avis sur Google →
-                  </a>
-                )}
-              </div>
+                </div>
+              )}
             </>
           ) : (
             <div className="lp-reviews__ph">
