@@ -251,10 +251,10 @@
     @keyframes lp-float-2{0%,100%{transform:rotate(5deg) translateY(0)}50%{transform:rotate(5deg) translateY(-8px)}}
     @keyframes lp-float-3{0%,100%{transform:rotate(6deg) translateY(0)}50%{transform:rotate(6deg) translateY(-12px)}}
     @keyframes lp-float-4{0%,100%{transform:rotate(-5deg) translateY(0)}50%{transform:rotate(-5deg) translateY(-9px)}}
-    .lp-pins__ph--1{top:7%;left:6%;animation:lp-float-1 9s ease-in-out infinite}
-    .lp-pins__ph--2{bottom:8%;left:12%;animation:lp-float-2 11s ease-in-out infinite 1.8s}
-    .lp-pins__ph--3{top:10%;right:7%;animation:lp-float-3 10s ease-in-out infinite 3.5s}
-    .lp-pins__ph--4{bottom:9%;right:11%;animation:lp-float-4 12s ease-in-out infinite 0.7s}
+    .lp-pins__ph--1{top:7%;left:6%;animation:lp-float-1 9s ease-in-out infinite;animation-fill-mode:backwards}
+    .lp-pins__ph--2{bottom:8%;left:12%;animation:lp-float-2 11s ease-in-out infinite 1.8s;animation-fill-mode:backwards}
+    .lp-pins__ph--3{top:10%;right:7%;animation:lp-float-3 10s ease-in-out infinite 3.5s;animation-fill-mode:backwards}
+    .lp-pins__ph--4{bottom:9%;right:11%;animation:lp-float-4 12s ease-in-out infinite 0.7s;animation-fill-mode:backwards}
     .lp-pins__copy{
       position:relative;z-index:2;text-align:center;
       background:color-mix(in srgb,var(--bg-page) 82%,transparent);backdrop-filter:blur(7px);
