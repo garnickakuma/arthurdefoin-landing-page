@@ -954,24 +954,23 @@
     }
 
     /* ── HERO — GALERIE ÉPINGLÉE ────────────────────────────────── */
-    function PinSlot({ pool, start, interval }) {
+    function PinSlot({ start, interval, pickNext }) {
       const [layers, setLayers] = React.useState([{src:start,on:true},{src:start,on:false}]);
       React.useEffect(() => {
         const id = setInterval(() => {
           setLayers(prev => {
             const offIdx = prev[0].on ? 1 : 0;
-            const onIdx  = offIdx === 0 ? 1 : 0;
+            const onIdx  = 1 - offIdx;
             const current = prev[onIdx].src;
-            let next = current;
-            for (let i = 0; i < 6 && next === current; i++) next = pool[Math.floor(Math.random() * pool.length)];
+            const next = pickNext(current);
             const copy = [{...prev[0]},{...prev[1]}];
             copy[offIdx] = {src:next, on:true};
-            copy[onIdx]  = {...copy[onIdx], on:false};
+            copy[onIdx]  = {...prev[onIdx], on:false};
             return copy;
           });
         }, interval);
         return () => clearInterval(id);
-      }, [pool, interval]);
+      }, [interval, pickNext]);
       return (
         <>
           {layers.map((l, i) => <img key={i} src={l.src} alt="" loading="lazy" style={{opacity: l.on ? 1 : 0}} />)}
@@ -981,6 +980,18 @@
 
     function Hero({ onBook }) {
       const PIN_POOL = React.useMemo(() => [...new Set([...GALLERY])], []);
+      const shown = React.useRef(new Set(['assets/images/s09.jpg','assets/images/s17.jpg','assets/images/e07.jpg','assets/images/s21.jpg']));
+      const pickNext = React.useCallback((current) => {
+        shown.current.delete(current);
+        let next = current;
+        let tries = 0;
+        while ((next === current || shown.current.has(next)) && tries < PIN_POOL.length * 3) {
+          next = PIN_POOL[Math.floor(Math.random() * PIN_POOL.length)];
+          tries++;
+        }
+        shown.current.add(next);
+        return next;
+      }, [PIN_POOL]);
       return (
         <section className="lp-hero" id="top">
           <div className="lp-hero__media">
@@ -993,16 +1004,16 @@
           <div className="lp-pins">
             <div className="lp-pins__stage" aria-hidden="true">
               <figure className="lp-pins__ph lp-pins__ph--1">
-                <PinSlot pool={PIN_POOL} start="assets/images/s09.jpg" interval={7000} />
+                <PinSlot start="assets/images/s09.jpg" interval={7000} pickNext={pickNext} />
               </figure>
               <figure className="lp-pins__ph lp-pins__ph--2">
-                <PinSlot pool={PIN_POOL} start="assets/images/s17.jpg" interval={9000} />
+                <PinSlot start="assets/images/s17.jpg" interval={9000} pickNext={pickNext} />
               </figure>
               <figure className="lp-pins__ph lp-pins__ph--3">
-                <PinSlot pool={PIN_POOL} start="assets/images/e07.jpg" interval={11000} />
+                <PinSlot start="assets/images/e07.jpg" interval={11000} pickNext={pickNext} />
               </figure>
               <figure className="lp-pins__ph lp-pins__ph--4">
-                <PinSlot pool={PIN_POOL} start="assets/images/s21.jpg" interval={13000} />
+                <PinSlot start="assets/images/s21.jpg" interval={13000} pickNext={pickNext} />
               </figure>
             </div>
             <div className="lp-pins__copy">
