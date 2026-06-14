@@ -324,7 +324,7 @@
       transition:border-color var(--dur-base) var(--ease-soft),
       box-shadow var(--dur-base) var(--ease-soft),transform var(--dur-fast) var(--ease-soft)}
     .lp-formule:hover{border-color:var(--sage-300);box-shadow:var(--shadow-md);transform:translateY(-2px)}
-    .lp-formule__photo{width:clamp(110px,18%,160px);aspect-ratio:1/1;flex:none;overflow:hidden;border-radius:calc(var(--radius-xl) - 1.5px) 0 0 calc(var(--radius-xl) - 1.5px)}
+    .lp-formule__photo{width:clamp(110px,18%,160px);aspect-ratio:1/1;flex:none;overflow:hidden}
     .lp-formule__photo img{width:100%;height:100%;object-fit:cover;
       transition:transform var(--dur-photo) var(--ease-soft)}
     .lp-formule:hover .lp-formule__photo img{transform:scale(1.06)}
@@ -784,7 +784,7 @@
     /* ── DATA ─────────────────────────────────────────────────── */
     const PRESTATIONS = [
       { id:'famille',   title:'Famille',    img:'assets/images/prest-famille.jpg',     desc:'Tous réunis, complices, dans la lumière.' },
-      { id:'grossesse', title:'Grossesse',  img:'assets/images/prest-grossesse.jpg',   desc:'Célébrer ces mois si particuliers.' },
+      { id:'grossesse', title:'Grossesse',  img:'assets/images/prest-grossesse.jpg',   desc:'Célébrer ces mois si particuliers.', imgPos:'left center' },
       { id:'nouveau',   title:'Nouveau-né', img:'assets/images/prest-nouveau-ne.jpg',  desc:'Les tout premiers jours, tout en douceur.' },
       { id:'enfant',    title:'Enfants',    img:'assets/images/prest-enfants.jpg',     desc:'Leur regard, leur âge, leur caractère.' },
       { id:'couple',    title:'Couple',     img:'assets/images/prest-couple.jpg',      desc:'À deux, simplement, avec tendresse.' },
@@ -904,11 +904,11 @@
       );
     }
 
-    function ServiceCard({ image, title, description }) {
+    function ServiceCard({ image, title, description, imgPos }) {
       return (
         <a href="#tarifs" className="alc-svc">
           <div className="alc-svc__media">
-            <img src={image} alt={title} loading="lazy" />
+            <img src={image} alt={title} loading="lazy" style={imgPos ? {objectPosition:imgPos} : undefined} />
             <div className="alc-svc__scrim" />
             <div className="alc-svc__cap">
               <p className="alc-svc__title">{title}</p>
@@ -1067,7 +1067,7 @@
           </div>
           <div className="lp-prest__grid">
             {PRESTATIONS.map(p => (
-              <ServiceCard key={p.id} image={p.img} title={p.title} description={p.desc} />
+              <ServiceCard key={p.id} image={p.img} title={p.title} description={p.desc} imgPos={p.imgPos} />
             ))}
           </div>
         </section>
@@ -1118,7 +1118,6 @@
                     <span className="lp-formule__icon">{f.icon}</span>
                     <span className="lp-formule__body">
                       <span className="lp-formule__name">{f.name}</span>
-                      <span className="lp-formule__sub">{f.sub}</span>
                     </span>
                     <span className="lp-formule__from">{f.from}</span>
                     <span className="lp-formule__cue">
