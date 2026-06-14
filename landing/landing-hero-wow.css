@@ -51,7 +51,7 @@
 .hero-anime .hero-halo {
   position: absolute; left: 50%; top: 38%; width: 720px; height: 720px;
   transform: translate(-50%, -50%);
-  background: radial-gradient(circle, rgba(139,92,246,0.22), rgba(139,92,246,0) 62%);
+  background: radial-gradient(circle, rgba(196,102,138,0.20), rgba(155,79,114,0) 62%);
   z-index: 0; pointer-events: none;
 }
 .hero-anime .container { position: relative; z-index: 2; }

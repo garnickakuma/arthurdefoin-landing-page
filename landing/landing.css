@@ -2079,6 +2079,17 @@ image-slot { display: block; background: var(--ivoire-2); }
 .side-rail a:hover { color: var(--encre); }
 @media (max-width: 1100px) { .side-rail { display: none; } }
 
+/* ----------  Scroll reveal  ---------- */
+.sr-init {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.sr-in {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
 /* ----------  Callback pick links  ---------- */
 .cfw-summary-missing { opacity: 0.8; }
 .cfw-pick-link {
