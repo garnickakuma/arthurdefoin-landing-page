@@ -467,6 +467,20 @@
       transition:transform var(--dur-photo) var(--ease-soft)}
     .lp-gal__item:hover img{transform:scale(1.03)}
 
+    /* ── LIGHTBOX ───────────────────────────────────────────── */
+    .lp-lightbox{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.92);
+      display:flex;align-items:center;justify-content:center;
+      animation:lp-fade .18s ease}
+    .lp-lightbox img{max-width:90vw;max-height:88vh;object-fit:contain;
+      border-radius:var(--radius-md);box-shadow:0 8px 40px rgba(0,0,0,.5)}
+    .lp-lightbox__close{position:fixed;top:var(--space-5);right:var(--space-5);
+      width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.18);
+      border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;
+      transition:background .15s}
+    .lp-lightbox__close:hover{background:rgba(255,255,255,.32)}
+    .lp-lightbox__close svg{width:22px;height:22px;stroke:#fff;stroke-width:2;fill:none}
+    .lp-gal__item{cursor:pointer}
+
     /* ── REVIEWS ─────────────────────────────────────────────── */
     .lp-reviews{max-width:var(--container-xl);margin-inline:auto;padding:var(--space-12) var(--space-6)}
     .lp-reviews__head{text-align:center;max-width:42rem;margin:0 auto var(--space-10);
@@ -1378,6 +1392,7 @@
       const PREVIEW = 12;
       const [filter, setFilter] = React.useState('studio');
       const [showAll, setShowAll] = React.useState(false);
+      const [lightbox, setLightbox] = React.useState(null);
       const tabs = [
         { key:'studio', label:'En studio',    icon:<Icons.Camera /> },
         { key:'ext',    label:'En extérieur', icon:<Icons.Sun />    },
@@ -1385,7 +1400,14 @@
       const all = filter === 'ext' ? GALLERY_EXT : GALLERY_STUDIO;
       const photos = showAll ? all : all.slice(0, PREVIEW);
       const handleFilter = (key) => { setFilter(key); setShowAll(false); };
+      React.useEffect(() => {
+        if (!lightbox) return;
+        const onKey = e => { if (e.key === 'Escape') setLightbox(null); };
+        window.addEventListener('keydown', onKey);
+        return () => window.removeEventListener('keydown', onKey);
+      }, [lightbox]);
       return (
+        <>
         <section className="lp-gal" id="galerie">
           <div className="lp-gal__head">
             <span className="al-eyebrow">La galerie</span>
@@ -1402,7 +1424,7 @@
           </div>
           <div className={`lp-gal__grid${!showAll ? " lp-gal__grid--mosaic" : ""}`}>
             {photos.map((src) => (
-              <figure key={src} className="lp-gal__item">
+              <figure key={src} className="lp-gal__item" onClick={() => setLightbox(src)}>
                 <img src={src} alt="" loading="lazy" />
               </figure>
             ))}
@@ -1416,6 +1438,15 @@
             </div>
           )}
         </section>
+        {lightbox && (
+          <div className="lp-lightbox" onClick={() => setLightbox(null)}>
+            <button className="lp-lightbox__close" aria-label="Fermer" onClick={() => setLightbox(null)}>
+              <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+            <img src={lightbox} alt="" onClick={e => e.stopPropagation()} />
+          </div>
+        )}
+        </>
       );
     }
 
