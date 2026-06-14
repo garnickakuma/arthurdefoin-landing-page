@@ -821,6 +821,13 @@
     }
     // ─── Tunnel de vente ─────────────────────────────────────────────────────
     function Offre({lpChoice, onLpChoice, lpTier, onLpTier}) {
+      const vidRef = React.useRef(null);
+      React.useEffect(() => {
+        const v = vidRef.current;
+        if (!v) return;
+        v.muted = true;
+        v.play().catch(() => {});
+      }, []);
       return (
         <div className="offre-reveal offre-open" id="offre">
           <section className="section">
@@ -834,9 +841,10 @@
 
               <div className="offre-video-wrap">
                 <video
+                  ref={vidRef}
                   className="offre-video"
                   src="landing/lp-demo.mp4"
-                  autoPlay muted loop playsInline
+                  muted loop playsInline
                   preload="auto"
                   aria-hidden="true"
                 />
