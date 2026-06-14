@@ -868,6 +868,17 @@
       .lp-hero__media img{animation:none}
       *{scroll-behavior:auto}
     }
+
+    /* ── Scroll-reveal ─────────────────────────────── */
+    .sr{opacity:0;transform:translateY(22px);transition:opacity .55s ease,transform .55s ease}
+    .sr.sr--visible{opacity:1;transform:none}
+    .sr--fast{transition-duration:.35s}
+    .sr--delay1{transition-delay:.08s}
+    .sr--delay2{transition-delay:.16s}
+    .sr--delay3{transition-delay:.24s}
+    .sr--delay4{transition-delay:.32s}
+    .sr--delay5{transition-delay:.40s}
+    @media(prefers-reduced-motion:reduce){.sr{opacity:1;transform:none;transition:none}}
   </style>
 </head>
 <body>
@@ -1999,6 +2010,49 @@
     }
 
     ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    // Scroll-reveal : auto-tag + IntersectionObserver
+    (function(){
+      const SEL = [
+        '.al-eyebrow','h2',
+        '.lp-formule','.alc-svc','.lp-review',
+        '.lp-addr__row','.lp-gal__item','.lp-pack-row',
+        '.lp-welcome','.lp-poster__actions',
+        'button.lp-gal__filter','.lp-gal__head',
+        '.lp-about__duo','.lp-about__text',
+        '.lp-rating-banner','.lp-bkcta__inner',
+        '.lp-divider','.lp-prest__head','.lp-prest__grid',
+        '.lp-reviews__head'
+      ].join(',');
+
+      function initSR(){
+        const hero = document.querySelector('.lp-hero');
+        const vh   = window.innerHeight;
+        const els  = [...document.querySelectorAll(SEL)].filter(el =>
+          !hero || !hero.contains(el)
+        );
+
+        // Tag elements below the fold
+        els.forEach(el => {
+          if(el.getBoundingClientRect().top >= vh * 0.97) el.classList.add('sr');
+        });
+
+        const io = new IntersectionObserver((entries) => {
+          // Stagger elements that enter the viewport together
+          const batch = entries.filter(e => e.isIntersecting && e.target.classList.contains('sr'));
+          batch.forEach((e, i) => {
+            e.target.style.transitionDelay = Math.min(i * 70, 350) + 'ms';
+            e.target.classList.add('sr--visible');
+            io.unobserve(e.target);
+          });
+        }, { threshold: 0.06, rootMargin:'0px 0px -28px 0px' });
+
+        els.forEach(el => { if(el.classList.contains('sr')) io.observe(el); });
+      }
+
+      if(document.readyState === 'complete') setTimeout(initSR, 180);
+      else window.addEventListener('load', () => setTimeout(initSR, 180));
+    })();
+
   </script>
 </body>
 </html>
