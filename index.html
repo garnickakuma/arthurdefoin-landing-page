@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="landing/landing.css?v=103">
   <link rel="stylesheet" href="landing/landing-mauve.css?v=1">
   <link rel="stylesheet" href="landing/landing-layouts.css?v=87">
-  <link rel="stylesheet" href="landing/landing-hero-wow.css?v=87">
+  <link rel="stylesheet" href="landing/landing-hero-wow.css?v=88">
   <link rel="stylesheet" href="landing/landing-schema.css?v=96">
 
   <!-- Meta Pixel -->
@@ -136,7 +136,7 @@
         if (el) window.scrollTo({ top: el.offsetTop - 60, behavior: 'smooth' });
       };
       const Eyebrow = () => (
-        <div className="eyebrow"><span className="rule"></span><span>Publicité Meta pour photographes</span></div>
+        <div className="eyebrow"><span>Publicité Meta pour photographes</span></div>
       );
       const Lede = () => (
         <p className="lede">Je suis photographe et media buyer Meta Ads.<br />Je lance, gère et optimise vos publicités.</p>
@@ -204,7 +204,7 @@
       }
 
       // Default: Animé
-      const words = ['prospects', 'clients', 'réservations', 'prospects'];
+      const words = ['clients', 'pros', 'réservations', 'prospects', 'clients'];
       return (
         <section className="section hero hero-wow hero-anime" id="top">
           <div className="hero-halo"></div>
@@ -212,8 +212,8 @@
             <div className="hero-center">
               <Eyebrow />
               <h1>
-                <span className="small-lead">Vous photographiez —</span>
-                nous attirons vos&nbsp;
+                <span className="small-lead">Vous photographiez</span>
+                j'attire vos&nbsp;
                 <span className="rotator"><ul>{words.map((w, i) => <li key={i}>{w}</li>)}</ul></span>
               </h1>
               <Lede />

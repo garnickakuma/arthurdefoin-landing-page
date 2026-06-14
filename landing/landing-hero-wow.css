@@ -67,17 +67,18 @@
 }
 .hero-anime .rotator ul {
   margin: 0; padding: 0; list-style: none;
-  animation: rollwords 11s cubic-bezier(0.76, 0, 0.24, 1) infinite;
+  animation: rollwords 14s cubic-bezier(0.76, 0, 0.24, 1) infinite;
 }
 .hero-anime .rotator li {
   height: 1em; line-height: 1; margin-bottom: 0.3em; color: var(--or); font-weight: 800; white-space: nowrap;
 }
 .hero-anime .dotfix { color: var(--or); }
 @keyframes rollwords {
-  0%, 24%   { transform: translateY(0); }
-  32%, 57%  { transform: translateY(-1.3em); }
-  65%, 90%  { transform: translateY(-2.6em); }
-  98%, 100% { transform: translateY(-3.9em); }
+  0%, 18%   { transform: translateY(0); }
+  25%, 43%  { transform: translateY(-1.3em); }
+  50%, 68%  { transform: translateY(-2.6em); }
+  75%, 93%  { transform: translateY(-3.9em); }
+  99%, 100% { transform: translateY(-5.2em); }
 }
 
 .hero-anime .hero-polaroids { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
