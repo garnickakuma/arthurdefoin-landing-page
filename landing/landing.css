@@ -1367,6 +1367,144 @@ image-slot { display: block; background: var(--ivoire-2); }
   .sim-nav-btn { width: 42px; height: 42px; }
 }
 
+/* ── Label question cartes simulateur ── */
+.sim-cards-lbl {
+  font-family: var(--sans);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--plomb);
+  margin: 32px 0 0;
+  text-align: center;
+  letter-spacing: -0.01em;
+}
+
+/* ══════════════════════════════════════════════════════
+   Panel "Besoin" — fixed top-left
+   ══════════════════════════════════════════════════════ */
+.needs-panel {
+  position: fixed;
+  left: 18px;
+  top: 80px;
+  z-index: 500;
+  background: rgba(255,255,255,0.96);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--sable);
+  border-radius: 14px;
+  padding: 14px 18px 16px;
+  min-width: 168px;
+  box-shadow:
+    0 4px 20px rgba(0,0,0,0.07),
+    0 1px 4px rgba(0,0,0,0.05);
+  transform: translateX(calc(-100% - 28px));
+  opacity: 0;
+  transition:
+    transform 0.52s cubic-bezier(0.34, 1.56, 0.64, 1),
+    opacity 0.38s ease;
+  pointer-events: none;
+}
+.needs-panel.visible {
+  transform: translateX(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+.needs-panel-title {
+  font-family: var(--sans);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--pierre);
+  margin-bottom: 10px;
+}
+.needs-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--encre);
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition:
+    max-height 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+    opacity 0.28s ease,
+    margin-top 0.28s ease;
+}
+.needs-item.np-visible {
+  max-height: 40px;
+  opacity: 1;
+  margin-top: 6px;
+}
+.needs-check {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--or-voile);
+  color: var(--or);
+  font-size: 10px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.needs-check.needs-x {
+  background: #fde8e8;
+  color: #e53e3e;
+}
+
+/* Ghost volant */
+.fly-ghost {
+  position: fixed;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+/* Callback simplifié */
+.cfw-simple {
+  max-width: 480px;
+  margin: 0 auto;
+}
+.cfw-summary {
+  background: var(--or-voile);
+  border: 1px solid rgba(155,79,114,0.18);
+  border-radius: 14px;
+  padding: 16px 20px;
+  margin-bottom: 28px;
+}
+.cfw-summary-line {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--sans);
+  font-size: 14px;
+  color: var(--encre);
+  margin: 0;
+}
+.cfw-summary-line + .cfw-summary-line { margin-top: 8px; }
+.cfw-sum-check {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--or);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.cfw-sum-neutral { background: var(--plomb); }
+.cfw-contact-form { display: flex; flex-direction: column; gap: 0; }
+
+@media (max-width: 640px) {
+  .needs-panel { display: none; }
+}
+
 /* ----------  Simulator result cards  ---------- */
 .sim-res-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 .sim-res-card { background: #fff; border: 1px solid rgba(139,92,246,0.16); border-radius: 20px; padding: 28px 14px 24px; display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; box-shadow: 0 0 28px rgba(139,92,246,0.10), 0 2px 12px rgba(139,92,246,0.05); }

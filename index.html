@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Manrope:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,500&family=JetBrains+Mono:wght@400;500&display=swap">
 
   <link rel="stylesheet" href="landing/colors_and_type.css?v=87">
-  <link rel="stylesheet" href="landing/landing.css?v=115">
+  <link rel="stylesheet" href="landing/landing.css?v=116">
   <link rel="stylesheet" href="landing/landing-mauve.css?v=2">
   <link rel="stylesheet" href="landing/landing-layouts.css?v=87">
   <link rel="stylesheet" href="landing/landing-hero-wow.css?v=88">
@@ -453,7 +453,65 @@
         </div>
       );
     }
-    function Simulateur({onSimChange, onCtaClick}) {
+    // ─── Flying-to-panel animation ───────────────────────────────────────────
+    function flyToPanel(sourceEl) {
+      if (!sourceEl) return;
+      const sr = sourceEl.getBoundingClientRect();
+      const ghost = document.createElement('div');
+      ghost.style.cssText = [
+        'position:fixed',
+        `left:${sr.left}px`,
+        `top:${sr.top}px`,
+        `width:${Math.min(sr.width, 200)}px`,
+        `height:${Math.max(sr.height, 20)}px`,
+        'border-radius:10px',
+        'background:var(--or-voile)',
+        'border:1.5px solid var(--or)',
+        'z-index:9999',
+        'pointer-events:none',
+        'opacity:1',
+      ].join(';');
+      document.body.appendChild(ghost);
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        ghost.style.transition = [
+          'left 0.62s cubic-bezier(0.65,0,0.35,1)',
+          'top 0.62s cubic-bezier(0.65,0,0.35,1)',
+          'width 0.5s ease',
+          'height 0.5s ease',
+          'opacity 0.45s ease 0.2s',
+          'border-radius 0.4s ease',
+        ].join(',');
+        ghost.style.left = '18px';
+        ghost.style.top = '118px';
+        ghost.style.width = '152px';
+        ghost.style.height = '26px';
+        ghost.style.borderRadius = '8px';
+        ghost.style.opacity = '0';
+        setTimeout(() => ghost.remove(), 750);
+      }));
+    }
+    // ─── Panel "Besoin" fixe ──────────────────────────────────────────────────
+    function NeedsPanel({ clients, lpChoice }) {
+      const hasClients = !!clients;
+      const hasLp = !!lpChoice;
+      const visible = hasClients || hasLp;
+      return (
+        <div className={"needs-panel" + (visible ? " visible" : "")}>
+          <div className="needs-panel-title">Besoin</div>
+          <div className={"needs-item" + (hasClients ? " np-visible" : "")}>
+            <span className="needs-check">✓</span>
+            <span>+{clients} clients</span>
+          </div>
+          <div className={"needs-item needs-item-lp" + (hasLp ? " np-visible" : "")}>
+            <span className={"needs-check" + (lpChoice === 'have' ? " needs-x" : "")}>
+              {lpChoice === 'have' ? '✗' : '✓'}
+            </span>
+            <span>Landing page</span>
+          </div>
+        </div>
+      );
+    }
+    function Simulateur({onSimChange, onCtaClick, onClientConfirm}) {
       const [spec, setSpec] = React.useState('Studio');
       const [cart, setCart] = React.useState(200);
       const [cardIdx, setCardIdx] = React.useState(0);
@@ -653,7 +711,7 @@
             <div className="section-head" style={{marginBottom:0}}>
               <div>
                 <div className="eyebrow"><span className="rule"></span><span className="num">03</span><span>Simulateur</span></div>
-                <h2>Combien de clients <em>souhaitez-vous par mois</em>&nbsp;?</h2>
+                <h2>Publicité <em>Meta</em></h2>
               </div>
             </div>
 
@@ -674,6 +732,8 @@
                 </div>
               </div>
             </div>
+
+            <p className="sim-cards-lbl">Combien de clients voulez-vous par mois&nbsp;?</p>
 
             <div className={"sim-viewport" + (isDragging ? " is-dragging" : "")}
               ref={viewportRef}
@@ -740,7 +800,7 @@
             </div>
 
             <div className="sim-cta-wrap" style={{marginTop:36}}>
-              <label className="sim-cta-check" onClick={() => { if (!simCtaChecked) { setSimCtaChecked(true); if (onCtaClick) onCtaClick(); } }}>
+              <label className="sim-cta-check" onClick={e => { if (!simCtaChecked) { setSimCtaChecked(true); if (onClientConfirm) onClientConfirm(e.currentTarget); if (onCtaClick) onCtaClick(); } }}>
                 <input type="checkbox" className="sim-cta-input" checked={simCtaChecked} readOnly />
                 <span className="sim-cta-box">{simCtaChecked ? '✓' : ''}</span>
                 <span className="sim-cta-label">Je veux <strong>+{cur.clients} clients</strong> par mois</span>
@@ -930,13 +990,13 @@
               </div>
 
               <div className="offre-choice">
-                <label className={"offre-radio" + (lpChoice==='need' ? " active" : "")} onClick={() => onLpChoice('need')}>
-                  <input type="radio" name="lpchoice" value="need" checked={lpChoice==='need'} onChange={() => onLpChoice('need')} />
+                <label className={"offre-radio" + (lpChoice==='need' ? " active" : "")} onClick={e => onLpChoice('need', e.currentTarget)}>
+                  <input type="radio" name="lpchoice" value="need" checked={lpChoice==='need'} onChange={() => {}} />
                   <span className="offre-radio-icon">{lpChoice==='need' ? '✓' : ''}</span>
                   <span>J'ai besoin d'une landing page qui convertit <span className="offre-radio-sub">• 390€ découverte &nbsp;• 490€ complète &nbsp;· +60% de conversion en moyenne</span></span>
                 </label>
-                <label className={"offre-radio" + (lpChoice==='have' ? " active" : "")} onClick={() => onLpChoice('have')}>
-                  <input type="radio" name="lpchoice" value="have" checked={lpChoice==='have'} onChange={() => onLpChoice('have')} />
+                <label className={"offre-radio" + (lpChoice==='have' ? " active" : "")} onClick={e => onLpChoice('have', e.currentTarget)}>
+                  <input type="radio" name="lpchoice" value="have" checked={lpChoice==='have'} onChange={() => {}} />
                   <span className="offre-radio-icon">{lpChoice==='have' ? '✓' : ''}</span>
                   <span>J'ai déjà une landing page qui convertit</span>
                 </label>
@@ -976,72 +1036,21 @@
       );
     }
     function Callback({simData, lpChoice}) {
-      const initSpec = (simData && simData.spec) || 'Studio';
-      const initTargets = initSpec === 'Mariage' ? [2,5,10,20] : [10,20,30,40,50,60];
-      const initClientIdx = (simData && simData.clients) ? Math.max(0, initTargets.indexOf(simData.clients)) : 0;
-      const initLp = lpChoice === 'have' ? 'have' : null;
-
-      const [step, setStep] = React.useState(1);
-      const [selClients, setSelClients] = React.useState((simData && simData.clients) || null);
-      const [selAbo, setSelAbo] = React.useState((simData && simData.abo) || null);
-      const [lpFormChoice, setLpFormChoice] = React.useState(initLp);
-      const [lancement, setLancement] = React.useState('');
       const [form, setForm] = React.useState({prenom:'', telephone:'', email:''});
       const [status, setStatus] = React.useState('idle');
-
-      const [formSpec, setFormSpec] = React.useState(initSpec);
-      const [miniIdx, setMiniIdx] = React.useState(initClientIdx);
-      const [miniDragX, setMiniDragX] = React.useState(0);
-      const miniVpRef = React.useRef(null);
-      const [miniVpW, setMiniVpW] = React.useState(0);
       const successRef = React.useRef(null);
-      React.useEffect(() => {
-        if (!miniVpRef.current) return;
-        const ro = new ResizeObserver(e => setMiniVpW(e[0].contentRect.width));
-        ro.observe(miniVpRef.current);
-        return () => ro.disconnect();
-      }, []);
+
       React.useEffect(() => {
         if (status === 'success' && successRef.current) {
           setTimeout(() => successRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' }), 80);
         }
       }, [status]);
-      const isMariage = formSpec === 'Mariage';
-      const targets = isMariage ? [2, 5, 10, 20] : [10, 20, 30, 40, 50, 60];
-      const aboFixe = isMariage
-        ? {2:390, 5:490, 10:640, 20:990}
-        : {10:390, 20:490, 30:570, 40:650, 50:720, 60:790};
-      const miniCards = targets.map(n => ({clients:n, abo:aboFixe[n]}));
-      const MINI_W = 148, MINI_GAP = 12, MINI_STEP = MINI_W + MINI_GAP;
-      const miniTrackX = miniVpW ? miniVpW / 2 - miniIdx * MINI_STEP - MINI_W / 2 + miniDragX : 0;
-      const miniPointerDown = e => {
-        if (e.button !== 0 && e.pointerType !== 'touch') return;
-        const vp = e.currentTarget;
-        const initialTarget = e.target;
-        vp.setPointerCapture(e.pointerId);
-        const x0 = e.clientX, idx0 = miniIdx;
-        let dragged = false;
-        const onMove = ev => { const dx = ev.clientX - x0; if (Math.abs(dx) > 4) { dragged = true; setMiniDragX(dx); } };
-        const onUp = ev => {
-          const dx = ev.clientX - x0;
-          setMiniDragX(0);
-          vp.removeEventListener('pointermove', onMove);
-          vp.removeEventListener('pointerup', onUp);
-          if (dragged) {
-            if (dx < -15 && idx0 < miniCards.length - 1) setMiniIdx(idx0 + 1);
-            else if (dx > 15 && idx0 > 0) setMiniIdx(idx0 - 1);
-          } else {
-            const cardEl = initialTarget.closest('.cfw-mini-card');
-            if (cardEl) {
-              const cards = vp.querySelectorAll('.cfw-mini-card');
-              const ci = Array.from(cards).indexOf(cardEl);
-              if (ci !== -1) { setSelClients(miniCards[ci].clients); setSelAbo(miniCards[ci].abo); setMiniIdx(ci); }
-            }
-          }
-        };
-        vp.addEventListener('pointermove', onMove);
-        vp.addEventListener('pointerup', onUp);
-      };
+
+      const clients = simData && simData.clients;
+      const lpSentence = lpChoice === 'have'
+        ? 'vous avez déjà une landing page'
+        : lpChoice === 'need' ? 'vous souhaitez également une landing page'
+        : null;
 
       const update = k => e => setForm(f => ({...f, [k]:e.target.value}));
 
@@ -1049,25 +1058,22 @@
         e.preventDefault();
         setStatus('sending');
         const sim = simData || {};
-        const lpLabel = lpFormChoice === 'decouverte' ? 'Landing page Découverte'
-          : lpFormChoice === 'complete' ? 'Landing page Complète'
-          : lpFormChoice === 'have' ? 'Possède déjà une landing page'
+        const lpLabel = lpChoice === 'have' ? 'Possède déjà une landing page'
+          : lpChoice === 'need' ? 'Souhaite une landing page'
           : '—';
         try {
           const res = await fetch('https://api.web3forms.com/submit', {
             method:'POST', headers:{'Content-Type':'application/json'},
             body: JSON.stringify({
               access_key: '8ff579b2-c217-4683-95bf-49ccd0b57c4d',
-              subject: `Devis — ${form.prenom} (+${selClients||'?'} clients, ${selAbo||'?'}€/mois)`,
+              subject: `Devis — ${form.prenom} (+${clients||'?'} clients)`,
               'Prénom': form.prenom,
               'Email': form.email,
               'Téléphone': form.telephone,
-              'Clients souhaités': selClients ? '+' + selClients + ' /mois' : '—',
-              'Abonnement mensuel': selAbo ? selAbo + ' €' : '—',
+              'Clients souhaités': clients ? '+' + clients + ' /mois' : '—',
               'Spécialité (simulateur)': sim.spec || '—',
               'Budget pub estimé': sim.pub ? sim.pub + ' €/mois' : '—',
               'Landing page': lpLabel,
-              'Lancement souhaité': lancement || '—',
             })
           });
           const data = await res.json();
@@ -1075,8 +1081,6 @@
           if (data.success && typeof fbq === 'function') fbq('track', 'Lead');
         } catch { setStatus('error'); }
       };
-
-      const steps = ['Objectifs', 'Contact'];
 
       return (
         <section className="section callback" id="rappel">
@@ -1089,21 +1093,6 @@
                 <span><Ico n="video" /> Appel de <strong>30 min</strong></span>
                 <span><Ico n="shield" /> Aucun <strong>engagement</strong></span>
               </div>
-              {status !== 'success' && (
-                <div className="cfw-progress">
-                  {steps.map((lbl, i) => (
-                    <React.Fragment key={i}>
-                      <div className={"cfw-step-item" + (i+1 === step ? ' active' : '') + (i+1 < step ? ' done' : '')}
-                        style={i+1 < step ? {cursor:'pointer'} : {}}
-                        onClick={() => { if (i+1 < step) setStep(i+1); }}>
-                        <div className="cfw-dot">{i+1 < step ? '✓' : i+1}</div>
-                        <span className="cfw-step-name">{lbl}</span>
-                      </div>
-                      {i < steps.length - 1 && <div className={"cfw-connector" + (i+1 < step ? ' done' : '')} />}
-                    </React.Fragment>
-                  ))}
-                </div>
-              )}
             </div>
 
             {status === 'success' ? (
@@ -1113,109 +1102,41 @@
                 <p>Je vous recontacte très bientôt. À très vite.</p>
               </div>
             ) : (
-              <div className="cform-wizard">
-
-                {step === 1 && (
-                  <div className="cfw-panel">
-                    <h3 className="cfw-title">Votre spécialité ?</h3>
-                    <div className="cfw-spec-chips">
-                      {SIM_SPECIALITES.map(s => (
-                        <button key={s}
-                          className={"cfw-spec-chip" + (formSpec === s ? ' active' : '')}
-                          onClick={() => { setFormSpec(s); setSelClients(null); setSelAbo(null); setMiniIdx(0); }}>
-                          {s}
-                        </button>
-                      ))}
-                    </div>
-
-                    <p className="cfw-subtitle" style={{marginTop:24}}>Combien de clients par mois souhaitez-vous ?</p>
-                    <div ref={miniVpRef} className="cfw-carousel-vp" onPointerDown={miniPointerDown}>
-                      <div className="cfw-carousel-track" style={{
-                        transform: `translateX(${miniTrackX}px)`,
-                        transition: miniDragX ? 'none' : 'transform 0.35s cubic-bezier(.22,.68,0,1.2)'
-                      }}>
-                        {miniCards.map((c, i) => (
-                          <div key={c.clients}
-                            className={"cfw-mini-card" + (selClients === c.clients ? ' selected' : '')}
-                            style={{ opacity: Math.max(0.4, 1 - Math.abs(i - miniIdx) * 0.28) }}>
-                            <span className="cfw-mini-num">+{c.clients}</span>
-                            <span className="cfw-mini-lbl">clients / mois</span>
-                            {selClients === c.clients && <span className="cfw-mini-badge">✓</span>}
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                    <div className="cfw-dots">
-                      {miniCards.map((_, i) => (
-                        <button key={i} className={"cfw-dot-mini" + (i === miniIdx ? ' active' : '')}
-                          onClick={() => setMiniIdx(i)} />
-                      ))}
-                    </div>
-
-                    <p className="cfw-subtitle" style={{marginTop:28}}>Landing page ?</p>
-                    <div className="cfw-lp-cards">
-                      <div className={"cfw-lp-card" + (lpFormChoice === 'decouverte' ? ' selected' : '')}
-                        onClick={() => setLpFormChoice('decouverte')}>
-                        <div className="cfw-lp-badge">+30% de conversion en moyenne</div>
-                        <h4 className="cfw-lp-title">Landing page Découverte</h4>
-                        <p className="cfw-lp-desc">Informations principales</p>
-                        {lpFormChoice === 'decouverte' && <div className="cfw-lp-sel">✓ Sélectionnée</div>}
-                      </div>
-                      <div className={"cfw-lp-card" + (lpFormChoice === 'complete' ? ' selected' : '')}
-                        onClick={() => setLpFormChoice('complete')}>
-                        <div className="cfw-lp-badge cfw-lp-badge-plus">+60% de conversion en moyenne</div>
-                        <h4 className="cfw-lp-title">Landing page Complète</h4>
-                        <p className="cfw-lp-desc">Découverte + tarif affiché + avis clients</p>
-                        {lpFormChoice === 'complete' && <div className="cfw-lp-sel">✓ Sélectionnée</div>}
-                      </div>
-                    </div>
-                    <label className={"cfw-lp-have" + (lpFormChoice === 'have' ? ' active' : '')}
-                      onClick={() => setLpFormChoice(lpFormChoice === 'have' ? null : 'have')}>
-                      <span className="cfw-lp-have-box">{lpFormChoice === 'have' ? '✓' : ''}</span>
-                      Je possède déjà ma landing page qui convertit
-                    </label>
-
-                    <p className="cfw-subtitle" style={{marginTop:28}}>Quand souhaitez-vous lancer vos publicités ?</p>
-                    <select className="cform-input cform-select cfw-select"
-                      value={lancement} onChange={e => setLancement(e.target.value)}>
-                      <option value="">— Choisissez —</option>
-                      <option value="Dès que possible">Dès que possible</option>
-                      <option value="Dans une semaine">Dans une semaine</option>
-                      <option value="Dans deux semaines">Dans deux semaines</option>
-                      <option value="Autre">Autre</option>
-                    </select>
-
-                    <button className={"btn btn-primary cfw-next" + (!selClients || !lpFormChoice || !lancement ? ' cfw-disabled' : '')}
-                      style={{marginTop:28}}
-                      onClick={() => { if (selClients && lpFormChoice && lancement) setStep(2); }}>
-                      Valider mes objectifs →
-                    </button>
+              <div className="cfw-simple">
+                {(clients || lpSentence) && (
+                  <div className="cfw-summary">
+                    {clients && (
+                      <p className="cfw-summary-line">
+                        <span className="cfw-sum-check">✓</span>
+                        Vous souhaitez <strong>+{clients} clients</strong> par mois
+                      </p>
+                    )}
+                    {lpSentence && (
+                      <p className="cfw-summary-line">
+                        <span className={"cfw-sum-check" + (lpChoice === 'have' ? " cfw-sum-neutral" : "")}>✓</span>
+                        {lpSentence}
+                      </p>
+                    )}
                   </div>
                 )}
-
-                {step === 2 && (
-                  <div className="cfw-panel">
-                    <h3 className="cfw-title">Vos coordonnées</h3>
-                    <form onSubmit={submit} noValidate>
-                      <div className="cform-field">
-                        <label className="cform-label">Prénom</label>
-                        <input className="cform-input" type="text" required placeholder="Sophie" value={form.prenom} onChange={update('prenom')} />
-                      </div>
-                      <div className="cform-field">
-                        <label className="cform-label">Téléphone</label>
-                        <input className="cform-input" type="tel" required placeholder="06 12 34 56 78" value={form.telephone} onChange={update('telephone')} />
-                      </div>
-                      <div className="cform-field">
-                        <label className="cform-label">Email</label>
-                        <input className="cform-input" type="email" required placeholder="sophie@studio.fr" value={form.email} onChange={update('email')} />
-                      </div>
-                      {status === 'error' && <p className="cform-error">Une erreur est survenue, réessayez.</p>}
-                      <button className="btn btn-gold cform-submit" type="submit" disabled={status==='sending'}>
-                        {status==='sending' ? 'Envoi…' : 'Envoyer ma demande de devis →'}
-                      </button>
-                    </form>
+                <form onSubmit={submit} noValidate className="cfw-contact-form">
+                  <div className="cform-field">
+                    <label className="cform-label">Prénom</label>
+                    <input className="cform-input" type="text" required placeholder="Sophie" value={form.prenom} onChange={update('prenom')} />
                   </div>
-                )}
+                  <div className="cform-field">
+                    <label className="cform-label">Téléphone</label>
+                    <input className="cform-input" type="tel" required placeholder="06 12 34 56 78" value={form.telephone} onChange={update('telephone')} />
+                  </div>
+                  <div className="cform-field">
+                    <label className="cform-label">Email</label>
+                    <input className="cform-input" type="email" required placeholder="sophie@studio.fr" value={form.email} onChange={update('email')} />
+                  </div>
+                  {status === 'error' && <p className="cform-error">Une erreur est survenue, réessayez.</p>}
+                  <button className="btn btn-gold cform-submit" type="submit" disabled={status==='sending'}>
+                    {status==='sending' ? 'Envoi…' : 'Envoyer ma demande de devis →'}
+                  </button>
+                </form>
               </div>
             )}
           </div>
@@ -1276,12 +1197,19 @@
     function App() {
       const [simData, setSimData] = React.useState({});
       const [lpChoice, setLpChoice] = React.useState(null);
+      const [clientsConfirmed, setClientsConfirmed] = React.useState(false);
       React.useEffect(() => { if (window.lucide) window.lucide.createIcons(); });
 
       const scrollTo = id => { const el = document.getElementById(id); if (el) window.scrollTo({top: el.offsetTop - 60, behavior: 'smooth'}); };
 
-      const handleLpChoice = choice => {
+      const handleClientConfirm = sourceEl => {
+        setClientsConfirmed(true);
+        flyToPanel(sourceEl);
+      };
+
+      const handleLpChoice = (choice, sourceEl) => {
         setLpChoice(choice);
+        flyToPanel(sourceEl);
         setTimeout(() => {
           const btn = document.querySelector('.offre-devis-wrap');
           if (btn) { const r = btn.getBoundingClientRect(); window.scrollTo({ top: r.top + window.scrollY - window.innerHeight / 2 + r.height / 2, behavior: 'smooth' }); }
@@ -1292,10 +1220,11 @@
         <div className="page">
           <Nav />
           <SideRail />
+          <NeedsPanel clients={clientsConfirmed ? simData.clients : null} lpChoice={lpChoice} />
           <main>
             <HeroWow variant="anime" />
             <Schema />
-            <Simulateur onSimChange={setSimData} onCtaClick={() => scrollTo('offre')} />
+            <Simulateur onSimChange={setSimData} onCtaClick={() => scrollTo('offre')} onClientConfirm={handleClientConfirm} />
             <Offre lpChoice={lpChoice} onLpChoice={handleLpChoice} onDevisClick={() => scrollTo('rappel')} />
             <Callback simData={simData} lpChoice={lpChoice} />
             <Studio />
