@@ -24,7 +24,7 @@ const res = await fetch(`https://places.googleapis.com/v1/places/${PLACE_ID}`, {
   headers: {
     'Content-Type': 'application/json',
     'X-Goog-Api-Key': API_KEY,
-    'X-Goog-FieldMask': 'displayName,rating,userRatingCount,reviews',
+    'X-Goog-FieldMask': 'displayName,rating,userRatingCount,reviews.rating,reviews.authorAttribution,reviews.originalText,reviews.relativePublishTimeDescription',
   },
 });
 
@@ -37,7 +37,7 @@ if (!res.ok) {
 
 const reviews = (data.reviews ?? []).map(r => ({
   name:   r.authorAttribution?.displayName ?? 'Anonyme',
-  text:   r.text?.text ?? '',
+  text:   r.originalText?.text ?? '',
   rating: r.rating,
   time:   r.relativePublishTimeDescription ?? '',
 }));
