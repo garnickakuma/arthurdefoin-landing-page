@@ -472,6 +472,10 @@
       transition:transform var(--dur-photo) var(--ease-soft)}
     .lp-gal__item:hover img{transform:scale(1.03)}
 
+    .lp-welcome{text-align:center;padding:var(--space-8) var(--space-6) var(--space-4);display:flex;flex-direction:column;align-items:center;gap:var(--space-3)}
+    .lp-welcome__text{font-family:var(--font-body);font-size:var(--text-sm);letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);margin:0}
+    .lp-welcome__logo{height:36px;width:auto}
+
     /* ── LIGHTBOX ───────────────────────────────────────────── */
     .lp-lightbox{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.92);
       display:flex;align-items:center;justify-content:center;
@@ -1975,6 +1979,10 @@
           <Header onBook={openBooking} />
           <main>
             <Hero onBook={openBooking} />
+            <div className="lp-welcome">
+              <p className="lp-welcome__text">Bienvenue au studio professionnel</p>
+              <img src="assets/logo/logo_ink.png" className="lp-welcome__logo" alt="Amour et Lumière" />
+            </div>
             <GallerySection />
             <PricingSection onBook={openBooking} />
             <PrestationsSection />
