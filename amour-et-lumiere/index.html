@@ -700,6 +700,8 @@
       font-size:var(--text-sm);color:var(--text-muted);margin:var(--space-3) 0 0}
     .lp-bk-card-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4);
       margin-top:var(--space-5)}
+    .lp-bk-callback{display:flex;align-items:center;gap:.5em;font-size:var(--text-sm);color:var(--sage-700);margin-top:var(--space-2)}
+    .lp-bk-callback svg{width:15px;height:15px;flex:none}
     .lp-bk-secure{display:flex;align-items:center;gap:.5em;font-family:var(--font-body);
       font-size:var(--text-xs);color:var(--text-muted);margin:var(--space-4) 0 0}
     .lp-bk-secure svg{width:1.15em;height:1.15em;color:var(--sage-600)}
@@ -1988,6 +1990,7 @@
                       <div ref={cardRef} className="lp-stripe-element" />
                       {s.payError && <p className="lp-bk-error">{s.payError}</p>}
                       <p className="lp-bk-secure"><Icons.Shield /> Paiement chiffré par Stripe · aucune donnée bancaire conservée</p>
+                      <p className="lp-bk-callback"><Icons.Phone /> On vous rappelle pour fixer votre créneau après la réservation.</p>
                     </>
                   )}
                 </div>
