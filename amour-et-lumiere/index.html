@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="fr" data-hero="pins">
 <head>
   <meta charset="utf-8">
@@ -318,19 +318,24 @@
     .lp-pricing__title{font-size:clamp(1.9rem,4vw,var(--text-2xl));margin:0}
     .lp-pricing__lead{font-size:var(--text-md);color:var(--text-muted);margin:0;max-width:40rem}
     .lp-formules{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-5)}
-    .lp-formule{display:grid;grid-template-columns:auto 1fr auto;align-items:center;
-      gap:var(--space-4) var(--space-5);text-align:left;cursor:pointer;
-      background:var(--bg-raised);border:1px solid var(--border-hairline);
-      border-radius:var(--radius-xl);padding:var(--space-6);box-shadow:var(--shadow-sm);
-      color:var(--ink-900);
+    .lp-formule{display:flex;flex-direction:column;align-items:stretch;text-align:left;
+      cursor:pointer;background:var(--bg-raised);border:1.5px solid var(--border-hairline);
+      border-radius:var(--radius-xl);overflow:hidden;box-shadow:var(--shadow-sm);color:var(--ink-900);
       transition:border-color var(--dur-base) var(--ease-soft),
-      box-shadow var(--dur-base) var(--ease-soft),background var(--dur-base) var(--ease-soft),
-      transform var(--dur-fast) var(--ease-soft)}
+      box-shadow var(--dur-base) var(--ease-soft),transform var(--dur-fast) var(--ease-soft)}
     .lp-formule:hover{border-color:var(--sage-300);box-shadow:var(--shadow-md);transform:translateY(-2px)}
+    /* photo illustrative */
+    .lp-formule__photo{width:100%;aspect-ratio:3/2;overflow:hidden;flex:none}
+    .lp-formule__photo img{width:100%;height:100%;object-fit:cover;
+      transition:transform var(--dur-photo) var(--ease-soft)}
+    .lp-formule:hover .lp-formule__photo img{transform:scale(1.04)}
+    /* contenu sous la photo */
+    .lp-formule__content{display:grid;grid-template-columns:auto 1fr auto;align-items:center;
+      gap:var(--space-3) var(--space-4);padding:var(--space-5)}
     .lp-formule__icon{display:inline-flex;align-items:center;justify-content:center;
-      width:54px;height:54px;border-radius:var(--radius-circle);
-      background:var(--sage-50);color:var(--sage-700);font-size:25px;
-      transition:background var(--dur-base) var(--ease-soft),color var(--dur-base) var(--ease-soft)}
+      width:48px;height:48px;border-radius:var(--radius-circle);
+      background:var(--sage-50);color:var(--sage-700);font-size:22px;flex:none;
+      transition:background var(--dur-base),color var(--dur-base)}
     .lp-formule__body{display:flex;flex-direction:column;gap:3px;min-width:0}
     .lp-formule__name{font-family:var(--font-display);font-weight:var(--fw-regular);
       font-size:var(--text-xl);line-height:1}
@@ -339,17 +344,17 @@
       font-size:var(--text-lg);color:var(--sage-700);white-space:nowrap}
     .lp-formule__cue{grid-column:1/-1;display:inline-flex;align-items:center;gap:.45em;
       font-family:var(--font-body);font-weight:var(--fw-semibold);font-size:var(--text-sm);
-      color:var(--sage-700);margin-top:var(--space-1)}
+      color:var(--sage-700)}
     .lp-formule__cue svg{width:1.15em;height:1.15em;
       transition:transform var(--dur-base) var(--ease-soft)}
     .lp-formule:hover .lp-formule__cue svg{transform:translateX(4px)}
-    .lp-formule--on{background:var(--sage-600);border-color:var(--sage-600);color:#fff;
-      box-shadow:var(--shadow-lg)}
-    .lp-formule--on:hover{transform:none;box-shadow:var(--shadow-lg)}
-    .lp-formule--on .lp-formule__icon{background:rgba(255,255,255,.16);color:#fff}
-    .lp-formule--on .lp-formule__sub{color:rgba(255,255,255,.82)}
-    .lp-formule--on .lp-formule__from{color:#fff}
-    .lp-formule--on .lp-formule__cue{color:var(--sage-100)}
+    /* état sélectionné */
+    .lp-formule--on{border-color:var(--sage-600);box-shadow:0 0 0 2px var(--sage-600),var(--shadow-md)}
+    .lp-formule--on:hover{transform:none}
+    .lp-formule--on .lp-formule__icon{background:var(--sage-600);color:#fff}
+    .lp-formule--on .lp-formule__name{color:var(--sage-800)}
+    .lp-formule--on .lp-formule__from{color:var(--sage-700)}
+    .lp-formule--on .lp-formule__cue{color:var(--sage-700)}
 
     .lp-packs{margin-top:var(--space-6);background:var(--bg-raised);
       border:1px solid var(--border-hairline);border-radius:var(--radius-xl);
@@ -1040,12 +1045,12 @@
 
       const FORMULES = {
         studio: {
-          icon:<Icons.Camera />, name:'En studio', sub:'À Bègles, dans notre lumière',
+          icon:<Icons.Camera />, img:'assets/images/s08.jpg', name:'En studio', sub:'À Bègles, dans notre lumière',
           from:'dès 49 €', packs:PACKS_STUDIO,
           fine:'Séance dans notre studio à Bègles, lumière maîtrisée au flash — douce et flatteuse. Photos retouchées livrées sous 48 h via une galerie privée.',
         },
         exterieur: {
-          icon:<Icons.Sun />, name:'En extérieur', sub:'Sur le lieu de votre choix',
+          icon:<Icons.Sun />, img:'assets/images/e07.jpg', name:'En extérieur', sub:'Sur le lieu de votre choix',
           from:'dès 99 €', packs:PACKS_EXTERIEUR,
           fine:'Séance en extérieur autour de Bordeaux, en pleine lumière naturelle (déplacement compris). Photos retouchées livrées sous 48 h.',
         },
@@ -1071,15 +1076,20 @@
                 <button key={key} type="button"
                   className={'lp-formule' + (on ? ' lp-formule--on' : '')}
                   onClick={() => setFormule(key)}>
-                  <span className="lp-formule__icon">{f.icon}</span>
-                  <span className="lp-formule__body">
-                    <span className="lp-formule__name">{f.name}</span>
-                    <span className="lp-formule__sub">{f.sub}</span>
-                  </span>
-                  <span className="lp-formule__from">{f.from}</span>
-                  <span className="lp-formule__cue">
-                    {on ? 'Tarifs ci-dessous' : 'Voir les tarifs'} <Icons.Arrow />
-                  </span>
+                  <div className="lp-formule__photo">
+                    <img src={f.img} alt={f.name} loading="lazy" />
+                  </div>
+                  <div className="lp-formule__content">
+                    <span className="lp-formule__icon">{f.icon}</span>
+                    <span className="lp-formule__body">
+                      <span className="lp-formule__name">{f.name}</span>
+                      <span className="lp-formule__sub">{f.sub}</span>
+                    </span>
+                    <span className="lp-formule__from">{f.from}</span>
+                    <span className="lp-formule__cue">
+                      {on ? 'Tarifs ci-dessous' : 'Voir les tarifs'} <Icons.Arrow />
+                    </span>
+                  </div>
                 </button>
               );
             })}
