@@ -1504,7 +1504,7 @@ image-slot { display: block; background: var(--ivoire-2); }
 @media (max-width: 640px) {
   .needs-panel {
     left: 8px;
-    top: 84px;
+    top: 96px;
     min-width: 148px;
     padding: 10px 14px 12px;
     border-radius: 12px;
