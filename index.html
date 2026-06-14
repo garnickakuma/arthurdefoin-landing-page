@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Manrope:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,500&family=JetBrains+Mono:wght@400;500&display=swap">
 
   <link rel="stylesheet" href="landing/colors_and_type.css?v=87">
-  <link rel="stylesheet" href="landing/landing.css?v=122">
+  <link rel="stylesheet" href="landing/landing.css?v=123">
   <link rel="stylesheet" href="landing/landing-mauve.css?v=2">
   <link rel="stylesheet" href="landing/landing-layouts.css?v=87">
   <link rel="stylesheet" href="landing/landing-hero-wow.css?v=88">
@@ -769,7 +769,7 @@
                             </div>
                             <div className="sim-card-cost-row">
                               <i data-lucide="plus-circle"></i>
-                              <span><strong>{fmtEUR(card.abo)}</strong> frais de gestion &amp; optimisation / mois</span>
+                              <span><strong>{fmtEUR(card.abo)}</strong> de gestion et optimisation / mois</span>
                             </div>
                             <div className="sim-card-costs-sep"></div>
                             <div className="sim-card-cost-row sim-card-benefit">
@@ -961,22 +961,32 @@
               </div>
             ) : (
               <div className="cfw-simple">
-                {(clients || lpSentence) && (
-                  <div className="cfw-summary">
-                    {clients && (
-                      <p className="cfw-summary-line">
-                        <span className="cfw-sum-check">✓</span>
-                        Vous souhaitez <strong>+{clients} clients</strong> par mois
-                      </p>
-                    )}
-                    {lpSentence && (
-                      <p className="cfw-summary-line">
-                        <span className={"cfw-sum-check" + (lpChoice === 'have' ? " cfw-sum-neutral" : "")}>✓</span>
-                        {lpSentence}
-                      </p>
-                    )}
-                  </div>
-                )}
+                <div className="cfw-summary">
+                  {clients ? (
+                    <p className="cfw-summary-line">
+                      <span className="cfw-sum-check">✓</span>
+                      Vous souhaitez <strong>+{clients} clients</strong> par mois
+                    </p>
+                  ) : (
+                    <p className="cfw-summary-line cfw-summary-missing">
+                      <a className="cfw-pick-link" href="#simulateur" onClick={e => { e.preventDefault(); const el=document.getElementById('simulateur'); if(el) window.scrollTo({top:el.offsetTop-60,behavior:'smooth'}); }}>
+                        Choisir le nombre de clients par mois →
+                      </a>
+                    </p>
+                  )}
+                  {lpChoice ? (
+                    <p className="cfw-summary-line">
+                      <span className={"cfw-sum-check" + (lpChoice === 'have' ? " cfw-sum-neutral" : "")}>✓</span>
+                      {lpSentence}
+                    </p>
+                  ) : (
+                    <p className="cfw-summary-line cfw-summary-missing">
+                      <a className="cfw-pick-link" href="#offre" onClick={e => { e.preventDefault(); const el=document.getElementById('offre'); if(el) window.scrollTo({top:el.offsetTop-60,behavior:'smooth'}); }}>
+                        Choisir votre option landing page →
+                      </a>
+                    </p>
+                  )}
+                </div>
                 <form onSubmit={submit} noValidate className="cfw-contact-form">
                   <div className="cform-field">
                     <label className="cform-label">Prénom</label>
