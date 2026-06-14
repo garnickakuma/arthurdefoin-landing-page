@@ -627,6 +627,15 @@ body { background: var(--ivoire); }
   .cfw-step-name { display: none; }
 }
 
+/* ----------  Contact WhatsApp  ---------- */
+.contact-wa { background: var(--ivoire-2); }
+.cwa-inner { max-width: 600px; margin: 0 auto; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 16px; }
+.cwa-eyebrow { font-family: var(--sans); font-size: 10px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--or); margin: 0; }
+.cwa-title { font-size: clamp(26px, 3.4vw, 40px); line-height: 1.1; margin: 0; }
+.cwa-sub { font-family: var(--serif); font-size: 16px; color: var(--plomb); font-style: italic; margin: 0; }
+.cwa-btn { display: inline-flex; align-items: center; gap: 10px; background: #25D366; color: #fff; border: none; padding: 16px 32px; font-size: 16px; font-weight: 700; border-radius: 50px; box-shadow: 0 4px 20px rgba(37,211,102,0.30); transition: transform 0.18s ease, box-shadow 0.18s ease; margin-top: 8px; }
+.cwa-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(37,211,102,0.40); color: #fff; }
+
 /* ----------  Footer  ---------- */
 .footer { padding: 64px 0 48px; border-top: 1px solid var(--sable); background: var(--ivoire); }
 .footer-grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: 48px; }

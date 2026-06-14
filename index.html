@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Manrope:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,500&family=JetBrains+Mono:wght@400;500&display=swap">
 
   <link rel="stylesheet" href="landing/colors_and_type.css?v=87">
-  <link rel="stylesheet" href="landing/landing.css?v=130">
+  <link rel="stylesheet" href="landing/landing.css?v=131">
   <link rel="stylesheet" href="landing/landing-mauve.css?v=2">
   <link rel="stylesheet" href="landing/landing-layouts.css?v=87">
   <link rel="stylesheet" href="landing/landing-hero-wow.css?v=89">
@@ -1043,6 +1043,34 @@
         </section>
       );
     }
+    // ─── Contact WhatsApp ────────────────────────────────────────────────────
+    function ContactWA() {
+      return (
+        <section className="section contact-wa" id="contact">
+          <div className="container">
+            <div className="cwa-inner">
+              <p className="cwa-eyebrow">Contact direct</p>
+              <h2 className="cwa-title">Une question avant de vous lancer&nbsp;?</h2>
+              <p className="cwa-sub">Écrivez-moi sur WhatsApp, je réponds en général dans la journée.</p>
+              <a
+                className="btn cwa-btn"
+                href="https://wa.me/33789954427"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => { if (typeof fbq === 'function') fbq('track', 'Contact', {content_name: 'WhatsApp'}); }}
+              >
+                <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20" style={{flexShrink:0}}>
+                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+                  <path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.528 5.845L.057 23.428a.5.5 0 0 0 .609.61l5.654-1.48A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.9a9.893 9.893 0 0 1-5.031-1.371l-.36-.214-3.733.977.997-3.645-.235-.374A9.862 9.862 0 0 1 2.1 12C2.1 6.534 6.534 2.1 12 2.1c5.466 0 9.9 4.434 9.9 9.9 0 5.466-4.434 9.9-9.9 9.9z"/>
+                </svg>
+                Écrire sur WhatsApp
+              </a>
+            </div>
+          </div>
+        </section>
+      );
+    }
+
     // ─── Footer ───────────────────────────────────────────────────────────────
     function Footer() {
       const go = id => e => { e.preventDefault(); const el = document.getElementById(id); if (el) window.scrollTo({top:el.offsetTop-60,behavior:'smooth'}); };
@@ -1136,6 +1164,7 @@
             <Simulateur onSimChange={setSimData} onClientConfirm={handleClientConfirm} />
             <Offre lpChoice={lpChoice} onLpChoice={handleLpChoice} lpTier={lpTier} onLpTier={setLpTier} />
             <Callback simData={simData} lpChoice={lpChoice} clientsConfirmed={clientsConfirmed} lpTier={lpTier} />
+            <ContactWA />
             <Studio />
           </main>
           <Footer />
