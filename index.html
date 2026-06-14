@@ -12,11 +12,11 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Manrope:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,500&family=JetBrains+Mono:wght@400;500&display=swap">
 
   <link rel="stylesheet" href="landing/colors_and_type.css?v=87">
-  <link rel="stylesheet" href="landing/landing.css?v=114">
+  <link rel="stylesheet" href="landing/landing.css?v=115">
   <link rel="stylesheet" href="landing/landing-mauve.css?v=2">
   <link rel="stylesheet" href="landing/landing-layouts.css?v=87">
   <link rel="stylesheet" href="landing/landing-hero-wow.css?v=88">
-  <link rel="stylesheet" href="landing/landing-schema.css?v=101">
+  <link rel="stylesheet" href="landing/landing-schema.css?v=102">
 
   <!-- Meta Pixel -->
   <script>
@@ -975,17 +975,22 @@
         </svg>
       );
     }
-    function Callback({simData}) {
+    function Callback({simData, lpChoice}) {
+      const initSpec = (simData && simData.spec) || 'Studio';
+      const initTargets = initSpec === 'Mariage' ? [2,5,10,20] : [10,20,30,40,50,60];
+      const initClientIdx = (simData && simData.clients) ? Math.max(0, initTargets.indexOf(simData.clients)) : 0;
+      const initLp = lpChoice === 'have' ? 'have' : null;
+
       const [step, setStep] = React.useState(1);
-      const [selClients, setSelClients] = React.useState(null);
-      const [selAbo, setSelAbo] = React.useState(null);
-      const [lpFormChoice, setLpFormChoice] = React.useState(null);
+      const [selClients, setSelClients] = React.useState((simData && simData.clients) || null);
+      const [selAbo, setSelAbo] = React.useState((simData && simData.abo) || null);
+      const [lpFormChoice, setLpFormChoice] = React.useState(initLp);
       const [lancement, setLancement] = React.useState('');
       const [form, setForm] = React.useState({prenom:'', telephone:'', email:''});
       const [status, setStatus] = React.useState('idle');
 
-      const [formSpec, setFormSpec] = React.useState((simData && simData.spec) || 'Studio');
-      const [miniIdx, setMiniIdx] = React.useState(0);
+      const [formSpec, setFormSpec] = React.useState(initSpec);
+      const [miniIdx, setMiniIdx] = React.useState(initClientIdx);
       const [miniDragX, setMiniDragX] = React.useState(0);
       const miniVpRef = React.useRef(null);
       const [miniVpW, setMiniVpW] = React.useState(0);
@@ -1071,7 +1076,7 @@
         } catch { setStatus('error'); }
       };
 
-      const steps = ['Objectif', 'Landing page', 'Lancement', 'Contact'];
+      const steps = ['Objectifs', 'Contact'];
 
       return (
         <section className="section callback" id="rappel">
@@ -1122,7 +1127,8 @@
                         </button>
                       ))}
                     </div>
-                    <p className="cfw-subtitle">Combien de clients par mois souhaitez-vous ?</p>
+
+                    <p className="cfw-subtitle" style={{marginTop:24}}>Combien de clients par mois souhaitez-vous ?</p>
                     <div ref={miniVpRef} className="cfw-carousel-vp" onPointerDown={miniPointerDown}>
                       <div className="cfw-carousel-track" style={{
                         transform: `translateX(${miniTrackX}px)`,
@@ -1145,30 +1151,22 @@
                           onClick={() => setMiniIdx(i)} />
                       ))}
                     </div>
-                    <button className={"btn btn-primary cfw-next" + (!selClients ? ' cfw-disabled' : '')}
-                      onClick={() => { if (selClients) setStep(2); }}>
-                      Valider mon objectif ↓
-                    </button>
-                  </div>
-                )}
 
-                {step === 2 && (
-                  <div className="cfw-panel">
-                    <h3 className="cfw-title">Avez-vous besoin d'une landing page ?</h3>
+                    <p className="cfw-subtitle" style={{marginTop:28}}>Landing page ?</p>
                     <div className="cfw-lp-cards">
                       <div className={"cfw-lp-card" + (lpFormChoice === 'decouverte' ? ' selected' : '')}
                         onClick={() => setLpFormChoice('decouverte')}>
                         <div className="cfw-lp-badge">+30% de conversion en moyenne</div>
                         <h4 className="cfw-lp-title">Landing page Découverte</h4>
                         <p className="cfw-lp-desc">Informations principales</p>
-                        {lpFormChoice === 'decouverte' && <div className="cfw-lp-sel">✓ Je souhaite la landing page Découverte</div>}
+                        {lpFormChoice === 'decouverte' && <div className="cfw-lp-sel">✓ Sélectionnée</div>}
                       </div>
                       <div className={"cfw-lp-card" + (lpFormChoice === 'complete' ? ' selected' : '')}
                         onClick={() => setLpFormChoice('complete')}>
                         <div className="cfw-lp-badge cfw-lp-badge-plus">+60% de conversion en moyenne</div>
                         <h4 className="cfw-lp-title">Landing page Complète</h4>
                         <p className="cfw-lp-desc">Découverte + tarif affiché + avis clients</p>
-                        {lpFormChoice === 'complete' && <div className="cfw-lp-sel">✓ Je souhaite la landing page Complète</div>}
+                        {lpFormChoice === 'complete' && <div className="cfw-lp-sel">✓ Sélectionnée</div>}
                       </div>
                     </div>
                     <label className={"cfw-lp-have" + (lpFormChoice === 'have' ? ' active' : '')}
@@ -1176,17 +1174,8 @@
                       <span className="cfw-lp-have-box">{lpFormChoice === 'have' ? '✓' : ''}</span>
                       Je possède déjà ma landing page qui convertit
                     </label>
-                    {lpFormChoice && (
-                      <button className="btn btn-primary cfw-next" onClick={() => setStep(3)}>
-                        Continuer ↓
-                      </button>
-                    )}
-                  </div>
-                )}
 
-                {step === 3 && (
-                  <div className="cfw-panel">
-                    <h3 className="cfw-title">Quand souhaitez-vous lancer vos publicités ?</h3>
+                    <p className="cfw-subtitle" style={{marginTop:28}}>Quand souhaitez-vous lancer vos publicités ?</p>
                     <select className="cform-input cform-select cfw-select"
                       value={lancement} onChange={e => setLancement(e.target.value)}>
                       <option value="">— Choisissez —</option>
@@ -1195,14 +1184,16 @@
                       <option value="Dans deux semaines">Dans deux semaines</option>
                       <option value="Autre">Autre</option>
                     </select>
-                    <button className={"btn btn-primary cfw-next" + (!lancement ? ' cfw-disabled' : '')}
-                      onClick={() => { if (lancement) setStep(4); }}>
-                      Suivant ↓
+
+                    <button className={"btn btn-primary cfw-next" + (!selClients || !lpFormChoice || !lancement ? ' cfw-disabled' : '')}
+                      style={{marginTop:28}}
+                      onClick={() => { if (selClients && lpFormChoice && lancement) setStep(2); }}>
+                      Valider mes objectifs →
                     </button>
                   </div>
                 )}
 
-                {step === 4 && (
+                {step === 2 && (
                   <div className="cfw-panel">
                     <h3 className="cfw-title">Vos coordonnées</h3>
                     <form onSubmit={submit} noValidate>
@@ -1220,7 +1211,7 @@
                       </div>
                       {status === 'error' && <p className="cform-error">Une erreur est survenue, réessayez.</p>}
                       <button className="btn btn-gold cform-submit" type="submit" disabled={status==='sending'}>
-                        {status==='sending' ? 'Envoi…' : 'Envoyer ma demande de devis ↓'}
+                        {status==='sending' ? 'Envoi…' : 'Envoyer ma demande de devis →'}
                       </button>
                     </form>
                   </div>
@@ -1306,7 +1297,7 @@
             <Schema />
             <Simulateur onSimChange={setSimData} onCtaClick={() => scrollTo('offre')} />
             <Offre lpChoice={lpChoice} onLpChoice={handleLpChoice} onDevisClick={() => scrollTo('rappel')} />
-            <Callback simData={simData} />
+            <Callback simData={simData} lpChoice={lpChoice} />
             <Studio />
           </main>
           <Footer />
