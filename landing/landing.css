@@ -1500,6 +1500,13 @@ image-slot { display: block; background: var(--ivoire-2); }
   justify-content: center;
 }
 .cfw-sum-neutral { background: var(--plomb); }
+.cfw-sum-q {
+  background: #fff;
+  border: 2px solid var(--or);
+  color: var(--or);
+  font-size: 11px;
+  font-weight: 700;
+}
 .cfw-contact-form { display: flex; flex-direction: column; gap: 0; }
 
 /* ── Scroll hint arrows sous le CTA simulateur ── */
