@@ -1502,7 +1502,16 @@ image-slot { display: block; background: var(--ivoire-2); }
 .cfw-contact-form { display: flex; flex-direction: column; gap: 0; }
 
 @media (max-width: 640px) {
-  .needs-panel { display: none; }
+  .needs-panel {
+    left: 8px;
+    top: 66px;
+    min-width: 148px;
+    padding: 10px 14px 12px;
+    border-radius: 12px;
+  }
+  .needs-panel-title { font-size: 8px; margin-bottom: 8px; }
+  .needs-item { font-size: 12px; gap: 6px; }
+  .needs-check { width: 16px; height: 16px; font-size: 9px; }
 }
 
 /* ----------  Simulator result cards  ---------- */
