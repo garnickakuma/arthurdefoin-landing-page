@@ -564,10 +564,10 @@ body { background: var(--ivoire); }
   transition: border-color 0.18s, transform 0.15s;
 }
 .cfw-mini-card:hover { border-color: var(--or-clair); transform: translateY(-2px); }
-.cfw-mini-card.selected { border-color: var(--or); background: var(--or-voile); box-shadow: 0 0 0 3px rgba(139,92,246,0.13); }
+.cfw-mini-card.selected { border-color: var(--or); background: var(--or-voile); box-shadow: 0 0 0 3px rgba(155,79,114,0.13); }
 .cfw-mini-num {
   display: block; font-size: 30px; font-weight: 800; line-height: 1;
-  background: linear-gradient(135deg, #6d4ab0, #a78bfa);
+  background: linear-gradient(135deg, #723558, #C4668A);
   -webkit-background-clip: text; -webkit-text-fill-color: transparent;
   background-clip: text; padding-right: 0.06em;
 }
@@ -587,9 +587,9 @@ body { background: var(--ivoire); }
   padding: 20px 16px; cursor: pointer; transition: border-color 0.18s;
 }
 .cfw-lp-card:hover { border-color: var(--or-clair); }
-.cfw-lp-card.selected { border-color: var(--or); background: var(--or-voile); box-shadow: 0 0 0 3px rgba(139,92,246,0.10); }
-.cfw-lp-badge { display: inline-block; font-size: 10px; font-weight: 700; color: var(--or); background: rgba(139,92,246,0.10); padding: 3px 10px; border-radius: 999px; margin-bottom: 10px; }
-.cfw-lp-badge-plus { color: #5b21b6; background: rgba(91,33,182,0.10); }
+.cfw-lp-card.selected { border-color: var(--or); background: var(--or-voile); box-shadow: 0 0 0 3px rgba(155,79,114,0.13); }
+.cfw-lp-badge { display: inline-block; font-size: 10px; font-weight: 700; color: var(--or); background: rgba(155,79,114,0.10); padding: 3px 10px; border-radius: 999px; margin-bottom: 10px; }
+.cfw-lp-badge-plus { color: #723558; background: rgba(155,79,114,0.12); }
 .cfw-lp-title { font-size: 15px; font-weight: 800; margin: 0 0 5px; color: var(--encre); }
 .cfw-lp-desc { font-size: 12px; color: var(--plomb); margin: 0; line-height: 1.5; }
 .cfw-lp-sel { font-size: 11px; font-weight: 700; color: var(--or); margin-top: 10px; }
@@ -1106,8 +1106,8 @@ image-slot { display: block; background: var(--ivoire-2); }
   100% { transform: translateY(0px)   rotateY(-2.5deg) rotateZ(-0.7deg); }
 }
 @keyframes arrowBreath {
-  0%, 100% { box-shadow: 0 0 0 0   rgba(109,74,176,0.55); transform: scale(1); }
-  50%       { box-shadow: 0 0 0 9px rgba(109,74,176,0);    transform: scale(0.93); }
+  0%, 100% { box-shadow: 0 0 0 0   rgba(155,79,114,0.55); transform: scale(1); }
+  50%       { box-shadow: 0 0 0 9px rgba(155,79,114,0);    transform: scale(0.93); }
 }
 @keyframes arrowBounce {
   0%, 100% { transform: translateX(0); }
@@ -1158,7 +1158,7 @@ image-slot { display: block; background: var(--ivoire-2); }
 /* ── Carte active ── */
 .sim-card-main {
   background: white;
-  border: 1px solid rgba(109,74,176,0.18);
+  border: 1px solid rgba(155,79,114,0.18);
   border-radius: 24px;
   padding: 52px 40px 48px;
   display: flex;
@@ -1177,7 +1177,7 @@ image-slot { display: block; background: var(--ivoire-2); }
   position: absolute;
   top: 0; left: 50%; transform: translateX(-50%);
   width: 64px; height: 3px;
-  background: linear-gradient(90deg, #6d4ab0, #a78bfa, #6d4ab0);
+  background: linear-gradient(90deg, #D4A0B8, #9B4F72, #D4A0B8);
   border-radius: 0 0 6px 6px;
 }
 
@@ -1265,7 +1265,7 @@ image-slot { display: block; background: var(--ivoire-2); }
 
 .sim-card-divider {
   width: 56px; height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(109,74,176,0.35), transparent);
+  background: linear-gradient(90deg, transparent, rgba(155,79,114,0.35), transparent);
   margin: 18px auto;
 }
 .sim-card-costs {
@@ -1307,7 +1307,7 @@ image-slot { display: block; background: var(--ivoire-2); }
   width: 50px; height: 50px;
   border-radius: 50%;
   background: white;
-  border: 1.5px solid rgba(109,74,176,0.3);
+  border: 1.5px solid rgba(155,79,114,0.3);
   cursor: pointer;
   color: var(--encre);
   display: flex; align-items: center; justify-content: center;
@@ -1342,7 +1342,7 @@ image-slot { display: block; background: var(--ivoire-2); }
 }
 .sim-dot.active {
   width: 30px;
-  background: linear-gradient(90deg, #6d4ab0, #a78bfa);
+  background: linear-gradient(90deg, #9B4F72, #D4A0B8);
 }
 
 /* ── Desktop : 3 cartes visibles — centre dominant, côtés bien lisibles ── */
@@ -1732,12 +1732,12 @@ image-slot { display: block; background: var(--ivoire-2); }
   position: absolute;
   top: 0; left: 28px;
   width: 40px; height: 2px;
-  background: linear-gradient(90deg, #6d4ab0, #a78bfa, #6d4ab0);
+  background: linear-gradient(90deg, #D4A0B8, #9B4F72, #D4A0B8);
   border-radius: 0 0 4px 4px;
 }
 /* pas de :hover — défilement automatique, pas d'interaction */
 .avis-stars { display: flex; gap: 3px; }
-.avis-star { color: #a78bfa; font-size: 15px; line-height: 1; }
+.avis-star { color: #D4A0B8; font-size: 15px; line-height: 1; }
 .avis-quote {
   font-family: var(--serif);
   font-size: 15px;
@@ -1757,7 +1757,7 @@ image-slot { display: block; background: var(--ivoire-2); }
 .avis-avatar {
   width: 40px; height: 40px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #7c5cbf, #a78bfa);
+  background: linear-gradient(135deg, #723558, #C4668A);
   display: flex; align-items: center; justify-content: center;
   font-family: 'Plus Jakarta Sans', sans-serif;
   font-weight: 700; font-size: 13px; color: white; flex: none;
