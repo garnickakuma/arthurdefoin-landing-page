@@ -799,8 +799,10 @@
     /* ── RESPONSIVE ──────────────────────────────────────────── */
     @media(max-width:960px){
       .lp-header__nav{display:none}
+      .lp-header__inner{padding:var(--space-3) var(--space-3);gap:var(--space-2)}
       .lp-header__cta{display:flex;flex:1;justify-content:center}
-      .lp-header__burger{display:flex}
+      .lp-header__cta .alc-btn{font-size:11px;padding:6px 10px;white-space:nowrap}
+      .lp-header__burger{display:flex;flex:none}
       .lp-flow{grid-template-columns:1fr 24px 1fr 24px 1fr;gap:0}
       .lp-flow__sep{padding-top:2rem;padding-bottom:0;font-size:1rem;transform:none}
       .lp-flow__num{font-size:clamp(2.2rem,6vw,3.5rem)}
@@ -830,9 +832,9 @@
       .lp-pins__card-logo{display:block}
       .lp-gal__grid--mosaic{grid-template-rows:repeat(2,28vw)}
       .lp-pins__ph{width:31vw;border-width:4px}
-      .lp-pins__ph--1{top:14%;left:11%}
+      .lp-pins__ph--1{top:6%;left:11%}
       .lp-pins__ph--2{bottom:2%;left:12%}
-      .lp-pins__ph--3{top:14%;right:11%}
+      .lp-pins__ph--3{top:6%;right:11%}
       .lp-pins__ph--4{bottom:2%;right:12%}
       /* Hero : boutons plus petits, sans flèche */
       .lp-poster__actions .alc-btn{font-size:var(--text-sm);padding:var(--space-2) var(--space-4);min-height:0}
