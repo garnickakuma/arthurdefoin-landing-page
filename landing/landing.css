@@ -1557,15 +1557,22 @@ image-slot { display: block; background: var(--ivoire-2); }
 .offre-price-card {
   flex: 1;
   background: #fff;
-  border: 1px solid var(--sable);
+  border: 2px solid var(--sable);
   border-radius: 14px;
   padding: 22px 24px 24px;
   text-align: center;
   box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
+}
+.offre-price-card:hover { border-color: rgba(155,79,114,0.35); }
+.offre-price-card.is-selected {
+  border-color: var(--or);
+  box-shadow: 0 0 0 3px rgba(155,79,114,0.12), 0 4px 20px rgba(155,79,114,0.18);
+  transform: translateY(-2px);
 }
 .offre-price-card-plus {
-  border-color: var(--or);
-  box-shadow: 0 2px 20px rgba(155,79,114,0.14);
+  box-shadow: 0 2px 20px rgba(155,79,114,0.08);
 }
 .offre-prices-sep {
   flex-shrink: 0;

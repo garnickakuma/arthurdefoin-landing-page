@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Manrope:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,500&family=JetBrains+Mono:wght@400;500&display=swap">
 
   <link rel="stylesheet" href="landing/colors_and_type.css?v=87">
-  <link rel="stylesheet" href="landing/landing.css?v=124">
+  <link rel="stylesheet" href="landing/landing.css?v=125">
   <link rel="stylesheet" href="landing/landing-mauve.css?v=2">
   <link rel="stylesheet" href="landing/landing-layouts.css?v=87">
   <link rel="stylesheet" href="landing/landing-hero-wow.css?v=88">
@@ -820,7 +820,7 @@
       );
     }
     // ─── Tunnel de vente ─────────────────────────────────────────────────────
-    function Offre({lpChoice, onLpChoice}) {
+    function Offre({lpChoice, onLpChoice, lpTier, onLpTier}) {
       return (
         <div className="offre-reveal offre-open" id="offre">
           <section className="section">
@@ -842,13 +842,13 @@
               </div>
 
               <div className="offre-prices">
-                <div className="offre-price-card">
+                <div className={"offre-price-card" + (lpTier==='decouverte' ? ' is-selected' : '')} onClick={() => onLpTier('decouverte')}>
                   <span className="offre-price-label">Découverte</span>
                   <div className="offre-price-amount">390 <span className="offre-price-eur">€</span></div>
                   <p className="offre-price-desc">Page principale, galerie, formulaire de contact. <strong>+30% de conversion.</strong></p>
                 </div>
                 <div className="offre-prices-sep">ou</div>
-                <div className="offre-price-card offre-price-card-plus">
+                <div className={"offre-price-card offre-price-card-plus" + (lpTier==='complete' ? ' is-selected' : '')} onClick={() => onLpTier('complete')}>
                   <span className="offre-price-label">Complète</span>
                   <div className="offre-price-amount">490 <span className="offre-price-eur">€</span></div>
                   <p className="offre-price-desc">Découverte + tarifs affichés + avis clients. <strong>+60% de conversion.</strong></p>
@@ -877,7 +877,8 @@
     // ─── Formulaire de contact ────────────────────────────────────────────────
     const ICO_PATHS = {
       video:'Pm22 8-6 4 6 4V8Z|R2,6,14,12,2',
-      clock:'C12,12,10|PM12 6 12 12 16 14',
+      clock:'C12,12,10|PM12 6v6l4 2',
+      phone:'PM22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.99 5.18 2 2 0 0 1 6.97 3h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L11.05 10.91a16 16 0 0 0 6.29 6.29l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z',
       user:'PM19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2|C12,7,4',
       shield:'PM20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z|Pm9 12 2 2 4-4'
     };
@@ -893,7 +894,7 @@
         </svg>
       );
     }
-    function Callback({simData, lpChoice, clientsConfirmed}) {
+    function Callback({simData, lpChoice, clientsConfirmed, lpTier}) {
       const [form, setForm] = React.useState({prenom:'', telephone:'', email:''});
       const [status, setStatus] = React.useState('idle');
       const successRef = React.useRef(null);
@@ -905,9 +906,10 @@
       }, [status]);
 
       const clients = clientsConfirmed ? (simData && simData.clients) : null;
+      const tierLabel = lpTier === 'decouverte' ? 'Découverte (390€)' : 'Complète (490€)';
       const lpSentence = lpChoice === 'have'
         ? 'vous avez déjà une landing page'
-        : lpChoice === 'need' ? 'vous souhaitez également une landing page'
+        : lpChoice === 'need' ? `vous souhaitez une landing page ${tierLabel}`
         : null;
 
       const update = k => e => setForm(f => ({...f, [k]:e.target.value}));
@@ -917,7 +919,7 @@
         setStatus('sending');
         const sim = simData || {};
         const lpLabel = lpChoice === 'have' ? 'Possède déjà une landing page'
-          : lpChoice === 'need' ? 'Souhaite une landing page'
+          : lpChoice === 'need' ? `Souhaite une landing page — ${tierLabel}`
           : '—';
         try {
           const res = await fetch('https://api.web3forms.com/submit', {
@@ -947,8 +949,8 @@
               <h2>Demande de devis — <em>sans engagement</em></h2>
               <p className="lede">Je vous recontacte sous 24h pour vous proposer une offre sur-mesure.</p>
               <div className="cb-assur">
-                <span><Ico n="user" /> Réponse sous <strong>24h</strong></span>
-                <span><Ico n="video" /> Appel de <strong>30 min</strong></span>
+                <span><Ico n="clock" /> Réponse sous <strong>24h</strong></span>
+                <span><Ico n="phone" /> Appel de <strong>30 min</strong></span>
                 <span><Ico n="shield" /> Aucun <strong>engagement</strong></span>
               </div>
             </div>
@@ -1067,6 +1069,7 @@
     function App() {
       const [simData, setSimData] = React.useState({});
       const [lpChoice, setLpChoice] = React.useState(null);
+      const [lpTier, setLpTier] = React.useState('complete');
       const [clientsConfirmed, setClientsConfirmed] = React.useState(false);
       React.useEffect(() => { if (window.lucide) window.lucide.createIcons(); });
 
@@ -1091,8 +1094,8 @@
             <HeroWow variant="anime" />
             <Schema />
             <Simulateur onSimChange={setSimData} onClientConfirm={handleClientConfirm} />
-            <Offre lpChoice={lpChoice} onLpChoice={handleLpChoice} />
-            <Callback simData={simData} lpChoice={lpChoice} clientsConfirmed={clientsConfirmed} />
+            <Offre lpChoice={lpChoice} onLpChoice={handleLpChoice} lpTier={lpTier} onLpTier={setLpTier} />
+            <Callback simData={simData} lpChoice={lpChoice} clientsConfirmed={clientsConfirmed} lpTier={lpTier} />
             <Studio />
           </main>
           <Footer />
