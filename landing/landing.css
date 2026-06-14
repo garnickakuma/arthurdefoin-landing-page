@@ -67,40 +67,26 @@ body { background: var(--ivoire); }
 .hero .lede { margin-top: 32px; max-width: 460px; }
 .hero-actions { display: flex; gap: 18px; margin-top: 40px; align-items: center; }
 
-/* Hero CTA — 4 coins seulement, effet éditorial luxe */
+/* Hero CTA — ghost outline, angles droits, sans flèche */
 .hero-actions .btn-primary {
   background: transparent;
   color: var(--or);
-  border: none;
-  padding: 13px 34px;
+  border: 1.5px solid var(--or);
+  border-radius: 6px;
+  padding: 11px 30px;
   font-size: 14px;
   font-weight: 600;
-  letter-spacing: 0.05em;
-  position: relative;
+  letter-spacing: 0.03em;
   box-shadow: none;
-  transition: color 0.25s ease;
+  transition: background 0.2s ease, color 0.2s ease;
 }
-.hero-actions .btn-primary::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(var(--or), var(--or)) top    left  / 14px 1.5px no-repeat,
-    linear-gradient(var(--or), var(--or)) top    left  / 1.5px 14px no-repeat,
-    linear-gradient(var(--or), var(--or)) top    right / 14px 1.5px no-repeat,
-    linear-gradient(var(--or), var(--or)) top    right / 1.5px 14px no-repeat,
-    linear-gradient(var(--or), var(--or)) bottom left  / 14px 1.5px no-repeat,
-    linear-gradient(var(--or), var(--or)) bottom left  / 1.5px 14px no-repeat,
-    linear-gradient(var(--or), var(--or)) bottom right / 14px 1.5px no-repeat,
-    linear-gradient(var(--or), var(--or)) bottom right / 1.5px 14px no-repeat;
-  transition: opacity 0.25s ease;
+.hero-actions .btn-primary:hover {
+  background: var(--or);
+  color: #fff;
 }
-.hero-actions .btn-primary:hover { color: var(--or-sombre); }
-.hero-actions .btn-primary:hover::before { opacity: 0.6; }
-
 @media (max-width: 860px) {
   .hero-anime .lede { font-size: 15px; line-height: 1.55; }
-  .hero-actions .btn-primary { padding: 12px 28px; font-size: 13px; width: auto; }
+  .hero-actions .btn-primary { padding: 10px 24px; font-size: 13px; width: auto; }
 }
 
 .hero-portrait {
