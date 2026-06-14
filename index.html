@@ -1166,9 +1166,6 @@
           }, { threshold: 0.4 }).observe(sim);
         } else if (++tries > 40) clearInterval(poll);
       }, 250);
-      window.addEventListener('message', function (e) {
-        if (e.data && e.data.event === 'calendly.event_scheduled') fire('Lead', { content_name: 'Appel decouverte reserve' });
-      });
     })();
   </script>
 </body>
