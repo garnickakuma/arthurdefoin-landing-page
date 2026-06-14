@@ -454,6 +454,16 @@
     .lp-gal__filter--on{background:var(--sage-700);border-color:var(--sage-700);color:#fff;box-shadow:var(--shadow-sm)}
     .lp-gal__filter--on:hover{background:var(--sage-800);transform:none}
     .lp-gal__filter svg{width:1em;height:1em}
+    /* mosaïque preview */
+    .lp-gal__grid--mosaic{display:grid;
+      grid-template-columns:3fr 2fr 2fr;
+      grid-template-rows:repeat(2,clamp(170px,20vw,250px));
+      gap:3px;border-radius:var(--radius-xl);overflow:hidden}
+    .lp-gal__grid--mosaic .lp-gal__item{margin:0;border-radius:0;box-shadow:none;overflow:hidden}
+    .lp-gal__grid--mosaic .lp-gal__item:first-child{grid-row:span 2}
+    .lp-gal__grid--mosaic .lp-gal__item img{width:100%;height:100%;object-fit:cover;
+      transition:transform var(--dur-photo) var(--ease-soft)}
+    .lp-gal__grid--mosaic .lp-gal__item:hover img{transform:scale(1.04)}
     .lp-gal__more{text-align:center;margin-top:var(--space-8)}
     .lp-gal__more-btn{font-family:var(--font-body);font-size:var(--text-sm);font-weight:var(--fw-semibold);
       display:inline-flex;align-items:center;gap:.5em;cursor:pointer;
@@ -1296,7 +1306,7 @@
               ))}
             </div>
           </div>
-          <div className="lp-gal__grid">
+          <div className={`lp-gal__grid${!showAll ? " lp-gal__grid--mosaic" : ""}`}>
             {photos.map((src) => (
               <figure key={src} className="lp-gal__item">
                 <img src={src} alt="" loading="lazy" />
