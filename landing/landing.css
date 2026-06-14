@@ -51,6 +51,7 @@ body { background: var(--ivoire); }
   letter-spacing: 0.18em; text-transform: uppercase; color: var(--or);
   display: flex; align-items: center; gap: 14px;
 }
+.eyebrow-big { font-size: 16px; font-weight: 700; letter-spacing: 0.12em; }
 .eyebrow .num { font-family: var(--mono); font-weight: 400; color: var(--plomb); letter-spacing: 0.1em; }
 .eyebrow .rule { width: 28px; height: 1px; background: var(--or); }
 
@@ -1194,7 +1195,7 @@ image-slot { display: block; background: var(--ivoire-2); }
   font-family: 'Plus Jakarta Sans', sans-serif;
   font-weight: 800;
   font-size: clamp(38px, 5.5vw, 60px);
-  background: linear-gradient(135deg, #6d4ab0, #c4b5fd, #a78bfa);
+  background: linear-gradient(135deg, #1E52A0, #90B4E8, #4A7FC4);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -1204,7 +1205,7 @@ image-slot { display: block; background: var(--ivoire-2); }
   font-family: 'Plus Jakarta Sans', sans-serif;
   font-weight: 800;
   font-size: clamp(84px, 12vw, 128px);
-  background: linear-gradient(140deg, #6d4ab0, #d8b4fe, #a78bfa);
+  background: linear-gradient(140deg, #1E52A0, #A8C8F0, #4A7FC4);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;

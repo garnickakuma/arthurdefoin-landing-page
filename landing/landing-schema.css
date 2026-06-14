@@ -31,7 +31,7 @@
 }
 .meca-card:hover {
   box-shadow:
-    0 4px 16px rgba(109,40,217,0.12),
+    0 4px 16px rgba(30,82,160,0.12),
     0 20px 60px rgba(0,0,0,0.1);
 }
 
@@ -52,7 +52,7 @@
   justify-content: center;
   position: relative;
   overflow: hidden;
-  background: linear-gradient(180deg, #f3eeff 0%, #faf8ff 60%, #fff 100%);
+  background: linear-gradient(180deg, #E8F2FC 0%, #F5F9FE 60%, #fff 100%);
 }
 
 /* Fine bande de couleur tout en haut */
@@ -61,7 +61,7 @@
   position: absolute;
   top: 0; left: 0; right: 0;
   height: 3px;
-  background: linear-gradient(90deg, #c4b5fd, #7c3aed, #c4b5fd);
+  background: linear-gradient(90deg, #90B4E8, #1E52A0, #90B4E8);
 }
 
 .meca-illus svg {
@@ -83,7 +83,7 @@
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: #7c3aed;
+  color: #1E52A0;
   margin-bottom: 9px;
 }
 
@@ -142,7 +142,7 @@ h3.meca-title {
     min-width: 90px;
     height: auto;
     border-radius: 0;
-    background: linear-gradient(180deg, #ede9fe 0%, #f5f2ff 100%);
+    background: linear-gradient(180deg, #E0EBFA 0%, #EEF5FD 100%);
   }
 
   .meca-illus svg {
