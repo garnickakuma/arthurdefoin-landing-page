@@ -828,87 +828,6 @@
         </section>
       );
     }
-    // ─── Modal devis rapide ───────────────────────────────────────────────────
-    function DevisModal({lpTier, onClose, simData, lpChoice, clientsConfirmed}) {
-      const [form, setForm] = React.useState({prenom:'', telephone:'', email:''});
-      const [status, setStatus] = React.useState('idle');
-      const update = k => e => setForm(f => ({...f, [k]: e.target.value}));
-      const tierLabel = lpTier === 'decouverte' ? 'Découverte — 390€' : 'Complète — 490€';
-      const tierValue = lpTier === 'decouverte' ? 390 : 490;
-      const clients = clientsConfirmed ? (simData && simData.clients) : null;
-      const lpLabel = lpChoice === 'have' ? 'Possède déjà une landing page'
-        : lpChoice === 'need' ? `Souhaite une landing page — ${lpTier === 'decouverte' ? 'Découverte' : 'Complète'}`
-        : '—';
-
-      const submit = async e => {
-        e.preventDefault();
-        setStatus('sending');
-        const sim = simData || {};
-        try {
-          const res = await fetch('https://api.web3forms.com/submit', {
-            method: 'POST', headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-              access_key: '8ff579b2-c217-4683-95bf-49ccd0b57c4d',
-              subject: `Devis — ${form.prenom} (+${clients||'?'} clients)`,
-              'Prénom': form.prenom,
-              'Téléphone': form.telephone,
-              'Email': form.email,
-              'Option landing page': tierLabel,
-              'Clients souhaités': clients ? '+' + clients + ' /mois' : '—',
-              'Spécialité (simulateur)': sim.spec || '—',
-              'Budget pub estimé': sim.pub ? sim.pub + ' €/mois' : '—',
-              'Landing page': lpLabel,
-            })
-          });
-          const data = await res.json();
-          setStatus(data.success ? 'success' : 'error');
-          if (data.success && typeof fbq === 'function') {
-            fbq('track', 'Lead', {
-              content_name: 'Devis Landing Page',
-              content_category: lpTier === 'decouverte' ? 'Découverte' : 'Complète',
-              value: tierValue,
-              currency: 'EUR',
-            });
-          }
-        } catch { setStatus('error'); }
-      };
-
-      React.useEffect(() => {
-        document.body.style.overflow = 'hidden';
-        return () => { document.body.style.overflow = ''; };
-      }, []);
-
-      return (
-        <div className="dmodal-backdrop" onClick={e => { if (e.target === e.currentTarget) onClose(); }}>
-          <div className="dmodal-card" role="dialog" aria-modal="true">
-            <button className="dmodal-close" aria-label="Fermer" onClick={onClose}>✕</button>
-            {status === 'success' ? (
-              <div className="dmodal-success">
-                <div className="dmodal-success-ico">✓</div>
-                <h3>Demande envoyée !</h3>
-                <p>Je vous recontacte sous 24h.</p>
-                <button className="btn btn-primary" onClick={onClose}>Fermer</button>
-              </div>
-            ) : (
-              <>
-                <p className="dmodal-option">{tierLabel}</p>
-                <h3 className="dmodal-title">Votre demande de devis</h3>
-                <form className="dmodal-form" onSubmit={submit}>
-                  <input className="dmodal-input" type="text" placeholder="Prénom" required value={form.prenom} onChange={update('prenom')} />
-                  <input className="dmodal-input" type="tel" placeholder="Téléphone" required value={form.telephone} onChange={update('telephone')} />
-                  <input className="dmodal-input" type="email" placeholder="Email" required value={form.email} onChange={update('email')} />
-                  <button className="btn btn-primary dmodal-submit" type="submit" disabled={status==='sending'}>
-                    {status === 'sending' ? 'Envoi…' : 'Envoyer'}
-                  </button>
-                  {status === 'error' && <p className="dmodal-err">Une erreur est survenue, réessayez.</p>}
-                </form>
-              </>
-            )}
-          </div>
-        </div>
-      );
-    }
-
     // ─── Tunnel de vente ─────────────────────────────────────────────────────
     function Offre({lpChoice, onLpChoice, lpTier, onLpTier}) {
       const vidRef = React.useRef(null);
@@ -1013,11 +932,43 @@
       );
     }
     function Callback({lpTier, simData, lpChoice, clientsConfirmed}) {
-      const [modalOpen, setModalOpen] = React.useState(false);
+      const [form, setForm] = React.useState({prenom:'', telephone:'', email:''});
+      const [status, setStatus] = React.useState('idle');
+      const successRef = React.useRef(null);
+      React.useEffect(() => {
+        if (status === 'success' && successRef.current) {
+          setTimeout(() => successRef.current.scrollIntoView({behavior:'smooth',block:'center'}), 80);
+        }
+      }, [status]);
       const clients = clientsConfirmed ? (simData && simData.clients) : null;
       const tierLabel = lpTier === 'decouverte' ? 'Découverte' : 'Complète';
       const lpSentence = lpChoice === 'have' ? 'vous avez déjà une landing page'
         : lpChoice === 'need' ? `vous souhaitez une landing page ${tierLabel}` : null;
+      const update = k => e => setForm(f => ({...f, [k]: e.target.value}));
+      const submit = async e => {
+        e.preventDefault();
+        setStatus('sending');
+        const sim = simData || {};
+        const lpLabel = lpChoice === 'have' ? 'Possède déjà une landing page'
+          : lpChoice === 'need' ? `Souhaite une landing page — ${tierLabel}` : '—';
+        try {
+          const res = await fetch('https://api.web3forms.com/submit', {
+            method:'POST', headers:{'Content-Type':'application/json'},
+            body: JSON.stringify({
+              access_key: '8ff579b2-c217-4683-95bf-49ccd0b57c4d',
+              subject: `Devis — ${form.prenom} (+${clients||'?'} clients)`,
+              'Prénom': form.prenom, 'Email': form.email, 'Téléphone': form.telephone,
+              'Clients souhaités': clients ? '+' + clients + ' /mois' : '—',
+              'Spécialité (simulateur)': sim.spec || '—',
+              'Budget pub estimé': sim.pub ? sim.pub + ' €/mois' : '—',
+              'Landing page': lpLabel,
+            })
+          });
+          const data = await res.json();
+          setStatus(data.success ? 'success' : 'error');
+          if (data.success && typeof fbq === 'function') fbq('track', 'Lead', {content_name:'Devis Landing Page', value: lpTier==='decouverte'?390:490, currency:'EUR'});
+        } catch { setStatus('error'); }
+      };
       return (
         <section className="section callback" id="rappel">
           <div className="container">
@@ -1030,39 +981,37 @@
                 <span><Ico n="shield" /> Aucun <strong>engagement</strong></span>
               </div>
             </div>
-            <div className="cfw-summary">
-              {clients ? (
-                <p className="cfw-summary-line">
-                  <span className="cfw-sum-check">✓</span>
-                  Vous souhaitez <strong>+{clients} clients</strong> par mois
-                </p>
-              ) : (
-                <p className="cfw-summary-line cfw-summary-missing">
-                  <span className="cfw-sum-check cfw-sum-q">?</span>
-                  <a className="cfw-pick-link" href="#simulateur" onClick={e => { e.preventDefault(); const el=document.getElementById('sim-cards-wrap'); if(el) el.scrollIntoView({behavior:'smooth',block:'center'}); }}>Choisir le nombre de clients par mois →</a>
-                </p>
-              )}
-              {lpChoice ? (
-                <p className="cfw-summary-line">
-                  <span className={"cfw-sum-check" + (lpChoice==='have' ? " cfw-sum-neutral" : "")}>✓</span>
-                  {lpSentence}
-                </p>
-              ) : (
-                <p className="cfw-summary-line cfw-summary-missing">
-                  <span className="cfw-sum-check cfw-sum-q">?</span>
-                  <a className="cfw-pick-link" href="#offre" onClick={e => { e.preventDefault(); const el=document.getElementById('offre'); if(el) window.scrollTo({top:el.offsetTop-60,behavior:'smooth'}); }}>Choisir votre option landing page →</a>
-                </p>
-              )}
-            </div>
-            <div style={{textAlign:'center', marginTop:'32px'}}>
-              <button className="btn btn-gold" style={{fontSize:'17px',padding:'18px 44px',borderRadius:'50px'}} onClick={() => {
-                setModalOpen(true);
-                if (typeof fbq === 'function') fbq('track', 'InitiateCheckout', {content_name:'Devis Landing Page', value: lpTier==='decouverte'?390:490, currency:'EUR'});
-              }}>
-                Envoyer ma demande de devis →
-              </button>
-            </div>
-            {modalOpen && <DevisModal lpTier={lpTier} onClose={() => setModalOpen(false)} simData={simData} lpChoice={lpChoice} clientsConfirmed={clientsConfirmed} />}
+            {status === 'success' ? (
+              <div className="cfw-success" ref={successRef}>
+                <div className="cfw-success-ico">✓</div>
+                <h3>Demande envoyée !</h3>
+                <p>Je vous recontacte très bientôt. À très vite.</p>
+              </div>
+            ) : (
+              <div className="cfw-simple">
+                <div className="cfw-summary">
+                  {clients ? (
+                    <p className="cfw-summary-line"><span className="cfw-sum-check">✓</span>Vous souhaitez <strong>+{clients} clients</strong> par mois</p>
+                  ) : (
+                    <p className="cfw-summary-line cfw-summary-missing"><span className="cfw-sum-check cfw-sum-q">?</span><a className="cfw-pick-link" href="#simulateur" onClick={e => { e.preventDefault(); const el=document.getElementById('sim-cards-wrap'); if(el) el.scrollIntoView({behavior:'smooth',block:'center'}); }}>Choisir le nombre de clients par mois →</a></p>
+                  )}
+                  {lpChoice ? (
+                    <p className="cfw-summary-line"><span className={"cfw-sum-check"+(lpChoice==='have'?" cfw-sum-neutral":"")}>✓</span>{lpSentence}</p>
+                  ) : (
+                    <p className="cfw-summary-line cfw-summary-missing"><span className="cfw-sum-check cfw-sum-q">?</span><a className="cfw-pick-link" href="#offre" onClick={e => { e.preventDefault(); const el=document.getElementById('offre'); if(el) window.scrollTo({top:el.offsetTop-60,behavior:'smooth'}); }}>Choisir votre option landing page →</a></p>
+                  )}
+                </div>
+                <form onSubmit={submit} noValidate className="cfw-contact-form">
+                  <div className="cform-field"><label className="cform-label">Prénom</label><input className="cform-input" type="text" required placeholder="Sophie" value={form.prenom} onChange={update('prenom')} /></div>
+                  <div className="cform-field"><label className="cform-label">Téléphone</label><input className="cform-input" type="tel" required placeholder="06 12 34 56 78" value={form.telephone} onChange={update('telephone')} /></div>
+                  <div className="cform-field"><label className="cform-label">Email</label><input className="cform-input" type="email" required placeholder="sophie@studio.fr" value={form.email} onChange={update('email')} /></div>
+                  {status === 'error' && <p className="cform-error">Une erreur est survenue, réessayez.</p>}
+                  <button className="btn btn-gold cform-submit" type="submit" disabled={status==='sending'}>
+                    {status==='sending' ? 'Envoi…' : 'Envoyer ma demande de devis →'}
+                  </button>
+                </form>
+              </div>
+            )}
           </div>
         </section>
       );
