@@ -18,7 +18,12 @@
   <link rel="stylesheet" href="landing/landing-hero-wow.css?v=89">
   <link rel="stylesheet" href="landing/landing-schema.css?v=103">
 
-  <script>history.scrollRestoration='manual';window.scrollTo(0,0);</script>
+  <script>
+    history.scrollRestoration='manual';
+    if(window.location.hash) history.replaceState(null,'',window.location.pathname+window.location.search);
+    window.scrollTo(0,0);
+    window.addEventListener('hashchange',function(e){e.preventDefault();window.scrollTo(0,0);},{once:true});
+  </script>
 
   <!-- Meta Pixel -->
   <script>
