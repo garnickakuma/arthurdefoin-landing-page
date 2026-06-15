@@ -17,6 +17,8 @@
   <link rel="stylesheet" href="landing/landing-layouts.css?v=87">
   <link rel="stylesheet" href="landing/landing-hero-wow.css?v=89">
   <link rel="stylesheet" href="landing/landing-schema.css?v=103">
+  <link rel="stylesheet" href="https://assets.calendly.com/assets/external/widget.css">
+  <script src="https://assets.calendly.com/assets/external/widget.js" async></script>
 
   <script>
     history.scrollRestoration='manual';
@@ -88,7 +90,6 @@
               <div className="nav-links">
                 <a onClick={go('mecanisme')}>Le mécanisme</a>
                 <a onClick={go('simulateur')}>Simulateur</a>
-                <a onClick={go('offre')}>Landing page</a>
                 <a onClick={go('rappel')} className="nav-link-sim">Demande de devis</a>
                 <a onClick={go('contact')}>Contact</a>
                 <a onClick={go('studio')}>Mon studio</a>
@@ -522,7 +523,7 @@
         </div>
       );
     }
-    function Simulateur({onSimChange, onCtaClick, onClientConfirm}) {
+    function Simulateur({onSimChange, onCtaClick}) {
       const [spec, setSpec] = React.useState('Studio');
       const [cart, setCart] = React.useState(200);
       const [cardIdx, setCardIdx] = React.useState(0);
@@ -534,7 +535,6 @@
       const isDraggingRef = React.useRef(false);
       const touchX0 = React.useRef(null);
       const touchY0 = React.useRef(null);
-      const [simCtaChecked, setSimCtaChecked] = React.useState(false);
       const [isHinting, setIsHinting] = React.useState(false);
       const hintedRef = React.useRef(false);
 
@@ -812,17 +812,18 @@
 
             <p className="sim-note">★ Estimations basées sur les résultats de mes clients photographes</p>
 
-            <div className="sim-cta-wrap" style={{marginTop:36}}>
-              <label className="sim-cta-check" onClick={e => { if (!simCtaChecked) { setSimCtaChecked(true); if (onClientConfirm) onClientConfirm(e.currentTarget); } }}>
-                <input type="checkbox" className="sim-cta-input" checked={simCtaChecked} readOnly />
-                <span className="sim-cta-box">{simCtaChecked ? '✓' : ''}</span>
-                <span className="sim-cta-label">Je veux <strong>+{cur.clients} clients</strong> par mois</span>
-              </label>
-              {simCtaChecked && (
-                <div className="sim-scroll-hint" aria-hidden="true">
-                  <span>↓</span><span>↓</span><span>↓</span>
-                </div>
-              )}
+            <div className="sim-cta-wrap" style={{marginTop:36, textAlign:'center'}}>
+              <button
+                className="btn btn-gold"
+                style={{fontSize:'16px',padding:'16px 40px',borderRadius:'50px'}}
+                onClick={() => {
+                  const el = document.getElementById('rappel');
+                  if (el) window.scrollTo({top: el.offsetTop - 60, behavior: 'smooth'});
+                  if (typeof fbq === 'function') fbq('track', 'InitiateCheckout', {content_name: 'Simulateur CTA'});
+                }}
+              >
+                Je veux gagner <strong>+{cur.clients} clients</strong> par mois →
+              </button>
             </div>
           </div>
         </section>
@@ -931,88 +932,32 @@
         </svg>
       );
     }
-    function Callback({lpTier, simData, lpChoice, clientsConfirmed}) {
-      const [form, setForm] = React.useState({prenom:'', telephone:'', email:''});
-      const [status, setStatus] = React.useState('idle');
-      const successRef = React.useRef(null);
-      React.useEffect(() => {
-        if (status === 'success' && successRef.current) {
-          setTimeout(() => successRef.current.scrollIntoView({behavior:'smooth',block:'center'}), 80);
+    function Callback() {
+      const openCalendly = () => {
+        if (window.Calendly) {
+          window.Calendly.initPopupWidget({url: 'https://calendly.com/defoin-arthur/accompagnement-arthur'});
+          if (typeof fbq === 'function') fbq('track', 'InitiateCheckout', {content_name: 'Réservation appel'});
+        } else {
+          window.open('https://calendly.com/defoin-arthur/accompagnement-arthur', '_blank');
         }
-      }, [status]);
-      const clients = clientsConfirmed ? (simData && simData.clients) : null;
-      const tierLabel = lpTier === 'decouverte' ? 'Découverte' : 'Complète';
-      const lpSentence = lpChoice === 'have' ? 'vous avez déjà une landing page'
-        : lpChoice === 'need' ? `vous souhaitez une landing page ${tierLabel}` : null;
-      const update = k => e => setForm(f => ({...f, [k]: e.target.value}));
-      const submit = async e => {
-        e.preventDefault();
-        setStatus('sending');
-        const sim = simData || {};
-        const lpLabel = lpChoice === 'have' ? 'Possède déjà une landing page'
-          : lpChoice === 'need' ? `Souhaite une landing page — ${tierLabel}` : '—';
-        try {
-          const res = await fetch('https://api.web3forms.com/submit', {
-            method:'POST', headers:{'Content-Type':'application/json'},
-            body: JSON.stringify({
-              access_key: '8ff579b2-c217-4683-95bf-49ccd0b57c4d',
-              subject: `Devis — ${form.prenom} (+${clients||'?'} clients)`,
-              'Prénom': form.prenom, 'Email': form.email, 'Téléphone': form.telephone,
-              'Clients souhaités': clients ? '+' + clients + ' /mois' : '—',
-              'Spécialité (simulateur)': sim.spec || '—',
-              'Budget pub estimé': sim.pub ? sim.pub + ' €/mois' : '—',
-              'Landing page': lpLabel,
-            })
-          });
-          const data = await res.json();
-          setStatus(data.success ? 'success' : 'error');
-          if (data.success && typeof fbq === 'function') fbq('track', 'Lead', {content_name:'Devis Landing Page', value: lpTier==='decouverte'?390:490, currency:'EUR'});
-        } catch { setStatus('error'); }
       };
       return (
         <section className="section callback" id="rappel">
           <div className="container">
             <div className="cfw-head">
-              <h2>Demande de devis — <em>sans engagement</em></h2>
-              <p className="lede">Je vous recontacte sous 24h pour vous proposer une offre sur-mesure.</p>
+              <h2>Réserver un appel — <em>sans engagement</em></h2>
+              <p className="lede">30 minutes pour faire le point sur votre situation et voir comment je peux vous aider.</p>
               <div className="cb-assur">
                 <span><Ico n="clock" /> Réponse sous <strong>24h</strong></span>
                 <span><Ico n="phone" /> Appel de <strong>30 min</strong></span>
                 <span><Ico n="shield" /> Aucun <strong>engagement</strong></span>
               </div>
             </div>
-            {status === 'success' ? (
-              <div className="cfw-success" ref={successRef}>
-                <div className="cfw-success-ico">✓</div>
-                <h3>Demande envoyée !</h3>
-                <p>Je vous recontacte très bientôt. À très vite.</p>
-              </div>
-            ) : (
-              <div className="cfw-simple">
-                <div className="cfw-summary">
-                  {clients ? (
-                    <p className="cfw-summary-line"><span className="cfw-sum-check">✓</span>Vous souhaitez <strong>+{clients} clients</strong> par mois</p>
-                  ) : (
-                    <p className="cfw-summary-line cfw-summary-missing"><span className="cfw-sum-check cfw-sum-q">?</span><a className="cfw-pick-link" href="#simulateur" onClick={e => { e.preventDefault(); const el=document.getElementById('sim-cards-wrap'); if(el) el.scrollIntoView({behavior:'smooth',block:'center'}); }}>Choisir le nombre de clients par mois →</a></p>
-                  )}
-                  {lpChoice ? (
-                    <p className="cfw-summary-line"><span className={"cfw-sum-check"+(lpChoice==='have'?" cfw-sum-neutral":"")}>✓</span>{lpSentence}</p>
-                  ) : (
-                    <p className="cfw-summary-line cfw-summary-missing"><span className="cfw-sum-check cfw-sum-q">?</span><a className="cfw-pick-link" href="#offre" onClick={e => { e.preventDefault(); const el=document.getElementById('offre'); if(el) window.scrollTo({top:el.offsetTop-60,behavior:'smooth'}); }}>Choisir votre option landing page →</a></p>
-                  )}
-                </div>
-                <form onSubmit={submit} noValidate className="cfw-contact-form">
-                  <div className="cform-field"><label className="cform-label">Prénom</label><input className="cform-input" type="text" required placeholder="Sophie" value={form.prenom} onChange={update('prenom')} /></div>
-                  <div className="cform-field"><label className="cform-label">Téléphone</label><input className="cform-input" type="tel" required placeholder="06 12 34 56 78" value={form.telephone} onChange={update('telephone')} /></div>
-                  <div className="cform-field"><label className="cform-label">Email</label><input className="cform-input" type="email" required placeholder="sophie@studio.fr" value={form.email} onChange={update('email')} /></div>
-                  {status === 'error' && <p className="cform-error">Une erreur est survenue, réessayez.</p>}
-                  <button className="btn btn-gold cform-submit" type="submit"
-                    disabled={status==='sending' || !form.prenom.trim() || !form.telephone.trim() || !form.email.trim()}>
-                    {status==='sending' ? 'Envoi…' : 'Envoyer ma demande de devis →'}
-                  </button>
-                </form>
-              </div>
-            )}
+            <div style={{textAlign:'center', marginTop:'36px'}}>
+              <button className="btn btn-gold" style={{fontSize:'17px',padding:'18px 44px',borderRadius:'50px'}} onClick={openCalendly}>
+                Réserver mon appel gratuit →
+              </button>
+            </div>
           </div>
         </section>
       );
@@ -1098,9 +1043,6 @@
     // ─── App ──────────────────────────────────────────────────────────────────
     function App() {
       const [simData, setSimData] = React.useState({});
-      const [lpChoice, setLpChoice] = React.useState(null);
-      const [lpTier, setLpTier] = React.useState('complete');
-      const [clientsConfirmed, setClientsConfirmed] = React.useState(false);
       React.useEffect(() => { if (window.lucide) window.lucide.createIcons(); });
       React.useEffect(() => {
         if (window.location.hash) history.replaceState(null, '', window.location.pathname + window.location.search);
@@ -1110,7 +1052,7 @@
       React.useEffect(() => {
         const targets = [
           ...document.querySelectorAll('.section:not(.hero) > .container > *:not(.offre-video-wrap)'),
-          ...document.querySelectorAll('.meca-chip, .offre-price-card, .sim-res-card, .cfw-simple'),
+          ...document.querySelectorAll('.meca-chip, .sim-res-card, .cfw-simple'),
         ];
         const io = new IntersectionObserver((entries) => {
           entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('sr-in'); io.unobserve(e.target); } });
@@ -1121,27 +1063,15 @@
 
       const scrollTo = id => { const el = document.getElementById(id); if (el) window.scrollTo({top: el.offsetTop - 60, behavior: 'smooth'}); };
 
-      const handleClientConfirm = sourceEl => {
-        setClientsConfirmed(true);
-        flyToPanel(sourceEl);
-      };
-
-      const handleLpChoice = (choice, sourceEl) => {
-        setLpChoice(choice);
-        flyToPanel(sourceEl);
-      };
-
       return (
         <div className="page">
           <Nav />
           <SideRail />
-          <NeedsPanel clients={clientsConfirmed ? simData.clients : null} lpChoice={lpChoice} />
           <main>
             <HeroWow variant="anime" />
             <Schema />
-            <Simulateur onSimChange={setSimData} onClientConfirm={handleClientConfirm} />
-            <Offre lpChoice={lpChoice} onLpChoice={handleLpChoice} lpTier={lpTier} onLpTier={setLpTier} />
-            <Callback lpTier={lpTier} simData={simData} lpChoice={lpChoice} clientsConfirmed={clientsConfirmed} />
+            <Simulateur onSimChange={setSimData} />
+            <Callback />
             <ContactWA />
             <Studio />
           </main>
@@ -1157,11 +1087,6 @@
   <script>
     (function () {
       var fire = function (name, params) { if (typeof fbq === 'function') fbq('track', name, params || {}); };
-      var checkoutFired = false;
-      document.addEventListener('click', function (e) {
-        var a = e.target.closest && e.target.closest('a[href="#rappel"]');
-        if (a && !checkoutFired) { checkoutFired = true; fire('InitiateCheckout', { content_name: 'Reservation appel' }); }
-      }, true);
       var vcFired = false;
       var tries = 0;
       var poll = setInterval(function () {
@@ -1173,6 +1098,13 @@
           }, { threshold: 0.4 }).observe(sim);
         } else if (++tries > 40) clearInterval(poll);
       }, 250);
+      window.addEventListener('message', function (e) {
+        if (e.data && e.data.event && e.data.event.indexOf('calendly') === 0) {
+          if (e.data.event === 'calendly.event_scheduled') {
+            fire('Lead', { content_name: 'Appel Calendly', currency: 'EUR', value: 0 });
+          }
+        }
+      });
     })();
   </script>
 </body>
