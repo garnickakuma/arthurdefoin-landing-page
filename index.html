@@ -823,26 +823,35 @@
       );
     }
     // ─── Modal devis rapide ───────────────────────────────────────────────────
-    function DevisModal({lpTier, onClose}) {
+    function DevisModal({lpTier, onClose, simData, lpChoice, clientsConfirmed}) {
       const [form, setForm] = React.useState({prenom:'', telephone:'', email:''});
       const [status, setStatus] = React.useState('idle');
       const update = k => e => setForm(f => ({...f, [k]: e.target.value}));
       const tierLabel = lpTier === 'decouverte' ? 'Découverte — 390€' : 'Complète — 490€';
       const tierValue = lpTier === 'decouverte' ? 390 : 490;
+      const clients = clientsConfirmed ? (simData && simData.clients) : null;
+      const lpLabel = lpChoice === 'have' ? 'Possède déjà une landing page'
+        : lpChoice === 'need' ? `Souhaite une landing page — ${lpTier === 'decouverte' ? 'Découverte' : 'Complète'}`
+        : '—';
 
       const submit = async e => {
         e.preventDefault();
         setStatus('sending');
+        const sim = simData || {};
         try {
           const res = await fetch('https://api.web3forms.com/submit', {
             method: 'POST', headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
               access_key: '8ff579b2-c217-4683-95bf-49ccd0b57c4d',
-              subject: `Devis landing page — ${form.prenom}`,
+              subject: `Devis — ${form.prenom} (+${clients||'?'} clients)`,
               'Prénom': form.prenom,
               'Téléphone': form.telephone,
               'Email': form.email,
-              'Option choisie': tierLabel,
+              'Option landing page': tierLabel,
+              'Clients souhaités': clients ? '+' + clients + ' /mois' : '—',
+              'Spécialité (simulateur)': sim.spec || '—',
+              'Budget pub estimé': sim.pub ? sim.pub + ' €/mois' : '—',
+              'Landing page': lpLabel,
             })
           });
           const data = await res.json();
@@ -997,7 +1006,7 @@
         </svg>
       );
     }
-    function Callback({lpTier}) {
+    function Callback({lpTier, simData, lpChoice, clientsConfirmed}) {
       const [modalOpen, setModalOpen] = React.useState(false);
       return (
         <section className="section callback" id="rappel">
@@ -1019,7 +1028,7 @@
                 Envoyer ma demande de devis →
               </button>
             </div>
-            {modalOpen && <DevisModal lpTier={lpTier} onClose={() => setModalOpen(false)} />}
+            {modalOpen && <DevisModal lpTier={lpTier} onClose={() => setModalOpen(false)} simData={simData} lpChoice={lpChoice} clientsConfirmed={clientsConfirmed} />}
           </div>
         </section>
       );
@@ -1148,7 +1157,7 @@
             <Schema />
             <Simulateur onSimChange={setSimData} onClientConfirm={handleClientConfirm} />
             <Offre lpChoice={lpChoice} onLpChoice={handleLpChoice} lpTier={lpTier} onLpTier={setLpTier} />
-            <Callback lpTier={lpTier} />
+            <Callback lpTier={lpTier} simData={simData} lpChoice={lpChoice} clientsConfirmed={clientsConfirmed} />
             <ContactWA />
             <Studio />
           </main>
