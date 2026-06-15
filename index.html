@@ -1131,6 +1131,10 @@
       const [lpTier, setLpTier] = React.useState('complete');
       const [clientsConfirmed, setClientsConfirmed] = React.useState(false);
       React.useEffect(() => { if (window.lucide) window.lucide.createIcons(); });
+      React.useEffect(() => {
+        if (window.location.hash) history.replaceState(null, '', window.location.pathname + window.location.search);
+        window.scrollTo(0, 0);
+      }, []);
 
       React.useEffect(() => {
         const targets = [
