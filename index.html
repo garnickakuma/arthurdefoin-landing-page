@@ -1082,34 +1082,6 @@
               </div>
             ) : (
               <div className="cfw-simple">
-                <div className="cfw-summary">
-                  {clients ? (
-                    <p className="cfw-summary-line">
-                      <span className="cfw-sum-check">✓</span>
-                      Vous souhaitez <strong>+{clients} clients</strong> par mois
-                    </p>
-                  ) : (
-                    <p className="cfw-summary-line cfw-summary-missing">
-                      <span className="cfw-sum-check cfw-sum-q">?</span>
-                      <a className="cfw-pick-link" href="#simulateur" onClick={e => { e.preventDefault(); const el=document.getElementById('sim-cards-wrap'); if(el) el.scrollIntoView({behavior:'smooth',block:'center'}); }}>
-                        Choisir le nombre de clients par mois →
-                      </a>
-                    </p>
-                  )}
-                  {lpChoice ? (
-                    <p className="cfw-summary-line">
-                      <span className={"cfw-sum-check" + (lpChoice === 'have' ? " cfw-sum-neutral" : "")}>✓</span>
-                      {lpSentence}
-                    </p>
-                  ) : (
-                    <p className="cfw-summary-line cfw-summary-missing">
-                      <span className="cfw-sum-check cfw-sum-q">?</span>
-                      <a className="cfw-pick-link" href="#offre" onClick={e => { e.preventDefault(); const el=document.getElementById('offre'); if(el) window.scrollTo({top:el.offsetTop-60,behavior:'smooth'}); }}>
-                        Choisir votre option landing page →
-                      </a>
-                    </p>
-                  )}
-                </div>
                 <form onSubmit={submit} noValidate className="cfw-contact-form">
                   <div className="cform-field">
                     <label className="cform-label">Prénom</label>
