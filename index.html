@@ -828,6 +828,7 @@
       const [status, setStatus] = React.useState('idle');
       const update = k => e => setForm(f => ({...f, [k]: e.target.value}));
       const tierLabel = lpTier === 'decouverte' ? 'Découverte — 390€' : 'Complète — 490€';
+      const tierValue = lpTier === 'decouverte' ? 390 : 490;
 
       const submit = async e => {
         e.preventDefault();
@@ -846,7 +847,14 @@
           });
           const data = await res.json();
           setStatus(data.success ? 'success' : 'error');
-          if (data.success && typeof fbq === 'function') fbq('track', 'Lead');
+          if (data.success && typeof fbq === 'function') {
+            fbq('track', 'Lead', {
+              content_name: 'Devis Landing Page',
+              content_category: lpTier === 'decouverte' ? 'Découverte' : 'Complète',
+              value: tierValue,
+              currency: 'EUR',
+            });
+          }
         } catch { setStatus('error'); }
       };
 
@@ -953,7 +961,15 @@
               </div>
 
               <div className="offre-devis-cta">
-                <button className="btn btn-primary offre-devis-btn" onClick={() => setModalOpen(true)}>
+                <button className="btn btn-primary offre-devis-btn" onClick={() => {
+                  setModalOpen(true);
+                  if (typeof fbq === 'function') fbq('track', 'InitiateCheckout', {
+                    content_name: 'Devis Landing Page',
+                    content_category: lpTier === 'decouverte' ? 'Découverte' : 'Complète',
+                    value: lpTier === 'decouverte' ? 390 : 490,
+                    currency: 'EUR',
+                  });
+                }}>
                   Envoyer ma demande de devis
                 </button>
               </div>
