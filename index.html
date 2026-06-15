@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Manrope:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,500&family=JetBrains+Mono:wght@400;500&display=swap">
 
   <link rel="stylesheet" href="landing/colors_and_type.css?v=87">
-  <link rel="stylesheet" href="landing/landing.css?v=131">
+  <link rel="stylesheet" href="landing/landing.css?v=132">
   <link rel="stylesheet" href="landing/landing-mauve.css?v=2">
   <link rel="stylesheet" href="landing/landing-layouts.css?v=87">
   <link rel="stylesheet" href="landing/landing-hero-wow.css?v=89">
@@ -822,8 +822,73 @@
         </section>
       );
     }
+    // ─── Modal devis rapide ───────────────────────────────────────────────────
+    function DevisModal({lpTier, onClose}) {
+      const [form, setForm] = React.useState({prenom:'', telephone:'', email:''});
+      const [status, setStatus] = React.useState('idle');
+      const update = k => e => setForm(f => ({...f, [k]: e.target.value}));
+      const tierLabel = lpTier === 'decouverte' ? 'Découverte — 390€' : 'Complète — 490€';
+
+      const submit = async e => {
+        e.preventDefault();
+        setStatus('sending');
+        try {
+          const res = await fetch('https://api.web3forms.com/submit', {
+            method: 'POST', headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+              access_key: '8ff579b2-c217-4683-95bf-49ccd0b57c4d',
+              subject: `Devis landing page — ${form.prenom}`,
+              'Prénom': form.prenom,
+              'Téléphone': form.telephone,
+              'Email': form.email,
+              'Option choisie': tierLabel,
+            })
+          });
+          const data = await res.json();
+          setStatus(data.success ? 'success' : 'error');
+          if (data.success && typeof fbq === 'function') fbq('track', 'Lead');
+        } catch { setStatus('error'); }
+      };
+
+      React.useEffect(() => {
+        document.body.style.overflow = 'hidden';
+        return () => { document.body.style.overflow = ''; };
+      }, []);
+
+      return (
+        <div className="dmodal-backdrop" onClick={e => { if (e.target === e.currentTarget) onClose(); }}>
+          <div className="dmodal-card" role="dialog" aria-modal="true">
+            <button className="dmodal-close" aria-label="Fermer" onClick={onClose}>✕</button>
+            {status === 'success' ? (
+              <div className="dmodal-success">
+                <div className="dmodal-success-ico">✓</div>
+                <h3>Demande envoyée !</h3>
+                <p>Je vous recontacte sous 24h.</p>
+                <button className="btn btn-primary" onClick={onClose}>Fermer</button>
+              </div>
+            ) : (
+              <>
+                <p className="dmodal-option">{tierLabel}</p>
+                <h3 className="dmodal-title">Votre demande de devis</h3>
+                <form className="dmodal-form" onSubmit={submit}>
+                  <input className="dmodal-input" type="text" placeholder="Prénom" required value={form.prenom} onChange={update('prenom')} />
+                  <input className="dmodal-input" type="tel" placeholder="Téléphone" required value={form.telephone} onChange={update('telephone')} />
+                  <input className="dmodal-input" type="email" placeholder="Email" required value={form.email} onChange={update('email')} />
+                  <button className="btn btn-primary dmodal-submit" type="submit" disabled={status==='sending'}>
+                    {status === 'sending' ? 'Envoi…' : 'Envoyer'}
+                  </button>
+                  {status === 'error' && <p className="dmodal-err">Une erreur est survenue, réessayez.</p>}
+                </form>
+              </>
+            )}
+          </div>
+        </div>
+      );
+    }
+
     // ─── Tunnel de vente ─────────────────────────────────────────────────────
     function Offre({lpChoice, onLpChoice, lpTier, onLpTier}) {
+      const [modalOpen, setModalOpen] = React.useState(false);
       const vidRef = React.useRef(null);
       const [vidPlaying, setVidPlaying] = React.useState(false);
       React.useEffect(() => {
@@ -838,6 +903,7 @@
       }, []);
       return (
         <div className="offre-reveal offre-open" id="offre">
+          {modalOpen && <DevisModal lpTier={lpTier} onClose={() => setModalOpen(false)} />}
           <section className="section">
             <div className="container">
 
@@ -884,6 +950,12 @@
                   <div className="offre-price-amount">490 <span className="offre-price-eur">€</span></div>
                   <p className="offre-price-desc">Découverte + tarifs affichés + avis clients. <strong>+60% de conversion.</strong></p>
                 </div>
+              </div>
+
+              <div className="offre-devis-cta">
+                <button className="btn btn-primary offre-devis-btn" onClick={() => setModalOpen(true)}>
+                  Envoyer ma demande de devis
+                </button>
               </div>
 
               <div className="offre-choice">
