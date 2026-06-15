@@ -387,11 +387,12 @@
     let _simSnapshot = {};
 
     // ─── Simulateur ───────────────────────────────────────────────────────────
-    const CPL = 12, PANIER_SEUIL = 300, PUB_MIN = 100, PUB_MAX = 3500, PUB_DEFAUT = 500;
+    const CPL = 12, CPR = 20, TAUX_ANNULATION = 25, PANIER_SEUIL = 300, PUB_MIN = 400, PUB_MAX = 3500, PUB_DEFAUT = 400;
     const SIM_SPECIALITES = ['Mariage','Studio','Extérieur'];
     const convForSpec = (s, cart) => {
-      if (s !== 'Mariage') return 40;
-      return 10;
+      if (s !== 'Mariage') return 30;
+      const ratio = Math.max(0, Math.min(1, (cart - 1500) / 3000));
+      return Math.round(10 - ratio * 5);
     };
     const PANIER_PAR_SPEC = { Mariage: 1500 };
     const panierForSpec = s => PANIER_PAR_SPEC[s] ?? 200;
@@ -523,307 +524,121 @@
         </div>
       );
     }
-    function Simulateur({onSimChange, onCtaClick}) {
+    function Simulateur({onSimChange}) {
       const [spec, setSpec] = React.useState('Studio');
-      const [cart, setCart] = React.useState(200);
-      const [cardIdx, setCardIdx] = React.useState(0);
-      const viewportRef   = React.useRef(null);
-      const [vpW, setVpW] = React.useState(0);
-      const [ready, setReady] = React.useState(false);
-      const [dragX, setDragX] = React.useState(0);
-      const [isDragging, setIsDragging] = React.useState(false);
-      const isDraggingRef = React.useRef(false);
-      const touchX0 = React.useRef(null);
-      const touchY0 = React.useRef(null);
-      const [isHinting, setIsHinting] = React.useState(false);
-      const hintedRef = React.useRef(false);
-
-      const pickSpec = s => { setSpec(s); setCart(panierForSpec(s)); };
+      const [mode, setMode] = React.useState('reservations');
+      const [cart, setCart] = React.useState(panierForSpec('Studio'));
+      const [pub, setPub] = React.useState(PUB_DEFAUT);
       const conv = convForSpec(spec, cart);
-
-      const isMariage = spec === 'Mariage';
-      const targets = isMariage ? [2, 5, 10, 20] : [10, 20, 30, 40, 50, 60];
-      const aboFixe = isMariage
-        ? { 2: 390, 5: 490, 10: 640, 20: 990 }
-        : { 10: 390, 20: 490, 30: 570, 40: 650, 50: 720, 60: 790 };
-      const cardsData = targets.map(clients => {
-        const pub = Math.round(clients * CPL * 100 / conv);
-        const revenue = clients * cart;
-        const abo = aboFixe[clients] ?? calcAbo(pub);
-        return { clients, pub, revenue, abo };
-      });
-      const cur = cardsData[cardIdx];
-
-      // Mesure la largeur du viewport (pas des cartes — évite la dépendance circulaire flex-%)
-      React.useEffect(() => {
-        const measure = () => {
-          if (!viewportRef.current) return;
-          const w = viewportRef.current.offsetWidth;
-          if (w > 0) { setVpW(w); setReady(true); }
-        };
-        measure();
-        const ro = new ResizeObserver(measure);
-        if (viewportRef.current) ro.observe(viewportRef.current);
-        return () => ro.disconnect();
-      }, []);
-
-      // Calcul des dimensions depuis vpW (pas de % CSS pour éviter flex circulaire)
-      const isMobileBp = vpW < 860;
-      const cardW = vpW > 0 ? (isMobileBp ? vpW - 96 : Math.round(vpW * 0.38) - 8) : 0;
-      const gap   = isMobileBp ? 16 : 36;
-      const step  = cardW + gap;
-      const centerOff = cardW > 0 ? (vpW - cardW) / 2 : 0;
-      const trackX = centerOff - cardIdx * step + dragX;
-
-      const navigateTo = idx => {
-        if (idx < 0 || idx >= cardsData.length) return;
-        setCardIdx(idx);
-        setDragX(0);
-        setIsDragging(false);
-        isDraggingRef.current = false;
-      };
-      const prev = () => navigateTo(cardIdx - 1);
-      const next = () => navigateTo(cardIdx + 1);
-
-      const onTouchStart = e => {
-        hintedRef.current = true;
-        touchX0.current = e.touches[0].clientX;
-        touchY0.current = e.touches[0].clientY;
-        isDraggingRef.current = false;
-        setDragX(0); setIsDragging(false);
-      };
-      const onTouchMove = e => {
-        if (touchX0.current === null) return;
-        const dx = e.touches[0].clientX - touchX0.current;
-        const dy = e.touches[0].clientY - touchY0.current;
-        if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 2) {
-          isDraggingRef.current = true;
-          setIsDragging(true);
-          setDragX(dx);
-        }
-      };
-      const onTouchEnd = e => {
-        if (touchX0.current === null) return;
-        const dx = e.changedTouches[0].clientX - touchX0.current;
-        const was = isDraggingRef.current;
-        isDraggingRef.current = false;
-        setIsDragging(false); setDragX(0);
-        if (was) {
-          if (dx < -15) next(); else if (dx > 15) prev();
-        } else {
-          const t = e.changedTouches[0];
-          const el = document.elementFromPoint(t.clientX, t.clientY);
-          const cardEl = el && el.closest('.sim-track-card');
-          if (cardEl && viewportRef.current) {
-            const cards = viewportRef.current.querySelectorAll('.sim-track-card');
-            const ci = Array.from(cards).indexOf(cardEl);
-            if (ci !== -1 && ci !== cardIdx) navigateTo(ci);
-          }
-        }
-        touchX0.current = null;
-      };
-
-      const onPointerDown = e => {
-        hintedRef.current = true;
-        if (e.pointerType === 'touch') return;
-        if (e.button !== 0) return;
-        const vp = e.currentTarget;
-        vp.setPointerCapture(e.pointerId);
-        isDraggingRef.current = false;
-        const x0 = e.clientX;
-        const idx0 = cardIdx;
-        let dragged = false;
-        const onMove = ev => {
-          const dx = ev.clientX - x0;
-          if (Math.abs(dx) > 2) {
-            dragged = true; isDraggingRef.current = true;
-            setIsDragging(true); setDragX(dx);
-          }
-        };
-        const onUp = ev => {
-          const dx = ev.clientX - x0;
-          isDraggingRef.current = false; setIsDragging(false); setDragX(0);
-          vp.removeEventListener('pointermove', onMove);
-          vp.removeEventListener('pointerup', onUp);
-          if (dragged) {
-            if (dx < -15 && idx0 < cardsData.length - 1) navigateTo(idx0 + 1);
-            else if (dx > 15 && idx0 > 0) navigateTo(idx0 - 1);
-          } else {
-            const cardEl = ev.target.closest('.sim-track-card');
-            if (cardEl) {
-              const cards = vp.querySelectorAll('.sim-track-card');
-              const ci = Array.from(cards).indexOf(cardEl);
-              if (ci !== -1 && ci !== idx0) navigateTo(ci);
-            }
-          }
-        };
-        vp.addEventListener('pointermove', onMove);
-        vp.addEventListener('pointerup', onUp);
-      };
-
+      const pickSpec = s => { setSpec(s); setCart(panierForSpec(s)); };
+      const showWarn = mode === 'reservations' && cart > PANIER_SEUIL;
+      const result = React.useMemo(() => {
+        const abo = calcAbo(pub);
+        let volume, clients;
+        if (mode === 'leads') { volume = pub/CPL; clients = volume*(conv/100); }
+        else { volume = pub/CPR; clients = volume*(1-TAUX_ANNULATION/100); }
+        const revenue = clients*cart;
+        const benefice = revenue-pub;
+        const roas = pub > 0 ? revenue/pub : 0;
+        return {abo,volume,clients,revenue,benefice,roas};
+      }, [mode,cart,conv,pub]);
+      const dVolume = useCounterSim(result.volume);
+      const dClients = useCounterSim(result.clients);
+      const dRevenue = useCounterSim(result.revenue);
+      const dBenefice = useCounterSim(result.benefice);
+      const dRoas = useCounterSim(result.roas);
+      const dAbo = useCounterSim(result.abo);
       const go = id => e => { e.preventDefault(); const el = document.getElementById(id); if (el) window.scrollTo({top:el.offsetTop-60,behavior:'smooth'}); };
       React.useEffect(() => { if (window.lucide) window.lucide.createIcons(); });
       React.useEffect(() => {
-        if (onSimChange) onSimChange({ spec, cart, pub: cur.pub, clients: cur.clients, revenue: cur.revenue, abo: cur.abo, volume: cur.pub / CPL, benefice: cur.revenue - cur.pub });
-      }, [spec, cart, cardIdx]);
-
-      // Hint swipe : double nudge en boucle jusqu'à interaction
-      React.useEffect(() => {
-        const section = document.getElementById('simulateur');
-        if (!section) return;
-        let loopTimer = null;
-        const obs = new IntersectionObserver(([entry]) => {
-          if (entry.isIntersecting && !hintedRef.current) {
-            obs.disconnect();
-            const oneNudge = (cb) => {
-              if (hintedRef.current) return;
-              setIsHinting(true);
-              const duration = 500;
-              const maxShift = -32;
-              let start = null;
-              const tick = (ts) => {
-                if (hintedRef.current) { setDragX(0); setIsHinting(false); return; }
-                if (!start) start = ts;
-                const t = Math.min((ts - start) / duration, 1);
-                setDragX(Math.sin(t * Math.PI) * maxShift);
-                if (t < 1) requestAnimationFrame(tick);
-                else { setDragX(0); setIsHinting(false); if (cb) cb(); }
-              };
-              requestAnimationFrame(tick);
-            };
-            const doubleNudge = (cb) => {
-              oneNudge(() => {
-                setTimeout(() => oneNudge(cb), 180);
-              });
-            };
-            const loop = () => {
-              if (hintedRef.current) return;
-              doubleNudge(() => {
-                loopTimer = setTimeout(loop, 2800);
-              });
-            };
-            loopTimer = setTimeout(loop, 1800);
-          }
-        }, { threshold: 0.5 });
-        obs.observe(section);
-        return () => { obs.disconnect(); clearTimeout(loopTimer); };
-      }, []);
-
-      const trackStyle = {
-        transform: `translateX(${trackX}px)`,
-        transition: (isDragging || isHinting) ? 'none' : 'transform 0.44s cubic-bezier(0.34, 1.56, 0.64, 1)',
-      };
-
-      const cardStyle = cardW > 0 ? { flex: `0 0 ${cardW}px`, width: `${cardW}px` } : {};
-
+        if (onSimChange) onSimChange(result);
+      }, [pub, mode, cart, spec]);
       return (
         <section className="section" id="simulateur">
           <div className="container">
-            <div className="section-head" style={{marginBottom:0}}>
+            <div className="section-head">
               <div>
                 <div className="eyebrow"><span className="rule"></span><span>Simulateur</span></div>
-                <h2>Publicité <em>Meta</em></h2>
+                <h2>Combien rapporterait<br /><em>un mois de publicité</em>&nbsp;?</h2>
               </div>
+              <p className="lede">Quelques réglages, une estimation chiffrée. Les projections reposent sur les performances moyennes des campagnes en cours.</p>
             </div>
-
-            <div className="sim-pre">
-              <div className="sim-pre-field">
-                <span className="sim-field-lbl">Quelle prestation voulez-vous booster en publicité&nbsp;?</span>
-                <div className="sim-chips">
-                  {SIM_SPECIALITES.map(s => <button key={s} className={"sim-chip"+(spec===s?" active":"")} onClick={() => pickSpec(s)}>{s}</button>)}
+            <div className="sim">
+              <div className="sim-controls">
+                <h3>Votre activité</h3>
+                <div className="sim-field">
+                  <div className="sim-field-head"><span className="sim-field-lbl">Quelle prestation mettre en avant&nbsp;?</span></div>
+                  <div className="sim-chips">
+                    {SIM_SPECIALITES.map(s => <button key={s} className={"sim-chip"+(spec===s?" active":"")} onClick={() => pickSpec(s)}>{s}</button>)}
+                  </div>
+                </div>
+                <div className="sim-field sim-objectif">
+                  <div className="sim-field-head"><span className="sim-field-lbl">Objectif des campagnes</span></div>
+                  <div className="sim-seg">
+                    <button className={mode==='leads'?'active':''} onClick={() => setMode('leads')}>Des leads<span className="seg-sub">prospects à rappeler</span></button>
+                    <button className={mode==='reservations'?'active':''} onClick={() => setMode('reservations')}>Réservations gratuites<span className="seg-sub">ils réservent seuls</span></button>
+                  </div>
+                </div>
+                <div className="sim-field">
+                  <div className="sim-field-head"><span className="sim-field-lbl">Panier moyen par client</span></div>
+                  <div className="sim-input-wrap">
+                    <input className="sim-input" type="number" min="0" step="10" value={cart}
+                      onChange={e => { const v = parseInt(e.target.value, 10); setCart(isNaN(v) ? 0 : Math.max(0, v)); }}
+                      onFocus={e => e.target.select()} />
+                    <span className="sim-input-suffix">€</span>
+                  </div>
+                  {showWarn && <p className="sim-warn reveal" key="warn"><i data-lucide="alert-triangle"></i><span>Panier élevé&nbsp;: au-delà de {PANIER_SEUIL}&nbsp;€, les <em>leads qualifiés</em> sont en général plus rentables.</span></p>}
+                </div>
+                <div className="sim-field" style={{marginBottom:0}}>
+                  <div className="sim-field-head">
+                    <span className="sim-field-lbl">Dépense publicitaire mensuelle</span>
+                    <span className="sim-field-val"><em>{fmtInt(pub)}</em>&nbsp;€</span>
+                  </div>
+                  <SimSlider value={pub} min={PUB_MIN} max={PUB_MAX} step={50} onChange={setPub} ticks={['400 €','1 600 €','3 500 €']} />
+                  <div className="sim-abo-badge">
+                    <i data-lucide="plus-circle"></i>
+                    <span><strong>{fmtEUR(dAbo)}</strong> d'abonnement <span className="sim-abo-sub">(gestion &amp; optimisation, non inclus dans les projections)</span></span>
+                  </div>
+                  <p className="sim-hint" style={{marginTop:14}}>L'abonnement démarre à 390&nbsp;€/mois et représente 15&nbsp;% de votre dépense pub au-delà de ce montant.</p>
                 </div>
               </div>
-              <div className="sim-pre-field">
-                <span className="sim-field-lbl">Panier moyen par client</span>
-                <div className="sim-input-wrap">
-                  <input className="sim-input" type="number" min="0" step="10" value={cart}
-                    onChange={e => { const v = parseInt(e.target.value,10); setCart(isNaN(v)?0:Math.max(0,v)); }}
-                    onFocus={e => e.target.select()} />
-                  <span className="sim-input-suffix">€</span>
+              <div className="sim-result">
+                <div>
+                  <span className="res-eyebrow">Chiffre d'affaires estimé</span>
+                  <div className="res-num" style={{marginTop:14}}><em>{fmtEUR(dRevenue)}</em></div>
+                  <p className="res-sub" style={{marginTop:8}}>
+                    {mode==='leads'
+                      ? <>{fmtInt(dClients)} {Math.round(dClients)>1?'prestations signées':'prestation signée'} · {fmtInt(dVolume)} leads</>
+                      : <>{fmtInt(dClients)} {Math.round(dClients)>1?'clients confirmés':'client confirmé'} · {fmtInt(dVolume)} réservations</>
+                    }
+                  </p>
                 </div>
-              </div>
-            </div>
-
-            <p className="sim-cards-lbl">Combien de clients voulez-vous par mois&nbsp;?</p>
-
-            <div id="sim-cards-wrap" className={"sim-viewport" + (isDragging ? " is-dragging" : "")}
-              ref={viewportRef}
-              style={{ visibility: ready ? 'visible' : 'hidden' }}
-              onTouchStart={onTouchStart}
-              onTouchMove={onTouchMove}
-              onTouchEnd={onTouchEnd}
-              onPointerDown={onPointerDown}>
-              <div className="sim-carousel-track" style={trackStyle}>
-                {cardsData.map((card, i) => {
-                  const active = i === cardIdx;
-                  const dist = Math.abs(i - cardIdx);
-                  return (
-                    <div key={i}
-                      className={"sim-track-card" + (active ? " stc-active" : " stc-inactive")}
-                      style={{ ...cardStyle, opacity: Math.max(0.35, 1 - dist * 0.28) }}>
-                      <div className="sim-card-main">
-                        <div className="sim-card-top">
-                          <span className="sim-card-plus">+</span>
-                          <span className="sim-card-count">{card.clients}</span>
-                        </div>
-                        <div className="sim-card-count-lbl">clients par mois</div>
-                        <div className="sim-card-ca">{fmtEUR(card.revenue)}</div>
-                        <div className="sim-card-ca-lbl">de chiffre d'affaires</div>
-                        <div className="sim-card-expand">
-                          <div className="sim-card-divider"></div>
-                          <div className="sim-card-costs">
-                            <div className="sim-card-cost-row">
-                              <i data-lucide="megaphone"></i>
-                              <span><strong>{fmtEUR(card.pub)}</strong> de publicité / mois</span>
-                            </div>
-                            <div className="sim-card-cost-row">
-                              <i data-lucide="plus-circle"></i>
-                              <span><strong>{fmtEUR(card.abo)}</strong> de gestion et optimisation / mois</span>
-                            </div>
-                            <div className="sim-card-costs-sep"></div>
-                            <div className="sim-card-cost-row sim-card-benefit">
-                              <i data-lucide="trending-up"></i>
-                              <span><span className="sim-card-benefit-val">{fmtEUR(card.revenue - card.pub - card.abo)}</span> de bénéfice net estimé</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-
-            <div className="sim-nav-row">
-              <button className="sim-nav-btn sim-nav-prev" onClick={prev} disabled={cardIdx===0} aria-label="Précédent">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-              </button>
-              <div className="sim-dots">
-                {cardsData.map((card, i) => (
-                  <button key={i} className={"sim-dot"+(i===cardIdx?" active":"")}
-                    onClick={() => navigateTo(i)} aria-label={"+" + card.clients + " clients"}>
+                <div>
+                  <span className="res-eyebrow">Bénéfice estimé</span>
+                  <div className="res-num benefice-num"><em>{fmtEUR(dBenefice)}</em></div>
+                  <span className="res-unit">dépense publicitaire déduite</span>
+                </div>
+                <div className="sim-breakdown">
+                  <div className="sim-row"><span className="k">Chiffre d'affaires généré</span><span className="v">{fmtEUR(dRevenue)}</span></div>
+                  {mode==='leads' ? (<>
+                    <div className="sim-row"><span className="k">Leads qualifiés</span><span className="v">{fmtInt(dVolume)}</span></div>
+                    <div className="sim-row"><span className="k">Prestations signées <em className="k-sub">à {conv}&nbsp;% de conversion</em></span><span className="v">{fmtInt(dClients)}</span></div>
+                  </>) : (<>
+                    <div className="sim-row"><span className="k">Réservations gratuites</span><span className="v">{fmtInt(dVolume)}</span></div>
+                    <div className="sim-row"><span className="k">Clients confirmés <em className="k-sub">{TAUX_ANNULATION}&nbsp;% annulations déduites</em></span><span className="v">{fmtInt(dClients)}</span></div>
+                  </>)}
+                  <div className="sim-row"><span className="k">Dépense publicitaire</span><span className="v">− {fmtEUR(pub)}</span></div>
+                  <div className="sim-row"><span className="k">Bénéfice net</span><span className="v"><em>{fmtEUR(dBenefice)}</em></span></div>
+                  <div className="sim-row"><span className="k">Retour sur investissement (ROAS)</span><span className="v"><em>{fmtX(dRoas)}</em></span></div>
+                  <div className="sim-row sim-row-abo"><span className="k">+ Abonnement <em className="k-sub">hors projections</em></span><span className="v">{fmtEUR(dAbo)}</span></div>
+                </div>
+                <div className="sim-cta-wrap">
+                  <button className="btn btn-gold" onClick={e => { go('rappel')(e); if(typeof fbq==='function') fbq('track','InitiateCheckout',{content_name:'Simulateur CTA'}); }}>
+                    Je veux ces résultats <span className="arrow">→</span>
                   </button>
-                ))}
+                </div>
+                <p className="sim-note">★ Estimations basées sur les résultats de mes clients photographes</p>
               </div>
-              <button className="sim-nav-btn sim-nav-next" onClick={next} disabled={cardIdx===cardsData.length-1} aria-label="Suivant">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-              </button>
-            </div>
-
-            <p className="sim-note">★ Estimations basées sur les résultats de mes clients photographes</p>
-
-            <div className="sim-cta-wrap" style={{marginTop:36, textAlign:'center'}}>
-              <button
-                className="btn btn-gold"
-                style={{fontSize:'16px',padding:'16px 40px',borderRadius:'50px'}}
-                onClick={() => {
-                  const el = document.getElementById('rappel');
-                  if (el) window.scrollTo({top: el.offsetTop - 60, behavior: 'smooth'});
-                  if (typeof fbq === 'function') fbq('track', 'InitiateCheckout', {content_name: 'Simulateur CTA'});
-                }}
-              >
-                Je veux gagner +{cur.clients} clients par mois →
-              </button>
             </div>
           </div>
         </section>
