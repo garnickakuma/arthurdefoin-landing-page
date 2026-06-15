@@ -22,7 +22,8 @@
     history.scrollRestoration='manual';
     if(window.location.hash) history.replaceState(null,'',window.location.pathname+window.location.search);
     window.scrollTo(0,0);
-    window.addEventListener('hashchange',function(e){e.preventDefault();window.scrollTo(0,0);},{once:true});
+    window.addEventListener('hashchange',function(){window.scrollTo(0,0);},{once:true});
+    window.addEventListener('load',function(){window.scrollTo(0,0);setTimeout(function(){window.scrollTo(0,0);},200);});
   </script>
 
   <!-- Meta Pixel -->
