@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 120" width="360" height="120" role="img" aria-label="Arthur Defoin — Media Buyer">
+  <defs>
+    
+  </defs>
+  <text x="180" y="62" class="mark" font-size="48" font-weight="400" text-anchor="middle">Arthur Defoin</text>
+  <line x1="60" y1="82" x2="150" y2="82" class="or"></line>
+  <line x1="210" y1="82" x2="300" y2="82" class="or"></line>
+  <text x="180" y="86" class="tag" font-size="9" font-weight="500" text-anchor="middle">·</text>
+  <text x="180" y="104" class="tag" font-size="10" font-weight="500" text-anchor="middle">MEDIA BUYER</text>
+</svg>

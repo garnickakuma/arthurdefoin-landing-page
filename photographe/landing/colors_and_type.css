@@ -1,0 +1,241 @@
+/* ============================================================
+   Arthur Defoin — Design Tokens
+   Pure · Luxueux · Premium · Éditorial
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Manrope:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  /* ----------  Couleurs — palette ivoire & encre  ---------- */
+
+  /* Surfaces — du plus chaud (ivoire) au pur blanc */
+  --ivoire:       #F5F2EC;   /* fond principal — chaud, doux, photographique */
+  --ivoire-2:     #EFEBE2;   /* fond alterné, sections respirantes */
+  --porcelaine:   #FBF9F5;   /* surface élevée, cartes claires */
+  --blanc:        #FFFFFF;   /* blanc pur — cartes premium, modales */
+
+  /* Lignes & diviseurs */
+  --sable:        #E6DFD2;   /* trait fin, séparateur respirant */
+  --sable-fonce:  #D4CCBC;   /* bord visible mais discret */
+
+  /* Encre — texte du plus dense au plus discret */
+  --encre:        #1A1A18;   /* titres, texte primaire (jamais #000) */
+  --graphite:     #2E2D2A;   /* texte courant dense */
+  --plomb:        #6B6862;   /* texte secondaire, légendes */
+  --pierre:       #9A9489;   /* texte tertiaire, métadonnées */
+  --brume:        #BFB9AE;   /* placeholder, désactivé */
+
+  /* Accent — Or champagne, jamais criard */
+  --or:           #A98B5C;   /* accent principal, soulignés, hover */
+  --or-clair:     #C9AE83;   /* hover surfaces, accents secondaires */
+  --or-sombre:    #8A6F44;   /* press, lien actif */
+  --or-voile:     #F1E9DA;   /* fond accent ultra-doux */
+
+  /* Sémantique — sourdes, jamais saturées */
+  --succes:       #5A7A56;   /* sauge — confirmation discrète */
+  --succes-voile: #E6EBE0;
+  --alerte:       #B86A4B;   /* terre cuite — attention */
+  --alerte-voile: #F3E6DE;
+  --info:         #5A6D7A;   /* ardoise — neutre informatif */
+
+  /* ----------  Typographie — base  ---------- */
+
+  --serif:    'Cormorant Garamond', 'Adobe Garamond Pro', 'EB Garamond', Georgia, serif;
+  --sans:     'Manrope', 'Söhne', 'Inter', system-ui, -apple-system, 'Helvetica Neue', sans-serif;
+  --mono:     'JetBrains Mono', 'SF Mono', Menlo, monospace;
+
+  --tracking-tight:   -0.02em;
+  --tracking-normal:  0;
+  --tracking-wide:    0.08em;
+  --tracking-xwide:   0.18em;   /* small caps éditoriaux */
+
+  --leading-tight:    1.05;
+  --leading-snug:     1.2;
+  --leading-normal:   1.55;
+  --leading-loose:    1.7;
+
+  /* ----------  Échelle modulaire (1.250 — quarte majeure)  ---------- */
+  --t-display:  clamp(56px, 7vw, 112px);
+  --t-h1:       clamp(40px, 4.6vw, 68px);
+  --t-h2:       clamp(30px, 3.2vw, 46px);
+  --t-h3:       28px;
+  --t-h4:       22px;
+  --t-lede:     20px;        /* sous-titre, accroche */
+  --t-body:     16px;
+  --t-small:    14px;
+  --t-micro:    12px;        /* small caps, métadonnées */
+
+  /* ----------  Espacement — base 8, fine 4  ---------- */
+  --s-1:  4px;
+  --s-2:  8px;
+  --s-3:  12px;
+  --s-4:  16px;
+  --s-5:  24px;
+  --s-6:  32px;
+  --s-7:  48px;
+  --s-8:  64px;
+  --s-9:  96px;
+  --s-10: 128px;
+  --s-11: 192px;
+
+  /* ----------  Rayon — discret, jamais arrondi marqué  ---------- */
+  --r-0:   0;
+  --r-xs:  2px;
+  --r-sm:  4px;
+  --r-md:  8px;
+  --r-lg:  12px;
+  --r-pill: 999px;
+
+  /* ----------  Ombre — éditoriale, jamais flottante  ---------- */
+  --shadow-fine:   0 1px 0 rgba(26,26,24,0.04);
+  --shadow-card:   0 1px 2px rgba(26,26,24,0.04), 0 8px 24px -12px rgba(26,26,24,0.08);
+  --shadow-lift:   0 2px 4px rgba(26,26,24,0.04), 0 24px 48px -20px rgba(26,26,24,0.14);
+  --shadow-modal:  0 8px 16px rgba(26,26,24,0.06), 0 48px 96px -32px rgba(26,26,24,0.24);
+  --shadow-inset:  inset 0 0 0 1px var(--sable);
+
+  /* ----------  Mouvement — sobre, jamais bondissant  ---------- */
+  --ease-out:   cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-in:    cubic-bezier(0.55, 0.085, 0.68, 0.53);
+  --ease-soft:  cubic-bezier(0.4, 0, 0.2, 1);
+  --dur-quick:  160ms;
+  --dur-base:   240ms;
+  --dur-slow:   480ms;
+
+  /* ----------  Largeurs éditoriales  ---------- */
+  --max-prose:  680px;
+  --max-line:   58ch;
+  --max-page:   1280px;
+  --max-wide:   1440px;
+}
+
+/* ============================================================
+   Styles sémantiques
+   ============================================================ */
+
+html, body {
+  background: var(--ivoire);
+  color: var(--encre);
+  font-family: var(--sans);
+  font-size: var(--t-body);
+  line-height: var(--leading-normal);
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+.display, h1.display {
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: var(--t-display);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--encre);
+}
+.display em, h1.display em { font-style: italic; font-weight: 400; color: var(--or); }
+
+h1 {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: var(--t-h1);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--encre);
+}
+h1 em { font-style: italic; color: var(--or); }
+
+h2 {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: var(--t-h2);
+  line-height: var(--leading-snug);
+  letter-spacing: var(--tracking-tight);
+  color: var(--encre);
+}
+h2 em { font-style: italic; color: var(--or); }
+
+h3 {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: var(--t-h3);
+  line-height: var(--leading-snug);
+  color: var(--encre);
+}
+
+h4 {
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: var(--t-h4);
+  line-height: var(--leading-snug);
+  letter-spacing: var(--tracking-tight);
+  color: var(--encre);
+}
+
+.lede, p.lede {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: var(--t-lede);
+  line-height: var(--leading-loose);
+  color: var(--graphite);
+  max-width: var(--max-line);
+}
+
+p {
+  font-family: var(--sans);
+  font-size: var(--t-body);
+  line-height: var(--leading-normal);
+  color: var(--graphite);
+  max-width: var(--max-line);
+}
+
+small, .small { font-size: var(--t-small); color: var(--plomb); line-height: var(--leading-normal); }
+
+.eyebrow {
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: var(--t-micro);
+  letter-spacing: var(--tracking-xwide);
+  text-transform: uppercase;
+  color: var(--or);
+}
+
+.kicker {
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: var(--t-micro);
+  letter-spacing: var(--tracking-xwide);
+  text-transform: uppercase;
+  color: var(--plomb);
+}
+
+.numeral {
+  font-family: var(--serif);
+  font-weight: 300;
+  font-variant-numeric: lining-nums tabular-nums;
+  letter-spacing: var(--tracking-tight);
+}
+
+code, kbd, samp {
+  font-family: var(--mono);
+  font-size: 0.92em;
+  color: var(--graphite);
+  background: var(--ivoire-2);
+  padding: 2px 6px;
+  border-radius: var(--r-xs);
+}
+
+a {
+  color: var(--encre);
+  text-decoration: none;
+  border-bottom: 1px solid var(--sable-fonce);
+  transition: color var(--dur-quick) var(--ease-out), border-color var(--dur-quick) var(--ease-out);
+}
+a:hover { color: var(--or); border-color: var(--or); }
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--sable);
+  margin: var(--s-7) 0;
+}
+
+::selection { background: var(--or-voile); color: var(--encre); }

@@ -1,0 +1,202 @@
+/* ============================================================
+   Mécanisme — 3 cartes blanches v92
+   ============================================================ */
+.schema { background: var(--ivoire-2); }
+.schema-head { max-width: 720px; margin: 0 auto; text-align: center; }
+.schema-head .eyebrow { justify-content: center; }
+.schema-head h2 { font-size: clamp(32px, 4.2vw, 56px); line-height: 1.04; margin: 16px 0 0; }
+.schema-head .lede { margin: 20px auto 0; max-width: 560px; }
+
+/* ---- Scène ---- */
+.meca-scene {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  align-items: start;
+  margin-top: 56px;
+  padding-bottom: 20px;
+}
+
+/* ---- Cartes ---- */
+.meca-card {
+  background: #fff;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow:
+    0 2px 8px rgba(0,0,0,0.06),
+    0 10px 40px rgba(0,0,0,0.07);
+  transition: box-shadow 0.35s ease, transform 0.35s ease;
+  will-change: transform;
+  animation: mecaFloat 5s ease-in-out infinite;
+}
+.meca-card:hover {
+  box-shadow:
+    0 4px 16px rgba(155,79,114,0.14),
+    0 20px 60px rgba(0,0,0,0.1);
+}
+
+.meca-c1 { animation-delay: 0s; }
+.meca-c2 { animation-delay: -1.7s; margin-top: 44px; }
+.meca-c3 { animation-delay: -3.3s; }
+
+@keyframes mecaFloat {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-12px); }
+}
+
+/* ---- Zone illustration ---- */
+.meca-illus {
+  width: 100%;
+  display: block;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(180deg, #F8EBF3 0%, #FDF5F9 60%, #fff 100%);
+}
+.meca-photo {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
+.meca-illus svg { position: relative; z-index: 1; }
+
+/* Fine bande de couleur tout en haut */
+.meca-illus::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #D4A0B8, #9B4F72, #D4A0B8);
+}
+
+.meca-illus svg {
+  width: 110px;
+  height: 96px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ---- Corps de la carte ---- */
+.meca-body {
+  padding: 20px 24px 26px;
+}
+
+.meca-step {
+  display: block;
+  font-family: var(--sans);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #9B4F72;
+  margin-bottom: 9px;
+}
+
+h3.meca-title {
+  font-family: var(--sans);
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--encre);
+  line-height: 1.25;
+  margin: 0 0 8px;
+}
+
+.meca-sub {
+  font-family: var(--serif);
+  font-size: 13px;
+  color: var(--plomb);
+  line-height: 1.6;
+  font-style: italic;
+  margin: 0;
+}
+
+/* ---- CTA de transition ---- */
+.meca-cta-wrap {
+  text-align: center;
+  margin-top: 52px;
+  padding-bottom: 8px;
+}
+.meca-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 15px;
+  padding: 16px 32px;
+}
+
+/* ============================================================
+   Mécanisme — nouveau trio compact (3 chips en ligne)
+   ============================================================ */
+.meca-trio {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  margin-top: 44px;
+}
+.meca-chip {
+  flex: 1;
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px 22px 26px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.06), 0 8px 28px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border-top: 3px solid transparent;
+  border-image: linear-gradient(90deg, #D4A0B8, #9B4F72) 1;
+}
+.meca-trio-arrow {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 14px;
+  color: var(--or);
+  font-size: 18px;
+  opacity: 0.5;
+}
+.meca-chip-num {
+  display: block;
+  font-family: var(--sans);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #9B4F72;
+}
+h3.meca-chip-title {
+  font-family: var(--sans);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--encre);
+  line-height: 1.25;
+  margin: 0;
+}
+.meca-chip-sub {
+  font-family: var(--serif);
+  font-size: 13px;
+  color: var(--plomb);
+  line-height: 1.6;
+  font-style: italic;
+  margin: 0;
+}
+
+@media (max-width: 640px) {
+  .meca-trio { gap: 0; margin-top: 28px; }
+  .meca-chip { padding: 14px 12px 16px; gap: 5px; border-radius: 12px; }
+  h3.meca-chip-title { font-size: 13px; }
+  .meca-chip-num { font-size: 9px; }
+  .meca-chip-sub { display: none; }
+  .meca-trio-arrow { padding: 0 6px; font-size: 14px; }
+}
+
+/* ---- Mobile old cards (kept for safety, unused) ---- */
+@media (max-width: 860px) {
+  .meca-scene { grid-template-columns: 1fr; gap: 10px; margin-top: 36px; }
+  .meca-c2 { margin-top: 0; }
+  .meca-card { display: flex; flex-direction: row; align-items: stretch; border-radius: 16px; animation: none; }
+  .meca-body { padding: 14px 18px 16px; flex: 1; }
+  h3.meca-title { font-size: 15px; }
+  .meca-sub { font-size: 12px; }
+  .meca-step { margin-bottom: 6px; font-size: 9px; }
+}
