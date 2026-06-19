@@ -357,7 +357,7 @@ footer span { font-family: var(--font-body); font-size: 13px; color: var(--ink-f
   .about-grid, .studio-grid { grid-template-columns: 1fr !important; }
   .reviews-grid { grid-template-columns: 1fr !important; }
   .pricing-cards { grid-template-columns: 1fr !important; }
-  .about-photo { aspect-ratio: 3/2; }
+  .about-photo { aspect-ratio: 4/5; max-height: 500px; }
   .studio-photo { min-height: 240px; }
 }
 
