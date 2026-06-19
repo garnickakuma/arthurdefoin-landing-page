@@ -209,43 +209,31 @@ img { display: block; max-width: 100%; }
 }
 
 /* ANNIV HERO BADGE */
+@keyframes shine-text {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
 .anniv-hero-badge {
+  width: 100%;
+  padding: 14px 20px;
+  border: 1px solid #D4A800;
+  background: linear-gradient(135deg, #1a1200 0%, #2A1E00 100%);
   display: flex;
   align-items: center;
-  gap: 18px;
-  background: var(--gold);
-  color: var(--white);
-  padding: 16px 22px;
-  border-left: 5px solid var(--gold-soft);
-  width: 100%;
+  justify-content: center;
 }
-.ahb-num {
-  font-family: var(--font-mono);
-  font-size: 3rem;
-  font-weight: 700;
-  line-height: 1;
-  color: var(--white);
-  flex-shrink: 0;
-}
-.ahb-text {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-.ahb-text strong {
+.ahb-label {
   font-family: var(--font-body);
-  font-size: 0.78rem;
+  font-size: clamp(1rem, 2.2vw, 1.25rem);
   font-weight: 800;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--white);
-}
-.ahb-text span {
-  font-family: var(--font-body);
-  font-size: 0.82rem;
-  font-weight: 400;
-  color: rgba(255,255,255,0.75);
-  letter-spacing: 0.04em;
+  background: linear-gradient(90deg, #C8860A, #FFD966, #FFF0A0, #FFD966, #C8860A);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shine-text 2.5s linear infinite;
 }
 
 /* Boutons */
