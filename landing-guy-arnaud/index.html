@@ -15,13 +15,13 @@
     <span class="anniv-num">50</span>
     <div class="anniv-center">
       <span class="anniv-title">ANS DU STUDIO</span>
-      <span class="anniv-sub">Édition anniversaire · Séance photo offerte</span>
+      <span class="anniv-sub">Offre anniversaire · Séance photo offerte</span>
     </div>
     <span class="anniv-dates">1976 — 2026</span>
   </div>
   <div class="hero-grid">
     <div class="hero-art">
-      <img src="assets/photos/port-02.jpg" alt="Séance famille en studio — Guy Arnaud">
+      <img src="assets/photos/land-02.jpg" alt="Séance famille en studio — Guy Arnaud">
       <div class="price-badge">
         <span class="amount">0€</span>
         <span class="label">pour la séance</span>
@@ -138,7 +138,11 @@
       </div>
     </div>
 
-    <div class="pricing-cards">
+    <div style="display:flex;justify-content:center;margin:24px 0 0;">
+      <button class="btn-voir-plus" id="btn-tirages">Voir les tarifs Tirages, Albums &amp; Formats</button>
+    </div>
+
+    <div class="pricing-cards" id="pricing-cards" style="display:none;margin-top:24px;">
       <div class="pricing-card">
         <h4>Tirages</h4>
         <div class="pricing-card-row"><span class="size">18 × 24</span><span class="price">35€</span><span class="note">5+1 offert · 175€</span></div>
@@ -274,6 +278,17 @@
 </footer>
 
 <script>
+/* ---- Tirages toggle ---- */
+const btnTirages = document.getElementById('btn-tirages');
+const pricingCards = document.getElementById('pricing-cards');
+let tiragesOpen = false;
+btnTirages.addEventListener('click', () => {
+  tiragesOpen = !tiragesOpen;
+  pricingCards.style.display = tiragesOpen ? 'grid' : 'none';
+  btnTirages.textContent = tiragesOpen ? 'Masquer les tarifs formats' : 'Voir les tarifs Tirages, Albums & Formats';
+  if (tiragesOpen) pricingCards.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+});
+
 /* ---- Year ---- */
 document.getElementById('year').textContent = new Date().getFullYear();
 
