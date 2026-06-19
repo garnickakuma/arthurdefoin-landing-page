@@ -71,9 +71,9 @@ img { display: block; max-width: 100%; }
 .anniv-bar {
   position: relative;
   overflow: hidden;
-  background: linear-gradient(270deg, #B8006D, #D4420A, #DAA400, #1A6B3A, #0A4FA0, #7B1FA2, #B8006D);
-  background-size: 400% 400%;
-  animation: anniv-gradient 6s ease infinite;
+  background: linear-gradient(270deg, #0A2A6E, #1A4FA0, #2E7DD4, #1A4FA0, #0A2A6E);
+  background-size: 300% 300%;
+  animation: anniv-gradient 5s ease infinite;
   color: var(--white);
   display: flex;
   align-items: center;
@@ -94,7 +94,7 @@ img { display: block; max-width: 100%; }
   font-size: clamp(2.8rem, 5vw, 4rem);
   font-weight: 700;
   line-height: 1;
-  color: #FFE566;
+  color: #FFD966;
   letter-spacing: -0.03em;
   text-shadow: 0 2px 12px rgba(0,0,0,0.3);
   animation: anniv-pulse 2s ease-in-out infinite;
