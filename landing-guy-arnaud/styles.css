@@ -108,6 +108,46 @@ img { display: block; max-width: 100%; }
   .anniv-bar { gap: 16px; }
 }
 
+/* VALUE BLOCK */
+.value-block {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  width: 100%;
+  border: 1px solid var(--border);
+  background: var(--paper);
+}
+.value-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 14px 10px;
+  text-align: center;
+}
+.value-num {
+  font-family: var(--font-mono);
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: var(--gold);
+  line-height: 1;
+}
+.value-label {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.value-sep {
+  width: 1px;
+  height: 48px;
+  background: var(--border);
+  flex-shrink: 0;
+}
+
 /* URGENCY STRIP */
 .urgency-strip {
   display: flex;
