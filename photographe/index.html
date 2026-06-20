@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="fr">
 <head>
   <meta charset="utf-8">
@@ -397,8 +397,9 @@
     const PANIER_PAR_SPEC = { Mariage: 1500 };
     const panierForSpec = s => PANIER_PAR_SPEC[s] ?? 200;
     function calcAbo(pub) {
-      if (pub <= 500) return pub - 10;
-      return 490 + (pub - 500) * 0.15;
+      if (pub <= 500) return 490;
+      if (pub <= 1000) return 490 + (pub - 500) * 0.8;
+      return 890 + (pub - 1000) * 0.2;
     }
     function useCounterSim(value, duration=480) {
       const [display, setDisplay] = React.useState(value);
@@ -593,7 +594,7 @@
                     <span className="sim-field-lbl">Dépense publicitaire mensuelle</span>
                     <span className="sim-field-val"><em>{fmtInt(pub)}</em>&nbsp;€</span>
                   </div>
-                  <SimSlider value={pub} min={PUB_MIN} max={PUB_MAX} step={50} onChange={setPub} ticks={['200 €','1 500 €','3 500 €']} />
+                  <SimSlider value={pub} min={PUB_MIN} max={PUB_MAX} step={50} onChange={setPub} ticks={['200 €','1 000 €','3 500 €']} />
                   <div className="sim-abo-badge">
                     <i data-lucide="plus-circle"></i>
                     <span><strong>{fmtEUR(dAbo)}</strong> d'abonnement <span className="sim-abo-sub">(gestion &amp; optimisation, non inclus dans les projections)</span></span>
@@ -922,6 +923,3 @@
   </script>
 </body>
 </html>
-
-
-
