@@ -959,6 +959,11 @@ window.addEventListener('message', function(e) {
   if (e.data && e.data.event === 'calendly.event_scheduled') {
     booked = true;
     renderStep();
+    fetch('https://esthetique-api.defoin-arthur.workers.dev/lead', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(answers),
+    }).catch(() => {});
   }
 });
 

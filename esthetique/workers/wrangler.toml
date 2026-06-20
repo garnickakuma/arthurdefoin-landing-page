@@ -1,0 +1,7 @@
+name = "esthetique-api"
+main = "api.js"
+compatibility_date = "2024-09-23"
+
+# Secrets à ajouter via : npx wrangler secret put NOM_DU_SECRET
+#   BREVO_API_KEY  →  clé API Brevo (même que amour-et-lumiere)
+#   NOTIFY_EMAIL   →  defoin.arthur@gmail.com
