@@ -801,6 +801,7 @@ const STEPS = [
       { v: 'no',    label: "Non, pas pour l'instant",                                                icon: 'lock' },
     ],
   },
+  { key: 'disqualify', type: 'disqualify' },
   { key: 'calendly', type: 'calendly' },
 ];
 
@@ -819,6 +820,10 @@ let booked = false;
    ============================================================ */
 function goNext() {
   si = Math.min(si + 1, STEPS.length - 1);
+  // Sauter l'écran de disqualification si budget !== 'no'
+  if (STEPS[si].type === 'disqualify' && answers.budget !== 'no') {
+    si = Math.min(si + 1, STEPS.length - 1);
+  }
   render();
 }
 
@@ -901,10 +906,11 @@ function renderStep() {
    STEP BUILDERS
    ============================================================ */
 function buildStep(step) {
-  if (step.type === 'text')     return buildText(step);
-  if (step.type === 'reveal')   return buildReveal();
-  if (step.type === 'choice')   return buildChoice(step);
-  if (step.type === 'calendly') return buildCalendly();
+  if (step.type === 'text')        return buildText(step);
+  if (step.type === 'reveal')      return buildReveal();
+  if (step.type === 'choice')      return buildChoice(step);
+  if (step.type === 'disqualify')  return buildDisqualify();
+  if (step.type === 'calendly')    return buildCalendly();
   return '';
 }
 
@@ -975,6 +981,19 @@ function buildChoice(step) {
     <div style="max-width:520px">
       ${header(step)}
       ${opts}
+    </div>`;
+}
+
+function buildDisqualify() {
+  return `
+    <div style="max-width:480px">
+      <div class="step-header">
+        <h2 class="step-title">Si vous ne souhaitez pas investir, ma méthode n'est pas faite pour vous.</h2>
+        <p class="step-sub">Un budget publicitaire est indispensable pour générer +30 nouvelles clientes par mois. Sans cet investissement, je ne peux pas garantir les résultats.</p>
+      </div>
+      <button class="funnel-btn" onclick="answers.budget='yes'; goNext()">
+        J'ai compris et je souhaite investir ${IC.arrow}
+      </button>
     </div>`;
 }
 
