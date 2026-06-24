@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
   <title>Arthur Defoin — Publicité Meta pour Photographes</title>
   <meta name="description" content="Media buyer spécialisé dans l'acquisition de clients pour les photographes. Je construis votre flux de réservations via publicité Meta.">
   <link rel="icon" type="image/png" href="landing/assets/favicon.png">
@@ -335,7 +335,9 @@
     .footer-bottom { border-top-color: rgba(255,255,255,.1) !important; }
 
     /* ── Mobile ── */
+    html, body { overflow-x: hidden; }
     @media (max-width: 640px) {
+      .pg-nav { display: none; }
       .pg-hero-stats { gap: 20px; flex-wrap: wrap; }
       .pg-partner-who { flex-direction: column; text-align: center; }
       .pg-funnel-card { padding: 22px 18px; }
