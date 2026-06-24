@@ -102,14 +102,14 @@
     .pg-nav-name { font-size: 14px; font-weight: 600; letter-spacing: 0.01em; }
     .pg-nav-tag  { color: var(--stone); font-weight: 400; }
     .pg-btn-dark {
-      background: var(--ink); color: var(--gold-2);
-      border: none; border-radius: var(--r-pill);
+      background: var(--gold-pale); color: var(--ink);
+      border: 1.5px solid var(--gold-bd); border-radius: var(--r-pill);
       padding: 10px 22px;
       font-family: var(--sans); font-size: 13px; font-weight: 600;
       letter-spacing: 0.04em; cursor: pointer;
-      transition: opacity .18s;
+      transition: background .18s;
     }
-    .pg-btn-dark:hover { opacity: .82; }
+    .pg-btn-dark:hover { background: #e8d9a8; }
 
     /* ── VSL ── */
     .pg-vsl { padding: 56px 0 0; }
@@ -156,14 +156,14 @@
     }
     .pg-btn-cta {
       display: inline-block;
-      background: var(--ink); color: var(--gold-2);
-      border: none; border-radius: var(--r-pill);
+      background: var(--gold-pale); color: var(--ink);
+      border: 1.5px solid var(--gold-bd); border-radius: var(--r-pill);
       padding: 16px 38px;
       font-family: var(--sans); font-size: 15px; font-weight: 600;
       letter-spacing: .03em; cursor: pointer;
-      text-decoration: none; transition: opacity .18s;
+      text-decoration: none; transition: background .18s;
     }
-    .pg-btn-cta:hover { opacity: .82; }
+    .pg-btn-cta:hover { background: #e8d9a8; }
     .pg-btn-outline {
       display: inline-block;
       background: transparent; color: var(--ink);
@@ -294,13 +294,13 @@
     .pg-field-input::placeholder { color: var(--stone); }
     .pg-submit {
       margin-top: 20px; width: 100%; padding: 15px;
-      background: var(--ink); color: var(--gold-2);
-      border: none; border-radius: var(--r-pill);
+      background: var(--gold-pale); color: var(--ink);
+      border: 1.5px solid var(--gold-bd); border-radius: var(--r-pill);
       font-family: var(--sans); font-size: 15px; font-weight: 600;
-      cursor: pointer; transition: opacity .18s;
+      cursor: pointer; transition: background .18s;
     }
     .pg-submit:disabled { opacity: .36; cursor: not-allowed; }
-    .pg-submit:not(:disabled):hover { opacity: .82; }
+    .pg-submit:not(:disabled):hover { background: #e8d9a8; }
     .pg-back {
       margin-top: 12px; width: 100%; padding: 10px;
       background: transparent; color: var(--stone);
