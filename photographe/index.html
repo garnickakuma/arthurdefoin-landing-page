@@ -3,29 +3,25 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Arthur Defoin — Publicité Meta pour photographes</title>
-  <meta name="description" content="Vous photographiez — nous attirons vos clients. Publicité Meta pour photographes : leads qualifiés, réservations automatiques, visibilité. Simulateur ROI inclus.">
+  <title>Arthur Defoin — Publicité Meta pour Photographes</title>
+  <meta name="description" content="Media buyer spécialisé dans l'acquisition de clients pour les photographes. Je construis votre flux de réservations via publicité Meta.">
   <link rel="icon" type="image/png" href="landing/assets/favicon.png">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Manrope:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,500&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Manrope:wght@300;400;500;600;700&display=swap">
 
-  <link rel="stylesheet" href="landing/colors_and_type.css?v=87">
-  <link rel="stylesheet" href="landing/landing.css?v=133">
-  <link rel="stylesheet" href="landing/landing-mauve.css?v=2">
-  <link rel="stylesheet" href="landing/landing-layouts.css?v=87">
-  <link rel="stylesheet" href="landing/landing-hero-wow.css?v=89">
-  <link rel="stylesheet" href="landing/landing-schema.css?v=103">
   <link rel="stylesheet" href="https://assets.calendly.com/assets/external/widget.css">
   <script src="https://assets.calendly.com/assets/external/widget.js" async></script>
+
+  <!-- Studio + agenda CSS from existing design -->
+  <link rel="stylesheet" href="landing/landing.css?v=133">
+  <link rel="stylesheet" href="landing/landing-layouts.css?v=87">
 
   <script>
     history.scrollRestoration='manual';
     if(window.location.hash) history.replaceState(null,'',window.location.pathname+window.location.search);
     window.scrollTo(0,0);
-    window.addEventListener('hashchange',function(){window.scrollTo(0,0);},{once:true});
-    window.addEventListener('load',function(){window.scrollTo(0,0);setTimeout(function(){window.scrollTo(0,0);},200);});
   </script>
 
   <!-- Meta Pixel -->
@@ -34,6 +30,317 @@
     fbq('init','875967245522285');fbq('track','PageView');
   </script>
   <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=875967245522285&ev=PageView&noscript=1" alt=""/></noscript>
+
+  <style>
+    /* ── Design System ── */
+    :root {
+      --bg:       #F5F1E8;
+      --bg-2:     #EDE8DC;
+      --bg-card:  #E8E2D3;
+      --ink:      #1C1A14;
+      --ink-2:    #4A3F30;
+      --gold:     #B8963E;
+      --gold-2:   #CDA84F;
+      --gold-bd:  #D4BA78;
+      --gold-pale:#F0E4C0;
+      --stone:    #8C7B60;
+      --cream:    #FDFAF4;
+      --serif:    'Cormorant Garamond', Georgia, serif;
+      --sans:     'Manrope', system-ui, sans-serif;
+      --r-pill:   50px;
+      --r-card:   18px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .pg-container { max-width: 860px; margin: 0 auto; padding: 0 24px; }
+    .pg-container-sm { max-width: 660px; margin: 0 auto; padding: 0 24px; }
+
+    /* ── Strip ── */
+    .pg-strip {
+      background: var(--ink);
+      color: var(--gold-2);
+      text-align: center;
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      padding: 9px 16px;
+    }
+
+    /* ── Nav ── */
+    .pg-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--bg);
+      border-bottom: 1px solid var(--gold-bd);
+      padding: 13px 0;
+    }
+    .pg-nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1060px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    .pg-nav-brand {
+      display: flex; align-items: center; gap: 10px;
+      text-decoration: none; color: var(--ink);
+    }
+    .pg-nav-logo { height: 30px; width: auto; }
+    .pg-nav-name { font-size: 14px; font-weight: 600; letter-spacing: 0.01em; }
+    .pg-nav-tag  { color: var(--stone); font-weight: 400; }
+    .pg-btn-dark {
+      background: var(--ink); color: var(--gold-2);
+      border: none; border-radius: var(--r-pill);
+      padding: 10px 22px;
+      font-family: var(--sans); font-size: 13px; font-weight: 600;
+      letter-spacing: 0.04em; cursor: pointer;
+      transition: opacity .18s;
+    }
+    .pg-btn-dark:hover { opacity: .82; }
+
+    /* ── VSL ── */
+    .pg-vsl { padding: 56px 0 0; }
+    .pg-vsl-player {
+      background: #111008;
+      border-radius: var(--r-card);
+      aspect-ratio: 16/9;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 18px; cursor: pointer;
+    }
+    .pg-vsl-play {
+      width: 64px; height: 64px; border-radius: 50%;
+      border: 1.5px solid var(--gold-bd);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .pg-vsl-play svg { width: 22px; height: 22px; fill: var(--gold-2); margin-left: 3px; }
+    .pg-vsl-lbl {
+      font-size: 11px; font-weight: 500; letter-spacing: .2em;
+      color: var(--stone);
+    }
+
+    /* ── Hero ── */
+    .pg-hero { padding: 48px 0 68px; text-align: center; }
+    .pg-hero-badge {
+      display: inline-block;
+      border: 1px solid var(--gold-bd);
+      border-radius: var(--r-pill);
+      padding: 5px 18px;
+      font-size: 11px; font-weight: 600; letter-spacing: .16em;
+      color: var(--gold); margin-bottom: 26px;
+    }
+    .pg-hero-h1 {
+      font-family: var(--serif);
+      font-size: clamp(42px,7.5vw,82px);
+      font-weight: 500; line-height: 1.06;
+      margin-bottom: 22px;
+    }
+    .pg-hero-h1 em { font-style: italic; color: var(--gold); }
+    .pg-hero-sub {
+      font-size: 16px; line-height: 1.65;
+      color: var(--ink-2);
+      max-width: 480px; margin: 0 auto 34px;
+    }
+    .pg-btn-cta {
+      display: inline-block;
+      background: var(--ink); color: var(--gold-2);
+      border: none; border-radius: var(--r-pill);
+      padding: 16px 38px;
+      font-family: var(--sans); font-size: 15px; font-weight: 600;
+      letter-spacing: .03em; cursor: pointer;
+      text-decoration: none; transition: opacity .18s;
+    }
+    .pg-btn-cta:hover { opacity: .82; }
+    .pg-btn-outline {
+      display: inline-block;
+      background: transparent; color: var(--ink);
+      border: 1.5px solid var(--gold-bd); border-radius: var(--r-pill);
+      padding: 14px 36px;
+      font-family: var(--sans); font-size: 15px; font-weight: 600;
+      letter-spacing: .03em; cursor: pointer;
+      text-decoration: none; transition: background .18s;
+    }
+    .pg-btn-outline:hover { background: var(--gold-pale); }
+    .pg-hero-stats {
+      display: flex; justify-content: center; gap: 48px;
+      margin-top: 48px; padding-top: 32px;
+      border-top: 1px solid var(--gold-bd);
+    }
+    .pg-stat-num {
+      display: block;
+      font-family: var(--serif); font-size: 34px; font-weight: 500;
+      color: var(--ink);
+    }
+    .pg-stat-lbl {
+      font-size: 12px; color: var(--stone); letter-spacing: .04em;
+    }
+
+    /* ── Partner ── */
+    .pg-partner { background: var(--bg-2); padding: 76px 0; }
+    .pg-partner-who {
+      display: flex; align-items: center; gap: 16px;
+      margin-bottom: 32px;
+    }
+    .pg-avatar {
+      width: 58px; height: 58px; border-radius: 50%;
+      object-fit: cover; border: 2px solid var(--gold-bd);
+      flex-shrink: 0;
+    }
+    .pg-partner-id-name { font-size: 16px; font-weight: 600; color: var(--ink); }
+    .pg-partner-id-role { font-size: 13px; color: var(--stone); }
+    .pg-eyebrow {
+      font-size: 10px; font-weight: 600; letter-spacing: .2em;
+      color: var(--gold); text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .pg-partner-h2 {
+      font-family: var(--serif);
+      font-size: clamp(34px,5vw,58px);
+      font-weight: 500; line-height: 1.1;
+      margin-bottom: 22px;
+    }
+    .pg-partner-h2 em { font-style: italic; color: var(--gold); }
+    .pg-partner-body {
+      font-size: 16px; line-height: 1.72;
+      color: var(--ink-2); margin-bottom: 32px;
+    }
+
+    /* ── Funnel ── */
+    .pg-funnel { padding: 80px 0; }
+    .pg-funnel-hd { text-align: center; margin-bottom: 36px; }
+    .pg-funnel-title {
+      font-family: var(--serif);
+      font-size: clamp(28px,4.5vw,46px);
+      font-weight: 500; line-height: 1.15;
+      margin-bottom: 10px;
+    }
+    .pg-funnel-sub { font-size: 14px; color: var(--stone); }
+    .pg-funnel-card {
+      background: var(--cream);
+      border: 1px solid var(--gold-bd);
+      border-radius: var(--r-card);
+      padding: 36px;
+      box-shadow: 0 4px 32px rgba(28,26,20,.06);
+    }
+    .pg-progress { height: 3px; background: var(--bg-card); border-radius: 2px; margin-bottom: 28px; overflow: hidden; }
+    .pg-progress-bar { height: 100%; background: var(--gold); border-radius: 2px; transition: width .4s ease; }
+    .pg-step-eyebrow {
+      font-size: 10px; font-weight: 600; letter-spacing: .2em;
+      color: var(--stone); text-transform: uppercase; margin-bottom: 8px;
+    }
+    .pg-step-title {
+      font-family: var(--serif);
+      font-size: clamp(21px,3.5vw,30px);
+      font-weight: 500; line-height: 1.25;
+      margin-bottom: 20px;
+    }
+    .pg-framing {
+      background: var(--gold-pale);
+      border-left: 3px solid var(--gold);
+      border-radius: 6px;
+      padding: 13px 16px;
+      font-size: 13px; line-height: 1.6;
+      color: var(--ink-2); margin-bottom: 20px;
+    }
+    .pg-choices { display: flex; flex-direction: column; gap: 10px; }
+    .pg-choice {
+      display: flex; align-items: center; gap: 14px;
+      padding: 13px 16px;
+      background: var(--bg);
+      border: 1.5px solid var(--bg-card);
+      border-radius: 12px; cursor: pointer;
+      font-family: var(--sans); font-size: 14px;
+      font-weight: 500; color: var(--ink);
+      text-align: left; width: 100%;
+      transition: border-color .18s, background .18s;
+    }
+    .pg-choice:hover        { border-color: var(--gold-bd); background: var(--gold-pale); }
+    .pg-choice.is-selected  { border-color: var(--gold);    background: var(--gold-pale); }
+    .pg-choice-ico {
+      width: 36px; height: 36px; flex-shrink: 0;
+      background: var(--bg-2); border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 17px;
+    }
+    .pg-choice-lbl { display: block; font-weight: 600; }
+    .pg-choice-desc { display: block; font-size: 12px; color: var(--stone); margin-top: 2px; font-weight: 400; }
+    .pg-field { margin-bottom: 18px; }
+    .pg-field-lbl {
+      display: block; font-size: 11px; font-weight: 600;
+      letter-spacing: .07em; text-transform: uppercase;
+      color: var(--stone); margin-bottom: 6px;
+    }
+    .pg-field-input {
+      width: 100%; padding: 13px 15px;
+      background: var(--bg); border: 1.5px solid var(--bg-card);
+      border-radius: 10px;
+      font-family: var(--sans); font-size: 15px; color: var(--ink);
+      outline: none; transition: border-color .18s;
+    }
+    .pg-field-input:focus { border-color: var(--gold); }
+    .pg-field-input::placeholder { color: var(--stone); }
+    .pg-submit {
+      margin-top: 20px; width: 100%; padding: 15px;
+      background: var(--ink); color: var(--gold-2);
+      border: none; border-radius: var(--r-pill);
+      font-family: var(--sans); font-size: 15px; font-weight: 600;
+      cursor: pointer; transition: opacity .18s;
+    }
+    .pg-submit:disabled { opacity: .36; cursor: not-allowed; }
+    .pg-submit:not(:disabled):hover { opacity: .82; }
+    .pg-back {
+      margin-top: 12px; width: 100%; padding: 10px;
+      background: transparent; color: var(--stone);
+      border: none; font-family: var(--sans); font-size: 13px;
+      cursor: pointer; text-align: center;
+    }
+    .pg-back:hover { color: var(--ink); }
+    .pg-success { text-align: center; padding: 16px 0; }
+    .pg-success-check {
+      width: 56px; height: 56px; background: var(--gold-pale);
+      border-radius: 50%; margin: 0 auto 20px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 26px;
+    }
+    .pg-success-title {
+      font-family: var(--serif); font-size: 28px; font-weight: 500;
+      margin-bottom: 10px;
+    }
+    .pg-success-sub { font-size: 14px; color: var(--stone); margin-bottom: 28px; }
+
+    /* ── Studio override (keep existing component, restyle bg) ── */
+    .section.studio { background: var(--bg-2) !important; }
+    .studio h2 em { color: var(--gold) !important; }
+    .studio .eyebrow span:last-child { color: var(--gold) !important; letter-spacing: .14em; }
+    .studio .rule { background: var(--gold-bd) !important; }
+
+    /* ── Footer ── */
+    .footer { background: var(--ink) !important; }
+    .footer, .footer h4, .footer p, .footer li, .footer a { color: rgba(253,250,244,.65) !important; }
+    .footer .footer-brand .name { color: var(--gold-2) !important; }
+    .footer a:hover { color: var(--gold-2) !important; }
+    .footer-bottom { border-top-color: rgba(255,255,255,.1) !important; }
+
+    /* ── Mobile ── */
+    @media (max-width: 640px) {
+      .pg-hero-stats { gap: 20px; flex-wrap: wrap; }
+      .pg-partner-who { flex-direction: column; text-align: center; }
+      .pg-funnel-card { padding: 22px 18px; }
+    }
+  </style>
 </head>
 <body>
   <div id="root"></div>
@@ -45,244 +352,288 @@
   <script src="landing/image-slot.js"></script>
 
   <script type="text/babel">
-    // ─── useTweaks (minimal — tweaks panel not shown in production) ───────────
-    function useTweaks(defaults) {
-      const [values, setValues] = React.useState(defaults);
-      const setTweak = React.useCallback((keyOrEdits, val) => {
-        const edits = typeof keyOrEdits === 'object' && keyOrEdits !== null ? keyOrEdits : { [keyOrEdits]: val };
-        setValues((prev) => ({ ...prev, ...edits }));
-      }, []);
-      return [values, setTweak];
-    }
-    // Stub tweaks panel — never shown in production (no __activate_edit_mode posted)
-    function TweaksPanel() { return null; }
-    function TweakSection() { return null; }
-    function TweakSelect() { return null; }
-    function TweakColor() { return null; }
-    function TweakToggle() { return null; }
+    const CALENDLY_URL = 'https://calendly.com/defoin-arthur/accompagnement-arthur';
+
+    const goTo = id => { const el = document.getElementById(id); if (el) window.scrollTo({ top: el.offsetTop - 70, behavior: 'smooth' }); };
+
+    const openCalendly = () => {
+      if (window.Calendly) {
+        window.Calendly.initPopupWidget({ url: CALENDLY_URL });
+        if (typeof fbq === 'function') fbq('track', 'InitiateCheckout', { content_name: 'Réservation appel' });
+      } else {
+        window.open(CALENDLY_URL, '_blank');
+      }
+    };
 
     // ─── Nav ─────────────────────────────────────────────────────────────────
-    function Nav({ ctaLabel = 'Tester le simulateur' }) {
+    function Nav() {
       const [scrolled, setScrolled] = React.useState(false);
-      const [open, setOpen] = React.useState(false);
       React.useEffect(() => {
-        const onScroll = () => setScrolled(window.scrollY > 24);
-        window.addEventListener('scroll', onScroll, { passive: true });
-        onScroll();
-        return () => window.removeEventListener('scroll', onScroll);
+        const fn = () => setScrolled(window.scrollY > 20);
+        window.addEventListener('scroll', fn, { passive: true });
+        fn();
+        return () => window.removeEventListener('scroll', fn);
       }, []);
-      React.useEffect(() => { if (window.lucide) window.lucide.createIcons(); }, [open]);
-      const go = (id) => (e) => {
-        e.preventDefault(); setOpen(false);
-        const el = document.getElementById(id);
-        if (el) window.scrollTo({ top: el.offsetTop - 60, behavior: 'smooth' });
-      };
       return (
-        <nav className={"nav" + (scrolled ? " scrolled" : "") + (open ? " menu-open" : "")}>
-          <div className="container">
-            <div className="nav-inner">
-              <a className="nav-brand" href="#top" onClick={go('top')}>
-                <img className="nav-logo" src="landing/Logo A_.png" alt="Arthur Defoin" />
-                <span className="brand-text">
-                  <span className="name">Arthur Defoin · <span className="nav-tag">Media Buyer</span></span>
-                </span>
-              </a>
-              <div className="nav-links">
-                <a onClick={go('mecanisme')}>Le mécanisme</a>
-                <a onClick={go('simulateur')}>Simulateur</a>
-                <a onClick={go('rappel')} className="nav-link-sim">Réserver mon appel</a>
-                <a onClick={go('contact')}>Contact</a>
-                <a onClick={go('studio')}>Mon studio</a>
-                <button className="nav-cta nav-cta-mobile" onClick={go('simulateur')}>{ctaLabel}</button>
-              </div>
-              <button className="nav-cta nav-cta-desktop" onClick={go('simulateur')}>{ctaLabel}</button>
-              <button className="nav-burger" aria-label="Menu" aria-expanded={open} onClick={() => setOpen(o => !o)}>
-                <i data-lucide={open ? 'x' : 'menu'}></i>
-              </button>
-            </div>
+        <nav className="pg-nav">
+          <div className="pg-nav-inner">
+            <a className="pg-nav-brand" href="#top" onClick={e => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
+              <img className="pg-nav-logo" src="landing/Logo A_.png" alt="Arthur Defoin" />
+              <span className="pg-nav-name">Arthur Defoin · <span className="pg-nav-tag">Media Buyer</span></span>
+            </a>
+            <button className="pg-btn-dark" onClick={openCalendly}>Réserver mon appel</button>
           </div>
         </nav>
       );
     }
 
-    // ─── SideRail ────────────────────────────────────────────────────────────
-    function SideRail() {
-      const sections = [
-        { id: 'top', n: '01' },
-        { id: 'mecanisme', n: '02' },
-        { id: 'simulateur', n: '03' },
-        { id: 'studio', n: '04' },
-      ];
-      const [active, setActive] = React.useState('top');
-      React.useEffect(() => {
-        const onScroll = () => {
-          const y = window.scrollY + 200;
-          let cur = sections[0].id;
-          for (const s of sections) { const el = document.getElementById(s.id); if (el && el.offsetTop <= y) cur = s.id; }
-          setActive(cur);
-        };
-        window.addEventListener('scroll', onScroll, { passive: true });
-        onScroll();
-        return () => window.removeEventListener('scroll', onScroll);
-      }, []);
+    // ─── Hero ─────────────────────────────────────────────────────────────────
+    function HeroSection() {
       return (
-        <div className="side-rail" aria-hidden="true">
-          {sections.map(s => (
-            <a key={s.id} className={active === s.id ? 'active' : ''}
-               onClick={e => { e.preventDefault(); const el = document.getElementById(s.id); if (el) window.scrollTo({ top: el.offsetTop - 60, behavior: 'smooth' }); }}>
-              {s.n}
-            </a>
-          ))}
-        </div>
+        <>
+          <section className="pg-vsl" id="top">
+            <div className="pg-container-sm">
+              <div className="pg-vsl-player">
+                <div className="pg-vsl-play">
+                  <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21" /></svg>
+                </div>
+                <span className="pg-vsl-lbl">VOTRE VSL — À VENIR</span>
+              </div>
+            </div>
+          </section>
+
+          <section className="pg-hero">
+            <div className="pg-container-sm">
+              <div className="pg-hero-badge">1 SEUL PHOTOGRAPHE PAR VILLE</div>
+              <h1 className="pg-hero-h1">Photographes,<br /><em>je remplis votre agenda.</em></h1>
+              <p className="pg-hero-sub">Media buyer spécialisé dans l'acquisition de clients pour les photographes. Je construis votre flux de réservations — du premier euro investi au créneau confirmé.</p>
+              <button className="pg-btn-cta" onClick={openCalendly}>Je réserve mon appel découverte</button>
+              <div className="pg-hero-stats">
+                <div>
+                  <span className="pg-stat-num">+45</span>
+                  <span className="pg-stat-lbl">résa / mois</span>
+                </div>
+                <div>
+                  <span className="pg-stat-num">5j</span>
+                  <span className="pg-stat-lbl">pour les 1ers RDV</span>
+                </div>
+                <div>
+                  <span className="pg-stat-num">+3 000€</span>
+                  <span className="pg-stat-lbl">de CA / mois</span>
+                </div>
+              </div>
+            </div>
+          </section>
+        </>
       );
     }
 
-    // ─── Hero WOW (Animé — rotating word) ────────────────────────────────────
-    function HeroWow({ variant = 'anime' }) {
-      const go = (id) => (e) => {
-        e.preventDefault();
-        const el = document.getElementById(id);
-        if (el) window.scrollTo({ top: el.offsetTop - 60, behavior: 'smooth' });
-      };
-      const Eyebrow = () => (
-        <div className="eyebrow"><span>Publicité Meta pour <span className="eyebrow-big">photographes</span></span></div>
-      );
-      const Lede = () => (
-        <p className="lede">Je suis photographe et media buyer Meta Ads.<br />Je lance, gère et optimise vos publicités.</p>
-      );
-      const Actions = () => (
-        <div className="hero-actions">
-          <a className="btn btn-primary" href="#mecanisme" onClick={go('mecanisme')}>
-            Je veux découvrir le tunnel de vente
-          </a>
-        </div>
-      );
-
-      if (variant === 'immersif') {
-        return (
-          <section className="section hero hero-wow hero-immersif" id="top">
-            <div className="hero-blob"></div>
-            <div className="container">
-              <div className="hero-grid">
-                <div className="hero-copy">
-                  <Eyebrow />
-                  <h1><span className="small-lead">Vous photographiez —</span> nous attirons vos <em>clients</em>.</h1>
-                  <p className="lede">Je suis photographe, comme vous, et media buyer spécialisé Meta Ads. Pendant que vous êtes derrière l'objectif, vos campagnes travaillent.</p>
-                  <Actions />
-                  <div className="trust-strip">
-                    <span><strong>22</strong> photographes accompagnés</span>
-                    <span className="dot"></span><span>France · Belgique · Suisse</span>
-                  </div>
-                </div>
-                <div className="hero-visual">
-                  <image-slot id="hero-portrait" shape="rect" fit="cover" class="ph" placeholder="Glissez votre portrait"></image-slot>
-                  <div className="float-chip chip-1"><strong>× 4,2</strong><span>ROAS moyen</span></div>
-                  <div className="float-chip chip-2"><strong>12 €</strong><span>par lead qualifié</span></div>
-                  <div className="float-chip chip-3"><strong>+ 38 %</strong><span>demandes / mois</span></div>
-                </div>
-              </div>
-            </div>
-          </section>
-        );
-      }
-
-      if (variant === 'bento') {
-        return (
-          <section className="section hero hero-wow hero-bento" id="top">
-            <div className="container">
-              <div className="bento">
-                <div className="bento-cell bento-head">
-                  <Eyebrow />
-                  <h1><span className="small-lead">Vous photographiez —</span> nous attirons vos <em>clients</em>.</h1>
-                  <p className="lede">Media buyer Meta Ads, photographe comme vous. Vos campagnes remplissent votre agenda pendant que vous shootez.</p>
-                  <Actions />
-                </div>
-                <div className="bento-cell bento-photo">
-                  <image-slot id="hero-portrait" shape="rect" fit="cover" class="ph" placeholder="Glissez votre portrait"></image-slot>
-                </div>
-                <div className="bento-cell bento-stat"><strong>× 4,2</strong><span>ROAS moyen constaté</span></div>
-                <div className="bento-cell bento-stat alt"><strong>12 €</strong><span>coût par lead qualifié</span></div>
-                <div className="bento-cell bento-cta">
-                  <span className="bento-cta-lbl">Votre retour sur investissement ?</span>
-                  <a className="btn" href="#simulateur" onClick={go('simulateur')}>Lancer le simulateur <span className="arrow">→</span></a>
-                </div>
-              </div>
-            </div>
-          </section>
-        );
-      }
-
-      // Default: Animé
-      const ROT = ['clients', 'réservations', 'prospects'];
-      const [rIdx, setRIdx] = React.useState(0);
-      const [rVis, setRVis] = React.useState(true);
-      React.useEffect(() => {
-        const t = setInterval(() => {
-          setRVis(false);
-          setTimeout(() => { setRIdx(i => (i + 1) % ROT.length); setRVis(true); }, 380);
-        }, 3400);
-        return () => clearInterval(t);
-      }, []);
+    // ─── Partner ─────────────────────────────────────────────────────────────
+    function PartnerSection() {
       return (
-        <section className="section hero hero-wow hero-anime" id="top">
-          <div className="hero-halo"></div>
-          <div className="container">
-            <div className="hero-center">
-              <div className="hero-spe">Spécialisé en</div>
-              <Eyebrow />
-              <h1>
-                <span className="small-lead">Vous photographiez</span>
-                j'attire vos
-                <span className="rotator" style={{overflow:'visible',height:'auto',verticalAlign:'baseline',display:'block'}}>
-                  <span className="rotator-word" style={{
-                    opacity: rVis ? 1 : 0,
-                    transform: rVis ? 'translateY(0)' : 'translateY(-0.4em)',
-                    transition: 'opacity 0.34s ease, transform 0.34s ease',
-                  }}>{ROT[rIdx]}</span>
-                </span>
-              </h1>
-              <Lede />
-              <Actions />
+        <section className="pg-partner">
+          <div className="pg-container-sm">
+            <div className="pg-partner-who">
+              <img className="pg-avatar" src="landing/assets/arthur-studio.jpg" alt="Arthur Defoin" />
+              <div>
+                <div className="pg-partner-id-name">Arthur Defoin</div>
+                <div className="pg-partner-id-role">Media buyer · Photographe</div>
+              </div>
             </div>
+            <div className="pg-eyebrow">Votre interlocuteur</div>
+            <h2 className="pg-partner-h2">Votre partenaire,<br /><em>c'est moi.</em></h2>
+            <p className="pg-partner-body">
+              Media buyer depuis 2 ans, spécialisé dans les photographes professionnels. Je travaille <strong>seul</strong> — pas d'agence, pas de junior à qui déléguer. Vous échangez directement avec la personne qui crée, pilote et optimise vos campagnes, du premier euro investi au rendez-vous pris.<br /><br />
+              Je suis moi-même photographe au studio Amour et Lumière. C'est en remplissant <em>notre propre</em> agenda grâce à la publicité Meta que j'ai compris ce qui fonctionne vraiment pour un photographe — et ce qui fait perdre du budget.
+            </p>
+            <button className="pg-btn-outline" onClick={() => goTo('funnel')}>Vérifier mon éligibilité →</button>
           </div>
         </section>
       );
     }
 
-    // ─── Schema ───────────────────────────────────────────────────────────────
-    function Schema() {
-      const steps = [
-        { num: '01', tag: 'Acquisition',  title: 'Pub Meta ciblée',           sub: 'Vos photos diffusées aux bons profils, au bon moment.' },
-        { num: '02', tag: 'Conversion',   title: 'Landing page qui convertit', sub: 'Une page pensée pour transformer les clics en demandes.' },
-        { num: '03', tag: 'Résultat',     title: 'Votre agenda se remplit',    sub: 'Vous recevez des prospects qualifiés — plus qu\'à décrocher.' },
-      ];
-      return (
-        <section className="section schema" id="mecanisme">
-          <div className="container">
-            <div className="schema-head">
-              <div className="eyebrow"><span className="rule"></span><span>Le mécanisme</span></div>
-              <h2>Voici le tunnel de vente <em>que je mets en place pour vous.</em></h2>
-              <p className="lede">Vous photographiez — tout le reste tourne sans vous.</p>
-            </div>
+    // ─── Qualification Funnel ─────────────────────────────────────────────────
+    const STEPS = [
+      {
+        key: 'specialite', type: 'choice', eyebrow: 'Votre activité',
+        title: 'Quelle est votre spécialité principale ?',
+        options: [
+          { v: 'mariage',  label: 'Mariage',             icon: '💍' },
+          { v: 'portrait', label: 'Portrait & Studio',   icon: '📷' },
+          { v: 'famille',  label: 'Famille & Nouveau-né', icon: '👶' },
+          { v: 'autre',    label: 'Autre',                icon: '✦'  },
+        ],
+      },
+      {
+        key: 'anciennete', type: 'choice', eyebrow: 'Votre parcours',
+        title: 'Depuis combien de temps exercez-vous ?',
+        options: [
+          { v: 'new', label: "Moins d'1 an",   desc: "Je lance mon activité",          icon: '🌱' },
+          { v: '1-3', label: '1 à 3 ans',      desc: "Je me développe",               icon: '📈' },
+          { v: '3+',  label: 'Plus de 3 ans',  desc: "Je veux accélérer",             icon: '🚀' },
+        ],
+      },
+      {
+        key: 'reservations', type: 'choice', eyebrow: 'Situation actuelle',
+        title: 'Combien de nouvelles réservations avez-vous par mois ?',
+        options: [
+          { v: '0-5',  label: 'Moins de 5',     desc: "J'ai du mal à remplir mon agenda", icon: '😕' },
+          { v: '5-15', label: 'Entre 5 et 15',  desc: "Ça vient, mais c'est irrégulier", icon: '📊' },
+          { v: '15+',  label: 'Plus de 15',     desc: "Je veux passer à la vitesse sup.", icon: '⚡' },
+        ],
+      },
+      {
+        key: 'ca', type: 'choice', eyebrow: 'Situation actuelle',
+        title: "Quel est votre chiffre d'affaires mensuel ?",
+        options: [
+          { v: '<2k',  label: 'Moins de 2 000€', icon: '💶' },
+          { v: '2-5k', label: '2 000 – 5 000€',  icon: '💶' },
+          { v: '5k+',  label: 'Plus de 5 000€',  icon: '💰' },
+        ],
+      },
+      {
+        key: 'pub', type: 'choice', eyebrow: 'Acquisition',
+        title: 'Avez-vous déjà investi en publicité Meta ?',
+        options: [
+          { v: 'never',  label: 'Jamais, je débute',          icon: '✨' },
+          { v: 'tried',  label: 'Oui, sans vrais résultats',  icon: '😞' },
+          { v: 'active', label: 'Oui, et ça fonctionne',      icon: '✅' },
+        ],
+      },
+      {
+        key: 'objectif', type: 'choice', eyebrow: 'Votre objectif',
+        title: 'Combien de nouvelles réservations souhaitez-vous par mois ?',
+        framing: "En dessous d'environ 600€/mois de budget global, la publicité ne donne aucun résultat exploitable — ce n'est pas « moins de clients », c'est « pas de résultat ». Choisissez l'objectif qui correspond à votre ambition.",
+        options: [
+          { v: '10',  label: 'Une dizaine',        desc: 'Minimum pour démarrer — budget ~600€/mois', icon: '🎯' },
+          { v: '20',  label: 'Une vingtaine',      desc: '~1 100€/mois',                              icon: '🎯' },
+          { v: '30',  label: 'Une trentaine',      desc: '~1 500€/mois',                              icon: '🎯' },
+          { v: '30+', label: 'Plus de 30',         desc: 'On passe en mode scaling',                  icon: '🚀' },
+          { v: '?',   label: 'Je ne sais pas encore', desc: '',                                       icon: '🤔' },
+        ],
+      },
+      {
+        key: 'contact', type: 'contact', eyebrow: 'Dernière étape',
+        title: 'Où doit-on vous contacter ?',
+      },
+    ];
 
-            <div className="meca-trio">
-              {steps.map((s, i) => (
-                <React.Fragment key={s.num}>
-                  <div className="meca-chip">
-                    <span className="meca-chip-num">{s.num} — {s.tag}</span>
-                    <h3 className="meca-chip-title">{s.title}</h3>
-                    <p className="meca-chip-sub">{s.sub}</p>
+    const TRACKABLE = STEPS.filter(s => ['choice', 'contact'].includes(s.type));
+
+    function QualifFunnel() {
+      const [idx, setIdx]       = React.useState(0);
+      const [answers, setAns]   = React.useState({});
+      const [form, setForm]     = React.useState({ prenom: '', telephone: '', email: '' });
+      const [status, setStatus] = React.useState('idle');
+
+      const step     = STEPS[idx];
+      const trackIdx = TRACKABLE.indexOf(step);
+      const pct      = trackIdx < 0 ? 100 : (trackIdx / TRACKABLE.length) * 100;
+
+      const next = () => setIdx(i => Math.min(STEPS.length - 1, i + 1));
+      const back = () => setIdx(i => Math.max(0, i - 1));
+
+      const pick = (key, val) => {
+        setAns(a => ({ ...a, [key]: val }));
+        setTimeout(next, 300);
+      };
+
+      const submit = async () => {
+        setStatus('sending');
+        try {
+          await fetch('https://api.web3forms.com/submit', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              access_key: '8ff579b2-c217-4683-95bf-49ccd0b57c4d',
+              subject: 'Qualification — photographe.arthurdefoin.com',
+              name: form.prenom,
+              email: form.email,
+              phone: form.telephone,
+              message: Object.entries(answers).map(([k, v]) => `${k}: ${v}`).join('\n'),
+            }),
+          });
+          if (typeof fbq === 'function') fbq('track', 'Lead', { content_name: 'Qualification photographe', currency: 'EUR', value: 0 });
+        } catch (_) {}
+        setStatus('done');
+      };
+
+      if (status === 'done') {
+        return (
+          <div className="pg-success">
+            <div className="pg-success-check">✓</div>
+            <div className="pg-success-title">C'est noté !</div>
+            <p className="pg-success-sub">Réservez maintenant votre appel découverte de 30 minutes.</p>
+            <button className="pg-btn-cta" onClick={openCalendly}>Réserver mon appel →</button>
+          </div>
+        );
+      }
+
+      return (
+        <div>
+          <div className="pg-progress">
+            <div className="pg-progress-bar" style={{ width: pct + '%' }}></div>
+          </div>
+
+          {step.eyebrow && <div className="pg-step-eyebrow">{step.eyebrow}</div>}
+          <div className="pg-step-title">{step.title}</div>
+          {step.framing && <div className="pg-framing">{step.framing}</div>}
+
+          {step.type === 'choice' && (
+            <div className="pg-choices">
+              {step.options.map(o => (
+                <button key={o.v}
+                  className={"pg-choice" + (answers[step.key] === o.v ? ' is-selected' : '')}
+                  onClick={() => pick(step.key, o.v)}>
+                  <div className="pg-choice-ico">{o.icon}</div>
+                  <div>
+                    <span className="pg-choice-lbl">{o.label}</span>
+                    {o.desc && <span className="pg-choice-desc">{o.desc}</span>}
                   </div>
-                  {i < 2 && <div className="meca-trio-arrow">→</div>}
-                </React.Fragment>
+                </button>
               ))}
             </div>
+          )}
 
-            <div className="meca-cta-wrap">
-              <a className="btn btn-primary meca-cta-btn" href="#simulateur"
-                onClick={(e) => { e.preventDefault(); const el = document.getElementById('simulateur'); if (el) window.scrollTo({top: el.offsetTop - 60, behavior: 'smooth'}); }}>
-                Tester le simulateur <span className="arrow">↓</span>
-              </a>
+          {step.type === 'contact' && (
+            <div>
+              {[
+                { key: 'prenom',     label: 'Prénom',    type: 'text', ph: 'Ex. Marie' },
+                { key: 'telephone',  label: 'Téléphone', type: 'tel',  ph: '06 xx xx xx xx' },
+                { key: 'email',      label: 'Email',     type: 'email',ph: 'votre@email.com' },
+              ].map(f => (
+                <div className="pg-field" key={f.key}>
+                  <label className="pg-field-lbl">{f.label}</label>
+                  <input className="pg-field-input" type={f.type} placeholder={f.ph}
+                    value={form[f.key]}
+                    onChange={e => setForm(fm => ({ ...fm, [f.key]: e.target.value }))} />
+                </div>
+              ))}
+              <button className="pg-submit" onClick={submit}
+                disabled={status === 'sending' || !form.prenom.trim() || !form.telephone.trim() || !form.email.trim()}>
+                {status === 'sending' ? 'Envoi…' : 'Confirmer et réserver mon appel →'}
+              </button>
+            </div>
+          )}
+
+          {idx > 0 && step.type !== 'contact' && (
+            <button className="pg-back" onClick={back}>← Retour</button>
+          )}
+        </div>
+      );
+    }
+
+    function FunnelSection() {
+      return (
+        <section className="pg-funnel" id="funnel">
+          <div className="pg-container-sm">
+            <div className="pg-funnel-hd">
+              <div className="pg-eyebrow">Éligibilité</div>
+              <h2 className="pg-funnel-title">Quelques questions avant<br /><em style={{fontStyle:'italic',color:'var(--gold)'}}>notre premier échange.</em></h2>
+              <p className="pg-funnel-sub">Je sélectionne mes clients — pour vous accompagner vraiment, pas juste facturer.</p>
+            </div>
+            <div className="pg-funnel-card">
+              <QualifFunnel />
             </div>
           </div>
         </section>
@@ -329,12 +680,12 @@
               </div>
               <div className="studio-body">
                 <p className="lede">
-                  Amour et Lumière, c'est notre studio. Nous sommes deux photographes et nous faisons principalement des séances famille et enfants ainsi que des mariages. C'est en remplissant <em> notre propre</em> agenda grâce à la publicité Meta que j'ai compris ce qui fonctionne vraiment pour un photographe — et ce qui fait perdre du budget.
+                  Amour et Lumière, c'est notre studio. Nous sommes deux photographes et nous faisons principalement des séances famille et enfants ainsi que des mariages. C'est en remplissant <em>notre propre</em> agenda grâce à la publicité Meta que j'ai compris ce qui fonctionne vraiment pour un photographe — et ce qui fait perdre du budget.
                 </p>
-                <div className="studio-stats" style={{display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:'2px', flexWrap:'nowrap'}}>
-                  <div className="stat" style={{minWidth:0}}><span className="num" style={{fontSize:'clamp(24px,6vw,48px)'}}>+ <em>45</em></span><span className="lbl" style={{fontSize:'clamp(9px,2.4vw,11px)', maxWidth:'none'}}>résa/mois</span></div>
-                  <div className="stat" style={{minWidth:0}}><span className="num" style={{fontSize:'clamp(24px,6vw,48px)'}}><em>90</em>&nbsp;%</span><span className="lbl" style={{fontSize:'clamp(9px,2.4vw,11px)', maxWidth:'none'}}>via la pub</span></div>
-                  <div className="stat" style={{minWidth:0}}><span className="num" style={{fontSize:'clamp(24px,6vw,48px)'}}><em>10</em>&nbsp;%</span><span className="lbl" style={{fontSize:'clamp(9px,2.4vw,11px)', maxWidth:'none'}}>→ bouche à oreille</span></div>
+                <div className="studio-stats" style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:'2px',flexWrap:'nowrap'}}>
+                  <div className="stat" style={{minWidth:0}}><span className="num" style={{fontSize:'clamp(24px,6vw,48px)'}}>+ <em>45</em></span><span className="lbl" style={{fontSize:'clamp(9px,2.4vw,11px)',maxWidth:'none'}}>résa/mois</span></div>
+                  <div className="stat" style={{minWidth:0}}><span className="num" style={{fontSize:'clamp(24px,6vw,48px)'}}><em>90</em>&nbsp;%</span><span className="lbl" style={{fontSize:'clamp(9px,2.4vw,11px)',maxWidth:'none'}}>via la pub</span></div>
+                  <div className="stat" style={{minWidth:0}}><span className="num" style={{fontSize:'clamp(24px,6vw,48px)'}}><em>10</em>&nbsp;%</span><span className="lbl" style={{fontSize:'clamp(9px,2.4vw,11px)',maxWidth:'none'}}>→ bouche à oreille</span></div>
                 </div>
                 <p className="studio-sign">«&nbsp;Je ne vous vends pas une méthode théorique. Je vous applique celle qui remplit <strong>notre agenda</strong>.&nbsp;»</p>
               </div>
@@ -375,438 +726,8 @@
       );
     }
 
-    // ─── Bénéfices ────────────────────────────────────────────────────────────
-    function Dot() {
-      return (
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-          <polyline points="2.5,7.5 5.5,10.5 11.5,3.5" />
-        </svg>
-      );
-    }
-
-    let _simSnapshot = {};
-
-    // ─── Simulateur ───────────────────────────────────────────────────────────
-    const CPL = 12, CPR = 20, TAUX_ANNULATION = 25, PANIER_SEUIL = 300, PUB_MIN = 200, PUB_MAX = 3500, PUB_DEFAUT = 200;
-    const SIM_SPECIALITES = ['Mariage','Studio','Extérieur'];
-    const convForSpec = (s, cart) => {
-      if (s !== 'Mariage') return 30;
-      const ratio = Math.max(0, Math.min(1, (cart - 1500) / 3000));
-      return Math.round(10 - ratio * 5);
-    };
-    const PANIER_PAR_SPEC = { Mariage: 1500 };
-    const panierForSpec = s => PANIER_PAR_SPEC[s] ?? 200;
-    function calcAbo(pub) {
-      if (pub <= 500) return 490;
-      if (pub <= 1000) return 490 + (pub - 500) * 0.8;
-      return 890 + (pub - 1000) * 0.2;
-    }
-    function useCounterSim(value, duration=480) {
-      const [display, setDisplay] = React.useState(value);
-      const ref = React.useRef({from:value,to:value,start:0});
-      React.useEffect(() => {
-        ref.current = {from:display,to:value,start:performance.now()};
-        let raf;
-        const tick = t => {
-          const {from,to,start} = ref.current;
-          const k = Math.min(1,(t-start)/duration);
-          const eased = 1-Math.pow(1-k,3);
-          setDisplay(from+(to-from)*eased);
-          if (k<1) raf = requestAnimationFrame(tick);
-        };
-        raf = requestAnimationFrame(tick);
-        return () => cancelAnimationFrame(raf);
-      }, [value]);
-      return display;
-    }
-    const fmtEUR = n => new Intl.NumberFormat('fr-FR',{maximumFractionDigits:0}).format(Math.round(n))+' €';
-    const fmtX = n => '× '+new Intl.NumberFormat('fr-FR',{minimumFractionDigits:1,maximumFractionDigits:1}).format(n);
-    const fmtInt = n => new Intl.NumberFormat('fr-FR',{maximumFractionDigits:0}).format(Math.round(n));
-    function SimSlider({value,min,max,step=1,onChange,ticks}) {
-      const trackRef = React.useRef(null);
-      const pct = (value-min)/(max-min)*100;
-
-      const valueFromPointer = (e) => {
-        const rect = trackRef.current.getBoundingClientRect();
-        const clientX = e.clientX;
-        const ratio = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
-        const raw = min + ratio * (max - min);
-        const stepped = Math.round(raw / step) * step;
-        return Math.max(min, Math.min(max, stepped));
-      };
-
-      const onPointerDown = (e) => {
-        e.preventDefault();
-        trackRef.current.setPointerCapture(e.pointerId);
-        onChange(valueFromPointer(e));
-      };
-
-      const onPointerMove = (e) => {
-        if (!trackRef.current.hasPointerCapture(e.pointerId)) return;
-        onChange(valueFromPointer(e));
-      };
-
-      return (
-        <div>
-          <div className="sim-slider" ref={trackRef}
-               onPointerDown={onPointerDown}
-               onPointerMove={onPointerMove}
-               style={{touchAction:'none', userSelect:'none'}}>
-            <div className="sim-track"><div className="sim-fill" style={{width:pct+'%'}}></div></div>
-            <div className="sim-thumb" style={{left:pct+'%'}}></div>
-          </div>
-          {ticks && <div className="sim-ticks">{ticks.map((t,i) => <span key={i}>{t}</span>)}</div>}
-        </div>
-      );
-    }
-    // ─── Flying-to-panel animation ───────────────────────────────────────────
-    function flyToPanel(sourceEl) {
-      if (!sourceEl) return;
-      const sr = sourceEl.getBoundingClientRect();
-      const cx = sr.left + sr.width / 2;
-      const cy = sr.top  + sr.height / 2;
-      const ghost = document.createElement('div');
-      ghost.style.cssText = [
-        'position:fixed',
-        `left:${cx - 56}px`,
-        `top:${cy - 13}px`,
-        'width:112px',
-        'height:26px',
-        'border-radius:20px',
-        'background:linear-gradient(135deg,#9B4F72,#C4668A,#EBC4D5)',
-        'box-shadow:0 6px 20px rgba(155,79,114,0.45)',
-        'z-index:9999',
-        'pointer-events:none',
-        'opacity:1',
-        'transform:scale(1)',
-      ].join(';');
-      document.body.appendChild(ghost);
-      requestAnimationFrame(() => requestAnimationFrame(() => {
-        ghost.style.transition = [
-          'left 0.6s cubic-bezier(0.76,0,0.24,1)',
-          'top 0.6s cubic-bezier(0.76,0,0.24,1)',
-          'transform 0.55s cubic-bezier(0.34,1.56,0.64,1)',
-          'opacity 0.3s ease 0.32s',
-          'box-shadow 0.4s ease',
-          'width 0.4s ease 0.05s',
-          'height 0.4s ease 0.05s',
-          'border-radius 0.35s ease',
-        ].join(',');
-        ghost.style.left = '22px';
-        ghost.style.top = '126px';
-        ghost.style.width = '140px';
-        ghost.style.height = '22px';
-        ghost.style.borderRadius = '8px';
-        ghost.style.transform = 'scale(0.82)';
-        ghost.style.opacity = '0';
-        ghost.style.boxShadow = '0 2px 8px rgba(155,79,114,0.15)';
-        setTimeout(() => ghost.remove(), 850);
-      }));
-    }
-    // ─── Panel "Besoin" fixe ──────────────────────────────────────────────────
-    function NeedsPanel({ clients, lpChoice }) {
-      const hasClients = !!clients;
-      const hasLp = !!lpChoice;
-      const visible = hasClients || hasLp;
-      return (
-        <div className={"needs-panel" + (visible ? " visible" : "")}>
-          <div className="needs-panel-title">Objectif &amp; Besoin</div>
-          <div className={"needs-item" + (hasClients ? " np-visible" : "")}>
-            <span className="needs-check">✓</span>
-            <span>+{clients} clients</span>
-          </div>
-          <div className={"needs-item needs-item-lp" + (hasLp ? " np-visible" : "")}>
-            <span className={"needs-check" + (lpChoice === 'have' ? " needs-x" : "")}>
-              {lpChoice === 'have' ? '✗' : '✓'}
-            </span>
-            <span>Landing page</span>
-          </div>
-        </div>
-      );
-    }
-    function Simulateur({onSimChange}) {
-      const [spec, setSpec] = React.useState('Studio');
-      const [mode, setMode] = React.useState('reservations');
-      const [cart, setCart] = React.useState(panierForSpec('Studio'));
-      const [pub, setPub] = React.useState(PUB_DEFAUT);
-      const conv = convForSpec(spec, cart);
-      const pickSpec = s => { setSpec(s); setCart(panierForSpec(s)); };
-      const showWarn = mode === 'reservations' && cart > PANIER_SEUIL;
-      const result = React.useMemo(() => {
-        const abo = calcAbo(pub);
-        let volume, clients;
-        if (mode === 'leads') { volume = pub/CPL; clients = volume*(conv/100); }
-        else { volume = pub/CPR; clients = volume*(1-TAUX_ANNULATION/100); }
-        const revenue = clients*cart;
-        const benefice = revenue-pub;
-        const roas = pub > 0 ? revenue/pub : 0;
-        return {abo,volume,clients,revenue,benefice,roas};
-      }, [mode,cart,conv,pub]);
-      const dVolume = useCounterSim(result.volume);
-      const dClients = useCounterSim(result.clients);
-      const dRevenue = useCounterSim(result.revenue);
-      const dBenefice = useCounterSim(result.benefice);
-      const dRoas = useCounterSim(result.roas);
-      const dAbo = useCounterSim(result.abo);
-      const go = id => e => { e.preventDefault(); const el = document.getElementById(id); if (el) window.scrollTo({top:el.offsetTop-60,behavior:'smooth'}); };
-      React.useEffect(() => { if (window.lucide) window.lucide.createIcons(); });
-      React.useEffect(() => {
-        if (onSimChange) onSimChange(result);
-      }, [pub, mode, cart, spec]);
-      return (
-        <section className="section" id="simulateur">
-          <div className="container">
-            <div className="section-head">
-              <div>
-                <div className="eyebrow"><span className="rule"></span><span>Simulateur</span></div>
-                <h2>Combien rapporterait<br /><em>un mois de publicité</em>&nbsp;?</h2>
-              </div>
-              <p className="lede">Quelques réglages, une estimation chiffrée. Les projections reposent sur les performances moyennes des campagnes en cours.</p>
-            </div>
-            <div className="sim">
-              <div className="sim-controls">
-                <h3>Votre activité</h3>
-                <div className="sim-field">
-                  <div className="sim-field-head"><span className="sim-field-lbl">Quelle prestation mettre en avant&nbsp;?</span></div>
-                  <div className="sim-chips">
-                    {SIM_SPECIALITES.map(s => <button key={s} className={"sim-chip"+(spec===s?" active":"")} onClick={() => pickSpec(s)}>{s}</button>)}
-                  </div>
-                </div>
-                <div className="sim-field sim-objectif">
-                  <div className="sim-field-head"><span className="sim-field-lbl">Objectif des campagnes</span></div>
-                  <div className="sim-seg">
-                    <button className={mode==='leads'?'active':''} onClick={() => setMode('leads')}>Des leads<span className="seg-sub">prospects à rappeler</span></button>
-                    <button className={mode==='reservations'?'active':''} onClick={() => setMode('reservations')}>Réservations gratuites<span className="seg-sub">ils réservent seuls</span></button>
-                  </div>
-                </div>
-                <div className="sim-field">
-                  <div className="sim-field-head"><span className="sim-field-lbl">Panier moyen par client</span></div>
-                  <div className="sim-input-wrap">
-                    <input className="sim-input" type="number" min="0" step="10" value={cart}
-                      onChange={e => { const v = parseInt(e.target.value, 10); setCart(isNaN(v) ? 0 : Math.max(0, v)); }}
-                      onFocus={e => e.target.select()} />
-                    <span className="sim-input-suffix">€</span>
-                  </div>
-                  {showWarn && <p className="sim-warn reveal" key="warn"><i data-lucide="alert-triangle"></i><span>Panier élevé&nbsp;: au-delà de {PANIER_SEUIL}&nbsp;€, les <em>leads qualifiés</em> sont en général plus rentables.</span></p>}
-                </div>
-                <div className="sim-field" style={{marginBottom:0}}>
-                  <div className="sim-field-head">
-                    <span className="sim-field-lbl">Dépense publicitaire mensuelle</span>
-                    <span className="sim-field-val"><em>{fmtInt(pub)}</em>&nbsp;€</span>
-                  </div>
-                  <SimSlider value={pub} min={PUB_MIN} max={PUB_MAX} step={50} onChange={setPub} ticks={['200 €','1 000 €','3 500 €']} />
-                  <div className="sim-abo-badge">
-                    <i data-lucide="plus-circle"></i>
-                    <span><strong>{fmtEUR(dAbo)}</strong> d'abonnement <span className="sim-abo-sub">(gestion &amp; optimisation, non inclus dans les projections)</span></span>
-                  </div>
-                </div>
-              </div>
-              <div className="sim-result">
-                <div>
-                  <span className="res-eyebrow">Chiffre d'affaires estimé</span>
-                  <div className="res-num" style={{marginTop:14}}><em>{fmtEUR(dRevenue)}</em></div>
-                  <p className="res-sub" style={{marginTop:8}}>
-                    {mode==='leads'
-                      ? <>{fmtInt(dClients)} {Math.round(dClients)>1?'prestations signées':'prestation signée'} · {fmtInt(dVolume)} leads</>
-                      : <>{fmtInt(dClients)} {Math.round(dClients)>1?'clients confirmés':'client confirmé'} · {fmtInt(dVolume)} réservations</>
-                    }
-                  </p>
-                </div>
-                <div>
-                  <span className="res-eyebrow">Bénéfice estimé</span>
-                  <div className="res-num benefice-num"><em>{fmtEUR(dBenefice)}</em></div>
-                  <span className="res-unit">dépense publicitaire déduite</span>
-                </div>
-                <div className="sim-breakdown">
-                  <div className="sim-row"><span className="k">Chiffre d'affaires généré</span><span className="v">{fmtEUR(dRevenue)}</span></div>
-                  {mode==='leads' ? (<>
-                    <div className="sim-row"><span className="k">Leads qualifiés</span><span className="v">{fmtInt(dVolume)}</span></div>
-                    <div className="sim-row"><span className="k">Prestations signées <em className="k-sub">à {conv}&nbsp;% de conversion</em></span><span className="v">{fmtInt(dClients)}</span></div>
-                  </>) : (<>
-                    <div className="sim-row"><span className="k">Réservations gratuites</span><span className="v">{fmtInt(dVolume)}</span></div>
-                    <div className="sim-row"><span className="k">Clients confirmés <em className="k-sub">{TAUX_ANNULATION}&nbsp;% annulations déduites</em></span><span className="v">{fmtInt(dClients)}</span></div>
-                  </>)}
-                  <div className="sim-row"><span className="k">Dépense publicitaire</span><span className="v">− {fmtEUR(pub)}</span></div>
-                  <div className="sim-row"><span className="k">Bénéfice net</span><span className="v"><em>{fmtEUR(dBenefice)}</em></span></div>
-                  <div className="sim-row"><span className="k">Retour sur investissement (ROAS)</span><span className="v"><em>{fmtX(dRoas)}</em></span></div>
-                  <div className="sim-row sim-row-abo"><span className="k">+ Abonnement <em className="k-sub">hors projections</em></span><span className="v">{fmtEUR(dAbo)}</span></div>
-                </div>
-                <div className="sim-cta-wrap">
-                  <button className="btn btn-gold" onClick={e => { go('rappel')(e); if(typeof fbq==='function') fbq('track','InitiateCheckout',{content_name:'Simulateur CTA'}); }}>
-                    Je veux ces résultats <span className="arrow">→</span>
-                  </button>
-                </div>
-                <p className="sim-note">★ Estimations basées sur les résultats de mes clients photographes</p>
-              </div>
-            </div>
-          </div>
-        </section>
-      );
-    }
-    // ─── Tunnel de vente ─────────────────────────────────────────────────────
-    function Offre({lpChoice, onLpChoice, lpTier, onLpTier}) {
-      const vidRef = React.useRef(null);
-      const [vidPlaying, setVidPlaying] = React.useState(false);
-      React.useEffect(() => {
-        const v = vidRef.current;
-        if (!v) return;
-        v.muted = true;
-        v.defaultMuted = true;
-        v.play().then(() => setVidPlaying(true)).catch(() => {
-          v.controls = true;
-          setVidPlaying(true);
-        });
-      }, []);
-      return (
-        <div className="offre-reveal offre-open" id="offre">
-          <section className="section">
-            <div className="container">
-
-              <div className="offre-intro">
-                <div className="eyebrow"><span className="rule"></span><span>Landing page</span></div>
-                <h2>Une page qui <em>transforme vos visiteurs en clients</em></h2>
-                <p className="lede">Entièrement personnalisée selon votre univers photographique.</p>
-              </div>
-
-              <div className="offre-video-wrap">
-                <video
-                  ref={vidRef}
-                  className="offre-video"
-                  autoPlay muted defaultMuted loop playsInline
-                  preload="auto"
-                  aria-hidden="true"
-                >
-                  <source src="landing/lp-demo.webm" type="video/webm" />
-                  <source src="landing/lp-demo.mp4" type="video/mp4" />
-                </video>
-                {!vidPlaying && (
-                  <button className="offre-play-btn" aria-label="Lire la vidéo" onClick={() => {
-                    const v = vidRef.current;
-                    if (!v) return;
-                    v.muted = true;
-                    v.play()
-                      .then(() => setVidPlaying(true))
-                      .catch(() => { v.controls = true; setVidPlaying(true); });
-                  }}>
-                    <svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28"><polygon points="5,3 19,12 5,21"/></svg>
-                  </button>
-                )}
-              </div>
-
-              <div className="offre-prices">
-                <div className={"offre-price-card" + (lpTier==='decouverte' ? ' is-selected' : '')} onClick={() => onLpTier('decouverte')}>
-                  <span className="offre-price-label">Découverte</span>
-                  <div className="offre-price-amount">390 <span className="offre-price-eur">€</span></div>
-                  <p className="offre-price-desc">Page principale, galerie, formulaire de contact. <strong>+30% de conversion.</strong></p>
-                </div>
-                <div className="offre-prices-sep">ou</div>
-                <div className={"offre-price-card offre-price-card-plus" + (lpTier==='complete' ? ' is-selected' : '')} onClick={() => onLpTier('complete')}>
-                  <span className="offre-price-label">Complète</span>
-                  <div className="offre-price-amount">490 <span className="offre-price-eur">€</span></div>
-                  <p className="offre-price-desc">Découverte + tarifs affichés + avis clients. <strong>+60% de conversion.</strong></p>
-                </div>
-              </div>
-
-              <div className="offre-choice">
-                <label className={"offre-radio" + (lpChoice==='need' ? " active" : "")} onClick={e => onLpChoice('need', e.currentTarget)}>
-                  <input type="radio" name="lpchoice" value="need" checked={lpChoice==='need'} onChange={() => {}} />
-                  <span className="offre-radio-icon">{lpChoice==='need' ? '✓' : ''}</span>
-                  <span>J'ai besoin d'une landing page qui convertit</span>
-                </label>
-                <label className={"offre-radio" + (lpChoice==='have' ? " active" : "")} onClick={e => onLpChoice('have', e.currentTarget)}>
-                  <input type="radio" name="lpchoice" value="have" checked={lpChoice==='have'} onChange={() => {}} />
-                  <span className="offre-radio-icon">{lpChoice==='have' ? '✓' : ''}</span>
-                  <span>J'ai déjà une landing page qui convertit</span>
-                </label>
-              </div>
-
-            </div>
-          </section>
-        </div>
-      );
-    }
-
-    // ─── Formulaire de contact ────────────────────────────────────────────────
-    const ICO_PATHS = {
-      video:'Pm22 8-6 4 6 4V8Z|R2,6,14,12,2',
-      clock:'C12,12,10|PM12 6v6l4 2',
-      phone:'PM22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.99 5.18 2 2 0 0 1 6.97 3h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L11.05 10.91a16 16 0 0 0 6.29 6.29l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z',
-      user:'PM19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2|C12,7,4',
-      shield:'PM20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z|Pm9 12 2 2 4-4'
-    };
-    function Ico({n}) {
-      const parts = (ICO_PATHS[n]||'').split('|');
-      return (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-          {parts.map((p,i) => {
-            if (p.startsWith('C')) {const [,x,y,r]=p.split(',');return <circle key={i} cx={x} cy={y} r={r}/>;}
-            if (p.startsWith('R')) {const [,x,y,w,h,rx]=p.split(',');return <rect key={i} x={x} y={y} width={w} height={h} rx={rx} ry={rx}/>;}
-            return <path key={i} d={p.replace(/^P/,'')} />;
-          })}
-        </svg>
-      );
-    }
-    function Callback() {
-      const openCalendly = () => {
-        if (window.Calendly) {
-          window.Calendly.initPopupWidget({url: 'https://calendly.com/defoin-arthur/accompagnement-arthur'});
-          if (typeof fbq === 'function') fbq('track', 'InitiateCheckout', {content_name: 'Réservation appel'});
-        } else {
-          window.open('https://calendly.com/defoin-arthur/accompagnement-arthur', '_blank');
-        }
-      };
-      return (
-        <section className="section callback" id="rappel">
-          <div className="container">
-            <div className="cfw-head">
-              <h2>Réserver un appel — <em>sans engagement</em></h2>
-              <p className="lede">30 minutes pour faire le point sur votre situation et voir comment je peux vous aider.</p>
-              <div className="cb-assur">
-                <span><Ico n="clock" /> Réponse sous <strong>24h</strong></span>
-                <span><Ico n="phone" /> Appel de <strong>30 min</strong></span>
-                <span><Ico n="shield" /> Aucun <strong>engagement</strong></span>
-              </div>
-            </div>
-            <div style={{textAlign:'center', marginTop:'36px'}}>
-              <button className="btn btn-gold" style={{fontSize:'17px',padding:'18px 44px',borderRadius:'50px'}} onClick={openCalendly}>
-                Réserver mon appel gratuit →
-              </button>
-            </div>
-          </div>
-        </section>
-      );
-    }
-    // ─── Contact WhatsApp ────────────────────────────────────────────────────
-    function ContactWA() {
-      return (
-        <section className="section contact-wa" id="contact">
-          <div className="container">
-            <div className="cwa-inner">
-              <p className="cwa-eyebrow">Contact direct</p>
-              <h2 className="cwa-title">Une question avant de vous lancer&nbsp;?</h2>
-              <p className="cwa-sub">Écrivez-moi sur WhatsApp, je réponds en général dans la journée.</p>
-              <a
-                className="btn cwa-btn"
-                href="https://wa.me/33789954427"
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => { if (typeof fbq === 'function') fbq('track', 'Contact', {content_name: 'WhatsApp'}); }}
-              >
-                <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20" style={{flexShrink:0}}>
-                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
-                  <path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.528 5.845L.057 23.428a.5.5 0 0 0 .609.61l5.654-1.48A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.9a9.893 9.893 0 0 1-5.031-1.371l-.36-.214-3.733.977.997-3.645-.235-.374A9.862 9.862 0 0 1 2.1 12C2.1 6.534 6.534 2.1 12 2.1c5.466 0 9.9 4.434 9.9 9.9 0 5.466-4.434 9.9-9.9 9.9z"/>
-                </svg>
-                Écrire sur WhatsApp
-              </a>
-            </div>
-          </div>
-        </section>
-      );
-    }
-
-    // ─── Footer ───────────────────────────────────────────────────────────────
+    // ─── Footer ──────────────────────────────────────────────────────────────
     function Footer() {
-      const go = id => e => { e.preventDefault(); const el = document.getElementById(id); if (el) window.scrollTo({top:el.offsetTop-60,behavior:'smooth'}); };
       return (
         <footer className="footer">
           <div className="container">
@@ -816,31 +737,20 @@
                   <img className="footer-logo" src="landing/logo-a.png" alt="Arthur Defoin" />
                   <span className="name">Arthur Defoin</span>
                 </span>
-                <p>Photographe au studio Amour & Lumière et media buyer spécialiste Meta Ads pour photographes. J'accompagne + de 50 photographes en France, Belgique et Suisse.</p>
+                <p>Photographe au studio Amour & Lumière et media buyer spécialiste Meta Ads pour photographes. J'accompagne des photographes en France, Belgique et Suisse.</p>
               </div>
               <div>
                 <h4>Naviguer</h4>
                 <ul>
-                  <li><a href="#studio" onClick={go('studio')}>Le studio</a></li>
-                  <li><a href="#benefices" onClick={go('benefices')}>Bénéfices</a></li>
-                  <li><a href="#mecanisme" onClick={go('mecanisme')}>Le mécanisme</a></li>
-                  <li><a href="#simulateur" onClick={go('simulateur')}>Simulateur</a></li>
-                </ul>
-              </div>
-              <div>
-                <h4>Photographes</h4>
-                <ul>
-                  <li><a>Mariage</a></li>
-                  <li><a>Grossesse &amp; nouveau-né</a></li>
-                  <li><a>Famille &amp; portrait</a></li>
-                  <li><a>Couple</a></li>
+                  <li><a href="#studio" onClick={e=>{e.preventDefault();goTo('studio')}}>Mon studio</a></li>
+                  <li><a href="#funnel" onClick={e=>{e.preventDefault();goTo('funnel')}}>Vérifier mon éligibilité</a></li>
                 </ul>
               </div>
               <div>
                 <h4>Contact</h4>
                 <ul>
                   <li><a>defoin.arthur@gmail.com</a></li>
-                  <li><a href="#simulateur" onClick={go('simulateur')}>Tester le simulateur</a></li>
+                  <li><a href="https://wa.me/33789954427" target="_blank" rel="noopener noreferrer">WhatsApp</a></li>
                   <li><a>France · Belgique · Suisse</a></li>
                 </ul>
               </div>
@@ -854,39 +764,21 @@
       );
     }
 
-    // ─── App ──────────────────────────────────────────────────────────────────
+    // ─── App ─────────────────────────────────────────────────────────────────
     function App() {
-      const [simData, setSimData] = React.useState({});
       React.useEffect(() => { if (window.lucide) window.lucide.createIcons(); });
       React.useEffect(() => {
         if (window.location.hash) history.replaceState(null, '', window.location.pathname + window.location.search);
         window.scrollTo(0, 0);
       }, []);
-
-      React.useEffect(() => {
-        const targets = [
-          ...document.querySelectorAll('.section:not(.hero) > .container > *:not(.offre-video-wrap)'),
-          ...document.querySelectorAll('.meca-chip, .sim-res-card, .cfw-simple'),
-        ];
-        const io = new IntersectionObserver((entries) => {
-          entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('sr-in'); io.unobserve(e.target); } });
-        }, { threshold: 0.07, rootMargin: '0px 0px -30px 0px' });
-        targets.forEach(el => { el.classList.add('sr-init'); io.observe(el); });
-        return () => io.disconnect();
-      }, []);
-
-      const scrollTo = id => { const el = document.getElementById(id); if (el) window.scrollTo({top: el.offsetTop - 60, behavior: 'smooth'}); };
-
       return (
-        <div className="page">
+        <div>
+          <div className="pg-strip">— 1 SEUL PHOTOGRAPHE PAR VILLE —</div>
           <Nav />
-          <SideRail />
           <main>
-            <HeroWow variant="anime" />
-            <Schema />
-            <Simulateur onSimChange={setSimData} />
-            <Callback />
-            <ContactWA />
+            <HeroSection />
+            <PartnerSection />
+            <FunnelSection />
             <Studio />
           </main>
           <Footer />
@@ -897,26 +789,23 @@
     ReactDOM.createRoot(document.getElementById('root')).render(<App />);
   </script>
 
-  <!-- Meta Pixel — conversion tracking -->
+  <!-- Pixel tracking -->
   <script>
     (function () {
       var fire = function (name, params) { if (typeof fbq === 'function') fbq('track', name, params || {}); };
-      var vcFired = false;
-      var tries = 0;
+      var vcFired = false, tries = 0;
       var poll = setInterval(function () {
-        var sim = document.getElementById('simulateur');
-        if (sim && 'IntersectionObserver' in window) {
+        var el = document.getElementById('funnel');
+        if (el && 'IntersectionObserver' in window) {
           clearInterval(poll);
           new IntersectionObserver(function (entries) {
-            entries.forEach(function (en) { if (en.isIntersecting && !vcFired) { vcFired = true; fire('ViewContent', { content_name: 'Simulateur ROI' }); } });
-          }, { threshold: 0.4 }).observe(sim);
+            entries.forEach(function (en) { if (en.isIntersecting && !vcFired) { vcFired = true; fire('ViewContent', { content_name: 'Funnel qualification photographe' }); } });
+          }, { threshold: 0.3 }).observe(el);
         } else if (++tries > 40) clearInterval(poll);
       }, 250);
       window.addEventListener('message', function (e) {
-        if (e.data && e.data.event && e.data.event.indexOf('calendly') === 0) {
-          if (e.data.event === 'calendly.event_scheduled') {
-            fire('Lead', { content_name: 'Appel Calendly', currency: 'EUR', value: 0 });
-          }
+        if (e.data && e.data.event === 'calendly.event_scheduled') {
+          fire('Lead', { content_name: 'Appel Calendly', currency: 'EUR', value: 0 });
         }
       });
     })();
