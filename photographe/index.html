@@ -79,49 +79,6 @@
       padding: 9px 16px;
     }
 
-    /* ── Nav ── */
-    .pg-nav {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: var(--bg);
-      border-bottom: 1px solid var(--gold-bd);
-      padding: 13px 0;
-    }
-    .pg-nav-inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      max-width: 1060px;
-      margin: 0 auto;
-      padding: 0 24px;
-    }
-    .pg-nav-brand {
-      display: flex; align-items: center; gap: 10px;
-      text-decoration: none; color: var(--ink);
-    }
-    .pg-nav-logo { height: 30px; width: auto; }
-    .pg-nav-name { font-size: 14px; font-weight: 600; letter-spacing: 0.01em; }
-    .pg-nav-tag  { color: var(--stone); font-weight: 400; }
-    .pg-btn-dark {
-      background: var(--gold-pale); color: var(--ink);
-      border: 1.5px solid var(--gold-bd); border-radius: var(--r-pill);
-      padding: 10px 22px;
-      font-family: var(--sans); font-size: 13px; font-weight: 600;
-      letter-spacing: 0.04em; cursor: pointer;
-      transition: background .18s;
-    }
-    .pg-btn-dark:hover { background: #e8d9a8; }
-
-    /* ── Soleil discret sous le header ── */
-    .pg-sun {
-      text-align: center;
-      font-size: 40px;
-      line-height: 1;
-      padding: 14px 0 6px;
-      opacity: 1;
-      user-select: none;
-    }
 
     /* ── VSL ── */
     .pg-vsl { padding: 56px 0 0; }
@@ -383,7 +340,6 @@
     .footer-logo { max-width: 120px !important; height: auto !important; }
     .studio-logo-top { max-width: 180px !important; height: auto !important; }
     @media (max-width: 640px) {
-      .pg-nav { display: none; }
       .pg-hero-stats { gap: 20px; flex-wrap: wrap; }
       .pg-partner-who { flex-direction: column; text-align: center; }
       .pg-funnel-card { padding: 22px 18px; }
@@ -450,19 +406,6 @@
     }
 
     // ─── Nav ─────────────────────────────────────────────────────────────────
-    function Nav({ openModal }) {
-      return (
-        <nav className="pg-nav">
-          <div className="pg-nav-inner">
-            <a className="pg-nav-brand" href="#top" onClick={e => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
-              <img className="pg-nav-logo" src="landing/Logo A_.png" alt="Arthur Defoin" />
-              <span className="pg-nav-name">Arthur Defoin · <span className="pg-nav-tag">Media Buyer</span></span>
-            </a>
-            <button className="pg-btn-dark" onClick={openModal}>Réserver mon appel</button>
-          </div>
-        </nav>
-      );
-    }
 
     // ─── Hero ─────────────────────────────────────────────────────────────────
     function HeroSection({ openModal }) {
@@ -853,8 +796,6 @@
       return (
         <div>
           <Strip />
-          <div className="pg-sun" role="img" aria-label="Soleil">☀️</div>
-          <Nav openModal={openModal} />
           <main>
             <HeroSection openModal={openModal} />
             <PartnerSection openModal={openModal} />
