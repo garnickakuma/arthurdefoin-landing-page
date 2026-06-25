@@ -11,7 +11,7 @@ const LABELS = {
   revenue:    { '<5k': 'Moins de 5 000 €', '5-15k': '5 000 – 15 000 €', '15k+': 'Plus de 15 000 €' },
   ads:        { never: 'Jamais', tried: 'Oui, sans résultats', active: 'Oui, ça fonctionne' },
   budget:     { yes: 'Oui, prête à investir', maybe: 'Dépend du retour', no: "Pas pour l'instant" },
-  tarif:      { '1190': '1 190 € / mois', '1640': '1 640 € / mois', '2090': '2 090 € / mois', unknown: 'À discuter' },
+  tarif:      { '1190': '1 190 € / mois', '1690': '1 690 € / mois', '2090': '2 090 € / mois', unknown: 'À discuter' },
 };
 
 function label(key, val) {
@@ -33,6 +33,18 @@ export default {
     Nouveau RDV — Funnel Institut
   </h2>
   <table style="border-collapse:collapse;font-size:15px;width:100%">
+    <tr style="border-bottom:1px solid #E7DACB">
+      <td style="padding:10px 16px 10px 0;color:#8A7665;width:45%">Prénom</td>
+      <td style="padding:10px 0;font-weight:600">${answers.prenom || '—'}</td>
+    </tr>
+    <tr style="border-bottom:1px solid #E7DACB">
+      <td style="padding:10px 16px 10px 0;color:#8A7665">Téléphone</td>
+      <td style="padding:10px 0;font-weight:600">${answers.tel || '—'}</td>
+    </tr>
+    <tr style="border-bottom:1px solid #E7DACB">
+      <td style="padding:10px 16px 10px 0;color:#8A7665">Email</td>
+      <td style="padding:10px 0;font-weight:600">${answers.email || '—'}</td>
+    </tr>
     <tr style="border-bottom:1px solid #E7DACB">
       <td style="padding:10px 16px 10px 0;color:#8A7665;width:45%">Ville</td>
       <td style="padding:10px 0;font-weight:600">${answers.ville || '—'}</td>

@@ -11,7 +11,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-  <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
   <script>
     history.scrollRestoration = 'manual';
     window.scrollTo(0, 0);
@@ -702,17 +701,12 @@
   </button>
 </div>
 
-<script src="https://assets.calendly.com/assets/external/widget.js" async></script>
-
 <script>
 'use strict';
 
 /* ============================================================
    CONFIG
    ============================================================ */
-// TODO: remplacer par l'URL Calendly spécifique aux centres esthétiques
-const CALENDLY_URL = 'https://calendly.com/defoin-arthur/accompagnement-arthur';
-
 /* ============================================================
    ICONS (SVG strings, style Lucide, stroke-width 2)
    ============================================================ */
@@ -812,12 +806,13 @@ const STEPS = [
     sub: 'Prix TTC tout compris. Gestion, optimisation et budget publicitaire.',
     options: [
       { v: '1190',    label: '1 190 €',  desc: 'Estimation 12 à 20 nouvelles clientes / mois', icon: 'euro' },
-      { v: '1640',    label: '1 640 €',  desc: 'Estimation 20 à 30 nouvelles clientes / mois', icon: 'euros' },
+      { v: '1690',    label: '1 690 €',  desc: 'Estimation 20 à 30 nouvelles clientes / mois', icon: 'euros' },
       { v: '2090',    label: '2 090 €',  desc: 'Estimation 30 à 40 nouvelles clientes / mois', icon: 'trend' },
       { v: 'unknown', label: "Je ne sais pas encore / j'aimerais en discuter",                  icon: 'seed' },
     ],
   },
-  { key: 'calendly', type: 'calendly' },
+  { key: 'contact', type: 'contact' },
+  { key: 'merci',   type: 'merci'   },
 ];
 
 const PROGRESS_STEPS = STEPS.filter(s => s.type === 'text' || s.type === 'choice');
@@ -828,7 +823,6 @@ const TOTAL = PROGRESS_STEPS.length;
    ============================================================ */
 let si = 0;
 let answers = {};
-let booked = false;
 
 /* ============================================================
    NAVIGATION
@@ -889,7 +883,7 @@ function renderNav() {
   const navEl = document.getElementById('funnel-nav');
 
   let html = '';
-  if (si > 0 && step.type !== 'calendly') {
+  if (si > 0 && step.type !== 'merci') {
     html += `<button class="btn-back" onclick="goBack()" aria-label="Précédent">${IC.back}</button>`;
   }
   if (pIdx !== -1) {
@@ -931,7 +925,8 @@ function buildStep(step) {
   if (step.type === 'ville_confirm')return buildVilleConfirm();
   if (step.type === 'choice')       return buildChoice(step);
   if (step.type === 'disqualify')   return buildDisqualify();
-  if (step.type === 'calendly')     return buildCalendly();
+  if (step.type === 'contact')      return buildContact();
+  if (step.type === 'merci')        return buildMerci();
   return '';
 }
 
@@ -1038,64 +1033,81 @@ function buildDisqualify() {
     </div>`;
 }
 
-function buildCalendly() {
-  if (booked) {
-    const city = h(answers.ville || 'votre ville');
-    return `
-      <div style="max-width:480px;text-align:center;margin:0 auto;padding:20px 0">
-        <div style="display:grid;place-items:center;width:72px;height:72px;margin:0 auto 22px;border-radius:999px;background:var(--success-soft);color:var(--success)">
-          <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
-        </div>
-        <h2 style="font-family:var(--font-display);font-weight:500;font-size:38px;letter-spacing:-.01em;color:var(--text-strong);margin:0">C'est confirmé !</h2>
-        <p style="font-family:var(--font-sans);font-size:16px;line-height:1.6;color:var(--text-muted);margin-top:14px">
-          Votre appel est réservé. Vous recevez la confirmation et le lien par email.
-          À très vite pour remplir l'agenda de votre centre à ${city}.
-        </p>
-      </div>`;
-  }
+function buildContact() {
   return `
-    <div style="max-width:560px">
-      <div class="step-eyebrow">Super, on peut travailler ensemble !</div>
-      <h2 style="font-family:var(--font-display);font-weight:500;font-size:clamp(28px,3vw,40px);line-height:1.08;letter-spacing:-.01em;color:var(--text-strong);margin:0 0 6px">
-        Choisissez votre créneau
+    <div style="max-width:480px">
+      <div class="step-header">
+        <div class="step-eyebrow">Dernière étape</div>
+        <h2 class="step-title">Comment doit-on vous contacter ?</h2>
+        <p class="step-sub">Je vous rappelle personnellement dans les 24h.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div>
+          <label class="field-label" for="c-prenom">Votre prénom</label>
+          <input class="text-input" style="padding-left:16px" id="c-prenom" type="text" placeholder="Ex. Sophie"
+            value="${h(answers.prenom||'')}"
+            oninput="answers.prenom=this.value;updateContactBtn()"
+            onkeydown="if(event.key==='Enter')document.getElementById('c-tel').focus()">
+        </div>
+        <div>
+          <label class="field-label" for="c-tel">Votre numéro de téléphone</label>
+          <input class="text-input" style="padding-left:16px" id="c-tel" type="tel" placeholder="Ex. 06 12 34 56 78"
+            value="${h(answers.tel||'')}"
+            oninput="answers.tel=this.value;updateContactBtn()"
+            onkeydown="if(event.key==='Enter')document.getElementById('c-email').focus()">
+        </div>
+        <div>
+          <label class="field-label" for="c-email">Votre adresse email</label>
+          <input class="text-input" style="padding-left:16px" id="c-email" type="email" placeholder="Ex. sophie@centrespa.fr"
+            value="${h(answers.email||'')}"
+            oninput="answers.email=this.value;updateContactBtn()"
+            onkeydown="if(event.key==='Enter'&&answers.prenom?.trim()&&answers.tel?.trim()&&answers.email?.trim())submitContact()">
+        </div>
+      </div>
+      <button class="funnel-btn" id="contact-btn" style="margin-top:24px" onclick="submitContact()" ${!(answers.prenom?.trim()&&answers.tel?.trim()&&answers.email?.trim())?'disabled':''}>
+        Envoyer ma demande ${IC.arrow}
+      </button>
+      <p class="lock-note">${IC.lockSm} Vos informations restent strictement confidentielles.</p>
+    </div>`;
+}
+
+function buildMerci() {
+  const prenom = answers.prenom ? ` ${h(answers.prenom)}` : '';
+  return `
+    <div style="max-width:480px;text-align:center;margin:0 auto;padding:16px 0">
+      <div style="display:grid;place-items:center;width:72px;height:72px;margin:0 auto 24px;border-radius:999px;background:var(--success-soft);color:var(--success)">
+        <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+      </div>
+      <h2 style="font-family:var(--font-display);font-weight:500;font-size:clamp(34px,6vw,46px);letter-spacing:-.01em;color:var(--text-strong);margin:0">
+        Merci${prenom} !
       </h2>
-      <p style="display:flex;align-items:center;gap:8px;font-family:var(--font-sans);font-size:14px;color:var(--text-muted);margin:0 0 22px">
-        ${IC.cal} Appel de 30 min offert, sans engagement.
+      <p style="font-family:var(--font-sans);font-size:clamp(15px,3vw,17px);line-height:1.7;color:var(--text-muted);margin:18px auto 0;max-width:380px">
+        Je vous recontacte très vite pour qu'on construise ensemble le système qui va faire décoller votre centre.
       </p>
-      <div id="calendly-widget" style="min-width:280px;height:580px"></div>
+      <p style="font-family:var(--font-sans);font-size:13px;color:var(--text-muted);margin-top:28px">
+        — Arthur Defoin
+      </p>
     </div>`;
 }
 
 /* ============================================================
-   CALENDLY
+   CONTACT
    ============================================================ */
-function initCalendly() {
-  function tryInit() {
-    const el = document.getElementById('calendly-widget');
-    if (!el) return;
-    if (window.Calendly) {
-      window.Calendly.initInlineWidget({
-        url: CALENDLY_URL + '?hide_event_type_details=1&hide_gdpr_banner=1&primary_color=9A7B43&text_color=2B221B&background_color=ffffff',
-        parentElement: el,
-      });
-    } else {
-      setTimeout(tryInit, 300);
-    }
-  }
-  setTimeout(tryInit, 0);
+function updateContactBtn() {
+  const btn = document.getElementById('contact-btn');
+  if (!btn) return;
+  btn.disabled = !(answers.prenom?.trim() && answers.tel?.trim() && answers.email?.trim());
 }
 
-window.addEventListener('message', function(e) {
-  if (e.data && e.data.event === 'calendly.event_scheduled') {
-    booked = true;
-    renderStep();
-    fetch('https://esthetique-api.defoin-arthur.workers.dev/lead', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(answers),
-    }).catch(() => {});
-  }
-});
+function submitContact() {
+  const btn = document.getElementById('contact-btn');
+  if (btn) { btn.disabled = true; btn.innerHTML = 'Envoi en cours…'; }
+  fetch('https://esthetique-api.defoin-arthur.workers.dev/lead', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(answers),
+  }).catch(() => {}).finally(() => { goNext(); });
+}
 
 /* ============================================================
    STICKY CTA
