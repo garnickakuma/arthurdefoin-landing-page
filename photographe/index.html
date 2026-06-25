@@ -452,60 +452,78 @@
     }
 
     // ─── Qualification Funnel ─────────────────────────────────────────────────
+    const IC = {
+      camera:  `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3Z"/><circle cx="12" cy="13" r="3"/></svg>`,
+      heart:   `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>`,
+      sun:     `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>`,
+      grid:    `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>`,
+      seed:    `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 20s-3-7 2-12 9-2 9-2 1 7-4 12-7 2-7 2Z"/><path d="M7 20c-1-3 0-6 2-8"/></svg>`,
+      clock:   `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>`,
+      shield:  `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/><path d="m9 12 2 2 4-4"/></svg>`,
+      users:   `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-3-3.87"/><path d="M5 21v-2a4 4 0 0 1 4-4h2a4 4 0 0 1 1 .13"/><circle cx="9" cy="7" r="4"/><path d="M17 3.13A4 4 0 0 1 17 11"/></svg>`,
+      trend:   `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 17 6-6 4 4 8-8"/><path d="M17 7h4v4"/></svg>`,
+      euro:    `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 7a6 6 0 1 0 0 10"/><path d="M4 10h8M4 14h7"/></svg>`,
+      euros:   `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 3.5 0 1 0 0 6M8 11h5M8 13h5"/></svg>`,
+      spark:   `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M18 6l-2.5 2.5M8.5 15.5 6 18"/></svg>`,
+      mega:    `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 11 14-7v16L3 13v-2Z"/><path d="M3 11v2a2 2 0 0 0 2 2h1"/><path d="M17 8a3 3 0 0 1 0 8"/></svg>`,
+      target:  `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></svg>`,
+      lock:    `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>`,
+    };
+
     const STEPS = [
       {
         key: 'specialite', type: 'choice', eyebrow: 'Votre activité',
         title: 'Quelle est votre spécialité principale ?',
         options: [
-          { v: 'mariage',   label: 'Mariage',    icon: '✦' },
-          { v: 'studio',    label: 'Studio',     icon: '✦' },
-          { v: 'exterieur', label: 'Extérieur',  icon: '✦' },
-          { v: 'autre',     label: 'Autre',      icon: '·' },
+          { v: 'mariage',   label: 'Mariage',    icon: 'heart'  },
+          { v: 'studio',    label: 'Studio',     icon: 'camera' },
+          { v: 'exterieur', label: 'Extérieur',  icon: 'sun'    },
+          { v: 'autre',     label: 'Autre',      icon: 'grid'   },
         ],
       },
       {
         key: 'anciennete', type: 'choice', eyebrow: 'Votre parcours',
         title: 'Depuis combien de temps exercez-vous ?',
         options: [
-          { v: 'new', label: "Moins d'1 an",  desc: "Je lance mon activité",  icon: '✦' },
-          { v: '1-3', label: '1 à 3 ans',     desc: "Je me développe",        icon: '✦✦' },
-          { v: '3+',  label: 'Plus de 3 ans', desc: "Je veux accélérer",      icon: '✦✦✦' },
+          { v: 'new', label: "Moins d'1 an",  desc: "Je lance mon activité", icon: 'seed'   },
+          { v: '1-3', label: '1 à 3 ans',     desc: "Je me développe",       icon: 'clock'  },
+          { v: '3+',  label: 'Plus de 3 ans', desc: "Je veux accélérer",     icon: 'shield' },
         ],
       },
       {
         key: 'reservations', type: 'choice', eyebrow: 'Situation actuelle',
         title: 'Combien de nouvelles réservations avez-vous par mois ?',
         options: [
-          { v: '0-5',  label: 'Moins de 5',    desc: "J'ai du mal à remplir mon agenda", icon: '✦' },
-          { v: '5-15', label: 'Entre 5 et 15', desc: "Ça vient, mais c'est irrégulier",  icon: '✦✦' },
-          { v: '15+',  label: 'Plus de 15',    desc: "Je veux passer à la vitesse sup.",  icon: '✦✦✦' },
+          { v: '0-5',  label: 'Moins de 5',    desc: "J'ai du mal à remplir mon agenda", icon: 'users' },
+          { v: '5-15', label: 'Entre 5 et 15', desc: "Ça vient, mais c'est irrégulier",  icon: 'users' },
+          { v: '15+',  label: 'Plus de 15',    desc: "Je veux passer à la vitesse sup.",  icon: 'trend' },
         ],
       },
       {
         key: 'ca', type: 'choice', eyebrow: 'Situation actuelle',
         title: "Quel est votre chiffre d'affaires mensuel approximatif ?",
         options: [
-          { v: '<5k',  icon: '€', label: 'Moins de 5 000 €' },
-          { v: '5-15', icon: '€', label: '5 000 € — 15 000 €' },
-          { v: '15k+', icon: '€', label: 'Plus de 15 000 €' },
+          { v: '<5k',  icon: 'euro',  label: 'Moins de 5 000 €'  },
+          { v: '5-15', icon: 'euros', label: '5 000 € — 15 000 €' },
+          { v: '15k+', icon: 'trend', label: 'Plus de 15 000 €'   },
         ],
       },
       {
         key: 'pub', type: 'choice', eyebrow: 'Acquisition',
         title: 'Avez-vous déjà investi en publicité Meta ?',
         options: [
-          { v: 'never',  label: 'Jamais, je débute',         icon: '○' },
-          { v: 'tried',  label: 'Oui, sans vrais résultats', icon: '✦' },
-          { v: 'active', label: 'Oui, et ça fonctionne',     icon: '✦✦' },
+          { v: 'never',  label: 'Jamais, je débute',         icon: 'spark' },
+          { v: 'tried',  label: 'Oui, sans vrais résultats', icon: 'mega'  },
+          { v: 'active', label: 'Oui, et ça fonctionne',     icon: 'trend' },
         ],
       },
       {
         key: 'engagement', type: 'choice', eyebrow: 'Votre engagement',
         title: 'Êtes-vous prêt(e) à investir pour acquérir plus de clients par mois ?',
         options: [
-          { v: 'oui',    icon: '→', label: 'Oui, je suis prêt(e) à investir',        desc: 'Je veux des résultats concrets' },
-          { v: 'retour', icon: '◎', label: 'Cela dépend du retour sur investissement', desc: '' },
-          { v: 'non',    icon: '○', label: "Non, pas pour l'instant",                  desc: '' },
+          { v: 'oui',    icon: 'target', label: 'Oui, je suis prêt(e) à investir',         desc: 'Je veux des résultats concrets' },
+          { v: 'retour', icon: 'euro',   label: 'Cela dépend du retour sur investissement', desc: '' },
+          { v: 'non',    icon: 'lock',   label: "Non, pas pour l'instant",                  desc: '' },
         ],
       },
       {
@@ -513,12 +531,12 @@
         title: 'Quel budget total souhaitez-vous investir par mois ? (sans engagement)',
         framing: 'Prix TTC tout compris. Gestion, optimisation et budget publicitaire.',
         options: [
-          { v: '690',  icon: '€', label: '690€ / mois',   desc: '→ 5 à 15 clients' },
-          { v: '990',  icon: '€', label: '990€ / mois',   desc: '→ 15 à 25 clients' },
-          { v: '1440', icon: '€', label: '1 440€ / mois', desc: '→ 25 à 35 clients' },
-          { v: '1490', icon: '€', label: '1 490€ / mois', desc: '→ 30 à 40 clients' },
-          { v: '1890', icon: '€', label: '1 890€ / mois', desc: '→ 35 à 50 clients' },
-          { v: '?',    icon: '?', label: "Je ne sais pas encore / j'aimerais en discuter", desc: '' },
+          { v: '690',  icon: 'euro',  label: '690 € / mois',   desc: '→ 5 à 15 clients'  },
+          { v: '990',  icon: 'euros', label: '990 € / mois',   desc: '→ 15 à 25 clients' },
+          { v: '1440', icon: 'euros', label: '1 440 € / mois', desc: '→ 25 à 35 clients' },
+          { v: '1490', icon: 'trend', label: '1 490 € / mois', desc: '→ 30 à 40 clients' },
+          { v: '1890', icon: 'spark', label: '1 890 € / mois', desc: '→ 35 à 50 clients' },
+          { v: '?',    icon: 'seed',  label: "Je ne sais pas encore / j'aimerais en discuter", desc: '' },
         ],
       },
       {
@@ -611,7 +629,7 @@
                 <button key={o.v}
                   className={"pg-choice" + (answers[step.key] === o.v ? ' is-selected' : '')}
                   onClick={e => pick(step.key, o.v, e.currentTarget)}>
-                  {o.icon && <div className="pg-choice-icon">{o.icon}</div>}
+                  {o.icon && <div className="pg-choice-icon" dangerouslySetInnerHTML={{ __html: IC[o.icon] || '' }}></div>}
                   <div className="pg-choice-body">
                     <div className="pg-choice-lbl">{o.label}</div>
                     {o.desc && <div className="pg-choice-desc">{o.desc}</div>}
