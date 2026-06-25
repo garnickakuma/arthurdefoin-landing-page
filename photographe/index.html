@@ -589,8 +589,9 @@
       if (status === 'done') {
         return (
           <div>
-            <div className="pg-step-eyebrow">Réservation</div>
-            <div className="pg-step-title">Choisissez votre créneau.</div>
+            <div className="pg-step-eyebrow">Bonne nouvelle</div>
+            <div className="pg-step-title">Super — la place pour l'accompagnement est disponible.</div>
+            <p style={{ fontSize: 14, color: 'var(--stone)', marginBottom: 20 }}>Choisissez un créneau pour qu'on se parle.</p>
             <CalendlyInline prefillName={form.prenom} prefillEmail={form.email} />
           </div>
         );
