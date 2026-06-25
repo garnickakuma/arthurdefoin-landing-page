@@ -539,8 +539,9 @@
       },
       {
         key: 'objectif', type: 'choice', eyebrow: 'Votre objectif',
-        title: 'Quel budget total souhaitez-vous investir par mois ? (sans engagement)',
+        title: 'Quel budget total souhaitez-vous investir par mois ?*',
         framing: 'Prix TTC tout compris. Gestion, optimisation et budget publicitaire.',
+        footnote: '*sans engagement',
         options: [
           { v: '690',  icon: 'euro',  label: '690 € / mois',   desc: 'Estimation 5 à 15 nouveaux clients / mois'  },
           { v: '990',  icon: 'euros', label: '990 € / mois',   desc: 'Estimation 15 à 25 nouveaux clients / mois' },
@@ -679,6 +680,7 @@
                   <div className="pg-choice-radio"><div className="pg-choice-radio-dot"></div></div>
                 </button>
               ))}
+              {step.footnote && <p style={{ fontFamily: 'var(--sans)', fontSize: 11, color: 'var(--stone)', marginTop: 10, letterSpacing: '.03em' }}>{step.footnote}</p>}
             </div>
           )}
 
