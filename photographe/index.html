@@ -258,32 +258,41 @@
     .pg-choices { display: flex; flex-direction: column; gap: 10px; }
     .pg-choice {
       -webkit-tap-highlight-color: transparent;
-      display: flex; align-items: center;
-      padding: 14px 18px;
+      display: flex; align-items: center; gap: 14px;
+      padding: 16px 18px;
       background: var(--bg);
-      border: 1.5px solid var(--bg-card);
-      border-radius: 12px; cursor: pointer;
-      font-family: var(--sans); font-size: 14px;
-      font-weight: 500; color: var(--ink);
-      text-align: left; width: 100%;
-      transition: border-color .18s, background .18s;
+      border: 1.5px solid var(--gold-bd); border-radius: 14px;
+      cursor: pointer; text-align: left; width: 100%;
+      font-family: var(--sans);
+      transition: border-color .18s, background .18s, box-shadow .18s;
     }
-    .pg-choice:hover        { border-color: var(--gold-bd); background: var(--gold-pale); }
-    .pg-choice.is-selected  { border-color: var(--gold);    background: var(--gold-pale); }
-    .pg-choice-lbl { display: block; font-weight: 600; }
-    .pg-choice-desc { display: block; font-size: 12px; color: var(--stone); margin-top: 8px; font-weight: 400; }
-    /* Cartes objectif avec tag CA */
-    .pg-choice.has-tag { align-items: center; flex-direction: row; justify-content: space-between; padding: 16px 18px; gap: 12px; }
-    .pg-choice-tag {
-      display: inline-block; flex-shrink: 0;
+    .pg-choice:hover { border-color: var(--gold); background: var(--gold-pale); }
+    .pg-choice.is-selected {
+      border-color: var(--gold); background: var(--gold-pale);
+      box-shadow: 0 0 0 4px rgba(184,150,62,.13);
+    }
+    .pg-choice-icon {
+      display: grid; place-items: center; flex: none;
+      width: 44px; height: 44px; border-radius: 10px;
       background: var(--gold-pale); color: var(--gold);
-      border: 1px solid var(--gold-bd); border-radius: 50px;
-      font-size: 11px; font-weight: 700; letter-spacing: .05em;
-      padding: 4px 12px;
+      font-size: 17px; transition: background .18s;
     }
-    .pg-choice.is-selected .pg-choice-tag { background: var(--gold); color: #fff; border-color: var(--gold); }
-    .pg-choice.has-tag .pg-choice-lbl { font-size: 15px; }
-    .pg-choice.has-tag .pg-choice-desc { font-size: 12px; margin-top: 3px; }
+    .pg-choice.is-selected .pg-choice-icon { background: rgba(184,150,62,.22); }
+    .pg-choice-body { flex: 1; }
+    .pg-choice-lbl { display: block; font-size: 15px; font-weight: 600; color: var(--ink); line-height: 1.3; }
+    .pg-choice-desc { display: block; font-size: 12px; color: var(--stone); margin-top: 3px; font-weight: 400; }
+    .pg-choice-radio {
+      width: 22px; height: 22px; flex: none; border-radius: 50%;
+      border: 1.5px solid var(--gold-bd);
+      display: grid; place-items: center;
+      background: var(--bg); transition: all .18s;
+    }
+    .pg-choice.is-selected .pg-choice-radio { border-color: var(--gold); background: var(--gold); }
+    .pg-choice-radio-dot {
+      width: 8px; height: 8px; border-radius: 50%; background: #fff;
+      transform: scale(0); transition: transform .18s;
+    }
+    .pg-choice.is-selected .pg-choice-radio-dot { transform: scale(1); }
     .pg-field { margin-bottom: 18px; }
     .pg-field-lbl {
       display: block; font-size: 11px; font-weight: 600;
@@ -473,13 +482,12 @@
         ],
       },
       {
-        key: 'clients', type: 'choice', eyebrow: 'Situation actuelle',
-        title: 'Combien de clients photographiez-vous par mois ?',
+        key: 'ca', type: 'choice', eyebrow: 'Situation actuelle',
+        title: "Quel est votre chiffre d'affaires mensuel approximatif ?",
         options: [
-          { v: '0 à 5',   label: '0 à 5 clients / mois' },
-          { v: '5 à 10',  label: '5 à 10 clients / mois' },
-          { v: '10 à 20', label: '10 à 20 clients / mois' },
-          { v: '+ de 20', label: '+ de 20 clients / mois' },
+          { v: '<5k',  icon: '€', label: 'Moins de 5 000 €' },
+          { v: '5-15', icon: '€', label: '5 000 € — 15 000 €' },
+          { v: '15k+', icon: '€', label: 'Plus de 15 000 €' },
         ],
       },
       {
@@ -495,9 +503,9 @@
         key: 'engagement', type: 'choice', eyebrow: 'Votre engagement',
         title: 'Êtes-vous prêt(e) à investir pour acquérir plus de clients par mois ?',
         options: [
-          { v: 'oui',     label: 'Oui, je suis prêt(e) à investir',   desc: 'Je veux des résultats concrets' },
-          { v: 'retour',  label: 'Cela dépend du retour sur investissement', desc: '' },
-          { v: 'non',     label: 'Non, pas pour l\'instant',           desc: '' },
+          { v: 'oui',    icon: '→', label: 'Oui, je suis prêt(e) à investir',        desc: 'Je veux des résultats concrets' },
+          { v: 'retour', icon: '◎', label: 'Cela dépend du retour sur investissement', desc: '' },
+          { v: 'non',    icon: '○', label: "Non, pas pour l'instant",                  desc: '' },
         ],
       },
       {
@@ -505,11 +513,11 @@
         title: 'Quel budget total souhaitez-vous investir par mois ?',
         framing: 'Prix TTC tout compris. Gestion, optimisation et budget publicitaire.',
         options: [
-          { v: '690',  label: '690€ / mois',   desc: '→ 5 à 15 clients' },
-          { v: '990',  label: '990€ / mois',   desc: '→ 15 à 25 clients' },
-          { v: '1440', label: '1 440€ / mois', desc: '→ 25 à 35 clients' },
-          { v: '1890', label: '1 890€ / mois', desc: '→ 35 à 50 clients' },
-          { v: '?',    label: 'Je ne sais pas encore / j\'aimerais en discuter', desc: '' },
+          { v: '690',  icon: '€', label: '690€ / mois',   desc: '→ 5 à 15 clients' },
+          { v: '990',  icon: '€', label: '990€ / mois',   desc: '→ 15 à 25 clients' },
+          { v: '1440', icon: '€', label: '1 440€ / mois', desc: '→ 25 à 35 clients' },
+          { v: '1890', icon: '€', label: '1 890€ / mois', desc: '→ 35 à 50 clients' },
+          { v: '?',    icon: '?', label: "Je ne sais pas encore / j'aimerais en discuter", desc: '' },
         ],
       },
       {
@@ -600,13 +608,14 @@
             <div className="pg-choices" key={step.key}>
               {step.options.map(o => (
                 <button key={o.v}
-                  className={"pg-choice" + (answers[step.key] === o.v ? ' is-selected' : '') + (o.tag ? ' has-tag' : '')}
+                  className={"pg-choice" + (answers[step.key] === o.v ? ' is-selected' : '')}
                   onClick={e => pick(step.key, o.v, e.currentTarget)}>
-                  <div>
+                  {o.icon && <div className="pg-choice-icon">{o.icon}</div>}
+                  <div className="pg-choice-body">
                     <div className="pg-choice-lbl">{o.label}</div>
                     {o.desc && <div className="pg-choice-desc">{o.desc}</div>}
                   </div>
-                  {o.tag && <span className="pg-choice-tag">{o.tag}</span>}
+                  <div className="pg-choice-radio"><div className="pg-choice-radio-dot"></div></div>
                 </button>
               ))}
             </div>
