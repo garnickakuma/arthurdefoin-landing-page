@@ -289,8 +289,11 @@
       font-size: 13px; line-height: 1.6;
       color: var(--ink-2); margin-bottom: 20px;
     }
+    @keyframes pg-step-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .pg-step-body { animation: pg-step-in .22s ease; }
     .pg-choices { display: flex; flex-direction: column; gap: 10px; }
     .pg-choice {
+      -webkit-tap-highlight-color: transparent;
       display: flex; align-items: center;
       padding: 14px 18px;
       background: var(--bg);
@@ -578,7 +581,7 @@
       const next = () => setIdx(i => Math.min(STEPS.length - 1, i + 1));
       const back = () => setIdx(i => Math.max(0, i - 1));
 
-      const pick = (key, val, el) => { if (el) el.blur(); setAns(a => ({ ...a, [key]: val })); setTimeout(next, 280); };
+      const pick = (key, val, el) => { if (el) el.blur(); setAns(a => ({ ...a, [key]: val })); next(); };
 
       const submit = async () => {
         setStatus('sending');
@@ -609,6 +612,7 @@
           <div className="pg-progress">
             <div className="pg-progress-bar" style={{ width: pct + '%' }}></div>
           </div>
+          <div className="pg-step-body" key={idx}>
           {step.eyebrow && <div className="pg-step-eyebrow">{step.eyebrow}</div>}
           <div className="pg-step-title">{step.title}</div>
           {step.framing && <div className="pg-framing">{step.framing}</div>}
@@ -666,6 +670,7 @@
             </div>
           )}
 
+          </div>
           {idx > 0 && <button className="pg-back" onClick={back}>← Retour</button>}
         </div>
       );
