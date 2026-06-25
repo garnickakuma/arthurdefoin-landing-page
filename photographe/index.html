@@ -31,21 +31,22 @@
   <style>
     /* ── Design System ── */
     :root {
-      --bg:       #F5F1E8;
-      --bg-2:     #EDE8DC;
-      --bg-card:  #E8E2D3;
-      --ink:      #1C1A14;
-      --ink-2:    #4A3F30;
-      --gold:     #B8963E;
-      --gold-2:   #CDA84F;
-      --gold-bd:  #D4BA78;
-      --gold-pale:#F0E4C0;
-      --stone:    #8C7B60;
-      --cream:    #FDFAF4;
+      --bg:       #FBF5EC;
+      --bg-2:     #F1E7DA;
+      --bg-card:  #E7DACB;
+      --ink:      #14100D;
+      --ink-2:    #2B221B;
+      --gold:     #9A7B43;
+      --gold-2:   #C9A86A;
+      --gold-bd:  #D9BE89;
+      --gold-pale:#E8D3AC;
+      --stone:    #8A7665;
+      --cream:    #FBF5EC;
       --serif:    'Cormorant Garamond', Georgia, serif;
       --sans:     'Manrope', system-ui, sans-serif;
       --r-pill:   50px;
       --r-card:   18px;
+      --shadow-gold: 0 14px 38px -10px rgba(154,123,67,.42);
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -65,15 +66,15 @@
 
     /* ── Strip ── */
     .pg-strip {
-      background: var(--gold-pale);
-      border-bottom: 1px solid var(--gold-bd);
-      color: var(--ink-2);
+      background: linear-gradient(90deg, var(--bg), var(--bg-2) 50%, var(--bg));
+      border-bottom: 1px solid var(--bg-card);
+      color: var(--gold);
       text-align: center;
       font-family: var(--sans);
       font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.16em;
-      padding: 9px 16px;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      padding: 11px 16px;
     }
 
 
@@ -120,29 +121,32 @@
       color: var(--ink-2);
       max-width: 480px; margin: 0 auto 34px;
     }
+    @keyframes btn-glow {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(154,123,67,0), var(--shadow-gold); }
+      50%       { box-shadow: 0 0 0 8px rgba(154,123,67,.16), var(--shadow-gold); }
+    }
     .pg-btn-cta {
-      display: inline-block;
+      display: inline-flex; align-items: center; justify-content: center;
       background: var(--gold-pale); color: var(--ink);
-      border: 1.5px solid var(--gold-bd); border-radius: var(--r-pill);
-      padding: 16px 38px;
+      border: 1px solid var(--gold-2); border-radius: var(--r-pill);
+      padding: 0 38px; height: 60px;
       font-family: var(--sans); font-size: 15px; font-weight: 600;
-      letter-spacing: .03em; cursor: pointer;
-      text-decoration: none; transition: background .18s;
+      letter-spacing: .02em; cursor: pointer;
+      text-decoration: none;
+      box-shadow: var(--shadow-gold);
+      animation: btn-glow 2.4s ease-in-out infinite;
+      transition: filter .15s, transform .1s;
     }
-    .pg-btn-cta:hover { background: #e8d9a8; animation: none; }
-    @keyframes btn-breathe {
-      0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(184,150,62,0); }
-      50% { transform: scale(1.045); box-shadow: 0 4px 18px rgba(184,150,62,0.22); }
-    }
-    .pg-btn-cta { animation: btn-breathe 2.6s ease-in-out infinite; }
+    .pg-btn-cta:hover { filter: brightness(1.04); animation: none; box-shadow: var(--shadow-gold); }
+    .pg-btn-cta:active { transform: scale(.975); }
     .pg-btn-outline {
-      display: inline-block;
+      display: inline-flex; align-items: center; justify-content: center;
       background: transparent; color: var(--ink);
       border: 1.5px solid var(--gold-bd); border-radius: var(--r-pill);
-      padding: 14px 36px;
+      padding: 0 36px; height: 54px;
       font-family: var(--sans); font-size: 15px; font-weight: 600;
-      letter-spacing: .03em; cursor: pointer;
-      text-decoration: none; transition: background .18s;
+      letter-spacing: .02em; cursor: pointer;
+      text-decoration: none; transition: background .18s, filter .15s;
     }
     .pg-btn-outline:hover { background: var(--gold-pale); }
     .pg-hero-stats {
@@ -153,7 +157,7 @@
     .pg-stat-num {
       display: block;
       font-family: var(--serif); font-size: 34px; font-weight: 500;
-      color: var(--ink);
+      color: var(--gold);
     }
     .pg-stat-lbl {
       font-size: 12px; color: var(--stone); letter-spacing: .04em;
