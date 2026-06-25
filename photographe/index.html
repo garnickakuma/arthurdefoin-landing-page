@@ -165,7 +165,12 @@
       letter-spacing: .03em; cursor: pointer;
       text-decoration: none; transition: background .18s;
     }
-    .pg-btn-cta:hover { background: #e8d9a8; }
+    .pg-btn-cta:hover { background: #e8d9a8; animation: none; }
+    @keyframes btn-breathe {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(184,150,62,0); }
+      50% { transform: scale(1.045); box-shadow: 0 4px 18px rgba(184,150,62,0.22); }
+    }
+    .pg-btn-cta { animation: btn-breathe 2.6s ease-in-out infinite; }
     .pg-btn-outline {
       display: inline-block;
       background: transparent; color: var(--ink);
