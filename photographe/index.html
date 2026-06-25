@@ -303,6 +303,7 @@
     }
     .pg-choice:hover        { border-color: var(--gold-bd); background: var(--gold-pale); }
     .pg-choice.is-selected  { border-color: var(--gold);    background: var(--gold-pale); }
+    .pg-choice-ico-txt { color: var(--gold); font-size: 13px; letter-spacing: -1px; flex-shrink: 0; margin-right: 12px; line-height: 1; }
     .pg-choice-lbl { display: block; font-weight: 600; }
     .pg-choice-desc { display: block; font-size: 12px; color: var(--stone); margin-top: 5px; font-weight: 400; }
     .pg-field { margin-bottom: 18px; }
@@ -505,46 +506,46 @@
         key: 'specialite', type: 'choice', eyebrow: 'Votre activité',
         title: 'Quelle est votre spécialité principale ?',
         options: [
-          { v: 'mariage',   label: 'Mariage' },
-          { v: 'studio',    label: 'Studio' },
-          { v: 'exterieur', label: 'Extérieur' },
-          { v: 'autre',     label: 'Autre' },
+          { v: 'mariage',   label: 'Mariage',    icon: '✦' },
+          { v: 'studio',    label: 'Studio',     icon: '✦' },
+          { v: 'exterieur', label: 'Extérieur',  icon: '✦' },
+          { v: 'autre',     label: 'Autre',      icon: '·' },
         ],
       },
       {
         key: 'anciennete', type: 'choice', eyebrow: 'Votre parcours',
         title: 'Depuis combien de temps exercez-vous ?',
         options: [
-          { v: 'new', label: "Moins d'1 an",  desc: "Je lance mon activité" },
-          { v: '1-3', label: '1 à 3 ans',     desc: "Je me développe" },
-          { v: '3+',  label: 'Plus de 3 ans', desc: "Je veux accélérer" },
+          { v: 'new', label: "Moins d'1 an",  desc: "Je lance mon activité",  icon: '✦' },
+          { v: '1-3', label: '1 à 3 ans',     desc: "Je me développe",        icon: '✦✦' },
+          { v: '3+',  label: 'Plus de 3 ans', desc: "Je veux accélérer",      icon: '✦✦✦' },
         ],
       },
       {
         key: 'reservations', type: 'choice', eyebrow: 'Situation actuelle',
         title: 'Combien de nouvelles réservations avez-vous par mois ?',
         options: [
-          { v: '0-5',  label: 'Moins de 5',    desc: "J'ai du mal à remplir mon agenda" },
-          { v: '5-15', label: 'Entre 5 et 15', desc: "Ça vient, mais c'est irrégulier" },
-          { v: '15+',  label: 'Plus de 15',    desc: "Je veux passer à la vitesse sup." },
+          { v: '0-5',  label: 'Moins de 5',    desc: "J'ai du mal à remplir mon agenda", icon: '✦' },
+          { v: '5-15', label: 'Entre 5 et 15', desc: "Ça vient, mais c'est irrégulier",  icon: '✦✦' },
+          { v: '15+',  label: 'Plus de 15',    desc: "Je veux passer à la vitesse sup.",  icon: '✦✦✦' },
         ],
       },
       {
         key: 'ca', type: 'choice', eyebrow: 'Situation actuelle',
         title: "Quel est votre chiffre d'affaires mensuel ?",
         options: [
-          { v: '<2k',  label: 'Moins de 2 000€' },
-          { v: '2-5k', label: '2 000 – 5 000€' },
-          { v: '5k+',  label: 'Plus de 5 000€' },
+          { v: '<2k',  label: 'Moins de 2 000€', icon: '✦' },
+          { v: '2-5k', label: '2 000 – 5 000€',  icon: '✦✦' },
+          { v: '5k+',  label: 'Plus de 5 000€',  icon: '✦✦✦' },
         ],
       },
       {
         key: 'pub', type: 'choice', eyebrow: 'Acquisition',
         title: 'Avez-vous déjà investi en publicité Meta ?',
         options: [
-          { v: 'never',  label: 'Jamais, je débute' },
-          { v: 'tried',  label: 'Oui, sans vrais résultats' },
-          { v: 'active', label: 'Oui, et ça fonctionne' },
+          { v: 'never',  label: 'Jamais, je débute',         icon: '○' },
+          { v: 'tried',  label: 'Oui, sans vrais résultats', icon: '✦' },
+          { v: 'active', label: 'Oui, et ça fonctionne',     icon: '✦✦' },
         ],
       },
       {
@@ -552,11 +553,11 @@
         title: 'Combien de nouvelles réservations souhaitez-vous par mois ?',
         framing: "En dessous d'environ 600€/mois de budget global, la publicité ne donne aucun résultat exploitable — ce n'est pas « moins de clients », c'est « pas de résultat ». Choisissez l'objectif qui correspond à votre ambition.",
         options: [
-          { v: '10',  label: 'Une dizaine',            desc: 'Minimum pour démarrer — budget ~600€/mois' },
-          { v: '20',  label: 'Une vingtaine',          desc: '~1 100€/mois' },
-          { v: '30',  label: 'Une trentaine',          desc: '~1 500€/mois' },
-          { v: '30+', label: 'Plus de 30',             desc: 'On passe en mode scaling' },
-          { v: '?',   label: 'Je ne sais pas encore',  desc: '' },
+          { v: '10',  label: 'Une dizaine',            desc: 'Minimum pour démarrer — budget ~600€/mois', icon: '✦' },
+          { v: '20',  label: 'Une vingtaine',          desc: '~1 100€/mois',                              icon: '✦✦' },
+          { v: '30',  label: 'Une trentaine',          desc: '~1 500€/mois',                              icon: '✦✦✦' },
+          { v: '30+', label: 'Plus de 30',             desc: 'On passe en mode scaling',                  icon: '✦✦✦✦' },
+          { v: '?',   label: 'Je ne sais pas encore',  desc: '',                                          icon: '·' },
         ],
       },
       {
@@ -635,8 +636,11 @@
                 <button key={o.v}
                   className={"pg-choice" + (answers[step.key] === o.v ? ' is-selected' : '')}
                   onClick={() => pick(step.key, o.v)}>
-                  <span className="pg-choice-lbl">{o.label}</span>
-                  {o.desc && <span className="pg-choice-desc">{o.desc}</span>}
+                  {o.icon && <span className="pg-choice-ico-txt">{o.icon}</span>}
+                  <span>
+                    <span className="pg-choice-lbl">{o.label}</span>
+                    {o.desc && <span className="pg-choice-desc">{o.desc}</span>}
+                  </span>
                 </button>
               ))}
             </div>
