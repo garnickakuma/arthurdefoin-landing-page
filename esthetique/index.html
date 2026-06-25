@@ -802,8 +802,9 @@ const STEPS = [
   { key: 'disqualify', type: 'disqualify' },
   {
     key: 'tarif', type: 'choice', eyebrow: 'Votre budget',
-    title: 'Quel budget total souhaitez-vous investir par mois ?',
+    title: 'Quel budget total souhaitez-vous investir par mois ?*',
     sub: 'Prix TTC tout compris. Gestion, optimisation et budget publicitaire.',
+    footnote: '* Sans engagement',
     options: [
       { v: '1190',    label: '1 190 €',  desc: 'Estimation 12 à 20 nouvelles clientes / mois', icon: 'euro' },
       { v: '1690',    label: '1 690 €',  desc: 'Estimation 20 à 30 nouvelles clientes / mois', icon: 'euros' },
@@ -1017,6 +1018,7 @@ function buildChoice(step) {
     <div style="max-width:520px">
       ${header(step)}
       ${opts}
+      ${step.footnote ? `<p style="font-family:var(--font-sans);font-size:12px;color:var(--text-muted);margin-top:14px">${h(step.footnote)}</p>` : ''}
     </div>`;
 }
 
