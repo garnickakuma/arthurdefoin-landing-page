@@ -1104,10 +1104,29 @@ function updateContactBtn() {
 function submitContact() {
   const btn = document.getElementById('contact-btn');
   if (btn) { btn.disabled = true; btn.innerHTML = 'Envoi en cours…'; }
-  fetch('https://esthetique-api.defoin-arthur.workers.dev/lead', {
+
+  const msg = [
+    `Ville : ${answers.ville || '—'}`,
+    `Rôle : ${answers.role || '—'}`,
+    `Ancienneté : ${answers.age || '—'}`,
+    `Nouvelles clientes/mois : ${answers.newclients || '—'}`,
+    `CA mensuel : ${answers.revenue || '—'}`,
+    `Meta Ads : ${answers.ads || '—'}`,
+    `Budget : ${answers.budget || '—'}`,
+    `Tarif choisi : ${answers.tarif || '—'}`,
+  ].join('\n');
+
+  fetch('https://api.web3forms.com/submit', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(answers),
+    body: JSON.stringify({
+      access_key: '8ff579b2-c217-4683-95bf-49ccd0b57c4d',
+      subject: `Nouveau lead — Institut · ${answers.ville || 'ville inconnue'}`,
+      name: answers.prenom,
+      email: answers.email,
+      phone: answers.tel,
+      message: msg,
+    }),
   }).catch(() => {}).finally(() => { goNext(); });
 }
 
