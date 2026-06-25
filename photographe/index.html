@@ -555,12 +555,14 @@
         ],
       },
       {
-        key: 'ca', type: 'choice', eyebrow: 'Situation actuelle',
-        title: "Quel est votre chiffre d'affaires mensuel ?",
+        key: 'clients', type: 'choice', eyebrow: 'Situation actuelle',
+        title: 'Combien de clients photographiez-vous par mois ?',
+        framing: "Dernier point avant de découvrir votre potentiel de croissance — dites-nous où vous en êtes aujourd'hui.",
         options: [
-          { v: '<2k',  label: 'Moins de 2 000€', icon: '✦' },
-          { v: '2-5k', label: '2 000 – 5 000€',  icon: '✦✦' },
-          { v: '5k+',  label: 'Plus de 5 000€',  icon: '✦✦✦' },
+          { v: 'Une dizaine',  tag: 'Marge de progression énorme', label: 'Une dizaine',  desc: "Il y a de quoi faire décoller votre agenda" },
+          { v: 'Une vingtaine', tag: 'Belle base à scaler',         label: 'Une vingtaine', desc: 'Le bon moment pour passer la vitesse supérieure' },
+          { v: 'Une trentaine', tag: 'Studio bien lancé',           label: 'Une trentaine', desc: 'On vise ensemble le palier au-dessus' },
+          { v: 'Plus de 30',    tag: 'Mode scaling',                label: 'Plus de 30',    desc: 'On industrialise votre acquisition' },
         ],
       },
       {
