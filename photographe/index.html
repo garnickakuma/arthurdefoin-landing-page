@@ -306,8 +306,20 @@
     }
     .pg-choice:hover        { border-color: var(--gold-bd); background: var(--gold-pale); }
     .pg-choice.is-selected  { border-color: var(--gold);    background: var(--gold-pale); }
-.pg-choice-lbl { display: block; font-weight: 600; }
+    .pg-choice-lbl { display: block; font-weight: 600; }
     .pg-choice-desc { display: block; font-size: 12px; color: var(--stone); margin-top: 8px; font-weight: 400; }
+    /* Cartes objectif avec tag CA */
+    .pg-choice.has-tag { align-items: flex-start; flex-direction: column; padding: 16px 18px; gap: 0; }
+    .pg-choice-tag {
+      display: inline-block;
+      background: var(--gold-pale); color: var(--gold);
+      border: 1px solid var(--gold-bd); border-radius: 50px;
+      font-size: 11px; font-weight: 700; letter-spacing: .05em;
+      padding: 3px 10px; margin-bottom: 10px;
+    }
+    .pg-choice.is-selected .pg-choice-tag { background: var(--gold); color: var(--cream); border-color: var(--gold); }
+    .pg-choice.has-tag .pg-choice-lbl { font-size: 15px; }
+    .pg-choice.has-tag .pg-choice-desc { font-size: 12px; margin-top: 4px; }
     .pg-field { margin-bottom: 18px; }
     .pg-field-lbl {
       display: block; font-size: 11px; font-weight: 600;
@@ -555,11 +567,11 @@
         title: 'Combien de nouvelles réservations souhaitez-vous par mois ?',
         framing: "En dessous d'environ 600€/mois de budget global, la publicité ne donne aucun résultat exploitable — ce n'est pas « moins de clients », c'est « pas de résultat ». Choisissez l'objectif qui correspond à votre ambition.",
         options: [
-          { v: '10',  label: 'Une dizaine',            desc: 'Minimum pour démarrer — budget ~600€/mois', icon: '✦' },
-          { v: '20',  label: 'Une vingtaine',          desc: '~1 100€/mois',                              icon: '✦✦' },
-          { v: '30',  label: 'Une trentaine',          desc: '~1 500€/mois',                              icon: '✦✦✦' },
-          { v: '30+', label: 'Plus de 30',             desc: 'On passe en mode scaling',                  icon: '✦✦✦✦' },
-          { v: '?',   label: 'Je ne sais pas encore',  desc: '',                                          icon: '·' },
+          { v: '10',  tag: '~3 000€ de CA/mois',  label: '10 nouvelles réservations',  desc: 'Budget ~600€/mois · Pour démarrer' },
+          { v: '20',  tag: '~6 000€ de CA/mois',  label: '20 nouvelles réservations',  desc: 'Budget ~1 100€/mois · Studio actif' },
+          { v: '30',  tag: '~9 000€ de CA/mois',  label: '30 nouvelles réservations',  desc: 'Budget ~1 500€/mois · Studio complet' },
+          { v: '30+', tag: 'Mode scaling',         label: '+30 réservations/mois',      desc: 'On construit ensemble' },
+          { v: '?',                                label: 'Je ne sais pas encore',      desc: '' },
         ],
       },
       {
@@ -637,8 +649,9 @@
             <div className="pg-choices" key={step.key}>
               {step.options.map(o => (
                 <button key={o.v}
-                  className={"pg-choice" + (answers[step.key] === o.v ? ' is-selected' : '')}
+                  className={"pg-choice" + (answers[step.key] === o.v ? ' is-selected' : '') + (o.tag ? ' has-tag' : '')}
                   onClick={e => pick(step.key, o.v, e.currentTarget)}>
+                  {o.tag && <span className="pg-choice-tag">{o.tag}</span>}
                   <div>
                     <div className="pg-choice-lbl">{o.label}</div>
                     {o.desc && <div className="pg-choice-desc">{o.desc}</div>}
