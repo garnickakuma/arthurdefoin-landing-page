@@ -304,7 +304,7 @@
     .pg-choice:hover        { border-color: var(--gold-bd); background: var(--gold-pale); }
     .pg-choice.is-selected  { border-color: var(--gold);    background: var(--gold-pale); }
     .pg-choice-lbl { display: block; font-weight: 600; }
-    .pg-choice-desc { display: block; font-size: 12px; color: var(--stone); margin-top: 2px; font-weight: 400; }
+    .pg-choice-desc { display: block; font-size: 12px; color: var(--stone); margin-top: 5px; font-weight: 400; }
     .pg-field { margin-bottom: 18px; }
     .pg-field-lbl {
       display: block; font-size: 11px; font-weight: 600;
@@ -505,10 +505,10 @@
         key: 'specialite', type: 'choice', eyebrow: 'Votre activité',
         title: 'Quelle est votre spécialité principale ?',
         options: [
-          { v: 'mariage',  label: 'Mariage' },
-          { v: 'portrait', label: 'Portrait & Studio' },
-          { v: 'famille',  label: 'Famille & Nouveau-né' },
-          { v: 'autre',    label: 'Autre' },
+          { v: 'mariage',   label: 'Mariage' },
+          { v: 'studio',    label: 'Studio' },
+          { v: 'exterieur', label: 'Extérieur' },
+          { v: 'autre',     label: 'Autre' },
         ],
       },
       {
