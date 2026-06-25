@@ -11,6 +11,7 @@ const LABELS = {
   revenue:    { '<5k': 'Moins de 5 000 €', '5-15k': '5 000 – 15 000 €', '15k+': 'Plus de 15 000 €' },
   ads:        { never: 'Jamais', tried: 'Oui, sans résultats', active: 'Oui, ça fonctionne' },
   budget:     { yes: 'Oui, prête à investir', maybe: 'Dépend du retour', no: "Pas pour l'instant" },
+  tarif:      { '1190': '1 190 € / mois', '1640': '1 640 € / mois', '2090': '2 090 € / mois', unknown: 'À discuter' },
 };
 
 function label(key, val) {
@@ -56,9 +57,13 @@ export default {
       <td style="padding:10px 16px 10px 0;color:#8A7665">Meta Ads</td>
       <td style="padding:10px 0;font-weight:600">${label('ads', answers.ads)}</td>
     </tr>
-    <tr>
+    <tr style="border-bottom:1px solid #E7DACB">
       <td style="padding:10px 16px 10px 0;color:#8A7665">Budget</td>
       <td style="padding:10px 0;font-weight:600">${label('budget', answers.budget)}</td>
+    </tr>
+    <tr>
+      <td style="padding:10px 16px 10px 0;color:#8A7665">Tarif choisi</td>
+      <td style="padding:10px 0;font-weight:600">${label('tarif', answers.tarif)}</td>
     </tr>
   </table>
 </div>
