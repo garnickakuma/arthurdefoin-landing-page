@@ -750,6 +750,7 @@ const STEPS = [
     field: { label: 'Votre ville', placeholder: 'Ex. Bordeaux', icon: 'pin' },
     cta: 'Vérifier la disponibilité',
   },
+  { key: 'ville_confirm', type: 'ville_confirm' },
   {
     key: 'role', type: 'choice', eyebrow: 'Votre rôle',
     title: 'Êtes-vous la gérante du centre ?',
@@ -797,7 +798,7 @@ const STEPS = [
   },
   {
     key: 'budget', type: 'choice', eyebrow: 'Votre engagement',
-    title: 'Êtes-vous prête à investir pour acquérir +30 clientes / mois ?',
+    title: 'Êtes-vous prête à investir pour acquérir plus de clientes par mois ?',
     sub: 'Un budget publicitaire est nécessaire en plus de mes honoraires de gestion.',
     options: [
       { v: 'yes',   label: 'Oui, je suis prête à investir',   desc: 'Je veux des résultats rapides', icon: 'target' },
@@ -863,6 +864,8 @@ document.addEventListener('keydown', function(e) {
    RENDER
    ============================================================ */
 function render() {
+  const mh = document.querySelector('.modal-header');
+  if (mh) mh.style.display = si === 0 ? '' : 'none';
   renderNav();
   renderStep();
 }
@@ -910,11 +913,12 @@ function renderStep() {
    STEP BUILDERS
    ============================================================ */
 function buildStep(step) {
-  if (step.type === 'text')        return buildText(step);
-  if (step.type === 'reveal')      return buildReveal();
-  if (step.type === 'choice')      return buildChoice(step);
-  if (step.type === 'disqualify')  return buildDisqualify();
-  if (step.type === 'calendly')    return buildCalendly();
+  if (step.type === 'text')         return buildText(step);
+  if (step.type === 'reveal')       return buildReveal();
+  if (step.type === 'ville_confirm')return buildVilleConfirm();
+  if (step.type === 'choice')       return buildChoice(step);
+  if (step.type === 'disqualify')   return buildDisqualify();
+  if (step.type === 'calendly')     return buildCalendly();
   return '';
 }
 
@@ -946,6 +950,26 @@ function buildText(step) {
         ${step.cta || 'Suivant'} ${IC.arrow}
       </button>
       <p class="lock-note">${IC.lockSm} Vos informations restent confidentielles.</p>
+    </div>`;
+}
+
+function buildVilleConfirm() {
+  const city = h(answers.ville || 'votre ville');
+  return `
+    <div style="max-width:480px">
+      <div style="display:grid;place-items:center;width:64px;height:64px;border-radius:999px;background:var(--success-soft);color:var(--success);margin-bottom:24px">
+        ${IC.check}
+      </div>
+      <span class="pill pill-success" style="display:inline-flex;margin-bottom:20px">Ville disponible</span>
+      <h2 style="font-family:var(--font-display);font-weight:500;font-size:clamp(28px,3.4vw,40px);line-height:1.05;letter-spacing:-.01em;color:var(--text-strong);margin:0 0 14px">
+        Super — la place à <em style="color:var(--gold-700);font-style:italic">${city}</em> est encore libre.
+      </h2>
+      <p style="font-family:var(--font-sans);font-size:16px;line-height:1.6;color:var(--text-muted);margin:0">
+        Vous serez peut-être la seule que j'accompagnerai dans votre ville. Encore quelques questions pour vérifier que nous pouvons travailler ensemble.
+      </p>
+      <button class="funnel-btn" style="margin-top:28px;max-width:360px" onclick="goNext()">
+        Continuer ${IC.arrow}
+      </button>
     </div>`;
 }
 
