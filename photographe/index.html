@@ -617,17 +617,17 @@
 
       if (status === 'done') {
         return (
-          <div style={{ textAlign: 'center', padding: '40px 24px 32px' }}>
-            <div style={{ fontSize: 48, marginBottom: 20 }}>✦</div>
-            <h2 style={{ fontFamily: 'var(--serif)', fontSize: 28, fontWeight: 600, color: 'var(--ink)', marginBottom: 16, lineHeight: 1.25 }}>
+          <div style={{ textAlign: 'center', padding: '48px 24px 40px' }}>
+            <div style={{ width: 72, height: 72, borderRadius: '50%', background: '#D1E8D5', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 28px' }}>
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#3A7D4E" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <h2 style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(28px,6vw,38px)', fontWeight: 500, color: 'var(--ink)', marginBottom: 16, lineHeight: 1.2 }}>
               Merci {form.prenom}&nbsp;!
             </h2>
-            <p style={{ fontFamily: 'var(--sans)', fontSize: 15, color: 'var(--ink-2)', lineHeight: 1.7, maxWidth: '34ch', margin: '0 auto 8px' }}>
-              J'ai bien reçu votre demande. Je vous recontacte très rapidement pour qu'on voie ensemble comment faire décoller votre activité.
+            <p style={{ fontFamily: 'var(--sans)', fontSize: 15, color: 'var(--ink-2)', lineHeight: 1.75, maxWidth: '32ch', margin: '0 auto 28px' }}>
+              Je vous recontacte très vite pour qu'on construise ensemble le système qui va faire décoller votre activité.
             </p>
-            <p style={{ fontFamily: 'var(--sans)', fontSize: 13, color: 'var(--stone)', marginTop: 24 }}>
-              À très vite,<br /><strong style={{ color: 'var(--ink)' }}>Arthur</strong>
-            </p>
+            <p style={{ fontFamily: 'var(--serif)', fontSize: 16, color: 'var(--stone)', fontStyle: 'italic' }}>— Arthur Defoin</p>
           </div>
         );
       }
