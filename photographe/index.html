@@ -483,11 +483,6 @@
     // ─── Qualification Funnel ─────────────────────────────────────────────────
     const STEPS = [
       {
-        key: 'ville', type: 'text', eyebrow: 'Pour commencer',
-        title: 'Dans quelle ville êtes-vous basé ?',
-        fields: [{ key: 'ville', label: 'Ville', type: 'text', ph: 'Ex. Lyon' }],
-      },
-      {
         key: 'specialite', type: 'choice', eyebrow: 'Votre activité',
         title: 'Quelle est votre spécialité principale ?',
         options: [
@@ -587,14 +582,7 @@
       };
 
       if (status === 'done') {
-        return (
-          <div>
-            <div className="pg-step-eyebrow">Bonne nouvelle</div>
-            <div className="pg-step-title">Super — la place pour l'accompagnement est disponible.</div>
-            <p style={{ fontSize: 14, color: 'var(--stone)', marginBottom: 20 }}>Choisissez un créneau pour qu'on se parle.</p>
-            <CalendlyInline prefillName={form.prenom} prefillEmail={form.email} />
-          </div>
-        );
+        return <CalendlyInline prefillName={form.prenom} prefillEmail={form.email} />;
       }
 
       return (
@@ -645,6 +633,7 @@
                 <div className="pg-field" key={f.key}>
                   <label className="pg-field-lbl">{f.label}</label>
                   <input className="pg-field-input" type={f.type} placeholder={f.ph}
+                    autoComplete="off" autoCorrect="off" spellCheck="false"
                     value={form[f.key]}
                     onChange={e => setForm(fm => ({ ...fm, [f.key]: e.target.value }))} />
                 </div>
