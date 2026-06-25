@@ -578,7 +578,7 @@
       const next = () => setIdx(i => Math.min(STEPS.length - 1, i + 1));
       const back = () => setIdx(i => Math.max(0, i - 1));
 
-      const pick = (key, val) => { setAns(a => ({ ...a, [key]: val })); setTimeout(next, 280); };
+      const pick = (key, val, el) => { if (el) el.blur(); setAns(a => ({ ...a, [key]: val })); setTimeout(next, 280); };
 
       const submit = async () => {
         setStatus('sending');
@@ -630,11 +630,11 @@
           )}
 
           {step.type === 'choice' && (
-            <div className="pg-choices">
+            <div className="pg-choices" key={step.key}>
               {step.options.map(o => (
                 <button key={o.v}
                   className={"pg-choice" + (answers[step.key] === o.v ? ' is-selected' : '')}
-                  onClick={() => pick(step.key, o.v)}>
+                  onClick={e => pick(step.key, o.v, e.currentTarget)}>
                   <div>
                     <div className="pg-choice-lbl">{o.label}</div>
                     {o.desc && <div className="pg-choice-desc">{o.desc}</div>}
