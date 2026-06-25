@@ -113,6 +113,17 @@
     }
     .pg-btn-dark:hover { background: #e8d9a8; }
 
+    /* ── Soleil discret sous le header ── */
+    .pg-sun {
+      text-align: center;
+      font-size: 15px;
+      line-height: 1;
+      padding: 8px 0 2px;
+      opacity: 0.55;
+      filter: sepia(0.4) saturate(1.2) hue-rotate(-8deg);
+      user-select: none;
+    }
+
     /* ── VSL ── */
     .pg-vsl { padding: 56px 0 0; }
     .pg-vsl-player {
@@ -442,15 +453,18 @@
     // ─── Nav ─────────────────────────────────────────────────────────────────
     function Nav({ openModal }) {
       return (
-        <nav className="pg-nav">
-          <div className="pg-nav-inner">
-            <a className="pg-nav-brand" href="#top" onClick={e => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
-              <img className="pg-nav-logo" src="landing/Logo A_.png" alt="Arthur Defoin" />
-              <span className="pg-nav-name">Arthur Defoin · <span className="pg-nav-tag">Media Buyer</span></span>
-            </a>
-            <button className="pg-btn-dark" onClick={openModal}>Réserver mon appel</button>
-          </div>
-        </nav>
+        <>
+          <nav className="pg-nav">
+            <div className="pg-nav-inner">
+              <a className="pg-nav-brand" href="#top" onClick={e => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
+                <img className="pg-nav-logo" src="landing/Logo A_.png" alt="Arthur Defoin" />
+                <span className="pg-nav-name">Arthur Defoin · <span className="pg-nav-tag">Media Buyer</span></span>
+              </a>
+              <button className="pg-btn-dark" onClick={openModal}>Réserver mon appel</button>
+            </div>
+          </nav>
+          <div className="pg-sun" aria-hidden="true" title="Amour &amp; Lumière">☀️</div>
+        </>
       );
     }
 
