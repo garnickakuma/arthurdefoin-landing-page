@@ -66,6 +66,19 @@
     .pg-container-sm { max-width: 660px; margin: 0 auto; padding: 0 24px; }
 
 
+    /* ── Strip ── */
+    .pg-strip {
+      background: var(--gold-pale);
+      border-bottom: 1px solid var(--gold-bd);
+      color: var(--ink-2);
+      text-align: center;
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      padding: 9px 16px;
+    }
+
     /* ── Nav ── */
     .pg-nav {
       position: sticky;
@@ -399,6 +412,11 @@
           </div>
         </div>
       );
+    }
+
+    // ─── Strip ───────────────────────────────────────────────────────────────
+    function Strip() {
+      return <div className="pg-strip">POUR LES PHOTOGRAPHES QUI VEULENT INVESTIR DANS LEUR ACQUISITION CLIENT</div>;
     }
 
     // ─── Nav ─────────────────────────────────────────────────────────────────
@@ -802,6 +820,7 @@
 
       return (
         <div>
+          <Strip />
           <Nav openModal={openModal} />
           <main>
             <HeroSection openModal={openModal} />
