@@ -12,5 +12,6 @@
 - [Guy Arnaud](project-guy-arnaud.md) — Landing page client photographe Portes-lès-Valence, séance offerte, stack HTML+CSS pure
 - [Amour et Lumière](project-amour-et-lumiere.md) — Landing page client studio Bègles, tunnel réservation + Stripe à brancher, Worker avis Google
 - [Esthétique](project-esthetique.md) — Landing page Arthur media buyer centres esthétique, HTML inline dans esthetique/index.html
+- [VSL Landing](project-vsl-landing.md) — VSL landing Arthur media buyer (coachs/formateurs), dark mode + accent bleu, landing-vsl/index.html, Calendly+vidéo à brancher
 - [Wrangler deploy direct](feedback-wrangler-deploy.md) — wrangler pages deploy suffit pour déployer sans dashboard Cloudflare (wrangler déjà auth)
 - [Format handoff design](reference-handoff-format.md) — ZIP avec README.md (source de vérité) + .dc.html (prototype à ne pas copier) + assets
