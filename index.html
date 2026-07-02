@@ -170,6 +170,10 @@ img{max-width:100%;}
 .vsl-hero-section > .vsl-container{position:relative;}
 .vsl-h1{margin:0; font-family:var(--font-display); font-weight:var(--fw-bold); font-size:var(--fs-display); line-height:var(--lh-tight); letter-spacing:var(--ls-tight); color:var(--fg-0);}
 .vsl-h1 .accent{background:var(--grad-accent); -webkit-background-clip:text; background-clip:text; color:transparent;}
+.h1-br-m{display:none;} /* coupure supplémentaire, seulement sur mobile */
+.hero-rotator{font-family:var(--font-mono); font-size:clamp(0.95rem,0.85rem+0.4vw,1.15rem); font-weight:var(--fw-semibold); letter-spacing:var(--ls-eyebrow); text-transform:uppercase; color:var(--green-300); line-height:1;}
+.rot-word{display:inline-block; transition:opacity 0.35s var(--ease-out), transform 0.35s var(--ease-out);}
+.rot-word.rot-out{opacity:0; transform:translateY(-8px);}
 .vsl-lead{margin:0 auto; max-width:540px; font-size:var(--fs-lead); line-height:var(--lh-body); color:var(--fg-2);}
 .vsl-reassure{margin:var(--space-4) 0 0; font-family:var(--font-mono); font-size:var(--fs-caption); letter-spacing:var(--ls-wide); text-transform:uppercase; color:var(--fg-3); text-align:center;}
 .vsl-hero-centre{display:flex; flex-direction:column; align-items:center; gap:var(--space-6); text-align:center;}
@@ -302,9 +306,9 @@ img{max-width:100%;}
   .vsl-proof{grid-template-columns:1fr; gap:0;}
   .vsl-proof > *{padding:var(--space-5) 0;}
   .vsl-proof > * + *{border-top:1px solid var(--line);}
-  /* Titre hero plus compact sur mobile (évite les 4 lignes) */
-  .vsl-h1{font-size:2.1rem; line-height:1.1;}
-  .h1-br{display:none;}
+  /* Titre hero plus compact sur mobile, sur 3 lignes */
+  .vsl-h1{font-size:2.25rem; line-height:1.12;}
+  .h1-br-m{display:inline;}
 }
 
 @media (prefers-reduced-motion:reduce){
@@ -332,8 +336,9 @@ img{max-width:100%;}
     <div class="vsl-veil" id="veil"></div>
     <div class="vsl-container">
       <div class="vsl-hero-centre">
+        <div class="reveal hero-rotator"><span class="rot-word" id="rotator">Coachs</span></div>
         <div class="reveal" style="transition-delay:90ms">
-          <h1 class="vsl-h1">Remplis ton agenda<br class="h1-br">d'appels <span class="accent">qualifiés.</span></h1>
+          <h1 class="vsl-h1">Remplis ton agenda<br class="h1-br">d'appels<br class="h1-br-m"> <span class="accent">qualifiés.</span></h1>
         </div>
         <div class="reveal" style="transition-delay:180ms">
           <p class="vsl-lead">La méthode d'acquisition que j'installe pour les coachs, formateurs et thérapeutes. Des campagnes qui amènent les bons prospects — pas des curieux.</p>
@@ -447,7 +452,7 @@ img{max-width:100%;}
       </div>
       <div class="reveal faq-item" style="transition-delay:140ms">
         <button class="faq-btn" aria-expanded="false">Quel budget publicitaire prévoir ?<span class="faq-sign"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
-        <div class="faq-panel"><div class="faq-panel-inner"><div class="faq-answer">On définit ensemble un budget adapté à ton objectif pendant l'appel. La plupart des clients démarrent entre 2 000 et 6 000 € / mois.</div></div></div>
+        <div class="faq-panel"><div class="faq-panel-inner"><div class="faq-answer">On définit ensemble un budget adapté à ton objectif pendant l'appel. La plupart des coachs démarrent entre 2 000 et 6 000 € / mois.</div></div></div>
       </div>
     </div>
   </div>
@@ -658,6 +663,23 @@ qualForm.addEventListener('submit', function(e){
 });
 
 var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---- Mots qui tournent au-dessus du titre ---- */
+(function(){
+  var el = document.getElementById('rotator');
+  if (!el) return;
+  var words = ['Coachs', 'Formateurs', 'Thérapeutes'];
+  if (reduce) { el.textContent = 'Coachs · Formateurs · Thérapeutes'; return; }
+  var i = 0;
+  setInterval(function(){
+    el.classList.add('rot-out');
+    setTimeout(function(){
+      i = (i + 1) % words.length;
+      el.textContent = words[i];
+      el.classList.remove('rot-out');
+    }, 350);
+  }, 2000);
+})();
 
 /* ---- Scroll progress + veil parallax ---- */
 var progbar = document.getElementById('progbar');
