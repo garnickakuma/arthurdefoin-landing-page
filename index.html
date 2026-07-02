@@ -168,10 +168,10 @@ img{max-width:100%;}
 .vsl-hero-section{position:relative; overflow:hidden; padding-top:clamp(44px,7vw,92px);}
 .vsl-veil{position:absolute; inset:0; pointer-events:none; background:var(--grad-veil);}
 .vsl-hero-section > .vsl-container{position:relative;}
-.vsl-h1{margin:0; font-family:var(--font-display); font-weight:var(--fw-bold); font-size:var(--fs-display); line-height:var(--lh-tight); letter-spacing:var(--ls-tight); color:var(--fg-0);}
+.vsl-h1{margin:0; font-family:var(--font-display); font-weight:var(--fw-bold); font-size:clamp(2.35rem, 0.9rem + 6.2vw, 5.75rem); line-height:1.05; letter-spacing:var(--ls-tight); color:var(--fg-0);}
 .vsl-h1 .accent{background:var(--grad-accent); -webkit-background-clip:text; background-clip:text; color:transparent;}
-.h1-br-m{display:none;} /* coupure supplémentaire, seulement sur mobile */
-.hero-rotator{font-family:var(--font-mono); font-size:clamp(0.95rem,0.85rem+0.4vw,1.15rem); font-weight:var(--fw-semibold); letter-spacing:var(--ls-eyebrow); text-transform:uppercase; color:var(--green-300); line-height:1;}
+.vsl-h1-big{display:inline-block; font-size:1.32em; line-height:0.95;}
+.hero-rotator{font-family:var(--font-mono); font-size:clamp(1.05rem,0.85rem+1vw,1.6rem); font-weight:var(--fw-bold); letter-spacing:var(--ls-eyebrow); text-transform:uppercase; color:var(--green-300); line-height:1;}
 .rot-word{display:inline-block; transition:opacity 0.35s var(--ease-out), transform 0.35s var(--ease-out);}
 .rot-word.rot-out{opacity:0; transform:translateY(-8px);}
 .vsl-lead{margin:0 auto; max-width:540px; font-size:var(--fs-lead); line-height:var(--lh-body); color:var(--fg-2);}
@@ -306,9 +306,6 @@ img{max-width:100%;}
   .vsl-proof{grid-template-columns:1fr; gap:0;}
   .vsl-proof > *{padding:var(--space-5) 0;}
   .vsl-proof > * + *{border-top:1px solid var(--line);}
-  /* Titre hero plus compact sur mobile, sur 3 lignes */
-  .vsl-h1{font-size:2.25rem; line-height:1.12;}
-  .h1-br-m{display:inline;}
 }
 
 @media (prefers-reduced-motion:reduce){
@@ -338,7 +335,7 @@ img{max-width:100%;}
       <div class="vsl-hero-centre">
         <div class="reveal hero-rotator"><span class="rot-word" id="rotator">Coachs</span></div>
         <div class="reveal" style="transition-delay:90ms">
-          <h1 class="vsl-h1">Remplis ton agenda<br class="h1-br">d'appels<br class="h1-br-m"> <span class="accent">qualifiés.</span></h1>
+          <h1 class="vsl-h1">Remplis ton<br>agenda d'appels<br><span class="accent vsl-h1-big">qualifiés.</span></h1>
         </div>
         <div class="reveal" style="transition-delay:180ms">
           <p class="vsl-lead">La méthode d'acquisition que j'installe pour les coachs, formateurs et thérapeutes. Des campagnes qui amènent les bons prospects — pas des curieux.</p>
@@ -424,9 +421,8 @@ img{max-width:100%;}
     <div class="vsl-offer-wrap">
       <div class="reveal" style="max-width:680px; width:100%">
         <div class="card card--glow vsl-offer-card">
-          <span class="badge badge--dot"><span class="badge-dot"></span>Places limitées — 2 cette semaine</span>
           <h2 class="vsl-h2">Réserve ton appel stratégique gratuit</h2>
-          <p class="vsl-body-lg vsl-offer-sub">30 minutes pour analyser ton acquisition et te montrer exactement comment remplir ton agenda. Sans engagement.</p>
+          <p class="vsl-body-lg vsl-offer-sub">30 minutes pour analyser ton acquisition et voir si je peux t'aider à remplir ton agenda. Sans engagement.</p>
           <div class="vsl-offer-checks">
             <div class="check-item"><span class="check-ic"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M5 12l4.5 4.5L19 7" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Audit de ton tunnel d'acquisition actuel</span></div>
             <div class="check-item"><span class="check-ic"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M5 12l4.5 4.5L19 7" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Le plan exact pour tes 90 prochains jours</span></div>
