@@ -195,6 +195,8 @@ img{max-width:100%;}
 .vsl-connector.is-in .vsl-connector-line{width:40px;}
 .vsl-connector-arrow{display:inline-flex; opacity:0; transform:translateX(-6px); transition:opacity 0.4s var(--ease-out) 0.5s, transform 0.4s var(--ease-out) 0.5s;}
 .vsl-connector.is-in .vsl-connector-arrow{opacity:1; transform:none;}
+.vsl-loop-wrap{max-width:900px; margin:0 auto;}
+.vsl-loop{display:block; width:100%; aspect-ratio:16/9; object-fit:cover; border-radius:var(--r-lg); border:1px solid var(--line-strong); box-shadow:var(--shadow-pop); background:radial-gradient(120% 90% at 50% 0%, #101B2A, #0A0D0E); pointer-events:none;}
 
 /* offre */
 .vsl-offer-wrap{display:flex; justify-content:center;}
@@ -374,32 +376,13 @@ img{max-width:100%;}
   <section id="systeme" class="vsl-band">
     <div class="vsl-container vsl-section">
       <div class="vsl-head reveal">
-        <span class="badge badge--soft">La méthode en 2 étapes</span>
+        <span class="badge badge--soft">La méthode en vidéo</span>
         <h2 class="vsl-h2">Une machine à RDV, pas un coup de chance</h2>
       </div>
-      <div class="vsl-flow">
-        <div class="reveal vsl-flow-cell">
-          <div class="tilt vsl-flow-tilt" data-tilt>
-            <div class="card card--interactive vsl-flow-card" style="padding:var(--space-8)">
-              <div class="vsl-step-top"><span class="vsl-step-n">01</span><span class="vsl-step-tag">Marque</span></div>
-              <h3 class="vsl-h3">Atlas</h3>
-              <p class="vsl-body">On identifie la niche, la cible et le message — puis on travaille ton image de marque pour te positionner clairement.</p>
-            </div>
-          </div>
-        </div>
-        <div class="vsl-connector" aria-hidden="true">
-          <span class="vsl-connector-line"></span>
-          <span class="vsl-connector-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-        </div>
-        <div class="reveal vsl-flow-cell" style="transition-delay:160ms">
-          <div class="tilt vsl-flow-tilt" data-tilt>
-            <div class="card card--interactive vsl-flow-card" style="padding:var(--space-8)">
-              <div class="vsl-step-top"><span class="vsl-step-n">02</span><span class="vsl-step-tag">Acquisition</span></div>
-              <h3 class="vsl-h3">Orion</h3>
-              <p class="vsl-body">La partie acquisition : tunnel de vente, VSL, webinaire. La méthode est choisie selon ton profil, puis optimisée en continu.</p>
-            </div>
-          </div>
-        </div>
+      <div class="reveal vsl-loop-wrap">
+        <video class="vsl-loop" autoplay muted loop playsinline preload="metadata" aria-label="Le tunnel de vente expliqué">
+          <source src="assets/tunnel-de-vente.mp4" type="video/mp4">
+        </video>
       </div>
     </div>
   </section>
