@@ -555,7 +555,9 @@ qualForm.addEventListener('submit', function(e){
   var btn = qualForm.querySelector('button[type="submit"]');
   if (btn) { btn.disabled = true; btn.style.opacity = '0.6'; btn.firstChild.textContent = 'Un instant…'; }
   if (QUAL_ENDPOINT) {
-    fetch(QUAL_ENDPOINT, { method: 'POST', mode: 'no-cors', body: new FormData(qualForm) }).then(goCalendly).catch(goCalendly);
+    var body = new URLSearchParams();
+    new FormData(qualForm).forEach(function(v, k){ body.append(k, v); });
+    fetch(QUAL_ENDPOINT, { method: 'POST', mode: 'no-cors', body: body }).then(goCalendly).catch(goCalendly);
     setTimeout(goCalendly, 2500); /* sécurité si la requête traîne */
   } else {
     goCalendly();
