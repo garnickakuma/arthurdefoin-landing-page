@@ -302,6 +302,9 @@ img{max-width:100%;}
   .vsl-proof{grid-template-columns:1fr; gap:0;}
   .vsl-proof > *{padding:var(--space-5) 0;}
   .vsl-proof > * + *{border-top:1px solid var(--line);}
+  /* Titre hero plus compact sur mobile (évite les 4 lignes) */
+  .vsl-h1{font-size:2.1rem; line-height:1.1;}
+  .h1-br{display:none;}
 }
 
 @media (prefers-reduced-motion:reduce){
@@ -330,7 +333,7 @@ img{max-width:100%;}
     <div class="vsl-container">
       <div class="vsl-hero-centre">
         <div class="reveal" style="transition-delay:90ms">
-          <h1 class="vsl-h1">Remplis ton agenda<br>d'appels <span class="accent">qualifiés.</span></h1>
+          <h1 class="vsl-h1">Remplis ton agenda<br class="h1-br">d'appels <span class="accent">qualifiés.</span></h1>
         </div>
         <div class="reveal" style="transition-delay:180ms">
           <p class="vsl-lead">La méthode d'acquisition que j'installe pour les coachs, formateurs et thérapeutes. Des campagnes qui amènent les bons prospects — pas des curieux.</p>
