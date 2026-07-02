@@ -1,14 +1,15 @@
 ---
 name: feedback-photographe-subdir
-description: "Le fichier déployé par Cloudflare Pages est photographe/index.html, pas index.html à la racine"
-metadata: 
+description: "Cloudflare Pages sert la RACINE du repo — arthurdefoin.com/ = index.html racine (= la VSL depuis juillet 2026)"
+metadata:
   node_type: memory
-  type: feedback
-  originSessionId: 62437ea0-ec59-4dae-892c-4492497a5049
+  type: reference
 ---
 
-Toujours éditer `photographe/index.html` (et `photographe/landing/` pour le CSS), jamais le `index.html` à la racine du repo.
+**Correction (juillet 2026) :** contrairement à ce qui était noté avant, Cloudflare Pages sert **la racine du repo**, pas `photographe/`. Chaque push sur `master` redéploie tout, et chaque sous-dossier est accessible en sous-chemin.
 
-**Why:** Cloudflare Pages est configuré avec Root directory = `photographe`. Le `index.html` à la racine n'est jamais déployé. On a perdu plusieurs heures à cause de ça — tous les changements semblaient pushés mais rien n'apparaissait sur le site.
+- **arthurdefoin.com/** = `index.html` à la **racine** = désormais la **[[project-vsl-landing]]** (media buyer, coachs/formateurs/thérapeutes).
+- **arthurdefoin.com/photographe/** = l'ancienne landing « Publicité Meta pour photographes » (dossier `photographe/`, autonome avec son propre `photographe/landing/`).
+- Autres sous-chemins : `/landing-guy-arnaud/`, `/esthetique/`, `/amour-et-lumiere/`, `/stellar-studio/`, etc.
 
-**How to apply:** Avant toute modif sur la landing page Arthur Defoin, vérifier que le chemin commence par `photographe/`. Pareil pour les CSS dans `photographe/landing/`.
+**How to apply :** pour modifier la page d'accueil arthurdefoin.com, éditer le `index.html` **à la racine** (+ `assets/`, `mentions-legales.html`, `confidentialite.html` à la racine). Pour l'ancienne landing photographe, éditer `photographe/`. Voir [[reference-deployment]] (cache Cloudflare à purger si besoin) et [[feedback-wrangler-deploy]].

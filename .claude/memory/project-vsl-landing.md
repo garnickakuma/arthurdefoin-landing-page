@@ -12,7 +12,7 @@ Landing **VSL** (Video Sales Letter) pour **Arthur Defoin media buyer**, qui ins
 
 ## Source & construction
 - Handoff Claude Design : `Downloads/design_handoff_vsl_landing/` (dézippé depuis `Downloads/c.zip`). README = source de vérité, hifi.
-- Construit dans : `landing-vsl/index.html` (repo arthurdefoin-landing-page) — **HTML/CSS/JS pur, un seul fichier autonome**, comme [[project-guy-arnaud]]. Pas de React malgré le proto React/Babel du handoff.
+- **En ligne à la RACINE = arthurdefoin.com** (depuis juillet 2026). Fichiers à la racine du repo : `index.html`, `assets/` (vidéos + poster), `mentions-legales.html`, `confidentialite.html`. **HTML/CSS/JS pur, un seul fichier autonome**, comme [[project-guy-arnaud]]. Pas de React malgré le proto React/Babel du handoff. (Voir [[feedback-photographe-subdir]] pour la structure de déploiement.)
 
 ## Direction artistique
 - **Dark mode** : fond `#0B0E10`, cartes `#12171A`, void `#07090A`.
