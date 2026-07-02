@@ -243,6 +243,39 @@ img{max-width:100%;}
 
 [hidden]{display:none !important;}
 
+/* ---------- formulaire de candidature (questions-first) ---------- */
+.qual-overlay{position:fixed; inset:0; z-index:100; background:rgba(7,9,10,0.78); backdrop-filter:blur(12px); overflow-y:auto; padding:24px 16px; animation:qualFade 0.25s var(--ease-out);}
+.qual-modal{position:relative; max-width:640px; margin:24px auto; background:var(--surface-card); border:1px solid var(--line-accent); border-radius:var(--r-xl); box-shadow:var(--glow-green), var(--shadow-pop); padding:clamp(24px,5vw,44px); animation:qualRise 0.32s var(--ease-out);}
+.qual-close{position:absolute; top:14px; right:14px; width:36px; height:36px; display:inline-flex; align-items:center; justify-content:center; border-radius:50%; border:1px solid var(--line-strong); background:transparent; color:var(--fg-2); cursor:pointer; transition:color var(--dur-base) var(--ease-out), border-color var(--dur-base) var(--ease-out);}
+.qual-close:hover{color:var(--fg-0); border-color:var(--line-accent);}
+.qual-head{display:flex; flex-direction:column; gap:12px; align-items:flex-start; margin-bottom:var(--space-2);}
+.qual-title{margin:0; font-family:var(--font-display); font-weight:var(--fw-bold); font-size:var(--fs-h3); color:var(--fg-0); letter-spacing:var(--ls-snug);}
+.qual-sub{margin:0; font-size:var(--fs-body); line-height:var(--lh-body); color:var(--fg-2);}
+.qual-form{display:flex; flex-direction:column;}
+.qual-q{display:flex; flex-direction:column; gap:10px; margin-top:var(--space-6);}
+.q-label{font-family:var(--font-body); font-weight:var(--fw-medium); font-size:var(--fs-body-lg); color:var(--fg-0); line-height:var(--lh-snug);}
+.q-req{color:var(--green-400);}
+.qual-input, .qual-textarea{width:100%; font-family:var(--font-body); font-size:16px; color:var(--fg-0); background:var(--bg-3); border:1px solid var(--line-strong); border-radius:var(--r-md); outline:none; transition:border-color var(--dur-base) var(--ease-out), box-shadow var(--dur-base) var(--ease-out);}
+.qual-input{height:50px; padding:0 16px;}
+.qual-textarea{padding:14px 16px; min-height:92px; resize:vertical; line-height:1.5;}
+.qual-input:focus, .qual-textarea:focus{border-color:var(--green-500); box-shadow:0 0 0 3px var(--focus-ring);}
+.qual-input::placeholder, .qual-textarea::placeholder{color:var(--fg-3);}
+.qual-opts{display:flex; flex-direction:column; gap:8px;}
+.qual-opt{display:flex; align-items:flex-start; gap:12px; padding:13px 15px; border:1px solid var(--line-strong); border-radius:var(--r-md); background:var(--bg-3); cursor:pointer; transition:border-color var(--dur-base) var(--ease-out), background var(--dur-base) var(--ease-out);}
+.qual-opt:hover{border-color:var(--line-accent);}
+.qual-opt input{position:absolute; opacity:0; width:0; height:0;}
+.qual-radio-dot{flex-shrink:0; margin-top:1px; width:20px; height:20px; border-radius:50%; border:1px solid var(--line-strong); display:inline-flex; align-items:center; justify-content:center; transition:border-color var(--dur-base) var(--ease-out);}
+.qual-radio-dot::after{content:""; width:10px; height:10px; border-radius:50%; background:var(--green-500); transform:scale(0); transition:transform var(--dur-base) var(--ease-spring);}
+.qual-opt input:checked ~ .qual-radio-dot{border-color:var(--green-500);}
+.qual-opt input:checked ~ .qual-radio-dot::after{transform:scale(1);}
+.qual-opt:has(input:checked){border-color:var(--green-500); background:var(--green-soft);}
+.qual-opt input:focus-visible ~ .qual-radio-dot{box-shadow:0 0 0 3px var(--focus-ring);}
+.qual-opt-label{font-size:var(--fs-body); line-height:var(--lh-snug); color:var(--fg-1);}
+.qual-submit{margin-top:var(--space-8);}
+.qual-fine{margin:var(--space-4) 0 0; text-align:center; font-size:var(--fs-caption); color:var(--fg-3);}
+@keyframes qualFade{from{opacity:0}to{opacity:1}}
+@keyframes qualRise{from{opacity:0; transform:translateY(14px)}to{opacity:1; transform:none}}
+
 @media (max-width:760px){
   .vsl-flow{flex-direction:column;}
   .vsl-connector{align-self:center;}
@@ -412,10 +445,122 @@ img{max-width:100%;}
   </div>
 </footer>
 
+<!-- FORMULAIRE DE CANDIDATURE (questions d'abord, puis Calendly) -->
+<div class="qual-overlay" id="qual" hidden>
+  <div class="qual-modal" role="dialog" aria-modal="true" aria-labelledby="qual-title">
+    <button class="qual-close" data-qual-close aria-label="Fermer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+    <div class="qual-head">
+      <span class="badge badge--soft">Candidature</span>
+      <h3 class="qual-title" id="qual-title">Vérifie ton éligibilité</h3>
+      <p class="qual-sub">Réponds à ces quelques questions, puis choisis ton créneau. Plus tu es précis, plus l'appel sera utile.</p>
+    </div>
+    <form class="qual-form" id="qual-form">
+      <div class="qual-q"><label class="q-label" for="q-prenom">Prénom <span class="q-req">*</span></label>
+        <input class="qual-input" id="q-prenom" name="prenom" type="text" required autocomplete="given-name" placeholder="Ton prénom"></div>
+      <div class="qual-q"><label class="q-label" for="q-email">Email <span class="q-req">*</span></label>
+        <input class="qual-input" id="q-email" name="email" type="email" required autocomplete="email" placeholder="ton@email.com"></div>
+      <div class="qual-q"><label class="q-label" for="q-tel">Téléphone <span class="q-req">*</span></label>
+        <input class="qual-input" id="q-tel" name="telephone" type="tel" required autocomplete="tel" placeholder="06 12 34 56 78"></div>
+
+      <div class="qual-q"><label class="q-label" for="q1">En une phrase : c'est quoi ton activité aujourd'hui, et à qui tu t'adresses ? <span class="q-req">*</span></label>
+        <textarea class="qual-textarea" id="q1" name="q1_activite" required placeholder="Ex. Coach en reconversion pro pour cadres de 30-45 ans…"></textarea></div>
+
+      <div class="qual-q"><label class="q-label" for="q2">Sur ton marché, pourquoi un client te choisit toi plutôt qu'un autre coach / formateur / thérapeute ? <span class="q-req">*</span></label>
+        <textarea class="qual-textarea" id="q2" name="q2_differenciation" required></textarea></div>
+
+      <div class="qual-q"><span class="q-label">Où en es-tu financièrement en ce moment ? (CA mensuel moyen) <span class="q-req">*</span></span>
+        <div class="qual-opts">
+          <label class="qual-opt"><input type="radio" name="q3_ca" value="Moins de 1 000 €/mois (ou je démarre)" required><span class="qual-radio-dot"></span><span class="qual-opt-label">Moins de 1 000 €/mois (ou je démarre)</span></label>
+          <label class="qual-opt"><input type="radio" name="q3_ca" value="1 000 à 3 000 €/mois"><span class="qual-radio-dot"></span><span class="qual-opt-label">1 000 à 3 000 €/mois</span></label>
+          <label class="qual-opt"><input type="radio" name="q3_ca" value="3 000 à 5 000 €/mois"><span class="qual-radio-dot"></span><span class="qual-opt-label">3 000 à 5 000 €/mois</span></label>
+          <label class="qual-opt"><input type="radio" name="q3_ca" value="5 000 à 10 000 €/mois"><span class="qual-radio-dot"></span><span class="qual-opt-label">5 000 à 10 000 €/mois</span></label>
+          <label class="qual-opt"><input type="radio" name="q3_ca" value="10 000 à 30 000 €/mois"><span class="qual-radio-dot"></span><span class="qual-opt-label">10 000 à 30 000 €/mois</span></label>
+          <label class="qual-opt"><input type="radio" name="q3_ca" value="Plus de 30 000 €/mois"><span class="qual-radio-dot"></span><span class="qual-opt-label">Plus de 30 000 €/mois</span></label>
+        </div>
+      </div>
+
+      <div class="qual-q"><label class="q-label" for="q4">Le chiffre que tu veux atteindre chaque mois d'ici 6 mois ? <span class="q-req">*</span></label>
+        <input class="qual-input" id="q4" name="q4_objectif" type="text" required placeholder="Ex. 8 000 €/mois"></div>
+
+      <div class="qual-q"><label class="q-label" for="q5">Selon toi, qu'est-ce qui te bloque aujourd'hui pour y arriver ? <span class="q-req">*</span></label>
+        <textarea class="qual-textarea" id="q5" name="q5_blocage" required></textarea></div>
+
+      <div class="qual-q"><label class="q-label" for="q6">On ne prend pas tout le monde. Convaincs-nous : pourquoi toi, et qu'est-ce qui te rend sérieux pour qu'on aille chercher des résultats ensemble ? <span class="q-req">*</span></label>
+        <textarea class="qual-textarea" id="q6" name="q6_pourquoi" required></textarea></div>
+
+      <div class="qual-q"><span class="q-label">Si on décide de bosser ensemble, tu es opérationnel quand ? <span class="q-req">*</span></span>
+        <div class="qual-opts">
+          <label class="qual-opt"><input type="radio" name="q7_timing" value="Tout de suite" required><span class="qual-radio-dot"></span><span class="qual-opt-label">Tout de suite</span></label>
+          <label class="qual-opt"><input type="radio" name="q7_timing" value="D'ici un mois"><span class="qual-radio-dot"></span><span class="qual-opt-label">D'ici un mois</span></label>
+          <label class="qual-opt"><input type="radio" name="q7_timing" value="Plus tard"><span class="qual-radio-dot"></span><span class="qual-opt-label">Plus tard</span></label>
+        </div>
+      </div>
+
+      <div class="qual-q"><span class="q-label">Même si on est payés au % de tes résultats, lancer une acquisition demande un minimum de budget (pub, outils…). Tu te situes où ? <span class="q-req">*</span></span>
+        <div class="qual-opts">
+          <label class="qual-opt"><input type="radio" name="q8_investissement" value="J'ai 1 000 à 3 000 € de côté à mettre sur mon activité" required><span class="qual-radio-dot"></span><span class="qual-opt-label">J'ai 1 000 à 3 000 € de côté à mettre sur mon activité</span></label>
+          <label class="qual-opt"><input type="radio" name="q8_investissement" value="Je peux réunir 3 000 à 5 000 € en m'organisant (épargne, proche, financement)"><span class="qual-radio-dot"></span><span class="qual-opt-label">Je peux réunir 3 000 à 5 000 € en m'organisant (épargne, proche, financement)</span></label>
+          <label class="qual-opt"><input type="radio" name="q8_investissement" value="Je peux aller jusqu'à 5 000 – 10 000 € si le plan me convainc"><span class="qual-radio-dot"></span><span class="qual-opt-label">Je peux aller jusqu'à 5 000 – 10 000 € si le plan me convainc</span></label>
+          <label class="qual-opt"><input type="radio" name="q8_investissement" value="+10 000 € dispo, je suis déjà dans une logique d'investissement"><span class="qual-radio-dot"></span><span class="qual-opt-label">+10 000 € dispo, je suis déjà dans une logique d'investissement</span></label>
+          <label class="qual-opt"><input type="radio" name="q8_investissement" value="C'est serré en ce moment, mais je suis prêt à trouver une solution"><span class="qual-radio-dot"></span><span class="qual-opt-label">C'est serré en ce moment, mais je suis prêt à trouver une solution</span></label>
+        </div>
+      </div>
+
+      <div class="qual-q"><span class="q-label">Ce créneau est bloqué rien que pour toi. Tu t'engages à être présent à 100 % ? (sinon aucun autre créneau ne sera proposé) <span class="q-req">*</span></span>
+        <div class="qual-opts">
+          <label class="qual-opt"><input type="radio" name="q9_engagement" value="Oui, je serai là" required><span class="qual-radio-dot"></span><span class="qual-opt-label">Oui, je serai là</span></label>
+          <label class="qual-opt"><input type="radio" name="q9_engagement" value="Non, je ne suis plus intéressé.e"><span class="qual-radio-dot"></span><span class="qual-opt-label">Non, je ne suis plus intéressé.e</span></label>
+        </div>
+      </div>
+
+      <span class="vsl-shine vsl-shine--full qual-submit"><button type="submit" class="btn btn--primary btn--lg btn--full">Continuer vers le créneau<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button></span>
+      <p class="qual-fine">Tes réponses restent confidentielles. Pas de spam.</p>
+    </form>
+  </div>
+</div>
+
 <script>
-/* ---- Lien Calendly (remplace par ton vrai lien) ---- */
+/* ---- Lien Calendly + backend du formulaire ---- */
 var CALENDLY = "https://calendly.com/defoin-arthur/accompagnement-arthur";
-document.querySelectorAll('[data-cta]').forEach(function(a){ a.setAttribute('href', CALENDLY); });
+/* Colle ici l'URL de ton Google Apps Script (voir setup fourni). Laisse vide = pas d'envoi, redirection directe. */
+var QUAL_ENDPOINT = "";
+
+/* Fallback sans JS : les boutons pointent vers Calendly. Avec JS : ils ouvrent le formulaire. */
+document.querySelectorAll('[data-cta]').forEach(function(a){
+  a.setAttribute('href', CALENDLY);
+  a.addEventListener('click', function(e){ e.preventDefault(); openQual(); });
+});
+
+var qual = document.getElementById('qual');
+var qualForm = document.getElementById('qual-form');
+function openQual(){ qual.hidden = false; document.body.style.overflow = 'hidden'; }
+function closeQual(){ qual.hidden = true; document.body.style.overflow = ''; }
+qual.querySelectorAll('[data-qual-close]').forEach(function(el){ el.addEventListener('click', closeQual); });
+qual.addEventListener('click', function(e){ if (e.target === qual) closeQual(); });
+window.addEventListener('keydown', function(e){ if (e.key === 'Escape' && !qual.hidden) closeQual(); });
+
+var redirected = false;
+function goCalendly(){
+  if (redirected) return; redirected = true;
+  var prenom = (qualForm.prenom.value || '').trim();
+  var email = (qualForm.email.value || '').trim();
+  var params = [];
+  if (prenom) params.push('name=' + encodeURIComponent(prenom));
+  if (email) params.push('email=' + encodeURIComponent(email));
+  var url = CALENDLY + (params.length ? ((CALENDLY.indexOf('?') > -1 ? '&' : '?') + params.join('&')) : '');
+  window.location.href = url;
+}
+qualForm.addEventListener('submit', function(e){
+  e.preventDefault();
+  var btn = qualForm.querySelector('button[type="submit"]');
+  if (btn) { btn.disabled = true; btn.style.opacity = '0.6'; btn.firstChild.textContent = 'Un instant…'; }
+  if (QUAL_ENDPOINT) {
+    fetch(QUAL_ENDPOINT, { method: 'POST', mode: 'no-cors', body: new FormData(qualForm) }).then(goCalendly).catch(goCalendly);
+    setTimeout(goCalendly, 2500); /* sécurité si la requête traîne */
+  } else {
+    goCalendly();
+  }
+});
 
 var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
