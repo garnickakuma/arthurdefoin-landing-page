@@ -2,5 +2,6 @@ design_package
 design_package.zip
 arthur-defoin/
 
-# VSL originale 1080p (230 Mo) — backup local, on commit la version web compressée
+# VSL originales 1080p — backups locaux, on commit les versions web compressées
 assets/vsl-source.mp4
+assets/vsl-02-source.mp4
