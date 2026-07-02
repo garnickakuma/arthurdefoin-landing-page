@@ -11,6 +11,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://assets.calendly.com/assets/external/widget.css">
+<script src="https://assets.calendly.com/assets/external/widget.js" async></script>
 <style>
 /* ============================================================
    Design tokens — Arthur Defoin DS (accent BLEU override actif)
@@ -97,6 +99,10 @@ img{max-width:100%;}
 .btn--primary{background:var(--green-500); color:var(--accent-fg); box-shadow:var(--glow-green);}
 .btn--primary:hover{background:var(--green-400); box-shadow:var(--glow-green-lg);}
 .btn:active{transform:scale(0.97);}
+.btn:disabled{opacity:0.4; cursor:not-allowed; box-shadow:none;}
+#calendly-embed{width:100%; min-width:280px; height:700px;}
+.qual-modal.calendly-mode{max-width:960px;}
+@media (max-width:640px){ #calendly-embed{height:1000px;} }
 .btn svg{transition:transform var(--dur-base) var(--ease-out);}
 .btn:hover svg{transform:translateX(3px);}
 
@@ -526,11 +532,13 @@ img{max-width:100%;}
           <label class="qual-opt"><input type="radio" name="q9_engagement" value="Oui, je serai là" required><span class="qual-radio-dot"></span><span class="qual-opt-label">Oui, je serai là</span></label>
           <label class="qual-opt"><input type="radio" name="q9_engagement" value="Non, je ne suis plus intéressé.e"><span class="qual-radio-dot"></span><span class="qual-opt-label">Non, je ne suis plus intéressé.e</span></label>
         </div>
+        <div class="qual-note" id="q9-note" hidden></div>
       </div>
 
       <span class="vsl-shine vsl-shine--full qual-submit"><button type="submit" class="btn btn--primary btn--lg btn--full">Continuer vers le créneau<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button></span>
       <p class="qual-fine">Tes réponses restent confidentielles. Pas de spam.</p>
     </form>
+    <div id="calendly-embed" hidden></div>
   </div>
 </div>
 
@@ -567,26 +575,68 @@ qualForm.addEventListener('change', function(e){
       }
     }
   }
+  if (e.target.name === 'q9_engagement') {
+    var note9 = document.getElementById('q9-note');
+    if (note9) {
+      if (e.target.value === "Non, je ne suis plus intéressé.e") {
+        note9.hidden = false;
+        note9.className = 'qual-note qual-note--warn';
+        note9.textContent = "Pas de souci — si tu n'es plus intéressé, inutile de réserver un créneau. Reviens quand tu veux.";
+      } else {
+        note9.hidden = true;
+      }
+    }
+  }
+  updateSubmitState();
 });
+
+/* Réponses disqualifiantes -> bouton "Continuer" bloqué */
+function isDisqualified(){
+  var q8 = qualForm.querySelector('input[name="q8_investissement"]:checked');
+  var q9 = qualForm.querySelector('input[name="q9_engagement"]:checked');
+  return (q8 && q8.value === "Là c'est un peu juste, mais je suis prêt à trouver une solution")
+      || (q9 && q9.value === "Non, je ne suis plus intéressé.e");
+}
+function updateSubmitState(){
+  var btn = qualForm.querySelector('button[type="submit"]');
+  if (btn) btn.disabled = isDisqualified();
+}
 function openQual(){ qual.hidden = false; document.body.style.overflow = 'hidden'; }
 function closeQual(){ qual.hidden = true; document.body.style.overflow = ''; }
 qual.querySelectorAll('[data-qual-close]').forEach(function(el){ el.addEventListener('click', closeQual); });
 qual.addEventListener('click', function(e){ if (e.target === qual) closeQual(); });
 window.addEventListener('keydown', function(e){ if (e.key === 'Escape' && !qual.hidden) closeQual(); });
 
-var redirected = false;
-function goCalendly(){
-  if (redirected) return; redirected = true;
+/* Affiche Calendly EMBARQUÉ dans le formulaire (pas de redirection) */
+var shown = false;
+function showCalendly(){
+  if (shown) return; shown = true;
   var prenom = (qualForm.prenom.value || '').trim();
   var email = (qualForm.email.value || '').trim();
-  var params = [];
-  if (prenom) params.push('name=' + encodeURIComponent(prenom));
-  if (email) params.push('email=' + encodeURIComponent(email));
-  var url = CALENDLY + (params.length ? ((CALENDLY.indexOf('?') > -1 ? '&' : '?') + params.join('&')) : '');
-  window.location.href = url;
+  var head = qual.querySelector('.qual-head');
+  if (head) head.hidden = true;
+  qualForm.hidden = true;
+  var modalEl = qual.querySelector('.qual-modal');
+  if (modalEl) modalEl.classList.add('calendly-mode');
+  var embed = document.getElementById('calendly-embed');
+  embed.hidden = false;
+  if (window.Calendly && Calendly.initInlineWidget) {
+    Calendly.initInlineWidget({
+      url: CALENDLY + '?hide_gdpr_banner=1&primary_color=2a7fe6',
+      parentElement: embed,
+      prefill: { name: prenom, email: email }
+    });
+  } else {
+    /* fallback si le widget n'a pas chargé : on redirige */
+    var params = [];
+    if (prenom) params.push('name=' + encodeURIComponent(prenom));
+    if (email) params.push('email=' + encodeURIComponent(email));
+    window.location.href = CALENDLY + (params.length ? '?' + params.join('&') : '');
+  }
 }
 qualForm.addEventListener('submit', function(e){
   e.preventDefault();
+  if (isDisqualified()) return; /* sécurité : pas de RDV si réponse disqualifiante */
   var btn = qualForm.querySelector('button[type="submit"]');
   if (btn) { btn.disabled = true; btn.style.opacity = '0.6'; btn.firstChild.textContent = 'Un instant…'; }
   if (QUAL_ENDPOINT) {
@@ -597,10 +647,10 @@ qualForm.addEventListener('submit', function(e){
     fd.delete('q7_autre');
     var body = new URLSearchParams();
     fd.forEach(function(v, k){ body.append(k, v); });
-    fetch(QUAL_ENDPOINT, { method: 'POST', mode: 'no-cors', body: body }).then(goCalendly).catch(goCalendly);
-    setTimeout(goCalendly, 2500); /* sécurité si la requête traîne */
+    fetch(QUAL_ENDPOINT, { method: 'POST', mode: 'no-cors', body: body }).then(showCalendly).catch(showCalendly);
+    setTimeout(showCalendly, 2500); /* sécurité si la requête traîne */
   } else {
-    goCalendly();
+    showCalendly();
   }
 });
 
