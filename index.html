@@ -273,7 +273,9 @@ img{max-width:100%;}
 .qual-opt:has(input:checked){border-color:var(--green-500); background:var(--green-soft);}
 .qual-opt input:focus-visible ~ .qual-radio-dot{box-shadow:0 0 0 3px var(--focus-ring);}
 .qual-opt-label{font-size:var(--fs-body); line-height:var(--lh-snug); color:var(--fg-1);}
-.qual-note{margin-top:12px; padding:13px 15px; border:1px solid rgba(245,181,68,0.4); background:rgba(245,181,68,0.1); border-radius:var(--r-md); font-size:var(--fs-body-sm); line-height:1.5; color:#F5D08A;}
+.qual-note{margin-top:12px; padding:13px 15px; border:1px solid transparent; border-radius:var(--r-md); font-size:var(--fs-body-sm); line-height:1.5;}
+.qual-note--warn{border-color:rgba(245,181,68,0.4); background:rgba(245,181,68,0.1); color:#F5D08A;}
+.qual-note--ok{border-color:var(--line-accent); background:var(--green-soft); color:var(--green-300);}
 .qual-submit{margin-top:var(--space-8);}
 .qual-fine{margin:var(--space-4) 0 0; text-align:center; font-size:var(--fs-caption); color:var(--fg-3);}
 @keyframes qualFade{from{opacity:0}to{opacity:1}}
@@ -515,7 +517,7 @@ img{max-width:100%;}
           <label class="qual-opt"><input type="radio" name="q8_investissement" value="J'ai plus de 10 000 € dispo, je suis déjà dans une vraie logique d'investissement"><span class="qual-radio-dot"></span><span class="qual-opt-label">J'ai plus de 10 000 € dispo, je suis déjà dans une vraie logique d'investissement</span></label>
           <label class="qual-opt"><input type="radio" name="q8_investissement" value="Là c'est un peu juste, mais je suis prêt à trouver une solution"><span class="qual-radio-dot"></span><span class="qual-opt-label">Là c'est un peu juste, mais je suis prêt à trouver une solution</span></label>
         </div>
-        <div class="qual-note" id="q8-note" hidden>En toute transparence : ma méthode repose sur de la publicité, donc sans un minimum de budget à investir, je ne pourrai pas t'accompagner pour le moment. Reviens vers moi dès que tu es prêt à investir — ce sera avec plaisir.</div>
+        <div class="qual-note" id="q8-note" hidden></div>
       </div>
 
       <div class="qual-q"><span class="q-label">Je comprends qu'Arthur prend le temps d'étudier chaque candidature. Je m'engage à être présent à l'appel que je réserve (sans quoi aucun autre créneau ne sera reproposé) <span class="q-req">*</span></span>
@@ -553,7 +555,16 @@ qualForm.addEventListener('change', function(e){
   }
   if (e.target.name === 'q8_investissement') {
     var note = document.getElementById('q8-note');
-    if (note) note.hidden = (e.target.value !== "Là c'est un peu juste, mais je suis prêt à trouver une solution");
+    if (note) {
+      note.hidden = false;
+      if (e.target.value === "Là c'est un peu juste, mais je suis prêt à trouver une solution") {
+        note.className = 'qual-note qual-note--warn';
+        note.textContent = "En toute transparence : ma méthode repose sur de la publicité, donc sans un minimum de budget à investir, je ne pourrai pas t'accompagner pour le moment. Reviens vers moi dès que tu es prêt à investir — ce sera avec plaisir.";
+      } else {
+        note.className = 'qual-note qual-note--ok';
+        note.textContent = "Super, on peut travailler ensemble ! Termine le formulaire et réserve ton créneau juste après.";
+      }
+    }
   }
 });
 function openQual(){ qual.hidden = false; document.body.style.overflow = 'hidden'; }
