@@ -437,9 +437,9 @@ img{max-width:100%;}
   <div class="vsl-footer-inner">
     <span class="vsl-logo">Arthur Defoin<span class="dot"></span></span>
     <div class="vsl-footer-links">
-      <a href="#">Mentions légales</a>
-      <a href="#">Confidentialité</a>
-      <a href="#">Contact</a>
+      <a href="mentions-legales.html">Mentions légales</a>
+      <a href="confidentialite.html">Confidentialité</a>
+      <a href="mailto:defoin.arthur@gmail.com">Contact</a>
     </div>
     <span class="vsl-copyright">© 2026 Arthur Defoin · Media buyer</span>
   </div>
@@ -462,7 +462,7 @@ img{max-width:100%;}
       <div class="qual-q"><label class="q-label" for="q-tel">Téléphone <span class="q-req">*</span></label>
         <input class="qual-input" id="q-tel" name="telephone" type="tel" required autocomplete="tel" placeholder="06 12 34 56 78"></div>
 
-      <div class="qual-q"><label class="q-label" for="q1">En une phrase : c'est quoi ton activité aujourd'hui, et à qui tu t'adresses ? <span class="q-req">*</span></label>
+      <div class="qual-q"><label class="q-label" for="q1">C'est quoi ton activité exactement, et à qui tu t'adresses ? <span class="q-req">*</span></label>
         <textarea class="qual-textarea" id="q1" name="q1_activite" required placeholder="Ex. Coach en reconversion pro pour cadres de 30-45 ans…"></textarea></div>
 
       <div class="qual-q"><label class="q-label" for="q2">Sur ton marché, pourquoi un client te choisit toi plutôt qu'un autre coach / formateur / thérapeute ? <span class="q-req">*</span></label>
@@ -482,31 +482,33 @@ img{max-width:100%;}
       <div class="qual-q"><label class="q-label" for="q4">Le chiffre que tu veux atteindre chaque mois d'ici 6 mois ? <span class="q-req">*</span></label>
         <input class="qual-input" id="q4" name="q4_objectif" type="text" required placeholder="Ex. 8 000 €/mois"></div>
 
-      <div class="qual-q"><label class="q-label" for="q5">Selon toi, qu'est-ce qui te bloque aujourd'hui pour y arriver ? <span class="q-req">*</span></label>
+      <div class="qual-q"><label class="q-label" for="q5">Selon toi, qu'est-ce qui te bloque aujourd'hui pour y arriver ? (plus tu es précis, plus l'appel sera utile) <span class="q-req">*</span></label>
         <textarea class="qual-textarea" id="q5" name="q5_blocage" required></textarea></div>
 
-      <div class="qual-q"><label class="q-label" for="q6">On ne prend pas tout le monde. Convaincs-nous : pourquoi toi, et qu'est-ce qui te rend sérieux pour qu'on aille chercher des résultats ensemble ? <span class="q-req">*</span></label>
+      <div class="qual-q"><label class="q-label" for="q6">Pourquoi ce serait malin qu'on investisse notre temps et notre énergie sur ton projet à toi ? <span class="q-req">*</span></label>
         <textarea class="qual-textarea" id="q6" name="q6_pourquoi" required></textarea></div>
 
-      <div class="qual-q"><span class="q-label">Si on décide de bosser ensemble, tu es opérationnel quand ? <span class="q-req">*</span></span>
+      <div class="qual-q"><span class="q-label">Si on décide de bosser ensemble, tu serais prêt à démarrer quand ? <span class="q-req">*</span></span>
         <div class="qual-opts">
           <label class="qual-opt"><input type="radio" name="q7_timing" value="Tout de suite" required><span class="qual-radio-dot"></span><span class="qual-opt-label">Tout de suite</span></label>
-          <label class="qual-opt"><input type="radio" name="q7_timing" value="D'ici un mois"><span class="qual-radio-dot"></span><span class="qual-opt-label">D'ici un mois</span></label>
-          <label class="qual-opt"><input type="radio" name="q7_timing" value="Plus tard"><span class="qual-radio-dot"></span><span class="qual-opt-label">Plus tard</span></label>
+          <label class="qual-opt"><input type="radio" name="q7_timing" value="Dans une semaine"><span class="qual-radio-dot"></span><span class="qual-opt-label">Dans une semaine</span></label>
+          <label class="qual-opt"><input type="radio" name="q7_timing" value="Dans deux semaines"><span class="qual-radio-dot"></span><span class="qual-opt-label">Dans deux semaines</span></label>
+          <label class="qual-opt"><input type="radio" name="q7_timing" value="Autre"><span class="qual-radio-dot"></span><span class="qual-opt-label">Autre</span></label>
         </div>
+        <input class="qual-input" name="q7_autre" id="q7-autre" type="text" placeholder="Précise…" hidden style="margin-top:8px">
       </div>
 
-      <div class="qual-q"><span class="q-label">Même si on est payés au % de tes résultats, lancer une acquisition demande un minimum de budget (pub, outils…). Tu te situes où ? <span class="q-req">*</span></span>
+      <div class="qual-q"><span class="q-label">Développer son acquisition demande un minimum de moyens (l'accompagnement + le budget publicitaire). On s'adapte à chaque situation, mais dis-nous où tu te situes côté budget : <span class="q-req">*</span></span>
         <div class="qual-opts">
-          <label class="qual-opt"><input type="radio" name="q8_investissement" value="J'ai 1 000 à 3 000 € de côté à mettre sur mon activité" required><span class="qual-radio-dot"></span><span class="qual-opt-label">J'ai 1 000 à 3 000 € de côté à mettre sur mon activité</span></label>
-          <label class="qual-opt"><input type="radio" name="q8_investissement" value="Je peux réunir 3 000 à 5 000 € en m'organisant (épargne, proche, financement)"><span class="qual-radio-dot"></span><span class="qual-opt-label">Je peux réunir 3 000 à 5 000 € en m'organisant (épargne, proche, financement)</span></label>
-          <label class="qual-opt"><input type="radio" name="q8_investissement" value="Je peux aller jusqu'à 5 000 – 10 000 € si le plan me convainc"><span class="qual-radio-dot"></span><span class="qual-opt-label">Je peux aller jusqu'à 5 000 – 10 000 € si le plan me convainc</span></label>
-          <label class="qual-opt"><input type="radio" name="q8_investissement" value="+10 000 € dispo, je suis déjà dans une logique d'investissement"><span class="qual-radio-dot"></span><span class="qual-opt-label">+10 000 € dispo, je suis déjà dans une logique d'investissement</span></label>
-          <label class="qual-opt"><input type="radio" name="q8_investissement" value="C'est serré en ce moment, mais je suis prêt à trouver une solution"><span class="qual-radio-dot"></span><span class="qual-opt-label">C'est serré en ce moment, mais je suis prêt à trouver une solution</span></label>
+          <label class="qual-opt"><input type="radio" name="q8_investissement" value="Je peux mettre entre 1 000 et 3 000 € pour lancer mon activité" required><span class="qual-radio-dot"></span><span class="qual-opt-label">Je peux mettre entre 1 000 et 3 000 € pour lancer mon activité</span></label>
+          <label class="qual-opt"><input type="radio" name="q8_investissement" value="J'ai accès à 3 000 – 5 000 € avec un peu d'organisation (épargne, proches, financement…)"><span class="qual-radio-dot"></span><span class="qual-opt-label">J'ai accès à 3 000 – 5 000 € avec un peu d'organisation (épargne, proches, financement…)</span></label>
+          <label class="qual-opt"><input type="radio" name="q8_investissement" value="Je peux aller jusqu'à 5 000 – 10 000 € si je sens que le jeu en vaut la chandelle"><span class="qual-radio-dot"></span><span class="qual-opt-label">Je peux aller jusqu'à 5 000 – 10 000 € si je sens que le jeu en vaut la chandelle</span></label>
+          <label class="qual-opt"><input type="radio" name="q8_investissement" value="J'ai plus de 10 000 € dispo, je suis déjà dans une vraie logique d'investissement"><span class="qual-radio-dot"></span><span class="qual-opt-label">J'ai plus de 10 000 € dispo, je suis déjà dans une vraie logique d'investissement</span></label>
+          <label class="qual-opt"><input type="radio" name="q8_investissement" value="Là c'est un peu juste, mais je suis prêt à trouver une solution"><span class="qual-radio-dot"></span><span class="qual-opt-label">Là c'est un peu juste, mais je suis prêt à trouver une solution</span></label>
         </div>
       </div>
 
-      <div class="qual-q"><span class="q-label">Ce créneau est bloqué rien que pour toi. Tu t'engages à être présent à 100 % ? (sinon aucun autre créneau ne sera proposé) <span class="q-req">*</span></span>
+      <div class="qual-q"><span class="q-label">Je comprends qu'Arthur prend le temps d'étudier chaque candidature. Je m'engage à être présent à l'appel que je réserve (sans quoi aucun autre créneau ne sera reproposé) <span class="q-req">*</span></span>
         <div class="qual-opts">
           <label class="qual-opt"><input type="radio" name="q9_engagement" value="Oui, je serai là" required><span class="qual-radio-dot"></span><span class="qual-opt-label">Oui, je serai là</span></label>
           <label class="qual-opt"><input type="radio" name="q9_engagement" value="Non, je ne suis plus intéressé.e"><span class="qual-radio-dot"></span><span class="qual-opt-label">Non, je ne suis plus intéressé.e</span></label>
@@ -533,6 +535,13 @@ document.querySelectorAll('[data-cta]').forEach(function(a){
 
 var qual = document.getElementById('qual');
 var qualForm = document.getElementById('qual-form');
+/* Affiche le champ texte quand "Autre" est coché à la Q7 */
+qualForm.addEventListener('change', function(e){
+  if (e.target.name === 'q7_timing') {
+    var other = document.getElementById('q7-autre');
+    if (other) other.hidden = (e.target.value !== 'Autre');
+  }
+});
 function openQual(){ qual.hidden = false; document.body.style.overflow = 'hidden'; }
 function closeQual(){ qual.hidden = true; document.body.style.overflow = ''; }
 qual.querySelectorAll('[data-qual-close]').forEach(function(el){ el.addEventListener('click', closeQual); });
@@ -555,8 +564,13 @@ qualForm.addEventListener('submit', function(e){
   var btn = qualForm.querySelector('button[type="submit"]');
   if (btn) { btn.disabled = true; btn.style.opacity = '0.6'; btn.firstChild.textContent = 'Un instant…'; }
   if (QUAL_ENDPOINT) {
+    var fd = new FormData(qualForm);
+    if (fd.get('q7_timing') === 'Autre' && (fd.get('q7_autre') || '').trim()) {
+      fd.set('q7_timing', 'Autre : ' + fd.get('q7_autre').trim());
+    }
+    fd.delete('q7_autre');
     var body = new URLSearchParams();
-    new FormData(qualForm).forEach(function(v, k){ body.append(k, v); });
+    fd.forEach(function(v, k){ body.append(k, v); });
     fetch(QUAL_ENDPOINT, { method: 'POST', mode: 'no-cors', body: body }).then(goCalendly).catch(goCalendly);
     setTimeout(goCalendly, 2500); /* sécurité si la requête traîne */
   } else {
