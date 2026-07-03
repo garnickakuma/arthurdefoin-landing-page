@@ -837,7 +837,7 @@ var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: re
   var pGrey = makePerson('#7A8480', 'rgba(60,66,63,0.6)');
 
   var SLOTS = 15; /* L->V, 3 créneaux par jour */
-  var N = (Math.min(window.innerWidth, window.innerHeight) < 700) ? 80 : 120;
+  var N = (Math.min(window.innerWidth, window.innerHeight) < 700) ? 38 : 56;
   var parts = [];
   (function(){
     var slotCursor = 0;
@@ -859,6 +859,11 @@ var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: re
         s: 5 + Math.random() * 6,
         tw: Math.random() * 6.283
       });
+    }
+    /* garantit au moins un prospect par créneau de l'agenda */
+    for (var i5 = 0; i5 < N && slotCursor < SLOTS; i5++){
+      var q5 = parts[i5];
+      if (!q5.pass2){ q5.pass1 = true; q5.pass2 = true; q5.slot = slotCursor++; }
     }
   })();
 
