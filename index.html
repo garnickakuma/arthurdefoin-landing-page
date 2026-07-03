@@ -823,6 +823,19 @@ var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: re
   var sprGrey = makeSprite('rgba(160,168,164,0.9)', 'rgba(91,100,96,0.5)');
   var sprGreen = makeSprite('rgba(224,255,240,1)', 'rgba(47,227,154,0.85)');
 
+  /* Pictos "personne" nets — les prospects deviennent des gens */
+  function makePerson(fill, glow){
+    var c = document.createElement('canvas'); c.width = c.height = 48;
+    var s = c.getContext('2d');
+    s.shadowColor = glow; s.shadowBlur = 5;
+    s.fillStyle = fill;
+    s.beginPath(); s.arc(24, 16, 7.5, 0, 6.2832); s.fill();
+    s.beginPath(); s.arc(24, 40, 13, Math.PI, 6.2832); s.closePath(); s.fill();
+    return c;
+  }
+  var pBlue = makePerson('#A8CFFF', 'rgba(79,160,255,0.9)');
+  var pGrey = makePerson('#7A8480', 'rgba(60,66,63,0.6)');
+
   var SLOTS = 30;
   var N = (Math.min(window.innerWidth, window.innerHeight) < 700) ? 80 : 120;
   var parts = [];
@@ -883,20 +896,24 @@ var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: re
     return geo.throatW + (geo.topW - geo.throatW) * Math.pow(1 - k, 1.7);
   }
 
-  /* Niveau de filtrage : ligne horizontale qui s'arrête aux parois + label */
-  function drawBar(y, label, alpha){
+  /* Niveau de filtrage : anneau elliptique dans l'entonnoir + label relié à gauche */
+  function drawLevel(y, label, alpha){
     if (alpha <= 0.01) return;
-    var x0 = cx - geo.barW / 2, x1 = cx + geo.barW / 2;
-    var inner = wallW(y) + 12;
-    ctx.lineCap = 'round';
-    ctx.strokeStyle = 'rgba(79,160,255,' + (0.45 * alpha).toFixed(3) + ')';
-    ctx.lineWidth = 1.5;
-    ctx.beginPath(); ctx.moveTo(x0, y); ctx.lineTo(cx - inner, y); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(cx + inner, y); ctx.lineTo(x1, y); ctx.stroke();
+    var w = wallW(y), ry = Math.max(5, w * 0.13);
+    ctx.beginPath(); ctx.ellipse(cx, y, w, ry, 0, Math.PI, 0);
+    ctx.strokeStyle = 'rgba(155,200,255,' + (0.25 * alpha).toFixed(3) + ')'; ctx.lineWidth = 1; ctx.stroke();
+    ctx.beginPath(); ctx.ellipse(cx, y, w, ry, 0, 0, Math.PI);
+    ctx.strokeStyle = 'rgba(178,214,255,' + (0.8 * alpha).toFixed(3) + ')'; ctx.lineWidth = 1.5; ctx.stroke();
+    var x0 = cx - geo.barW / 2;
     ctx.font = '700 10px "Geist Mono", monospace';
     ctx.textAlign = 'left';
     ctx.fillStyle = 'rgba(155,200,255,' + (0.95 * alpha).toFixed(3) + ')';
-    ctx.fillText(label, x0, y - 10);
+    ctx.fillText(label, x0, y - 7);
+    ctx.strokeStyle = 'rgba(79,160,255,' + (0.35 * alpha).toFixed(3) + ')';
+    ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(x0, y); ctx.lineTo(cx - w - 8, y); ctx.stroke();
+    ctx.fillStyle = 'rgba(214,233,255,' + (0.9 * alpha).toFixed(3) + ')';
+    ctx.beginPath(); ctx.arc(cx - w - 8, y, 2, 0, 6.2832); ctx.fill();
   }
 
   function roundRect(x, y, w, h, rad){
@@ -945,37 +962,85 @@ var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: re
       ctx.globalAlpha = 1;
     }
 
-    /* 2. L'entonnoir : parois courbes, VSL et FORMULAIRE comme niveaux */
+    /* 2. L'entonnoir de verre */
     var fA = ease(sub(p, 0.31, 0.37)) * (1 - ease(sub(p, 0.60, 0.68)));
     if (fA > 0.01){
-      /* axe central en pointillés */
-      ctx.setLineDash([2, 6]);
-      ctx.strokeStyle = 'rgba(79,160,255,' + (0.14 * fA).toFixed(3) + ')';
-      ctx.lineWidth = 1;
-      ctx.beginPath(); ctx.moveTo(cx, geo.yTop - 36); ctx.lineTo(cx, geo.yG - 24); ctx.stroke();
-      ctx.setLineDash([]);
-      /* parois (halo large puis trait net) */
+      var yT = geo.yTop, yTh = geo.yThroat, tw2 = geo.topW, thw = geo.throatW;
+      var rimRy = Math.max(10, tw2 * 0.13);
+
+      /* volume intérieur (verre teinté) */
+      var gGlass = ctx.createLinearGradient(0, yT, 0, yTh + 26);
+      gGlass.addColorStop(0, 'rgba(79,160,255,' + (0.10 * fA).toFixed(3) + ')');
+      gGlass.addColorStop(1, 'rgba(42,127,230,' + (0.02 * fA).toFixed(3) + ')');
+      ctx.beginPath();
+      for (var si = 0; si <= 24; si++){
+        var wy2 = yT + (yTh - yT) * (si / 24);
+        var wx2 = cx - wallW(wy2);
+        if (si === 0) ctx.moveTo(wx2, wy2); else ctx.lineTo(wx2, wy2);
+      }
+      ctx.lineTo(cx - thw, yTh + 26); ctx.lineTo(cx + thw, yTh + 26);
+      for (var sj = 24; sj >= 0; sj--){
+        var wy3 = yT + (yTh - yT) * (sj / 24);
+        ctx.lineTo(cx + wallW(wy3), wy3);
+      }
+      ctx.closePath();
+      ctx.fillStyle = gGlass; ctx.fill();
+
+      /* parois en dégradé lumineux */
+      var gWall = ctx.createLinearGradient(0, yT, 0, yTh + 26);
+      gWall.addColorStop(0, 'rgba(178,214,255,' + (0.95 * fA).toFixed(3) + ')');
+      gWall.addColorStop(0.5, 'rgba(79,160,255,' + (0.6 * fA).toFixed(3) + ')');
+      gWall.addColorStop(1, 'rgba(79,160,255,' + (0.28 * fA).toFixed(3) + ')');
       ctx.lineCap = 'round'; ctx.lineJoin = 'round';
       for (var sgn = -1; sgn <= 1; sgn += 2){
-        for (var wpass = 0; wpass < 2; wpass++){
-          ctx.beginPath();
-          for (var si = 0; si <= 24; si++){
-            var wy2 = geo.yTop + (geo.yThroat - geo.yTop) * (si / 24);
-            var wx2 = cx + sgn * wallW(wy2);
-            if (si === 0) ctx.moveTo(wx2, wy2); else ctx.lineTo(wx2, wy2);
-          }
-          ctx.lineTo(cx + sgn * geo.throatW, geo.yThroat + 26);
-          if (wpass === 0){ ctx.strokeStyle = 'rgba(79,160,255,' + (0.15 * fA).toFixed(3) + ')'; ctx.lineWidth = 7; }
-          else { ctx.strokeStyle = 'rgba(79,160,255,' + (0.8 * fA).toFixed(3) + ')'; ctx.lineWidth = 2; }
-          ctx.stroke();
+        ctx.beginPath();
+        for (var sk = 0; sk <= 24; sk++){
+          var wy4 = yT + (yTh - yT) * (sk / 24);
+          var wx4 = cx + sgn * wallW(wy4);
+          if (sk === 0) ctx.moveTo(wx4, wy4); else ctx.lineTo(wx4, wy4);
         }
+        ctx.lineTo(cx + sgn * thw, yTh + 26);
+        ctx.strokeStyle = gWall; ctx.lineWidth = 2; ctx.stroke();
       }
-      /* lueur de la gorge */
-      ctx.globalAlpha = 0.55 * fA;
-      ctx.drawImage(spr, cx - 13, geo.yThroat - 6, 26, 26);
+
+      /* lignes de flux animées à l'intérieur */
+      ctx.setLineDash([3, 9]);
+      ctx.lineDashOffset = -t * 26;
+      ctx.lineWidth = 1;
+      var flows = [-0.5, 0, 0.5];
+      for (var fi = 0; fi < 3; fi++){
+        ctx.beginPath();
+        for (var sm = 0; sm <= 20; sm++){
+          var fy = yT + 8 + (yTh - yT - 8) * (sm / 20);
+          var fx = cx + flows[fi] * (wallW(fy) - 14);
+          if (sm === 0) ctx.moveTo(fx, fy); else ctx.lineTo(fx, fy);
+        }
+        ctx.strokeStyle = 'rgba(155,200,255,' + (0.16 * fA).toFixed(3) + ')';
+        ctx.stroke();
+      }
+      ctx.setLineDash([]); ctx.lineDashOffset = 0;
+
+      /* embouchure : ellipse 3D */
+      ctx.beginPath(); ctx.ellipse(cx, yT, tw2, rimRy, 0, Math.PI, 0);
+      ctx.strokeStyle = 'rgba(178,214,255,' + (0.35 * fA).toFixed(3) + ')'; ctx.lineWidth = 1.5; ctx.stroke();
+      ctx.beginPath(); ctx.ellipse(cx, yT, tw2, rimRy, 0, 0, Math.PI);
+      ctx.strokeStyle = 'rgba(214,233,255,' + (0.9 * fA).toFixed(3) + ')'; ctx.lineWidth = 2; ctx.stroke();
+
+      /* niveaux */
+      drawLevel(geo.yF1, 'VSL', fA);
+      drawLevel(geo.yF2, 'FORMULAIRE', fA);
+
+      /* gorge : ellipse, lueur et jet de sortie */
+      ctx.beginPath(); ctx.ellipse(cx, yTh + 26, thw, 5, 0, 0, 6.2832);
+      ctx.strokeStyle = 'rgba(214,233,255,' + (0.85 * fA).toFixed(3) + ')'; ctx.lineWidth = 1.5; ctx.stroke();
+      ctx.globalAlpha = 0.6 * fA;
+      ctx.drawImage(spr, cx - 14, yTh + 12, 28, 28);
       ctx.globalAlpha = 1;
-      drawBar(geo.yF1, 'VSL', fA);
-      drawBar(geo.yF2, 'FORMULAIRE', fA);
+      var gJet = ctx.createLinearGradient(0, yTh + 30, 0, yTh + 78);
+      gJet.addColorStop(0, 'rgba(155,200,255,' + (0.5 * fA).toFixed(3) + ')');
+      gJet.addColorStop(1, 'rgba(155,200,255,0)');
+      ctx.strokeStyle = gJet; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.moveTo(cx, yTh + 30); ctx.lineTo(cx, yTh + 78); ctx.stroke();
     }
 
     /* 2b. Croix grises aux points de fuite */
@@ -1125,8 +1190,20 @@ var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: re
         }
       }
       if (a <= 0.02) continue;
-      ctx.globalAlpha = Math.min(a, 1);
-      ctx.drawImage(im, x - q.s, y - q.s, q.s * 2, q.s * 2);
+      if (j < 1){
+        /* ciel étoilé → personne : fondu pendant la convergence */
+        ctx.globalAlpha = Math.min(a, 1) * (1 - j);
+        ctx.drawImage(spr, x - q.s, y - q.s, q.s * 2, q.s * 2);
+        if (j > 0.01){
+          var ps0 = 8 + q.s;
+          ctx.globalAlpha = Math.min(a, 1) * j;
+          ctx.drawImage(pBlue, x - ps0 / 2, y - ps0 / 2, ps0, ps0);
+        }
+      } else {
+        var ps = 8 + q.s;
+        ctx.globalAlpha = Math.min(a, 1);
+        ctx.drawImage(im === sprGrey ? pGrey : pBlue, x - ps / 2, y - ps / 2, ps, ps);
+      }
       ctx.globalAlpha = 1;
     }
   }
