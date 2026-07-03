@@ -862,6 +862,10 @@ var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: re
       barW: Math.min(W - 72, 460),
       slit: 15
     };
+    geo.yTop = geo.yF1 - 60;          /* embouchure de l'entonnoir */
+    geo.yThroat = geo.yF2 + 44;       /* gorge (sortie) */
+    geo.topW = Math.max(110, Math.min(W * 0.28, 190));
+    geo.throatW = 22;
     var gw = Math.min(W - 56, 440), cw = gw / 6;
     var chh = Math.min(cw * 0.62, 30);
     grid = { x0: cx - gw / 2, y0: H * 0.24, cw: cw, chh: chh, gap: 7 };
@@ -873,22 +877,22 @@ var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: re
   }
   function slotT(i){ return 0.70 + (i / SLOTS) * 0.20; }
 
-  /* Barrière de filtrage : ligne avec passage central lumineux + label */
+  /* Demi-largeur de l'entonnoir à la hauteur y (large en haut, étroit à la gorge) */
+  function wallW(y){
+    var k = clamp01((y - geo.yTop) / (geo.yThroat - geo.yTop));
+    return geo.throatW + (geo.topW - geo.throatW) * Math.pow(1 - k, 1.7);
+  }
+
+  /* Niveau de filtrage : ligne horizontale qui s'arrête aux parois + label */
   function drawBar(y, label, alpha){
     if (alpha <= 0.01) return;
-    var x0 = cx - geo.barW / 2, x1 = cx + geo.barW / 2, g = geo.slit;
+    var x0 = cx - geo.barW / 2, x1 = cx + geo.barW / 2;
+    var inner = wallW(y) + 12;
     ctx.lineCap = 'round';
-    ctx.strokeStyle = 'rgba(79,160,255,' + (0.55 * alpha).toFixed(3) + ')';
+    ctx.strokeStyle = 'rgba(79,160,255,' + (0.45 * alpha).toFixed(3) + ')';
     ctx.lineWidth = 1.5;
-    ctx.beginPath(); ctx.moveTo(x0, y); ctx.lineTo(cx - g, y); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(cx + g, y); ctx.lineTo(x1, y); ctx.stroke();
-    ctx.strokeStyle = 'rgba(214,233,255,' + (0.95 * alpha).toFixed(3) + ')';
-    ctx.lineWidth = 2;
-    ctx.beginPath(); ctx.moveTo(cx - g, y - 7); ctx.lineTo(cx - g, y + 7); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(cx + g, y - 7); ctx.lineTo(cx + g, y + 7); ctx.stroke();
-    ctx.globalAlpha = 0.5 * alpha;
-    ctx.drawImage(spr, cx - 12, y - 12, 24, 24);
-    ctx.globalAlpha = 1;
+    ctx.beginPath(); ctx.moveTo(x0, y); ctx.lineTo(cx - inner, y); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx + inner, y); ctx.lineTo(x1, y); ctx.stroke();
     ctx.font = '700 10px "Geist Mono", monospace';
     ctx.textAlign = 'left';
     ctx.fillStyle = 'rgba(155,200,255,' + (0.95 * alpha).toFixed(3) + ')';
@@ -941,31 +945,50 @@ var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: re
       ctx.globalAlpha = 1;
     }
 
-    /* 2. Les deux barrières de filtrage : VSL puis FORMULAIRE */
+    /* 2. L'entonnoir : parois courbes, VSL et FORMULAIRE comme niveaux */
     var fA = ease(sub(p, 0.31, 0.37)) * (1 - ease(sub(p, 0.60, 0.68)));
     if (fA > 0.01){
-      /* couloir central en pointillés */
+      /* axe central en pointillés */
       ctx.setLineDash([2, 6]);
       ctx.strokeStyle = 'rgba(79,160,255,' + (0.14 * fA).toFixed(3) + ')';
       ctx.lineWidth = 1;
-      ctx.beginPath(); ctx.moveTo(cx, geo.yF1 - 90); ctx.lineTo(cx, geo.yG - 24); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(cx, geo.yTop - 36); ctx.lineTo(cx, geo.yG - 24); ctx.stroke();
       ctx.setLineDash([]);
+      /* parois (halo large puis trait net) */
+      ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+      for (var sgn = -1; sgn <= 1; sgn += 2){
+        for (var wpass = 0; wpass < 2; wpass++){
+          ctx.beginPath();
+          for (var si = 0; si <= 24; si++){
+            var wy2 = geo.yTop + (geo.yThroat - geo.yTop) * (si / 24);
+            var wx2 = cx + sgn * wallW(wy2);
+            if (si === 0) ctx.moveTo(wx2, wy2); else ctx.lineTo(wx2, wy2);
+          }
+          ctx.lineTo(cx + sgn * geo.throatW, geo.yThroat + 26);
+          if (wpass === 0){ ctx.strokeStyle = 'rgba(79,160,255,' + (0.15 * fA).toFixed(3) + ')'; ctx.lineWidth = 7; }
+          else { ctx.strokeStyle = 'rgba(79,160,255,' + (0.8 * fA).toFixed(3) + ')'; ctx.lineWidth = 2; }
+          ctx.stroke();
+        }
+      }
+      /* lueur de la gorge */
+      ctx.globalAlpha = 0.55 * fA;
+      ctx.drawImage(spr, cx - 13, geo.yThroat - 6, 26, 26);
+      ctx.globalAlpha = 1;
       drawBar(geo.yF1, 'VSL', fA);
       drawBar(geo.yF2, 'FORMULAIRE', fA);
     }
 
-    /* 2b. Croix grises aux points de rejet */
-    if (p > 0.30 && p < 0.75){
+    /* 2b. Croix grises aux points de fuite */
+    if (p > 0.30 && p < 0.80){
       for (var i3 = 0; i3 < N; i3++){
         var qq = parts[i3];
         if (qq.pass2) continue;
         var S = 0.35 + qq.d2;
-        var rejAt, ry2;
-        if (!qq.pass1){ rejAt = S + 0.22 * 0.30; ry2 = geo.yF1; }
-        else { rejAt = S + 0.22 * 0.60; ry2 = geo.yF2; }
+        var rejAt, xx, yy;
+        if (!qq.pass1){ rejAt = S + 0.22 * 0.20; xx = cx + qq.side * (geo.topW + 36); yy = geo.yTop - 4; }
+        else { rejAt = S + 0.22 * 0.50; xx = cx + qq.side * (wallW(geo.yF2) + 44); yy = geo.yF2 - 8; }
         var xa = ease(sub(p, rejAt, rejAt + 0.015)) * (1 - ease(sub(p, rejAt + 0.05, rejAt + 0.09)));
         if (xa <= 0.01) continue;
-        var xx = cx + qq.side * 27, yy = ry2 - 14;
         ctx.strokeStyle = 'rgba(139,148,143,' + (0.9 * xa).toFixed(3) + ')';
         ctx.lineWidth = 1.6; ctx.lineCap = 'round';
         ctx.beginPath(); ctx.moveTo(xx - 4, yy - 4); ctx.lineTo(xx + 4, yy + 4); ctx.stroke();
@@ -1051,37 +1074,45 @@ var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: re
         a = 0.55 + 0.45 * Math.sin(t * 2.4 + q.tw);
       } else {
         var e = ease(sub(p, 0.35 + q.d2, 0.57 + q.d2));
+        var f = Math.max(-0.9, Math.min(0.9, q.qx / 34)); /* position latérale dans l'entonnoir */
         if (e <= 0){
-          /* en file d'attente au-dessus du filtre VSL */
+          /* en suspension au-dessus de l'embouchure */
           x = qxx + Math.cos(t * 1.2 + q.tw) * 5;
           y = qyy + Math.sin(t * 1.5 + q.tw) * 4;
           a = 0.8;
-        } else if (e < 0.30){
-          /* descente vers le passage du filtre VSL */
-          var u = e / 0.30;
-          x = lerp(qxx, cx, u); y = lerp(qyy, geo.yF1, u);
+        } else if (e < 0.20){
+          /* tombe dans l'embouchure de l'entonnoir */
+          var u = e / 0.20;
+          x = lerp(qxx, cx + f * (wallW(geo.yTop + 10) - 10), u);
+          y = lerp(qyy, geo.yTop + 10, u);
         } else if (!q.pass1){
-          /* écarté par la VSL */
-          var u1 = (e - 0.30) / 0.70;
-          x = cx + q.side * u1 * (50 + 90 * u1);
-          y = geo.yF1 - 4 + Math.sin(u1 * 2.4) * 6;
+          /* s'échappe par-dessus le bord, grisonne et disparaît */
+          var u1 = Math.min((e - 0.20) / 0.60, 1);
+          var bx = cx + f * (wallW(geo.yTop + 10) - 10);
+          x = lerp(bx, cx + q.side * (geo.topW + 40), Math.min(u1 * 1.8, 1)) + q.side * u1 * u1 * 90;
+          y = geo.yTop + 10 - Math.sin(Math.min(u1 * 1.7, 3.1)) * 36 + u1 * u1 * 180;
           a = 1 - u1; im = sprGrey;
-        } else if (e < 0.60){
-          /* traversée VSL -> FORMULAIRE */
-          var u2 = (e - 0.30) / 0.30;
-          x = cx + Math.sin(u2 * 6.28 + q.tw) * 2.5;
-          y = lerp(geo.yF1, geo.yF2, u2);
+        } else if (e < 0.50){
+          /* glisse le long des parois : niveau VSL -> FORMULAIRE */
+          var u2 = (e - 0.20) / 0.30;
+          y = lerp(geo.yTop + 10, geo.yF2, u2);
+          x = cx + f * (wallW(y) - 10) + Math.sin(t * 2 + q.tw) * 1.5;
         } else if (!q.pass2){
-          /* écarté par le formulaire */
-          var u3 = (e - 0.60) / 0.40;
-          x = cx + q.side * u3 * (50 + 90 * u3);
-          y = geo.yF2 - 4 + Math.sin(u3 * 2.4) * 6;
+          /* fuit à travers la paroi au niveau du formulaire */
+          var u3 = Math.min((e - 0.50) / 0.50, 1);
+          x = cx + q.side * (wallW(geo.yF2) + u3 * (60 + 110 * u3));
+          y = geo.yF2 + Math.sin(u3 * 2.2) * 8 + u3 * u3 * 120;
           a = 1 - u3; im = sprGrey;
+        } else if (e < 0.75){
+          /* convergence vers la gorge */
+          var u4 = (e - 0.50) / 0.25;
+          y = lerp(geo.yF2, geo.yThroat, u4);
+          x = cx + f * (wallW(y) - 10);
         } else if (e < 1){
-          /* sortie du filtre vers l'amas des qualifiés */
-          var u4 = (e - 0.60) / 0.40;
-          x = lerp(cx, cx + q.gx, u4);
-          y = lerp(geo.yF2, geo.yG + q.gy2, u4);
+          /* jaillit de la gorge vers l'amas des qualifiés */
+          var u5 = (e - 0.75) / 0.25;
+          x = lerp(cx + f * (geo.throatW - 10), cx + q.gx, u5);
+          y = lerp(geo.yThroat, geo.yG + q.gy2, u5);
         } else {
           /* amas des qualifiés, puis envol vers le créneau */
           var e3 = ease(sub(p, slotT(q.slot) - 0.05, slotT(q.slot)));
