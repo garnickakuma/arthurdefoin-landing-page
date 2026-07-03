@@ -167,9 +167,20 @@ img{max-width:100%;}
 /* hero */
 .vsl-hero-section{position:relative; overflow:hidden; padding-top:clamp(44px,7vw,92px);}
 .vsl-veil{position:absolute; inset:0; pointer-events:none; background:var(--grad-veil);}
+/* Lumière vivante : nappes aurora qui dérivent lentement derrière le hero */
+.vsl-aurora{position:absolute; inset:0; overflow:hidden; pointer-events:none;}
+.vsl-aurora span{position:absolute; width:72vw; height:72vw; max-width:880px; max-height:880px; border-radius:50%; will-change:transform;}
+.vsl-aurora .a1{top:-34%; left:-18%; background:radial-gradient(circle, rgba(42,127,230,0.17), transparent 62%); animation:vslAuroraA 19s var(--ease-in-out) infinite alternate;}
+.vsl-aurora .a2{top:-24%; right:-26%; background:radial-gradient(circle, rgba(79,160,255,0.11), transparent 62%); animation:vslAuroraB 25s var(--ease-in-out) infinite alternate;}
+@keyframes vslAuroraA{to{transform:translate3d(9%,7%,0) scale(1.18)}}
+@keyframes vslAuroraB{to{transform:translate3d(-11%,5%,0) scale(0.9)}}
+/* Grain cinéma très léger sur tout le hero */
+.vsl-grain{position:absolute; inset:0; pointer-events:none; opacity:0.045; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");}
 .vsl-hero-section > .vsl-container{position:relative;}
 .vsl-h1{margin:0; font-family:var(--font-display); font-weight:var(--fw-bold); font-size:clamp(2.35rem, 0.9rem + 6.2vw, 5.75rem); line-height:1.05; letter-spacing:var(--ls-tight); color:var(--fg-0);}
-.vsl-h1 .accent{background:var(--grad-accent); -webkit-background-clip:text; background-clip:text; color:transparent;}
+/* Shimmer lent sur le mot accentué du titre */
+.vsl-h1 .accent{background:linear-gradient(90deg, #4FA0FF, #9BC8FF, #1F63C4, #4FA0FF); background-size:200% 100%; -webkit-background-clip:text; background-clip:text; color:transparent; animation:vslAccentShimmer 9s linear infinite;}
+@keyframes vslAccentShimmer{from{background-position:0% 0}to{background-position:200% 0}}
 .vsl-h1-big{display:inline-block; font-size:1.32em; line-height:0.95;}
 .hero-rotator{font-family:var(--font-mono); font-size:clamp(1.05rem,0.85rem+1vw,1.6rem); font-weight:var(--fw-bold); letter-spacing:var(--ls-eyebrow); text-transform:uppercase; color:var(--green-300); line-height:1;}
 .rot-word{display:inline-block; transition:opacity 0.35s var(--ease-out), transform 0.35s var(--ease-out);}
@@ -312,6 +323,7 @@ img{max-width:100%;}
   .vp-play, .vp-play::after, .vsl-shine::after, .vsl-count-flash{animation:none !important;}
   .reveal{opacity:1 !important; transform:none !important; transition:none !important;}
   .badge-dot::before{animation:none !important;}
+  .vsl-aurora span, .vsl-h1 .accent{animation:none !important;}
 }
 </style>
 </head>
@@ -330,6 +342,7 @@ img{max-width:100%;}
 <main>
   <!-- HERO -->
   <section class="vsl-hero-section">
+    <div class="vsl-aurora" aria-hidden="true"><span class="a1"></span><span class="a2"></span></div>
     <div class="vsl-veil" id="veil"></div>
     <div class="vsl-container">
       <div class="vsl-hero-centre">
@@ -367,6 +380,7 @@ img{max-width:100%;}
         <div class="reveal" style="transition-delay:220ms"><div class="stat"><div class="stat-value accent"><span class="countup" data-value="5j">5j</span></div><div class="stat-label">avant les 1ers RDV</div></div></div>
       </div>
     </div>
+    <div class="vsl-grain" aria-hidden="true"></div>
   </section>
 
   <!-- POUR QUI -->
