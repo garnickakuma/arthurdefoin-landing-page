@@ -235,8 +235,9 @@ img{max-width:100%;}
 .scrolly-chapter{position:absolute; left:0; right:0; bottom:clamp(30px,7vh,72px); display:flex; flex-direction:column; align-items:center; gap:8px; text-align:center; padding:0 var(--gutter); opacity:0;}
 .scrolly-n{font-family:var(--font-mono); font-size:var(--fs-micro); font-weight:700; letter-spacing:var(--ls-eyebrow); text-transform:uppercase; color:var(--green-300);}
 .scrolly-chapter p{margin:0; font-family:var(--font-display); font-weight:var(--fw-semibold); font-size:clamp(1.3rem, 1rem + 1.8vw, 2.1rem); color:var(--fg-0); letter-spacing:var(--ls-snug); max-width:22ch;}
-.scrolly-count{font-family:var(--font-mono); font-size:var(--fs-caption); letter-spacing:var(--ls-wide); text-transform:uppercase; color:var(--green-300);}
-.scrolly-count b{font-family:var(--font-display); font-size:1.7em; color:var(--green-400); font-weight:700;}
+.scrolly-sub{font-family:var(--font-body); font-size:var(--fs-body-sm); line-height:1.5; color:var(--fg-2); max-width:36ch;}
+.scrolly-count{font-family:var(--font-mono); font-size:var(--fs-caption); letter-spacing:var(--ls-wide); text-transform:uppercase; color:#7BEFC0;}
+.scrolly-count b{font-family:var(--font-display); font-size:1.7em; color:#2FE39A; font-weight:700;}
 .scrolly-cta{position:absolute; left:0; right:0; bottom:clamp(30px,7vh,72px); display:flex; justify-content:center; opacity:0;}
 .scrolly-cta.on{pointer-events:auto;}
 .scrolly-fallback{display:none;}
@@ -462,16 +463,18 @@ img{max-width:100%;}
           </div>
           <div class="scrolly-chapter" data-step="0">
             <span class="scrolly-n">01 — Capter</span>
-            <p>Tes pubs captent l'attention des bons profils.</p>
+            <p>Tes pubs captent l'attention.</p>
+            <span class="scrolly-sub">Les bons profils entrent dans la machine.</span>
           </div>
           <div class="scrolly-chapter" data-step="1">
             <span class="scrolly-n">02 — Filtrer</span>
-            <p>La VSL et le formulaire écartent les curieux.</p>
+            <p>Ta VSL + ton formulaire filtrent.</p>
+            <span class="scrolly-sub">Les curieux sont écartés — seuls les profils sérieux passent.</span>
           </div>
           <div class="scrolly-chapter" data-step="2">
             <span class="scrolly-n">03 — Remplir</span>
             <p>Ton agenda se remplit.</p>
-            <span class="scrolly-count">+<b id="machine-count">0</b> appels qualifiés</span>
+            <span class="scrolly-count">+<b id="machine-count">0</b> RDV qualifiés</span>
           </div>
           <div class="scrolly-cta" data-step="cta">
             <span class="vsl-shine"><a class="btn btn--primary btn--lg" href="#" data-cta>Réserver mon appel gratuit<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></span>
@@ -800,7 +803,7 @@ var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: re
   var countEl = document.getElementById('machine-count');
 
   var DPR = Math.min(window.devicePixelRatio || 1, 2);
-  var W = 0, H = 0, cx = 0, gy = 0, grid = null;
+  var W = 0, H = 0, cx = 0, geo = null, grid = null;
 
   function clamp01(v){ return v < 0 ? 0 : v > 1 ? 1 : v; }
   function sub(p, a, b){ return clamp01((p - a) / (b - a)); }
@@ -818,23 +821,29 @@ var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: re
   }
   var spr = makeSprite('rgba(224,238,255,1)', 'rgba(79,160,255,0.85)');
   var sprGrey = makeSprite('rgba(160,168,164,0.9)', 'rgba(91,100,96,0.5)');
+  var sprGreen = makeSprite('rgba(224,255,240,1)', 'rgba(47,227,154,0.85)');
 
   var SLOTS = 30;
-  var N = (Math.min(window.innerWidth, window.innerHeight) < 700) ? 85 : 130;
+  var N = (Math.min(window.innerWidth, window.innerHeight) < 700) ? 80 : 120;
   var parts = [];
   (function(){
     var slotCursor = 0;
     for (var i = 0; i < N; i++){
-      var pass = Math.random() < 0.75;
+      var pass1 = Math.random() < 0.88;
+      var pass2 = pass1 && Math.random() < 0.86;
       parts.push({
-        rx: Math.random(), ry: Math.random(),
-        wa: Math.random() * 6.283, wr: 14 + Math.random() * 46, ws: 0.4 + Math.random() * 0.8,
-        cpx: (Math.random() - 0.5) * 260, cpy: (Math.random() - 0.5) * 180,
-        d: Math.random() * 0.22,
-        pass: pass,
-        slot: pass ? (slotCursor++ % SLOTS) : -1,
-        dx: (Math.random() < 0.5 ? -1 : 1) * (0.5 + Math.random()), dy: 0.3 + Math.random() * 0.8,
-        s: 5 + Math.random() * 7,
+        rx: Math.random(), ry: Math.random() * 0.85,
+        wa: Math.random() * 6.283, wr: 12 + Math.random() * 40, ws: 0.4 + Math.random() * 0.7,
+        cpx: (Math.random() - 0.5) * 220, cpy: (Math.random() - 0.5) * 140,
+        qx: (Math.random() - 0.5) * 64,
+        qy: -(55 + Math.random() * 115),
+        d: Math.random() * 0.10,
+        d2: Math.random() * 0.10,
+        pass1: pass1, pass2: pass2,
+        side: Math.random() < 0.5 ? -1 : 1,
+        slot: pass2 ? (slotCursor++ % SLOTS) : -1,
+        gx: (Math.random() - 0.5) * 78, gy2: (Math.random() - 0.5) * 26,
+        s: 5 + Math.random() * 6,
         tw: Math.random() * 6.283
       });
     }
@@ -844,17 +853,47 @@ var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: re
     W = stage.clientWidth; H = stage.clientHeight;
     canvas.width = W * DPR; canvas.height = H * DPR;
     ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
-    cx = W / 2; gy = H * 0.32;
+    cx = W / 2;
+    geo = {
+      yBeacon: H * 0.20,
+      yF1: H * 0.36,
+      yF2: H * 0.50,
+      yG: H * 0.64,
+      barW: Math.min(W - 72, 460),
+      slit: 15
+    };
     var gw = Math.min(W - 56, 440), cw = gw / 6;
     var chh = Math.min(cw * 0.62, 30);
-    grid = { x0: cx - gw / 2, y0: H * 0.45, cw: cw, chh: chh, gap: 7 };
+    grid = { x0: cx - gw / 2, y0: H * 0.24, cw: cw, chh: chh, gap: 7 };
   }
 
   function slotCenter(i){
     var col = i % 6, row = Math.floor(i / 6);
     return { x: grid.x0 + col * grid.cw + grid.cw / 2, y: grid.y0 + row * (grid.chh + grid.gap) + grid.chh / 2 };
   }
-  function slotT(i){ return 0.62 + (i / SLOTS) * 0.30; }
+  function slotT(i){ return 0.70 + (i / SLOTS) * 0.20; }
+
+  /* Barrière de filtrage : ligne avec passage central lumineux + label */
+  function drawBar(y, label, alpha){
+    if (alpha <= 0.01) return;
+    var x0 = cx - geo.barW / 2, x1 = cx + geo.barW / 2, g = geo.slit;
+    ctx.lineCap = 'round';
+    ctx.strokeStyle = 'rgba(79,160,255,' + (0.55 * alpha).toFixed(3) + ')';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.moveTo(x0, y); ctx.lineTo(cx - g, y); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx + g, y); ctx.lineTo(x1, y); ctx.stroke();
+    ctx.strokeStyle = 'rgba(214,233,255,' + (0.95 * alpha).toFixed(3) + ')';
+    ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(cx - g, y - 7); ctx.lineTo(cx - g, y + 7); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx + g, y - 7); ctx.lineTo(cx + g, y + 7); ctx.stroke();
+    ctx.globalAlpha = 0.5 * alpha;
+    ctx.drawImage(spr, cx - 12, y - 12, 24, 24);
+    ctx.globalAlpha = 1;
+    ctx.font = '700 10px "Geist Mono", monospace';
+    ctx.textAlign = 'left';
+    ctx.fillStyle = 'rgba(155,200,255,' + (0.95 * alpha).toFixed(3) + ')';
+    ctx.fillText(label, x0, y - 10);
+  }
 
   function roundRect(x, y, w, h, rad){
     ctx.moveTo(x + rad, y);
@@ -869,13 +908,13 @@ var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: re
     var io = 1 - ease(sub(p, 0.03, 0.10));
     copyIntro.style.opacity = io;
     copyIntro.style.transform = 'translateY(' + ((1 - io) * -16) + 'px)';
-    var ranges = [[0.08, 0.14, 0.28, 0.34], [0.34, 0.40, 0.54, 0.60], [0.60, 0.66, 0.92, 0.97]];
+    var ranges = [[0.07, 0.12, 0.28, 0.33], [0.34, 0.39, 0.58, 0.63], [0.66, 0.71, 0.87, 0.91]];
     for (var i = 0; i < 3; i++){
       var o = ease(sub(p, ranges[i][0], ranges[i][1])) * (1 - ease(sub(p, ranges[i][2], ranges[i][3])));
       copyCh[i].style.opacity = o;
       copyCh[i].style.transform = 'translateY(' + ((1 - o) * 14) + 'px)';
     }
-    var co = ease(sub(p, 0.90, 0.96));
+    var co = ease(sub(p, 0.92, 0.97));
     copyCta.style.opacity = co;
     copyCta.style.transform = 'translateY(' + ((1 - co) * 14) + 'px)';
     copyCta.classList.toggle('on', co > 0.5);
@@ -889,35 +928,53 @@ var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: re
     setCopy(p);
 
     /* 1. Balise : anneaux de pulsation (la pub qui capte) */
-    var beacon = ease(sub(p, 0.02, 0.09)) * (1 - ease(sub(p, 0.28, 0.38)));
+    var beacon = ease(sub(p, 0.02, 0.08)) * (1 - ease(sub(p, 0.30, 0.38)));
     if (beacon > 0.01){
       for (var k = 0; k < 2; k++){
         var rr = (t * 34 + k * 45) % 90;
-        ctx.beginPath(); ctx.arc(cx, gy, 20 + rr, 0, 6.2832);
+        ctx.beginPath(); ctx.arc(cx, geo.yBeacon, 20 + rr, 0, 6.2832);
         ctx.strokeStyle = 'rgba(79,160,255,' + (0.4 * beacon * (1 - rr / 90)).toFixed(3) + ')';
         ctx.lineWidth = 1.4; ctx.stroke();
       }
       ctx.globalAlpha = beacon;
-      ctx.drawImage(spr, cx - 15, gy - 15, 30, 30);
+      ctx.drawImage(spr, cx - 15, geo.yBeacon - 15, 30, 30);
       ctx.globalAlpha = 1;
     }
 
-    /* 2. Portail de filtrage */
-    var gateA = ease(sub(p, 0.32, 0.40)) * (1 - ease(sub(p, 0.80, 0.90)));
-    if (gateA > 0.01){
-      ctx.lineCap = 'round';
-      ctx.strokeStyle = 'rgba(79,160,255,' + (0.75 * gateA).toFixed(3) + ')';
-      ctx.lineWidth = 2;
-      ctx.beginPath(); ctx.moveTo(cx - 110, gy - 90); ctx.lineTo(cx - 26, gy); ctx.stroke();
-      ctx.beginPath(); ctx.moveTo(cx + 110, gy - 90); ctx.lineTo(cx + 26, gy); ctx.stroke();
-      ctx.strokeStyle = 'rgba(79,160,255,' + (0.18 * gateA).toFixed(3) + ')';
-      ctx.lineWidth = 7;
-      ctx.beginPath(); ctx.moveTo(cx - 110, gy - 90); ctx.lineTo(cx - 26, gy); ctx.stroke();
-      ctx.beginPath(); ctx.moveTo(cx + 110, gy - 90); ctx.lineTo(cx + 26, gy); ctx.stroke();
+    /* 2. Les deux barrières de filtrage : VSL puis FORMULAIRE */
+    var fA = ease(sub(p, 0.31, 0.37)) * (1 - ease(sub(p, 0.60, 0.68)));
+    if (fA > 0.01){
+      /* couloir central en pointillés */
+      ctx.setLineDash([2, 6]);
+      ctx.strokeStyle = 'rgba(79,160,255,' + (0.14 * fA).toFixed(3) + ')';
+      ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(cx, geo.yF1 - 90); ctx.lineTo(cx, geo.yG - 24); ctx.stroke();
+      ctx.setLineDash([]);
+      drawBar(geo.yF1, 'VSL', fA);
+      drawBar(geo.yF2, 'FORMULAIRE', fA);
     }
 
-    /* 3. L'agenda qui se remplit */
-    var gridA = ease(sub(p, 0.56, 0.64));
+    /* 2b. Croix grises aux points de rejet */
+    if (p > 0.30 && p < 0.75){
+      for (var i3 = 0; i3 < N; i3++){
+        var qq = parts[i3];
+        if (qq.pass2) continue;
+        var S = 0.35 + qq.d2;
+        var rejAt, ry2;
+        if (!qq.pass1){ rejAt = S + 0.22 * 0.30; ry2 = geo.yF1; }
+        else { rejAt = S + 0.22 * 0.60; ry2 = geo.yF2; }
+        var xa = ease(sub(p, rejAt, rejAt + 0.015)) * (1 - ease(sub(p, rejAt + 0.05, rejAt + 0.09)));
+        if (xa <= 0.01) continue;
+        var xx = cx + qq.side * 27, yy = ry2 - 14;
+        ctx.strokeStyle = 'rgba(139,148,143,' + (0.9 * xa).toFixed(3) + ')';
+        ctx.lineWidth = 1.6; ctx.lineCap = 'round';
+        ctx.beginPath(); ctx.moveTo(xx - 4, yy - 4); ctx.lineTo(xx + 4, yy + 4); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(xx + 4, yy - 4); ctx.lineTo(xx - 4, yy + 4); ctx.stroke();
+      }
+    }
+
+    /* 3. L'agenda : créneaux à coche verte */
+    var gridA = ease(sub(p, 0.64, 0.72));
     var lit = 0;
     if (gridA > 0.01){
       ctx.font = '600 10px "Geist Mono", monospace';
@@ -937,12 +994,22 @@ var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: re
         if (on){
           lit++;
           var flash = clamp01(1 - (p - slotT(i)) / 0.02);
-          ctx.fillStyle = 'rgba(42,127,230,' + (gridA * (0.55 + 0.45 * flash)).toFixed(3) + ')';
+          ctx.fillStyle = 'rgba(47,227,154,' + (gridA * (0.16 + 0.30 * flash)).toFixed(3) + ')';
           ctx.fill();
+          ctx.strokeStyle = 'rgba(47,227,154,' + (gridA * 0.75).toFixed(3) + ')';
+          ctx.lineWidth = 1; ctx.stroke();
+          /* la coche verte */
+          ctx.strokeStyle = 'rgba(47,227,154,' + (gridA * (0.9 + 0.1 * flash)).toFixed(3) + ')';
+          ctx.lineWidth = 2; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+          ctx.beginPath();
+          ctx.moveTo(x + w * 0.32, y + h * 0.54);
+          ctx.lineTo(x + w * 0.45, y + h * 0.70);
+          ctx.lineTo(x + w * 0.70, y + h * 0.32);
+          ctx.stroke();
           if (flash > 0.05){
             var sc = slotCenter(i);
             ctx.globalAlpha = flash * gridA;
-            ctx.drawImage(spr, sc.x - 22, sc.y - 22, 44, 44);
+            ctx.drawImage(sprGreen, sc.x - 22, sc.y - 22, 44, 44);
             ctx.globalAlpha = 1;
           }
         } else {
@@ -950,37 +1017,84 @@ var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: re
           ctx.lineWidth = 1; ctx.stroke();
         }
       }
+      /* légende sous l'agenda */
+      var ly = grid.y0 + 5 * (grid.chh + grid.gap) + 20;
+      ctx.strokeStyle = 'rgba(47,227,154,' + (0.9 * gridA).toFixed(3) + ')';
+      ctx.lineWidth = 2; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+      ctx.beginPath();
+      ctx.moveTo(cx - 52, ly + 1); ctx.lineTo(cx - 48, ly + 5); ctx.lineTo(cx - 41, ly - 4);
+      ctx.stroke();
+      ctx.font = '600 10px "Geist Mono", monospace';
+      ctx.textAlign = 'left';
+      ctx.fillStyle = 'rgba(123,239,192,' + (0.95 * gridA).toFixed(3) + ')';
+      ctx.fillText('= RDV QUALIFIÉ', cx - 32, ly + 4);
     }
     if (countEl) countEl.textContent = lit;
 
     /* 4. Les particules (tes prospects) */
     for (var i2 = 0; i2 < N; i2++){
       var q = parts[i2];
-      var sx = q.rx * W, sy = q.ry * H * 0.9;
-      var wx = sx + Math.cos(q.wa + t * q.ws) * q.wr;
-      var wy = sy + Math.sin(q.wa * 1.7 + t * q.ws) * q.wr * 0.6;
-      var j = ease(sub(p, 0.08 + q.d * 0.7, 0.50 + q.d * 0.5));
-      var x, y, a, im = spr;
+      var im = spr, a = 1, x, y;
+      var qxx = cx + q.qx, qyy = geo.yF1 + q.qy;
+      var j = ease(sub(p, 0.07 + q.d, 0.27 + q.d));
       if (j < 1){
-        var mx2 = (wx + cx) / 2 + q.cpx * (1 - j * 0.5), my2 = (wy + gy) / 2 + q.cpy;
-        x = (1 - j) * (1 - j) * wx + 2 * (1 - j) * j * mx2 + j * j * cx;
-        y = (1 - j) * (1 - j) * wy + 2 * (1 - j) * j * my2 + j * j * gy;
+        /* dérive libre puis convergence vers la file d'attente */
+        var sx = q.rx * W, sy = q.ry * H;
+        var wx = sx + Math.cos(q.wa + t * q.ws) * q.wr;
+        var wy = sy + Math.sin(q.wa * 1.7 + t * q.ws) * q.wr * 0.6;
+        if (j <= 0){ x = wx; y = wy; }
+        else {
+          var mx2 = (wx + qxx) / 2 + q.cpx * (1 - j), my2 = (wy + qyy) / 2 + q.cpy * (1 - j);
+          x = (1 - j) * (1 - j) * wx + 2 * (1 - j) * j * mx2 + j * j * qxx;
+          y = (1 - j) * (1 - j) * wy + 2 * (1 - j) * j * my2 + j * j * qyy;
+        }
         a = 0.55 + 0.45 * Math.sin(t * 2.4 + q.tw);
-      } else if (!q.pass){
-        var e1 = ease(sub(p, 0.50 + q.d * 0.4, 0.66 + q.d * 0.4));
-        x = cx + q.dx * e1 * 150 + Math.cos(t * 1.6 + q.tw) * 9 * (1 - e1);
-        y = gy - q.dy * e1 * 40 + e1 * e1 * 130 + Math.sin(t * 1.4 + q.tw) * 7 * (1 - e1);
-        a = 1 - e1; im = sprGrey;
       } else {
-        var e2 = ease(sub(p, slotT(q.slot) - 0.06, slotT(q.slot)));
-        if (e2 >= 1) continue; /* absorbé — le créneau vient de s'allumer */
-        var sc2 = slotCenter(q.slot);
-        x = lerp(cx, sc2.x, e2) + Math.cos(t * 1.6 + q.tw) * 9 * (1 - e2);
-        y = lerp(gy, sc2.y, e2) - Math.sin(e2 * Math.PI) * 46 + Math.sin(t * 1.4 + q.tw) * 7 * (1 - e2);
-        a = 1;
+        var e = ease(sub(p, 0.35 + q.d2, 0.57 + q.d2));
+        if (e <= 0){
+          /* en file d'attente au-dessus du filtre VSL */
+          x = qxx + Math.cos(t * 1.2 + q.tw) * 5;
+          y = qyy + Math.sin(t * 1.5 + q.tw) * 4;
+          a = 0.8;
+        } else if (e < 0.30){
+          /* descente vers le passage du filtre VSL */
+          var u = e / 0.30;
+          x = lerp(qxx, cx, u); y = lerp(qyy, geo.yF1, u);
+        } else if (!q.pass1){
+          /* écarté par la VSL */
+          var u1 = (e - 0.30) / 0.70;
+          x = cx + q.side * u1 * (50 + 90 * u1);
+          y = geo.yF1 - 4 + Math.sin(u1 * 2.4) * 6;
+          a = 1 - u1; im = sprGrey;
+        } else if (e < 0.60){
+          /* traversée VSL -> FORMULAIRE */
+          var u2 = (e - 0.30) / 0.30;
+          x = cx + Math.sin(u2 * 6.28 + q.tw) * 2.5;
+          y = lerp(geo.yF1, geo.yF2, u2);
+        } else if (!q.pass2){
+          /* écarté par le formulaire */
+          var u3 = (e - 0.60) / 0.40;
+          x = cx + q.side * u3 * (50 + 90 * u3);
+          y = geo.yF2 - 4 + Math.sin(u3 * 2.4) * 6;
+          a = 1 - u3; im = sprGrey;
+        } else if (e < 1){
+          /* sortie du filtre vers l'amas des qualifiés */
+          var u4 = (e - 0.60) / 0.40;
+          x = lerp(cx, cx + q.gx, u4);
+          y = lerp(geo.yF2, geo.yG + q.gy2, u4);
+        } else {
+          /* amas des qualifiés, puis envol vers le créneau */
+          var e3 = ease(sub(p, slotT(q.slot) - 0.05, slotT(q.slot)));
+          if (e3 >= 1) continue; /* absorbé — la coche vient d'apparaître */
+          var sc2 = slotCenter(q.slot);
+          var hx = cx + q.gx + Math.cos(t * 1.4 + q.tw) * 6 * (1 - e3);
+          var hy = geo.yG + q.gy2 + Math.sin(t * 1.2 + q.tw) * 5 * (1 - e3);
+          x = lerp(hx, sc2.x, e3);
+          y = lerp(hy, sc2.y, e3) - Math.sin(e3 * Math.PI) * 36;
+        }
       }
       if (a <= 0.02) continue;
-      ctx.globalAlpha = a;
+      ctx.globalAlpha = Math.min(a, 1);
       ctx.drawImage(im, x - q.s, y - q.s, q.s * 2, q.s * 2);
       ctx.globalAlpha = 1;
     }
