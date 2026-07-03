@@ -224,6 +224,27 @@ img{max-width:100%;}
 .vsl-loop-wrap{max-width:900px; margin:0 auto;}
 .vsl-loop{display:block; width:100%; aspect-ratio:16/9; object-fit:cover; border-radius:var(--r-lg); border:1px solid var(--line-strong); box-shadow:var(--shadow-pop); background:radial-gradient(120% 90% at 50% 0%, #101B2A, #0A0D0E); pointer-events:none;}
 
+/* ---------- La machine à RDV : scrollytelling canvas ---------- */
+.vsl-scrolly{background:var(--bg-0); border-top:1px solid var(--line);}
+.scrolly-track{position:relative; height:380vh;}
+.scrolly-stage{position:sticky; top:0; height:100vh; height:100svh; overflow:hidden;}
+#machine-canvas{position:absolute; inset:0; width:100%; height:100%;}
+.scrolly-copy{position:absolute; inset:0; pointer-events:none;}
+.scrolly-intro{position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px; text-align:center; padding:0 var(--gutter);}
+.scrolly-hint{font-family:var(--font-mono); font-size:var(--fs-micro); letter-spacing:var(--ls-eyebrow); text-transform:uppercase; color:var(--fg-3); margin-top:var(--space-4);}
+.scrolly-chapter{position:absolute; left:0; right:0; bottom:clamp(30px,7vh,72px); display:flex; flex-direction:column; align-items:center; gap:8px; text-align:center; padding:0 var(--gutter); opacity:0;}
+.scrolly-n{font-family:var(--font-mono); font-size:var(--fs-micro); font-weight:700; letter-spacing:var(--ls-eyebrow); text-transform:uppercase; color:var(--green-300);}
+.scrolly-chapter p{margin:0; font-family:var(--font-display); font-weight:var(--fw-semibold); font-size:clamp(1.3rem, 1rem + 1.8vw, 2.1rem); color:var(--fg-0); letter-spacing:var(--ls-snug); max-width:22ch;}
+.scrolly-count{font-family:var(--font-mono); font-size:var(--fs-caption); letter-spacing:var(--ls-wide); text-transform:uppercase; color:var(--green-300);}
+.scrolly-count b{font-family:var(--font-display); font-size:1.7em; color:var(--green-400); font-weight:700;}
+.scrolly-cta{position:absolute; left:0; right:0; bottom:clamp(30px,7vh,72px); display:flex; justify-content:center; opacity:0;}
+.scrolly-cta.on{pointer-events:auto;}
+.scrolly-fallback{display:none;}
+@media (prefers-reduced-motion:reduce){
+  .scrolly-track{display:none;}
+  .scrolly-fallback{display:block;}
+}
+
 /* offre */
 .vsl-offer-wrap{display:flex; justify-content:center;}
 .vsl-offer-card{max-width:680px; width:100%; padding:clamp(28px,4vw,52px); text-align:center;}
@@ -423,6 +444,51 @@ img{max-width:100%;}
             <div class="reveal check-item cross" style="transition-delay:180ms"><span class="check-ic"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></span><span>Tu ne veux pas mettre de budget pub mensuel</span></div>
             <div class="reveal check-item cross" style="transition-delay:270ms"><span class="check-ic"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></span><span>Tu ne souhaites pas investir dans un système d'acquisition</span></div>
           </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LA MACHINE À RDV (section cinématique pilotée au scroll) -->
+  <section id="machine" class="vsl-scrolly" aria-label="La machine à rendez-vous">
+    <div class="scrolly-track" id="scrolly-track">
+      <div class="scrolly-stage">
+        <canvas id="machine-canvas" aria-hidden="true"></canvas>
+        <div class="scrolly-copy">
+          <div class="scrolly-intro" data-step="intro">
+            <span class="badge badge--soft">La machine à RDV</span>
+            <h2 class="vsl-h2">Ce que j'installe,<br>concrètement.</h2>
+            <span class="scrolly-hint">Continue de scroller ↓</span>
+          </div>
+          <div class="scrolly-chapter" data-step="0">
+            <span class="scrolly-n">01 — Capter</span>
+            <p>Tes pubs captent l'attention des bons profils.</p>
+          </div>
+          <div class="scrolly-chapter" data-step="1">
+            <span class="scrolly-n">02 — Filtrer</span>
+            <p>La VSL et le formulaire écartent les curieux.</p>
+          </div>
+          <div class="scrolly-chapter" data-step="2">
+            <span class="scrolly-n">03 — Remplir</span>
+            <p>Ton agenda se remplit.</p>
+            <span class="scrolly-count">+<b id="machine-count">0</b> appels qualifiés</span>
+          </div>
+          <div class="scrolly-cta" data-step="cta">
+            <span class="vsl-shine"><a class="btn btn--primary btn--lg" href="#" data-cta>Réserver mon appel gratuit<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="scrolly-fallback">
+      <div class="vsl-container vsl-section">
+        <div class="vsl-head">
+          <span class="badge badge--soft">La machine à RDV</span>
+          <h2 class="vsl-h2">Capter. Filtrer. Remplir.</h2>
+        </div>
+        <div class="vsl-two-col">
+          <div class="card" style="padding:var(--space-8)"><div class="vsl-step-top"><span class="vsl-step-n">01</span><span class="vsl-step-tag">Capter</span></div><p class="vsl-body" style="margin-top:var(--space-4)">Tes pubs captent l'attention des bons profils.</p></div>
+          <div class="card" style="padding:var(--space-8)"><div class="vsl-step-top"><span class="vsl-step-n">02</span><span class="vsl-step-tag">Filtrer</span></div><p class="vsl-body" style="margin-top:var(--space-4)">La VSL et le formulaire écartent les curieux.</p></div>
+          <div class="card" style="padding:var(--space-8)"><div class="vsl-step-top"><span class="vsl-step-n">03</span><span class="vsl-step-tag">Remplir</span></div><p class="vsl-body" style="margin-top:var(--space-4)">Ton agenda se remplit d'appels qualifiés.</p></div>
         </div>
       </div>
     </div>
@@ -719,6 +785,225 @@ var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: re
       bar.classList.toggle('show', !e.isIntersecting && e.boundingClientRect.top < 0);
     });
   }, { threshold: 0 }).observe(heroCta);
+})();
+
+/* ---- La machine à RDV : section cinématique pilotée au scroll ---- */
+(function(){
+  var track = document.getElementById('scrolly-track');
+  var canvas = document.getElementById('machine-canvas');
+  if (!track || !canvas || reduce || !canvas.getContext) return;
+  var ctx = canvas.getContext('2d');
+  var stage = canvas.parentElement;
+  var copyIntro = track.querySelector('[data-step="intro"]');
+  var copyCh = [track.querySelector('[data-step="0"]'), track.querySelector('[data-step="1"]'), track.querySelector('[data-step="2"]')];
+  var copyCta = track.querySelector('[data-step="cta"]');
+  var countEl = document.getElementById('machine-count');
+
+  var DPR = Math.min(window.devicePixelRatio || 1, 2);
+  var W = 0, H = 0, cx = 0, gy = 0, grid = null;
+
+  function clamp01(v){ return v < 0 ? 0 : v > 1 ? 1 : v; }
+  function sub(p, a, b){ return clamp01((p - a) / (b - a)); }
+  function ease(u){ return u * u * (3 - 2 * u); }
+  function lerp(a, b, u){ return a + (b - a) * u; }
+
+  /* Sprites de lueur pré-rendus (rapides sur mobile) */
+  function makeSprite(core, halo){
+    var c = document.createElement('canvas'); c.width = c.height = 64;
+    var s = c.getContext('2d');
+    var g = s.createRadialGradient(32, 32, 0, 32, 32, 32);
+    g.addColorStop(0, core); g.addColorStop(0.3, halo); g.addColorStop(1, 'rgba(0,0,0,0)');
+    s.fillStyle = g; s.fillRect(0, 0, 64, 64);
+    return c;
+  }
+  var spr = makeSprite('rgba(224,238,255,1)', 'rgba(79,160,255,0.85)');
+  var sprGrey = makeSprite('rgba(160,168,164,0.9)', 'rgba(91,100,96,0.5)');
+
+  var SLOTS = 30;
+  var N = (Math.min(window.innerWidth, window.innerHeight) < 700) ? 85 : 130;
+  var parts = [];
+  (function(){
+    var slotCursor = 0;
+    for (var i = 0; i < N; i++){
+      var pass = Math.random() < 0.75;
+      parts.push({
+        rx: Math.random(), ry: Math.random(),
+        wa: Math.random() * 6.283, wr: 14 + Math.random() * 46, ws: 0.4 + Math.random() * 0.8,
+        cpx: (Math.random() - 0.5) * 260, cpy: (Math.random() - 0.5) * 180,
+        d: Math.random() * 0.22,
+        pass: pass,
+        slot: pass ? (slotCursor++ % SLOTS) : -1,
+        dx: (Math.random() < 0.5 ? -1 : 1) * (0.5 + Math.random()), dy: 0.3 + Math.random() * 0.8,
+        s: 5 + Math.random() * 7,
+        tw: Math.random() * 6.283
+      });
+    }
+  })();
+
+  function layout(){
+    W = stage.clientWidth; H = stage.clientHeight;
+    canvas.width = W * DPR; canvas.height = H * DPR;
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    cx = W / 2; gy = H * 0.32;
+    var gw = Math.min(W - 56, 440), cw = gw / 6;
+    var chh = Math.min(cw * 0.62, 30);
+    grid = { x0: cx - gw / 2, y0: H * 0.45, cw: cw, chh: chh, gap: 7 };
+  }
+
+  function slotCenter(i){
+    var col = i % 6, row = Math.floor(i / 6);
+    return { x: grid.x0 + col * grid.cw + grid.cw / 2, y: grid.y0 + row * (grid.chh + grid.gap) + grid.chh / 2 };
+  }
+  function slotT(i){ return 0.62 + (i / SLOTS) * 0.30; }
+
+  function roundRect(x, y, w, h, rad){
+    ctx.moveTo(x + rad, y);
+    ctx.arcTo(x + w, y, x + w, y + h, rad);
+    ctx.arcTo(x + w, y + h, x, y + h, rad);
+    ctx.arcTo(x, y + h, x, y, rad);
+    ctx.arcTo(x, y, x + w, y, rad);
+    ctx.closePath();
+  }
+
+  function setCopy(p){
+    var io = 1 - ease(sub(p, 0.03, 0.10));
+    copyIntro.style.opacity = io;
+    copyIntro.style.transform = 'translateY(' + ((1 - io) * -16) + 'px)';
+    var ranges = [[0.08, 0.14, 0.28, 0.34], [0.34, 0.40, 0.54, 0.60], [0.60, 0.66, 0.92, 0.97]];
+    for (var i = 0; i < 3; i++){
+      var o = ease(sub(p, ranges[i][0], ranges[i][1])) * (1 - ease(sub(p, ranges[i][2], ranges[i][3])));
+      copyCh[i].style.opacity = o;
+      copyCh[i].style.transform = 'translateY(' + ((1 - o) * 14) + 'px)';
+    }
+    var co = ease(sub(p, 0.90, 0.96));
+    copyCta.style.opacity = co;
+    copyCta.style.transform = 'translateY(' + ((1 - co) * 14) + 'px)';
+    copyCta.classList.toggle('on', co > 0.5);
+  }
+
+  function draw(t){
+    var r = track.getBoundingClientRect();
+    var span = r.height - H;
+    var p = span > 0 ? clamp01(-r.top / span) : 0;
+    ctx.clearRect(0, 0, W, H);
+    setCopy(p);
+
+    /* 1. Balise : anneaux de pulsation (la pub qui capte) */
+    var beacon = ease(sub(p, 0.02, 0.09)) * (1 - ease(sub(p, 0.28, 0.38)));
+    if (beacon > 0.01){
+      for (var k = 0; k < 2; k++){
+        var rr = (t * 34 + k * 45) % 90;
+        ctx.beginPath(); ctx.arc(cx, gy, 20 + rr, 0, 6.2832);
+        ctx.strokeStyle = 'rgba(79,160,255,' + (0.4 * beacon * (1 - rr / 90)).toFixed(3) + ')';
+        ctx.lineWidth = 1.4; ctx.stroke();
+      }
+      ctx.globalAlpha = beacon;
+      ctx.drawImage(spr, cx - 15, gy - 15, 30, 30);
+      ctx.globalAlpha = 1;
+    }
+
+    /* 2. Portail de filtrage */
+    var gateA = ease(sub(p, 0.32, 0.40)) * (1 - ease(sub(p, 0.80, 0.90)));
+    if (gateA > 0.01){
+      ctx.lineCap = 'round';
+      ctx.strokeStyle = 'rgba(79,160,255,' + (0.75 * gateA).toFixed(3) + ')';
+      ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.moveTo(cx - 110, gy - 90); ctx.lineTo(cx - 26, gy); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(cx + 110, gy - 90); ctx.lineTo(cx + 26, gy); ctx.stroke();
+      ctx.strokeStyle = 'rgba(79,160,255,' + (0.18 * gateA).toFixed(3) + ')';
+      ctx.lineWidth = 7;
+      ctx.beginPath(); ctx.moveTo(cx - 110, gy - 90); ctx.lineTo(cx - 26, gy); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(cx + 110, gy - 90); ctx.lineTo(cx + 26, gy); ctx.stroke();
+    }
+
+    /* 3. L'agenda qui se remplit */
+    var gridA = ease(sub(p, 0.56, 0.64));
+    var lit = 0;
+    if (gridA > 0.01){
+      ctx.font = '600 10px "Geist Mono", monospace';
+      ctx.textAlign = 'center';
+      var days = ['L', 'M', 'M', 'J', 'V', 'S'];
+      ctx.fillStyle = 'rgba(139,148,143,' + (0.9 * gridA).toFixed(3) + ')';
+      for (var c = 0; c < 6; c++){
+        ctx.fillText(days[c], grid.x0 + c * grid.cw + grid.cw / 2, grid.y0 - 10);
+      }
+      for (var i = 0; i < SLOTS; i++){
+        var col = i % 6, row = Math.floor(i / 6);
+        var x = grid.x0 + col * grid.cw + 2.5, y = grid.y0 + row * (grid.chh + grid.gap);
+        var w = grid.cw - 5, h = grid.chh;
+        var on = p >= slotT(i);
+        ctx.beginPath();
+        roundRect(x, y, w, h, 6);
+        if (on){
+          lit++;
+          var flash = clamp01(1 - (p - slotT(i)) / 0.02);
+          ctx.fillStyle = 'rgba(42,127,230,' + (gridA * (0.55 + 0.45 * flash)).toFixed(3) + ')';
+          ctx.fill();
+          if (flash > 0.05){
+            var sc = slotCenter(i);
+            ctx.globalAlpha = flash * gridA;
+            ctx.drawImage(spr, sc.x - 22, sc.y - 22, 44, 44);
+            ctx.globalAlpha = 1;
+          }
+        } else {
+          ctx.strokeStyle = 'rgba(255,255,255,' + (0.13 * gridA).toFixed(3) + ')';
+          ctx.lineWidth = 1; ctx.stroke();
+        }
+      }
+    }
+    if (countEl) countEl.textContent = lit;
+
+    /* 4. Les particules (tes prospects) */
+    for (var i2 = 0; i2 < N; i2++){
+      var q = parts[i2];
+      var sx = q.rx * W, sy = q.ry * H * 0.9;
+      var wx = sx + Math.cos(q.wa + t * q.ws) * q.wr;
+      var wy = sy + Math.sin(q.wa * 1.7 + t * q.ws) * q.wr * 0.6;
+      var j = ease(sub(p, 0.08 + q.d * 0.7, 0.50 + q.d * 0.5));
+      var x, y, a, im = spr;
+      if (j < 1){
+        var mx2 = (wx + cx) / 2 + q.cpx * (1 - j * 0.5), my2 = (wy + gy) / 2 + q.cpy;
+        x = (1 - j) * (1 - j) * wx + 2 * (1 - j) * j * mx2 + j * j * cx;
+        y = (1 - j) * (1 - j) * wy + 2 * (1 - j) * j * my2 + j * j * gy;
+        a = 0.55 + 0.45 * Math.sin(t * 2.4 + q.tw);
+      } else if (!q.pass){
+        var e1 = ease(sub(p, 0.50 + q.d * 0.4, 0.66 + q.d * 0.4));
+        x = cx + q.dx * e1 * 150 + Math.cos(t * 1.6 + q.tw) * 9 * (1 - e1);
+        y = gy - q.dy * e1 * 40 + e1 * e1 * 130 + Math.sin(t * 1.4 + q.tw) * 7 * (1 - e1);
+        a = 1 - e1; im = sprGrey;
+      } else {
+        var e2 = ease(sub(p, slotT(q.slot) - 0.06, slotT(q.slot)));
+        if (e2 >= 1) continue; /* absorbé — le créneau vient de s'allumer */
+        var sc2 = slotCenter(q.slot);
+        x = lerp(cx, sc2.x, e2) + Math.cos(t * 1.6 + q.tw) * 9 * (1 - e2);
+        y = lerp(gy, sc2.y, e2) - Math.sin(e2 * Math.PI) * 46 + Math.sin(t * 1.4 + q.tw) * 7 * (1 - e2);
+        a = 1;
+      }
+      if (a <= 0.02) continue;
+      ctx.globalAlpha = a;
+      ctx.drawImage(im, x - q.s, y - q.s, q.s * 2, q.s * 2);
+      ctx.globalAlpha = 1;
+    }
+  }
+
+  var running = false, t0 = performance.now();
+  function loop(){
+    if (!running) return;
+    draw((performance.now() - t0) / 1000);
+    requestAnimationFrame(loop);
+  }
+  if ('IntersectionObserver' in window){
+    new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        var was = running;
+        running = e.isIntersecting;
+        if (running && !was) loop();
+      });
+    }, { rootMargin: '120px' }).observe(track);
+  } else { running = true; loop(); }
+
+  layout();
+  window.addEventListener('resize', layout);
 })();
 
 /* ---- Scroll progress + veil parallax ---- */
