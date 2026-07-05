@@ -314,6 +314,11 @@ img{max-width:100%;}
 .qual-close{position:absolute; top:14px; right:14px; width:36px; height:36px; display:inline-flex; align-items:center; justify-content:center; border-radius:50%; border:1px solid var(--line-strong); background:transparent; color:var(--fg-2); cursor:pointer; transition:color var(--dur-base) var(--ease-out), border-color var(--dur-base) var(--ease-out);}
 .qual-close:hover{color:var(--fg-0); border-color:var(--line-accent);}
 .qual-head{display:flex; flex-direction:column; gap:12px; align-items:flex-start; margin-bottom:var(--space-2);}
+.qual-identity{display:flex; align-items:center; gap:10px;}
+.qual-avatar{width:34px; height:34px; border-radius:50%; object-fit:cover; border:1px solid var(--line-accent); opacity:0.92;}
+.qual-idtext{display:flex; flex-direction:column; line-height:1.2;}
+.qual-idname{font-family:var(--font-body); font-weight:var(--fw-semibold); font-size:var(--fs-body-sm); color:var(--fg-1);}
+.qual-idrole{font-family:var(--font-mono); font-size:var(--fs-micro); letter-spacing:var(--ls-wide); text-transform:uppercase; color:var(--fg-3);}
 .qual-title{margin:0; font-family:var(--font-display); font-weight:var(--fw-bold); font-size:var(--fs-h3); color:var(--fg-0); letter-spacing:var(--ls-snug);}
 .qual-sub{margin:0; font-size:var(--fs-body); line-height:var(--lh-body); color:var(--fg-2);}
 .qual-form{display:flex; flex-direction:column;}
@@ -589,6 +594,10 @@ img{max-width:100%;}
   <div class="qual-modal" role="dialog" aria-modal="true" aria-labelledby="qual-title">
     <button class="qual-close" data-qual-close aria-label="Fermer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
     <div class="qual-head">
+      <div class="qual-identity">
+        <img class="qual-avatar" src="assets/arthur-avatar.jpg" alt="Arthur Defoin" width="34" height="34" loading="lazy">
+        <div class="qual-idtext"><span class="qual-idname">Arthur Defoin</span><span class="qual-idrole">Media buyer</span></div>
+      </div>
       <span class="badge badge--soft">Candidature</span>
       <h3 class="qual-title" id="qual-title">Vérifie ton éligibilité</h3>
       <p class="qual-sub">Réponds à ces quelques questions, puis choisis ton créneau. Plus tu es précis, plus l'appel sera utile.</p>
