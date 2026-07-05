@@ -310,7 +310,7 @@ img{max-width:100%;}
 
 /* ---------- formulaire de candidature (questions-first) ---------- */
 .qual-overlay{position:fixed; inset:0; z-index:100; background:rgba(7,9,10,0.78); backdrop-filter:blur(12px); overflow-y:auto; padding:24px 16px; animation:qualFade 0.25s var(--ease-out);}
-.qual-modal{position:relative; max-width:640px; margin:24px auto; background:var(--surface-card); border:1px solid var(--line-accent); border-radius:var(--r-xl); box-shadow:var(--glow-green), var(--shadow-pop); padding:clamp(24px,5vw,44px); animation:qualRise 0.32s var(--ease-out);}
+.qual-modal{position:relative; max-width:580px; margin:24px auto; background:var(--surface-card); border:1px solid var(--line-accent); border-radius:var(--r-xl); box-shadow:var(--glow-green), var(--shadow-pop); padding:clamp(24px,5vw,44px); animation:qualRise 0.32s var(--ease-out);}
 .qual-close{position:absolute; top:14px; right:14px; width:36px; height:36px; display:inline-flex; align-items:center; justify-content:center; border-radius:50%; border:1px solid var(--line-strong); background:transparent; color:var(--fg-2); cursor:pointer; transition:color var(--dur-base) var(--ease-out), border-color var(--dur-base) var(--ease-out);}
 .qual-close:hover{color:var(--fg-0); border-color:var(--line-accent);}
 .qual-head{display:flex; flex-direction:column; gap:12px; align-items:flex-start; margin-bottom:var(--space-2);}
@@ -341,6 +341,15 @@ img{max-width:100%;}
 .qual-note--ok{border-color:var(--line-accent); background:var(--green-soft); color:var(--green-300);}
 .qual-submit{margin-top:var(--space-8);}
 .qual-fine{margin:var(--space-4) 0 0; text-align:center; font-size:var(--fs-caption); color:var(--fg-3);}
+/* Wizard multi-étapes */
+.qual-progress{height:3px; background:var(--bg-3); border-radius:2px; overflow:hidden; margin-top:var(--space-5);}
+#qual-bar{display:block; height:100%; width:10%; background:linear-gradient(90deg, var(--green-500), var(--green-300)); transition:width 0.35s var(--ease-out);}
+.qual-stepmeta{display:flex; justify-content:space-between; align-items:center; margin-top:10px; min-height:24px;}
+.qual-back{background:none; border:none; color:var(--fg-2); font-family:var(--font-mono); font-size:var(--fs-caption); cursor:pointer; padding:4px 0; transition:color var(--dur-base) var(--ease-out);}
+.qual-back:hover{color:var(--fg-0);}
+.qual-stepcount{font-family:var(--font-mono); font-size:var(--fs-micro); color:var(--fg-3); letter-spacing:var(--ls-wide); margin-left:auto;}
+.qstep-in{animation:qualStepIn 0.32s var(--ease-out);}
+@keyframes qualStepIn{from{opacity:0; transform:translateX(16px)}to{opacity:1; transform:none}}
 @keyframes qualFade{from{opacity:0}to{opacity:1}}
 @keyframes qualRise{from{opacity:0; transform:translateY(14px)}to{opacity:1; transform:none}}
 
@@ -585,6 +594,11 @@ img{max-width:100%;}
       <p class="qual-sub">Réponds à ces quelques questions, puis choisis ton créneau. Plus tu es précis, plus l'appel sera utile.</p>
     </div>
     <form class="qual-form" id="qual-form">
+      <div class="qual-progress"><span id="qual-bar"></span></div>
+      <div class="qual-stepmeta">
+        <button type="button" class="qual-back" id="qual-back" hidden>← Retour</button>
+        <span class="qual-stepcount" id="qual-stepcount">1 / 10</span>
+      </div>
       <div class="qual-q"><label class="q-label" for="q-prenom">Prénom <span class="q-req">*</span></label>
         <input class="qual-input" id="q-prenom" name="prenom" type="text" required autocomplete="given-name" placeholder="Ton prénom"></div>
       <div class="qual-q"><label class="q-label" for="q-email">Email <span class="q-req">*</span></label>
@@ -647,7 +661,10 @@ img{max-width:100%;}
         <div class="qual-note" id="q9-note" hidden></div>
       </div>
 
-      <span class="vsl-shine vsl-shine--full qual-submit"><button type="submit" class="btn btn--primary btn--lg btn--full">Continuer vers le créneau<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button></span>
+      <div class="qual-submit">
+        <span class="vsl-shine vsl-shine--full" id="qual-next-wrap"><button type="button" id="qual-next" class="btn btn--primary btn--lg btn--full">Continuer<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button></span>
+        <span class="vsl-shine vsl-shine--full" id="qual-send-wrap" hidden><button type="submit" class="btn btn--primary btn--lg btn--full">Voir les créneaux<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button></span>
+      </div>
       <p class="qual-fine">Tes réponses restent confidentielles. Pas de spam.</p>
     </form>
     <div id="calendly-embed" hidden></div>
@@ -713,6 +730,71 @@ function updateSubmitState(){
   var btn = qualForm.querySelector('button[type="submit"]');
   if (btn) btn.disabled = isDisqualified();
 }
+
+/* ---- Wizard : une question à la fois ---- */
+var qsAll = Array.prototype.slice.call(qualForm.querySelectorAll('.qual-q'));
+var QSTEPS = [[0, 1, 2], [3], [4], [5], [6], [7], [8], [9], [10], [11]]; /* 0=coordonnées, puis q1..q9 */
+var Q8_STEP = 8, LAST_STEP = QSTEPS.length - 1;
+var curStep = 0;
+var qualBar = document.getElementById('qual-bar');
+var qualCount = document.getElementById('qual-stepcount');
+var qualBackBtn = document.getElementById('qual-back');
+var qualNextBtn = document.getElementById('qual-next');
+var qualNextWrap = document.getElementById('qual-next-wrap');
+var qualSendWrap = document.getElementById('qual-send-wrap');
+
+function q8Blocked(){
+  var q8 = qualForm.querySelector('input[name="q8_investissement"]:checked');
+  return !!(q8 && q8.value === "Là c'est un peu juste, mais je suis prêt à trouver une solution");
+}
+function refreshNavState(){
+  if (curStep === LAST_STEP){ updateSubmitState(); }
+  else { qualNextBtn.disabled = (curStep === Q8_STEP && q8Blocked()); }
+}
+function showStep(i){
+  curStep = Math.max(0, Math.min(i, LAST_STEP));
+  qsAll.forEach(function(el, idx){
+    var on = QSTEPS[curStep].indexOf(idx) > -1;
+    el.style.display = on ? '' : 'none';
+    if (on){ el.classList.remove('qstep-in'); void el.offsetWidth; el.classList.add('qstep-in'); }
+  });
+  qualNextWrap.hidden = (curStep === LAST_STEP);
+  qualSendWrap.hidden = (curStep !== LAST_STEP);
+  qualBackBtn.hidden = (curStep === 0);
+  if (qualBar) qualBar.style.width = (((curStep + 1) / QSTEPS.length) * 100) + '%';
+  if (qualCount) qualCount.textContent = (curStep + 1) + ' / ' + QSTEPS.length;
+  var sub = qual.querySelector('.qual-sub');
+  if (sub) sub.style.display = (curStep === 0) ? '' : 'none';
+  qual.scrollTop = 0;
+  refreshNavState();
+}
+function validateStep(){
+  var els = [];
+  QSTEPS[curStep].forEach(function(idx){
+    els = els.concat(Array.prototype.slice.call(qsAll[idx].querySelectorAll('input, textarea')));
+  });
+  for (var vi = 0; vi < els.length; vi++){
+    if (!els[vi].checkValidity()){ els[vi].reportValidity(); return false; }
+  }
+  return true;
+}
+qualNextBtn.addEventListener('click', function(){
+  if (qualNextBtn.disabled) return;
+  if (!validateStep()) return;
+  showStep(curStep + 1);
+});
+qualBackBtn.addEventListener('click', function(){ showStep(curStep - 1); });
+
+/* avance automatique sur les questions à choix (sauf réponses bloquantes) */
+qualForm.addEventListener('change', function(e){
+  if (e.target.type !== 'radio') return;
+  refreshNavState();
+  var n = e.target.name, v = e.target.value;
+  if (n === 'q3_ca' && curStep === 3) setTimeout(function(){ if (curStep === 3) showStep(4); }, 350);
+  if (n === 'q7_timing' && v !== 'Autre' && curStep === 7) setTimeout(function(){ if (curStep === 7) showStep(8); }, 350);
+  if (n === 'q8_investissement' && curStep === Q8_STEP && !q8Blocked()) setTimeout(function(){ if (curStep === Q8_STEP && !q8Blocked()) showStep(9); }, 500);
+});
+showStep(0);
 function openQual(){
   qual.hidden = false; document.body.style.overflow = 'hidden';
   if (typeof fbq !== 'undefined') fbq('track', 'InitiateCheckout');
