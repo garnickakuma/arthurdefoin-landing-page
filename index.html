@@ -8,6 +8,13 @@
 <meta name="description" content="La méthode d'acquisition que j'installe pour les coachs, formateurs et thérapeutes. Des campagnes qui amènent les bons prospects — pas des curieux.">
 <link rel="icon" type="image/png" href="assets/favicon-192.png">
 <link rel="apple-touch-icon" href="assets/favicon-192.png">
+<!-- Meta Pixel -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '875967245522285');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=875967245522285&ev=PageView&noscript=1"/></noscript>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap">
@@ -706,7 +713,10 @@ function updateSubmitState(){
   var btn = qualForm.querySelector('button[type="submit"]');
   if (btn) btn.disabled = isDisqualified();
 }
-function openQual(){ qual.hidden = false; document.body.style.overflow = 'hidden'; }
+function openQual(){
+  qual.hidden = false; document.body.style.overflow = 'hidden';
+  if (typeof fbq !== 'undefined') fbq('track', 'InitiateCheckout');
+}
 function closeQual(){ qual.hidden = true; document.body.style.overflow = ''; }
 qual.querySelectorAll('[data-qual-close]').forEach(function(el){ el.addEventListener('click', closeQual); });
 qual.addEventListener('click', function(e){ if (e.target === qual) closeQual(); });
@@ -742,6 +752,7 @@ function showCalendly(){
 qualForm.addEventListener('submit', function(e){
   e.preventDefault();
   if (isDisqualified()) return; /* sécurité : pas de RDV si réponse disqualifiante */
+  if (typeof fbq !== 'undefined') fbq('track', 'Lead');
   var btn = qualForm.querySelector('button[type="submit"]');
   if (btn) { btn.disabled = true; btn.style.opacity = '0.6'; btn.firstChild.textContent = 'Un instant…'; }
   if (QUAL_ENDPOINT) {
@@ -756,6 +767,13 @@ qualForm.addEventListener('submit', function(e){
     setTimeout(showCalendly, 2500); /* sécurité si la requête traîne */
   } else {
     showCalendly();
+  }
+});
+
+/* ---- Pixel : RDV réellement réservé dans Calendly ---- */
+window.addEventListener('message', function(e){
+  if (e.origin === 'https://calendly.com' && e.data && e.data.event === 'calendly.event_scheduled'){
+    if (typeof fbq !== 'undefined') fbq('track', 'Schedule');
   }
 });
 
@@ -1325,6 +1343,7 @@ if (vslFrame && vslVideo) {
   vslFrame.addEventListener('click', function(){
     if (vslVideo.dataset.playing) return;
     vslVideo.dataset.playing = '1';
+    if (typeof fbq !== 'undefined') fbq('track', 'ViewContent', { content_name: 'VSL' });
     vslFrame.querySelectorAll('[data-overlay]').forEach(function(el){ el.style.display = 'none'; });
     vslVideo.setAttribute('controls', '');
     vslFrame.style.cursor = 'default';
