@@ -767,13 +767,13 @@ qualForm.addEventListener('submit', function(e){
   e.preventDefault();
   if (isDisqualified()) return; /* sécurité : pas de RDV si réponse disqualifiante */
   if (typeof fbq !== 'undefined'){
-    /* advanced matching : relie Lead + Schedule à l'identité du prospect */
+    /* advanced matching : relie les événements suivants à l'identité du prospect */
     fbq('init', '875967245522285', {
       em: (qualForm.email.value || '').trim().toLowerCase(),
       fn: (qualForm.prenom.value || '').trim().toLowerCase(),
       ph: (qualForm.telephone.value || '').replace(/\D/g, '')
     });
-    fbq('track', 'Lead');
+    fbq('track', 'CompleteRegistration'); /* candidature envoyée */
   }
   var btn = qualForm.querySelector('button[type="submit"]');
   if (btn) { btn.disabled = true; btn.style.opacity = '0.6'; btn.firstChild.textContent = 'Un instant…'; }
@@ -792,10 +792,13 @@ qualForm.addEventListener('submit', function(e){
   }
 });
 
-/* ---- Pixel : RDV réellement réservé dans Calendly ---- */
+/* ---- Pixel : LE prospect = créneau Calendly réservé ---- */
 window.addEventListener('message', function(e){
   if (e.origin === 'https://calendly.com' && e.data && e.data.event === 'calendly.event_scheduled'){
-    if (typeof fbq !== 'undefined') fbq('track', 'Schedule');
+    if (typeof fbq !== 'undefined'){
+      fbq('track', 'Lead');      /* l'événement "Prospect" optimisé par la campagne */
+      fbq('track', 'Schedule');
+    }
   }
 });
 
