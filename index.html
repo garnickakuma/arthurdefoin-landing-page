@@ -1013,7 +1013,9 @@ var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: re
     var col = i % 5, row = Math.floor(i / 5);
     return { x: grid.x0 + col * grid.cw + grid.cw / 2, y: grid.y0 + row * (grid.chh + grid.gap) + grid.chh / 2 };
   }
-  function slotT(i){ return 0.70 + (i / SLOTS) * 0.20; }
+  /* burst : tous les créneaux s'allument quasi d'un coup (ordre mélangé pour un remplissage non-linéaire) */
+  var SLOT_ORDER = (function(){ var a = []; for (var i = 0; i < SLOTS; i++) a.push(i); for (var k = a.length - 1; k > 0; k--){ var r = (k * 9301 + 49297) % (k + 1); var tmp = a[k]; a[k] = a[r]; a[r] = tmp; } var m = {}; for (var j = 0; j < a.length; j++) m[a[j]] = j; return m; })();
+  function slotT(i){ return 0.79 + (SLOT_ORDER[i] / SLOTS) * 0.05; }
 
   /* Demi-largeur de l'entonnoir à la hauteur y (large en haut, étroit à la gorge) */
   function wallW(y){
@@ -1304,14 +1306,18 @@ var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: re
           x = lerp(cx + f * (geo.throatW - 10), cx + q.gx, u5);
           y = lerp(geo.yThroat, geo.yG + q.gy2, u5);
         } else {
-          /* amas des qualifiés, puis envol vers le créneau */
-          var e3 = ease(sub(p, slotT(q.slot) - 0.05, slotT(q.slot)));
-          if (e3 >= 1) continue; /* absorbé — la coche vient d'apparaître */
-          var sc2 = slotCenter(q.slot);
-          var hx = cx + q.gx + Math.cos(t * 1.4 + q.tw) * 6 * (1 - e3);
-          var hy = geo.yG + q.gy2 + Math.sin(t * 1.2 + q.tw) * 5 * (1 - e3);
-          x = lerp(hx, sc2.x, e3);
-          y = lerp(hy, sc2.y, e3) - Math.sin(e3 * Math.PI) * 36;
+          /* amas des qualifiés, puis jaillissement groupé + dissipation avant l'agenda */
+          var lift = ease(sub(p, 0.74, 0.82));
+          var hx = cx + q.gx + Math.cos(t * 1.4 + q.tw) * 6 * (1 - lift);
+          var hy = geo.yG + q.gy2 + Math.sin(t * 1.2 + q.tw) * 5 * (1 - lift);
+          if (lift <= 0){ x = hx; y = hy; a = 1; }
+          else {
+            var yFade = grid.y0 + 3 * (grid.chh + grid.gap) + 14; /* juste sous la grille */
+            x = lerp(hx, cx + q.gx * 0.25, lift);
+            y = lerp(hy, yFade, lift);
+            a = 1 - clamp01(lift / 0.6); /* dissous avant d'atteindre l'agenda */
+            if (a <= 0.02) continue;
+          }
         }
       }
       if (a <= 0.02) continue;
