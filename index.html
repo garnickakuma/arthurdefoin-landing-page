@@ -728,6 +728,7 @@ function showCalendly(){
   if (shown) return; shown = true;
   var prenom = (qualForm.prenom.value || '').trim();
   var email = (qualForm.email.value || '').trim();
+  var tel = (qualForm.telephone.value || '').trim();
   var head = qual.querySelector('.qual-head');
   if (head) head.hidden = true;
   qualForm.hidden = true;
@@ -735,24 +736,45 @@ function showCalendly(){
   if (modalEl) modalEl.classList.add('calendly-mode');
   var embed = document.getElementById('calendly-embed');
   embed.hidden = false;
+  /* UTM de la page -> réservation Calendly (attribution campagne) */
+  var qs = new URLSearchParams(location.search);
   if (window.Calendly && Calendly.initInlineWidget) {
     Calendly.initInlineWidget({
       url: CALENDLY + '?hide_gdpr_banner=1&primary_color=2a7fe6',
       parentElement: embed,
-      prefill: { name: prenom, email: email }
+      prefill: { name: prenom, email: email, customAnswers: { a1: tel } },
+      utm: {
+        utmSource: qs.get('utm_source') || '',
+        utmMedium: qs.get('utm_medium') || '',
+        utmCampaign: qs.get('utm_campaign') || '',
+        utmContent: qs.get('utm_content') || '',
+        utmTerm: qs.get('utm_term') || ''
+      }
     });
   } else {
     /* fallback si le widget n'a pas chargé : on redirige */
     var params = [];
     if (prenom) params.push('name=' + encodeURIComponent(prenom));
     if (email) params.push('email=' + encodeURIComponent(email));
+    if (tel) params.push('a1=' + encodeURIComponent(tel));
+    ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'].forEach(function(k){
+      if (qs.get(k)) params.push(k + '=' + encodeURIComponent(qs.get(k)));
+    });
     window.location.href = CALENDLY + (params.length ? '?' + params.join('&') : '');
   }
 }
 qualForm.addEventListener('submit', function(e){
   e.preventDefault();
   if (isDisqualified()) return; /* sécurité : pas de RDV si réponse disqualifiante */
-  if (typeof fbq !== 'undefined') fbq('track', 'Lead');
+  if (typeof fbq !== 'undefined'){
+    /* advanced matching : relie Lead + Schedule à l'identité du prospect */
+    fbq('init', '875967245522285', {
+      em: (qualForm.email.value || '').trim().toLowerCase(),
+      fn: (qualForm.prenom.value || '').trim().toLowerCase(),
+      ph: (qualForm.telephone.value || '').replace(/\D/g, '')
+    });
+    fbq('track', 'Lead');
+  }
   var btn = qualForm.querySelector('button[type="submit"]');
   if (btn) { btn.disabled = true; btn.style.opacity = '0.6'; btn.firstChild.textContent = 'Un instant…'; }
   if (QUAL_ENDPOINT) {
