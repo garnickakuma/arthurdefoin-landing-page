@@ -151,12 +151,14 @@ img{max-width:100%;}
   background:radial-gradient(120% 90% at 50% 0%, #101B2A, #0A0D0E); border:1px solid var(--line-strong); box-shadow:var(--shadow-pop);}
 .vp-video{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; background:#0A0D0E;}
 .vp-video[controls]{object-fit:contain;}
-.vp-veil{position:absolute; inset:0; background:linear-gradient(180deg, rgba(7,9,10,0.15), rgba(7,9,10,0.55)); pointer-events:none;}
-.vp-play-wrap{position:absolute; inset:0; display:flex; align-items:center; justify-content:center;}
-.vp-play{position:relative; width:84px; height:84px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:var(--green-500); color:var(--accent-fg); box-shadow:var(--glow-green-lg); transition:transform var(--dur-base) var(--ease-spring); animation:vslBreath 2.8s var(--ease-in-out) infinite;}
-.vp-frame:hover .vp-play{transform:scale(1.08);}
-.vp-play::after{content:""; position:absolute; inset:-8px; border-radius:50%; border:2px solid var(--green-400); pointer-events:none; animation:vslHaloRing 2.8s var(--ease-out) infinite;}
-.vp-play svg{margin-left:4px;}
+.vp-veil{position:absolute; inset:0; background:radial-gradient(120% 90% at 50% 45%, rgba(7,9,10,0.28), rgba(7,9,10,0.66)); pointer-events:none;}
+.vp-play-wrap{position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px;}
+.vp-play{position:relative; width:94px; height:94px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:var(--green-500); color:#fff; border:3px solid rgba(255,255,255,0.92); box-shadow:var(--glow-green-lg), 0 0 0 0 rgba(79,160,255,0.5); transition:transform var(--dur-base) var(--ease-spring), box-shadow var(--dur-base) var(--ease-out); animation:vplPulse 2.4s var(--ease-out) infinite;}
+.vp-frame:hover .vp-play{transform:scale(1.09); background:var(--green-400);}
+.vp-play::after{content:""; position:absolute; inset:-6px; border-radius:50%; border:2px solid rgba(255,255,255,0.55); pointer-events:none; animation:vslHaloRing 2.4s var(--ease-out) infinite;}
+.vp-play svg{margin-left:5px; width:36px; height:36px; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.35));}
+@keyframes vplPulse{0%{box-shadow:var(--glow-green-lg), 0 0 0 0 rgba(79,160,255,0.55)}70%{box-shadow:var(--glow-green-lg), 0 0 0 22px rgba(79,160,255,0)}100%{box-shadow:var(--glow-green-lg), 0 0 0 0 rgba(79,160,255,0)}}
+.vp-hint{font-family:var(--font-mono); font-size:var(--fs-caption); font-weight:600; letter-spacing:var(--ls-wide); text-transform:uppercase; color:#fff; background:rgba(7,9,10,0.55); backdrop-filter:var(--blur-sm); padding:7px 14px; border-radius:var(--r-pill); border:1px solid rgba(255,255,255,0.16);}
 .vp-duration{position:absolute; bottom:14px; right:14px; font-family:var(--font-mono); font-size:var(--fs-caption); color:var(--fg-0); background:rgba(7,9,10,0.7); backdrop-filter:var(--blur-sm); padding:5px 10px; border-radius:var(--r-pill); border:1px solid var(--line-strong);}
 .vp-progress{position:absolute; left:0; right:0; bottom:0; height:4px; background:rgba(255,255,255,0.12);}
 .vp-progress span{display:block; height:100%; width:0%; background:var(--green-400);}
@@ -415,7 +417,8 @@ img{max-width:100%;}
               <video class="vp-video" id="vsl-video" src="assets/vsl-03.mp4" poster="assets/poster-02.jpg" playsinline preload="metadata"></video>
               <div class="vp-veil" data-overlay></div>
               <div class="vp-play-wrap" data-overlay>
-                <div class="vp-play"><svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
+                <div class="vp-play"><svg width="36" height="36" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
+                <span class="vp-hint">▶ Regarder — 2 min</span>
               </div>
             </div>
             <div class="vp-caption">Regarde la méthode avant de réserver ton appel</div>
