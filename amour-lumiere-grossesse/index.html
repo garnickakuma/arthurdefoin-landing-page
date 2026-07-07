@@ -744,7 +744,7 @@ if ('IntersectionObserver' in window){
   function clamp01(v){ return v < 0 ? 0 : v > 1 ? 1 : v; }
 
   /* Séquence d'images : le scroll pilote la lecture (façon Apple/luxe) */
-  var FRAMES = 121;
+  var FRAMES = 239;
   var frames = new Array(FRAMES);
   var loaded = new Array(FRAMES);
   function srcOf(i){ var n = String(i + 1); while (n.length < 3) n = '0' + n; return 'assets/seq-a/f_' + n + '.webp'; }
