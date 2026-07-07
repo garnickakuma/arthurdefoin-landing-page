@@ -67,6 +67,7 @@ h1,h2,h3{margin:0;}
 /* ============ HERO CINÉMATIQUE « L'Éclosion » ============ */
 .cine-track{position:relative; height:330vh;}
 .cine-stage{position:sticky; top:0; height:100vh; height:100svh; overflow:hidden; background:var(--bg);}
+#cine-canvas{position:absolute; inset:0; width:100%; height:100%;}
 .cine-img{position:absolute; inset:0; will-change:clip-path;}
 .cine-img img{width:100%; height:100%; object-fit:cover; object-position:50% 32%; will-change:transform; transform-origin:50% 38%;}
 .cine-ring{position:absolute; border:1px solid var(--line); pointer-events:none; opacity:0; box-shadow:0 30px 60px -38px rgba(74,64,56,.45);}
@@ -316,11 +317,7 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
   <section class="cine" id="cine" aria-label="Grossesse et nouveau-né — Amour et Lumière">
     <div class="cine-track" id="cine-track">
       <div class="cine-stage paused" id="cine-stage">
-        <div class="cine-img" id="cine-img"><img src="assets/photos/art-papillon-rose-hero.jpg" alt="Photo artistique grossesse — ailes de papillon fleuries"></div>
-        <div class="cine-ring" id="cine-ring"></div>
-        <div class="cine-bloom" id="cine-bloom"></div>
-        <div class="cine-veil" id="cine-veil"></div>
-        <div class="cine-petals" id="cine-petals" aria-hidden="true"></div>
+        <canvas id="cine-canvas" aria-hidden="true"></canvas>
         <div class="cine-scrim-b" id="cine-scrim-b"></div>
         <div class="cine-scrim-t" id="cine-scrim-t"></div>
         <div class="cine-copy cine-a" id="cine-a">
@@ -775,39 +772,48 @@ if ('IntersectionObserver' in window){
     if (fallback) fallback.style.display = 'block';
     return;
   }
-  var img = document.getElementById('cine-img');
-  var pic = img.querySelector('img');
-  var ring = document.getElementById('cine-ring');
-  var bloom = document.getElementById('cine-bloom');
-  var veil = document.getElementById('cine-veil');
+  var canvas = document.getElementById('cine-canvas');
+  var ctx = canvas.getContext('2d');
   var scrB = document.getElementById('cine-scrim-b');
   var scrT = document.getElementById('cine-scrim-t');
   var la = document.getElementById('cine-a');
   var lb = document.getElementById('cine-b');
   var lc = document.getElementById('cine-c');
-  var petalsWrap = document.getElementById('cine-petals');
   var words = lb.querySelectorAll('.w');
 
   function clamp01(v){ return v < 0 ? 0 : v > 1 ? 1 : v; }
   function sub(p, a, b){ return clamp01((p - a) / (b - a)); }
   function ease(u){ return u * u * (3 - 2 * u); }
 
-  /* pétales de rose flottants */
-  var NP = Math.min(window.innerWidth, window.innerHeight) < 700 ? 10 : 16;
-  var cols = ['#e9c4bc', '#dfb1a7', '#d9a89f', '#f0d3cc'];
-  for (var i = 0; i < NP; i++){
-    var sp = document.createElement('span');
-    var x0 = Math.random() * 100, drift = (Math.random() - 0.5) * 30;
-    sp.style.setProperty('--x0', x0 + 'vw');
-    sp.style.setProperty('--xm', (x0 + drift * 0.6) + 'vw');
-    sp.style.setProperty('--x1', (x0 + drift) + 'vw');
-    sp.style.setProperty('--s', (9 + Math.random() * 16) + 'px');
-    sp.style.setProperty('--d', (13 + Math.random() * 14) + 's');
-    sp.style.setProperty('--dl', (-Math.random() * 26) + 's');
-    sp.style.setProperty('--o', (0.35 + Math.random() * 0.4).toFixed(2));
-    sp.style.setProperty('--b', (Math.random() < 0.4 ? (0.8 + Math.random() * 1.2).toFixed(1) : 0) + 'px');
-    sp.style.setProperty('--c', cols[i % cols.length]);
-    petalsWrap.appendChild(sp);
+  /* Séquence d'images : le scroll pilote la lecture (façon Apple/luxe) */
+  var FRAMES = 66;
+  var frames = new Array(FRAMES);
+  var loaded = new Array(FRAMES);
+  function srcOf(i){ var n = String(i + 1); if (n.length < 2) n = '0' + n; return 'assets/seq-a/f_' + n + '.webp'; }
+  function preload(i){
+    var im = new Image();
+    im.onload = function(){ frames[i] = im; loaded[i] = true; if (i === 0) draw(); };
+    im.src = srcOf(i);
+  }
+  preload(0);
+  for (var fi = 1; fi < FRAMES; fi++) preload(fi);
+
+  var DPR = Math.min(window.devicePixelRatio || 1, 2);
+  function resize(){
+    canvas.width = stage.clientWidth * DPR;
+    canvas.height = stage.clientHeight * DPR;
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+  }
+  resize();
+  window.addEventListener('resize', function(){ resize(); draw(); });
+
+  function nearestLoaded(idx){
+    if (loaded[idx]) return idx;
+    for (var d = 1; d < FRAMES; d++){
+      if (idx - d >= 0 && loaded[idx - d]) return idx - d;
+      if (idx + d < FRAMES && loaded[idx + d]) return idx + d;
+    }
+    return -1;
   }
 
   var running = false;
@@ -817,51 +823,37 @@ if ('IntersectionObserver' in window){
     var span = r.height - vh;
     var p = span > 0 ? clamp01(-r.top / span) : 0;
 
-    /* 1. zoom arrière : la révélation des ailes */
-    var z = 1.30 - 0.30 * ease(sub(p, 0.02, 0.50));
-    var m = ease(sub(p, 0.55, 0.80)); /* morphing vers l'arche */
-    pic.style.transform = 'scale(' + (z + 0.06 * m) + ') translateY(' + (m * 2.5) + '%)';
+    /* 1. la frame vidéo pilotée par le scroll */
+    var idx = nearestLoaded(Math.round(p * (FRAMES - 1)));
+    if (idx > -1){
+      var im = frames[idx];
+      var s = Math.max(vw / im.naturalWidth, vh / im.naturalHeight);
+      var dw = im.naturalWidth * s, dh = im.naturalHeight * s;
+      ctx.clearRect(0, 0, vw, vh);
+      ctx.drawImage(im, (vw - dw) / 2, (vh - dh) / 2, dw, dh);
+    }
 
-    /* 2. l'image se sculpte en arche signature */
-    var tw = Math.min(vw * 0.92, 1000);
-    var L = ((vw - tw) / 2) * m;
-    var T = (vh * 0.44) * m;
-    var B = (vh * 0.05) * m;
-    var rad = Math.min(220, tw * 0.42) * m;
-    img.style.clipPath = 'inset(' + T + 'px ' + L + 'px ' + B + 'px ' + L + 'px round ' + rad + 'px ' + rad + 'px 0 0)';
-    ring.style.opacity = m;
-    ring.style.left = L + 'px'; ring.style.top = T + 'px';
-    ring.style.width = (vw - 2 * L) + 'px'; ring.style.height = (vh - T - B) + 'px';
-    ring.style.borderRadius = rad + 'px ' + rad + 'px 0 0';
-
-    /* 3. lumières */
-    veil.style.opacity = 1 - ease(sub(p, 0, 0.30));
-    bloom.style.opacity = (ease(sub(p, 0.24, 0.44)) * (1 - ease(sub(p, 0.52, 0.72)))) * 0.85;
-
-    /* 4. chorégraphie des textes */
-    var a = 1 - ease(sub(p, 0.06, 0.16));
+    /* 2. chorégraphie des textes */
+    var a = 1 - ease(sub(p, 0.05, 0.14));
     la.style.opacity = a;
     la.style.transform = 'translateY(' + ((1 - a) * -26) + 'px)';
     scrB.style.opacity = a;
 
-    lb.style.opacity = ease(sub(p, 0.20, 0.26)) * (1 - ease(sub(p, 0.48, 0.56)));
+    lb.style.opacity = ease(sub(p, 0.30, 0.36)) * (1 - ease(sub(p, 0.52, 0.60)));
     for (var wi = 0; wi < words.length; wi++){
-      var wo = ease(sub(p, 0.20 + wi * 0.05, 0.29 + wi * 0.05));
+      var wo = ease(sub(p, 0.30 + wi * 0.05, 0.38 + wi * 0.05));
       words[wi].style.opacity = wo;
       words[wi].style.transform = 'translateY(' + ((1 - wo) * 20) + 'px)';
     }
 
-    var c = ease(sub(p, 0.74, 0.84));
+    var c = ease(sub(p, 0.80, 0.90));
     lc.style.opacity = c;
     lc.style.transform = 'translateY(' + ((1 - c) * 18) + 'px)';
     lc.classList.toggle('on', c > 0.5);
     scrT.style.opacity = c * 0.92;
 
-    /* 5. pétales : s'effacent quand l'arche se pose */
-    petalsWrap.style.opacity = 1 - ease(sub(p, 0.60, 0.78));
-
-    /* 6. nav immersive : cachée pendant l'intro */
-    document.body.classList.toggle('nav-hidden', p < 0.72);
+    /* 3. nav immersive : cachée pendant l'intro */
+    document.body.classList.toggle('nav-hidden', p < 0.78);
   }
   function loop(){ if (!running) return; draw(); requestAnimationFrame(loop); }
   new IntersectionObserver(function(es){
