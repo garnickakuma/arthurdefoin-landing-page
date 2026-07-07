@@ -64,6 +64,46 @@ h1,h2,h3{margin:0;}
 .hero-arch{aspect-ratio:3/2; border-radius:220px 220px 0 0; overflow:hidden; border:1px solid var(--line);}
 .hero-arch img{width:100%; height:100%; object-fit:cover; object-position:center 42%;}
 
+/* ============ HERO CINÉMATIQUE « L'Éclosion » ============ */
+.cine-track{position:relative; height:330vh;}
+.cine-stage{position:sticky; top:0; height:100vh; height:100svh; overflow:hidden; background:var(--bg);}
+.cine-img{position:absolute; inset:0; will-change:clip-path;}
+.cine-img img{width:100%; height:100%; object-fit:cover; object-position:50% 32%; will-change:transform; transform-origin:50% 38%;}
+.cine-ring{position:absolute; border:1px solid var(--line); pointer-events:none; opacity:0; box-shadow:0 30px 60px -38px rgba(74,64,56,.45);}
+.cine-veil{position:absolute; inset:0; pointer-events:none; background:radial-gradient(120% 90% at 50% 30%, rgba(246,241,236,.55), rgba(246,241,236,0) 62%);}
+.cine-bloom{position:absolute; inset:0; pointer-events:none; background:radial-gradient(60% 52% at 50% 42%, rgba(255,252,248,.9), rgba(255,252,248,0) 70%); opacity:0;}
+.cine-scrim-b{position:absolute; left:0; right:0; bottom:0; height:62%; pointer-events:none; background:linear-gradient(to top, rgba(246,241,236,.96), rgba(246,241,236,.6) 42%, rgba(246,241,236,0));}
+.cine-scrim-t{position:absolute; left:0; right:0; top:0; height:58%; pointer-events:none; background:linear-gradient(to bottom, rgba(246,241,236,.96), rgba(246,241,236,.55) 52%, rgba(246,241,236,0)); opacity:0;}
+.cine-petals{position:absolute; inset:0; pointer-events:none; overflow:hidden;}
+.cine-petals span{position:absolute; top:0; left:0; width:var(--s); height:calc(var(--s) * .8); background:radial-gradient(120% 120% at 30% 30%, #f4dcd6, var(--c)); border-radius:58% 42% 55% 45% / 55% 45% 60% 40%; opacity:var(--o); filter:blur(var(--b)); animation:cinePetal var(--d) linear infinite; animation-delay:var(--dl);}
+@keyframes cinePetal{
+  0%{transform:translate3d(var(--x0), -8svh, 0) rotate(0deg);}
+  50%{transform:translate3d(var(--xm), 46svh, 0) rotate(160deg);}
+  100%{transform:translate3d(var(--x1), 108svh, 0) rotate(330deg);}
+}
+.cine-stage.paused .cine-petals span{animation-play-state:paused;}
+.cine-copy{position:absolute; left:0; right:0; pointer-events:none; text-align:center; padding:0 clamp(20px,5vw,40px);}
+.cine-a{bottom:clamp(44px,8.5svh,90px);}
+.cine-a .eyebrow{letter-spacing:.34em; margin-bottom:14px; display:block;}
+.cine-h{font-family:var(--serif); font-style:italic; font-weight:400; font-size:clamp(31px,7.6vw,64px); line-height:1.1; color:var(--ink2); margin:0 auto; max-width:820px; text-shadow:0 2px 26px rgba(246,241,236,.9);}
+.cine-hint{margin-top:20px; font-family:var(--sans); font-weight:300; font-size:11px; letter-spacing:.3em; text-transform:uppercase; color:var(--muted);}
+.cine-hint .ar{display:inline-block; animation:cineDown 1.6s ease-in-out infinite;}
+@keyframes cineDown{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
+.cine-b{top:50%; transform:translateY(-50%); opacity:0;}
+.cine-b .w{display:inline-block; opacity:0; transform:translateY(20px); margin:0 .12em;}
+.cine-c{top:clamp(80px,11svh,132px); opacity:0;}
+.cine-c-logo{width:340px; max-width:62%; height:auto; margin:16px auto 18px;}
+.cine-c-cta{display:flex; gap:16px; align-items:center; justify-content:center; flex-wrap:wrap;}
+.cine-c.on{pointer-events:auto;}
+.hero-fallback{display:none;}
+.nav{transition:opacity .45s ease, transform .45s ease;}
+body.nav-hidden .nav{opacity:0; transform:translateY(-10px); pointer-events:none;}
+@media (prefers-reduced-motion:reduce){
+  .cine{display:none;}
+  .hero-fallback{display:block;}
+  .cine-petals span, .cine-hint .ar{animation:none !important;}
+}
+
 /* DUO */
 .duo{background:var(--bg2);}
 .duo-grid{max-width:1140px; margin:0 auto; display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:64px; align-items:center;}
@@ -272,6 +312,40 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
 
 <!-- HERO -->
 <header>
+  <!-- Séquence cinématique « L'Éclosion » (pilotée au scroll) -->
+  <section class="cine" id="cine" aria-label="Grossesse et nouveau-né — Amour et Lumière">
+    <div class="cine-track" id="cine-track">
+      <div class="cine-stage paused" id="cine-stage">
+        <div class="cine-img" id="cine-img"><img src="assets/photos/art-papillon-rose-hero.jpg" alt="Photo artistique grossesse — ailes de papillon fleuries"></div>
+        <div class="cine-ring" id="cine-ring"></div>
+        <div class="cine-bloom" id="cine-bloom"></div>
+        <div class="cine-veil" id="cine-veil"></div>
+        <div class="cine-petals" id="cine-petals" aria-hidden="true"></div>
+        <div class="cine-scrim-b" id="cine-scrim-b"></div>
+        <div class="cine-scrim-t" id="cine-scrim-t"></div>
+        <div class="cine-copy cine-a" id="cine-a">
+          <div style="margin-bottom:20px"><span class="promo-pill">Offre limitée : −100 € sur chaque formule</span></div>
+          <span class="eyebrow">Grossesse &amp; nouveau-né · Studio haut de gamme</span>
+          <h1 class="cine-h">L'attente et les premiers jours…</h1>
+          <div class="cine-hint">Faites défiler <span class="ar">↓</span></div>
+        </div>
+        <div class="cine-copy cine-b" id="cine-b">
+          <div class="cine-h" style="font-size:clamp(34px,8.4vw,72px)"><span class="w">sculptés</span> <span class="w">par la</span> <span class="w">lumière.</span></div>
+        </div>
+        <div class="cine-copy cine-c" id="cine-c">
+          <div><span class="promo-pill">Offre limitée : −100 € sur chaque formule</span></div>
+          <img class="cine-c-logo" src="assets/logo-amour-et-lumiere.png" alt="Amour et Lumière">
+          <div class="cine-c-cta">
+            <a class="btn btn--fill" href="#reserver">Réserver une séance</a>
+            <a class="btn btn--link" href="#tarifs">Voir nos formules</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Fallback statique (reduced-motion / anciens navigateurs) -->
+  <div class="hero-fallback">
   <div class="hero-top">
     <div class="hero-badge"><span class="promo-pill">Offre limitée : −100 € sur chaque formule</span></div>
     <div class="hero-eyebrow">Grossesse &amp; nouveau-né · Studio haut de gamme</div>
@@ -286,6 +360,7 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
   <div class="hero-arch-wrap">
     <div class="hero-arch"><img src="assets/photos/art-papillon-rose.jpg" alt="Photo artistique grossesse — ailes de papillon fleuries"></div>
   </div>
+  </div><!-- /hero-fallback -->
 </header>
 
 <!-- LE DUO -->
@@ -686,6 +761,120 @@ if ('IntersectionObserver' in window){
 } else {
   document.querySelectorAll('.rise').forEach(function(el){ el.classList.add('in'); });
 }
+
+/* ---- Hero cinématique « L'Éclosion » ---- */
+(function(){
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var cine = document.getElementById('cine');
+  var track = document.getElementById('cine-track');
+  var stage = document.getElementById('cine-stage');
+  var fallback = document.querySelector('.hero-fallback');
+  if (!cine || !track || !stage) return;
+  if (reduce || !('IntersectionObserver' in window)){
+    cine.style.display = 'none';
+    if (fallback) fallback.style.display = 'block';
+    return;
+  }
+  var img = document.getElementById('cine-img');
+  var pic = img.querySelector('img');
+  var ring = document.getElementById('cine-ring');
+  var bloom = document.getElementById('cine-bloom');
+  var veil = document.getElementById('cine-veil');
+  var scrB = document.getElementById('cine-scrim-b');
+  var scrT = document.getElementById('cine-scrim-t');
+  var la = document.getElementById('cine-a');
+  var lb = document.getElementById('cine-b');
+  var lc = document.getElementById('cine-c');
+  var petalsWrap = document.getElementById('cine-petals');
+  var words = lb.querySelectorAll('.w');
+
+  function clamp01(v){ return v < 0 ? 0 : v > 1 ? 1 : v; }
+  function sub(p, a, b){ return clamp01((p - a) / (b - a)); }
+  function ease(u){ return u * u * (3 - 2 * u); }
+
+  /* pétales de rose flottants */
+  var NP = Math.min(window.innerWidth, window.innerHeight) < 700 ? 10 : 16;
+  var cols = ['#e9c4bc', '#dfb1a7', '#d9a89f', '#f0d3cc'];
+  for (var i = 0; i < NP; i++){
+    var sp = document.createElement('span');
+    var x0 = Math.random() * 100, drift = (Math.random() - 0.5) * 30;
+    sp.style.setProperty('--x0', x0 + 'vw');
+    sp.style.setProperty('--xm', (x0 + drift * 0.6) + 'vw');
+    sp.style.setProperty('--x1', (x0 + drift) + 'vw');
+    sp.style.setProperty('--s', (9 + Math.random() * 16) + 'px');
+    sp.style.setProperty('--d', (13 + Math.random() * 14) + 's');
+    sp.style.setProperty('--dl', (-Math.random() * 26) + 's');
+    sp.style.setProperty('--o', (0.35 + Math.random() * 0.4).toFixed(2));
+    sp.style.setProperty('--b', (Math.random() < 0.4 ? (0.8 + Math.random() * 1.2).toFixed(1) : 0) + 'px');
+    sp.style.setProperty('--c', cols[i % cols.length]);
+    petalsWrap.appendChild(sp);
+  }
+
+  var running = false;
+  function draw(){
+    var vh = stage.clientHeight, vw = stage.clientWidth;
+    var r = track.getBoundingClientRect();
+    var span = r.height - vh;
+    var p = span > 0 ? clamp01(-r.top / span) : 0;
+
+    /* 1. zoom arrière : la révélation des ailes */
+    var z = 1.30 - 0.30 * ease(sub(p, 0.02, 0.50));
+    var m = ease(sub(p, 0.55, 0.80)); /* morphing vers l'arche */
+    pic.style.transform = 'scale(' + (z + 0.06 * m) + ') translateY(' + (m * 2.5) + '%)';
+
+    /* 2. l'image se sculpte en arche signature */
+    var tw = Math.min(vw * 0.92, 1000);
+    var L = ((vw - tw) / 2) * m;
+    var T = (vh * 0.44) * m;
+    var B = (vh * 0.05) * m;
+    var rad = Math.min(220, tw * 0.42) * m;
+    img.style.clipPath = 'inset(' + T + 'px ' + L + 'px ' + B + 'px ' + L + 'px round ' + rad + 'px ' + rad + 'px 0 0)';
+    ring.style.opacity = m;
+    ring.style.left = L + 'px'; ring.style.top = T + 'px';
+    ring.style.width = (vw - 2 * L) + 'px'; ring.style.height = (vh - T - B) + 'px';
+    ring.style.borderRadius = rad + 'px ' + rad + 'px 0 0';
+
+    /* 3. lumières */
+    veil.style.opacity = 1 - ease(sub(p, 0, 0.30));
+    bloom.style.opacity = (ease(sub(p, 0.24, 0.44)) * (1 - ease(sub(p, 0.52, 0.72)))) * 0.85;
+
+    /* 4. chorégraphie des textes */
+    var a = 1 - ease(sub(p, 0.06, 0.16));
+    la.style.opacity = a;
+    la.style.transform = 'translateY(' + ((1 - a) * -26) + 'px)';
+    scrB.style.opacity = a;
+
+    lb.style.opacity = ease(sub(p, 0.20, 0.26)) * (1 - ease(sub(p, 0.48, 0.56)));
+    for (var wi = 0; wi < words.length; wi++){
+      var wo = ease(sub(p, 0.20 + wi * 0.05, 0.29 + wi * 0.05));
+      words[wi].style.opacity = wo;
+      words[wi].style.transform = 'translateY(' + ((1 - wo) * 20) + 'px)';
+    }
+
+    var c = ease(sub(p, 0.74, 0.84));
+    lc.style.opacity = c;
+    lc.style.transform = 'translateY(' + ((1 - c) * 18) + 'px)';
+    lc.classList.toggle('on', c > 0.5);
+    scrT.style.opacity = c * 0.92;
+
+    /* 5. pétales : s'effacent quand l'arche se pose */
+    petalsWrap.style.opacity = 1 - ease(sub(p, 0.60, 0.78));
+
+    /* 6. nav immersive : cachée pendant l'intro */
+    document.body.classList.toggle('nav-hidden', p < 0.72);
+  }
+  function loop(){ if (!running) return; draw(); requestAnimationFrame(loop); }
+  new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      var was = running;
+      running = e.isIntersecting;
+      stage.classList.toggle('paused', !running);
+      if (!running) document.body.classList.remove('nav-hidden');
+      if (running && !was) loop();
+    });
+  }, { rootMargin: '60px' }).observe(track);
+  draw();
+})();
 </script>
 </body>
 </html>
