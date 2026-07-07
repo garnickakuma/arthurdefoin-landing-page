@@ -786,10 +786,10 @@ if ('IntersectionObserver' in window){
   function ease(u){ return u * u * (3 - 2 * u); }
 
   /* Séquence d'images : le scroll pilote la lecture (façon Apple/luxe) */
-  var FRAMES = 66;
+  var FRAMES = 121;
   var frames = new Array(FRAMES);
   var loaded = new Array(FRAMES);
-  function srcOf(i){ var n = String(i + 1); if (n.length < 2) n = '0' + n; return 'assets/seq-a/f_' + n + '.webp'; }
+  function srcOf(i){ var n = String(i + 1); while (n.length < 3) n = '0' + n; return 'assets/seq-a/f_' + n + '.webp'; }
   function preload(i){
     var im = new Image();
     im.onload = function(){ frames[i] = im; loaded[i] = true; if (i === 0) draw(); };
@@ -817,11 +817,16 @@ if ('IntersectionObserver' in window){
   }
 
   var running = false;
+  var sp = -1; /* position lissée : rattrape le scroll réel avec inertie */
   function draw(){
     var vh = stage.clientHeight, vw = stage.clientWidth;
     var r = track.getBoundingClientRect();
     var span = r.height - vh;
-    var p = span > 0 ? clamp01(-r.top / span) : 0;
+    var target = span > 0 ? clamp01(-r.top / span) : 0;
+    if (sp < 0) sp = target;
+    sp += (target - sp) * 0.16;
+    if (Math.abs(target - sp) < 0.0004) sp = target;
+    var p = sp;
 
     /* 1. la frame vidéo pilotée par le scroll */
     var idx = nearestLoaded(Math.round(p * (FRAMES - 1)));
