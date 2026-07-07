@@ -774,6 +774,13 @@ if ('IntersectionObserver' in window){
     return -1;
   }
 
+  function paint(im, alpha, vw, vh){
+    var s = Math.max(vw / im.naturalWidth, vh / im.naturalHeight);
+    var dw = im.naturalWidth * s, dh = im.naturalHeight * s;
+    ctx.globalAlpha = alpha;
+    ctx.drawImage(im, (vw - dw) / 2, (vh - dh) / 2, dw, dh);
+  }
+
   var running = false;
   var sp = -1; /* position lissée : rattrape le scroll réel avec inertie */
   function draw(){
@@ -782,18 +789,19 @@ if ('IntersectionObserver' in window){
     var span = r.height - vh;
     var target = span > 0 ? clamp01(-r.top / span) : 0;
     if (sp < 0) sp = target;
-    sp += (target - sp) * 0.16;
-    if (Math.abs(target - sp) < 0.0004) sp = target;
+    sp += (target - sp) * 0.3;
+    if (Math.abs(target - sp) < 0.0012) sp = target;
     var p = sp;
 
-    /* 1. la frame vidéo pilotée par le scroll */
-    var idx = nearestLoaded(Math.round(p * (FRAMES - 1)));
-    if (idx > -1){
-      var im = frames[idx];
-      var s = Math.max(vw / im.naturalWidth, vh / im.naturalHeight);
-      var dw = im.naturalWidth * s, dh = im.naturalHeight * s;
+    /* 1. position fractionnaire → fondu enchaîné entre les 2 frames voisines */
+    var pos = p * (FRAMES - 1);
+    var i0 = nearestLoaded(Math.floor(pos));
+    var i1 = nearestLoaded(Math.min(Math.ceil(pos), FRAMES - 1));
+    if (i0 > -1){
       ctx.clearRect(0, 0, vw, vh);
-      ctx.drawImage(im, (vw - dw) / 2, (vh - dh) / 2, dw, dh);
+      paint(frames[i0], 1, vw, vh);
+      if (i1 > -1 && i1 !== i0) paint(frames[i1], pos - Math.floor(pos), vw, vh);
+      ctx.globalAlpha = 1;
     }
 
     /* 2. header : n'apparaît qu'à la toute fin de l'intro */
