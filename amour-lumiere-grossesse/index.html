@@ -78,10 +78,13 @@ body.menu-open{overflow:hidden;}
 
 /* ============ INTRO — le hero apparaît ensuite ============ */
 .intro{text-align:center; padding:clamp(58px,11vh,110px) clamp(24px,6vw,40px) clamp(56px,9vh,96px); max-width:560px; margin:0 auto;}
-.intro__eyebrow{font-family:var(--sans); font-weight:300; font-size:11px; letter-spacing:.3em; text-transform:uppercase; color:var(--accent); margin:0 0 28px;}
-.intro__logo{width:300px; max-width:78%; height:auto; margin:0 auto 32px;}
-.intro__lead{font-family:var(--sans); font-weight:300; font-size:16px; line-height:1.95; color:var(--muted2); margin:0 auto 34px; max-width:420px;}
-.intro__promo{margin:0 0 32px;}
+.intro__cats{font-family:var(--serif); font-weight:400; font-style:italic; font-size:clamp(24px,5.8vw,50px); line-height:1.22; color:var(--ink2); margin:0 0 16px; text-wrap:balance;}
+.intro__place{font-family:var(--sans); font-weight:300; font-size:12px; letter-spacing:.32em; text-transform:uppercase; color:var(--accent); margin:0 0 46px;}
+.intro__offer{margin:0 0 44px;}
+.intro__offer-label{display:flex; align-items:center; justify-content:center; gap:16px; font-family:var(--sans); font-weight:400; font-size:11px; letter-spacing:.3em; text-transform:uppercase; color:var(--muted2); margin-bottom:16px;}
+.intro__offer-label .hr{display:block; width:42px; height:1px; background:var(--line4);}
+.intro__offer-amount{font-family:var(--serif); font-weight:500; font-size:clamp(50px,13vw,76px); line-height:1; color:var(--accent);}
+.intro__offer-sub{font-family:var(--sans); font-weight:300; font-size:13px; letter-spacing:.18em; text-transform:uppercase; color:var(--muted2); margin-top:12px;}
 .intro__cta{display:flex; flex-direction:column; gap:20px; align-items:center;}
 .intro__link{font-family:var(--sans); font-weight:400; font-size:12px; letter-spacing:.18em; text-transform:uppercase; color:var(--muted2); text-decoration:none; border-bottom:1px solid var(--line4); padding-bottom:5px; transition:color .2s ease, border-color .2s ease;}
 .intro__link:hover{color:var(--accent); border-color:var(--accent);}
@@ -192,7 +195,8 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
 .fcard-now{font-family:var(--serif); font-size:27px; color:var(--accent);}
 .fcard-old{position:relative; display:inline-block; font-family:var(--serif); font-size:16px; color:var(--faint2);}
 .fcard-old .strike{position:absolute; left:-1px; right:-1px; top:55%; height:1px; background:var(--faint2);}
-.fcard-sum{font-family:var(--sans); font-weight:300; font-size:11.5px; line-height:1.5; color:var(--muted4);}
+.fcard-sum{font-family:var(--sans); font-weight:300; font-size:11.5px; line-height:1.6; color:var(--muted4);}
+.fcard-sum span{display:block;}
 
 /* ===== Carrousels swipe (cartes glissables au doigt, aperçu des voisines) ===== */
 .swipe-wrap{position:relative;}
@@ -305,7 +309,7 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
 <div class="menu" id="menu">
   <a href="#duo">Le duo</a>
   <a href="#prestations">Prestations</a>
-  <a href="#artistiques">Œuvres</a>
+  <a href="#galerie">Galerie</a>
   <a href="#tarifs">Tarifs</a>
   <a href="#trouver">Accès</a>
   <a href="#reserver">Réserver</a>
@@ -321,11 +325,13 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
 
 <!-- INTRO — le hero apparaît après l'image -->
 <section class="intro rise">
-  <h1 class="sr-only">Amour et Lumière — photographe grossesse et nouveau-né à Bègles, près de Bordeaux</h1>
-  <div class="intro__eyebrow">Grossesse &amp; Nouveau-né · Bègles — Bordeaux</div>
-  <img class="intro__logo" src="assets/logo-amour-et-lumiere.png" alt="Amour et Lumière">
-  <p class="intro__lead">L'attente et les premiers jours, sublimés par la lumière. Un studio haut de gamme, une lumière d'atelier, un cocon rien qu'à vous.</p>
-  <div class="intro__promo"><span class="promo-pill">Offre limitée : −100 € sur chaque formule</span></div>
+  <h1 class="intro__cats">Grossesse · Nouveau-né · Famille</h1>
+  <div class="intro__place">Studio à Bègles</div>
+  <div class="intro__offer">
+    <div class="intro__offer-label"><span class="hr"></span>Offre limitée<span class="hr"></span></div>
+    <div class="intro__offer-amount">−100 €</div>
+    <div class="intro__offer-sub">sur chaque formule</div>
+  </div>
   <div class="intro__cta">
     <a class="btn btn--fill" href="#reserver">Réserver une séance</a>
     <a class="intro__link" href="#tarifs">Voir nos formules</a>
@@ -356,32 +362,6 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
         <p>Les premiers liens, les premiers regards. La famille réunie autour de bébé, pour un souvenir à chérir.</p>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- PHOTOS ARTISTIQUES -->
-<section id="artistiques" class="art">
-  <div class="wrap" style="padding:0">
-    <div class="art-head rise">
-      <div class="eyebrow">Les photos artistiques</div>
-      <h2 class="h2 italic">Des œuvres d'art à accrocher au mur</h2>
-      <p>Notre signature. Une mise en scène d'exception — parures florales, drapés de soie, lumière sculptée — retouchée à la main pour faire de votre grossesse une véritable pièce de collection.</p>
-    </div>
-    <div class="art-duo">
-      <figure class="rise">
-        <div class="art-frame tall"><img src="assets/photos/art-fleur-rose.jpg" alt="Photo artistique grossesse — éclosion florale rose"></div>
-        <figcaption><span class="cap-name">Éclosion</span><span class="cap-tag">Tirage artistique</span></figcaption>
-      </figure>
-      <figure class="rise">
-        <div class="art-frame tall"><img src="assets/photos/art-fleur-ivoire.jpg" alt="Photo artistique grossesse — pétales d'ivoire"></div>
-        <figcaption><span class="cap-name">Lumière d'ivoire</span><span class="cap-tag">Tirage artistique</span></figcaption>
-      </figure>
-    </div>
-    <figure class="rise">
-      <div class="art-frame wide"><img src="assets/photos/art-fleurs-bleues.jpg" alt="Photo artistique grossesse — cascade de fleurs bleues"></div>
-      <figcaption><span class="cap-name">Rosée du matin</span><span class="cap-tag">Tirage artistique</span></figcaption>
-    </figure>
-    <div class="art-cta rise"><a class="btn btn--fill" href="#reserver">Réserver ma séance d'exception</a></div>
   </div>
 </section>
 
@@ -437,7 +417,7 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
             <div class="feat"><span class="dot">●</span><span>Studio</span></div>
             <div class="feat"><span class="dot">●</span><span>Séance photo de 1 h</span></div>
             <div class="feat"><span class="dot">●</span><span>1 à 2 tenues</span></div>
-            <div class="feat"><span class="dot">●</span><span>Seule, en couple ou avec bébé</span></div>
+            <div class="feat"><span class="dot">●</span><span>Seule, en couple ou avec votre bébé</span></div>
             <div class="feat"><span class="dot">●</span><span>Galerie photo web privée</span></div>
             <div class="feat strong"><span class="dot">●</span><span>5 photos numériques HD retouchées</span></div>
             <div class="feat"><span class="dot">●</span><span>1 photo artistique*</span></div>
@@ -457,7 +437,7 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
             <div class="feat"><span class="dot">●</span><span>Studio</span></div>
             <div class="feat"><span class="dot">●</span><span>Séance photo de 1 h</span></div>
             <div class="feat"><span class="dot">●</span><span>1 à 3 tenues</span></div>
-            <div class="feat"><span class="dot">●</span><span>Seule, en couple ou avec bébé</span></div>
+            <div class="feat"><span class="dot">●</span><span>Seule, en couple ou avec votre bébé</span></div>
             <div class="feat"><span class="dot">●</span><span>Galerie photo web privée</span></div>
             <div class="feat strong"><span class="dot">●</span><span>10 photos numériques HD retouchées</span></div>
             <div class="feat"><span class="dot">●</span><span>3 photos artistiques*</span></div>
@@ -476,7 +456,7 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
             <div class="feat"><span class="dot">●</span><span>Studio</span></div>
             <div class="feat"><span class="dot">●</span><span>Séance photo de 1 h</span></div>
             <div class="feat"><span class="dot">●</span><span>1 à 4 tenues</span></div>
-            <div class="feat"><span class="dot">●</span><span>Seule, en couple ou avec bébé</span></div>
+            <div class="feat"><span class="dot">●</span><span>Seule, en couple ou avec votre bébé</span></div>
             <div class="feat"><span class="dot">●</span><span>Galerie photo web privée</span></div>
             <div class="feat strong"><span class="dot">●</span><span>20 photos numériques HD retouchées</span></div>
             <div class="feat"><span class="dot">●</span><span>5 photos artistiques*</span></div>
@@ -505,6 +485,7 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
           <button type="button" class="pill" data-type="grossesse">Grossesse</button>
           <button type="button" class="pill" data-type="nouveauNe">Nouveau-né</button>
           <button type="button" class="pill" data-type="famille">Famille</button>
+          <button type="button" class="pill" data-type="autre">Autre</button>
         </div>
       </div>
 
@@ -525,18 +506,18 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
           <div class="fcard on" data-formule="Essentielle">
             <div class="fcard-name">Essentielle</div>
             <div class="fcard-price"><span class="fcard-now">250&nbsp;€</span> <span class="fcard-old">350&nbsp;€<span class="strike"></span></span></div>
-            <div class="fcard-sum">1 h · 5 photos numériques · 1 photo artistique</div>
+            <div class="fcard-sum"><span>5 photos numériques</span><span>1 photo artistique</span></div>
           </div>
           <div class="fcard" data-formule="Signature">
             <div class="fcard-lead">La plus choisie</div>
             <div class="fcard-name">Signature</div>
             <div class="fcard-price"><span class="fcard-now">350&nbsp;€</span> <span class="fcard-old">450&nbsp;€<span class="strike"></span></span></div>
-            <div class="fcard-sum">1 h · 10 photos numériques · 3 photos artistiques</div>
+            <div class="fcard-sum"><span>10 photos numériques</span><span>3 photos artistiques</span></div>
           </div>
           <div class="fcard" data-formule="Prestige">
             <div class="fcard-name">Prestige</div>
             <div class="fcard-price"><span class="fcard-now">450&nbsp;€</span> <span class="fcard-old">550&nbsp;€<span class="strike"></span></span></div>
-            <div class="fcard-sum">1 h · 20 photos numériques · 5 photos artistiques</div>
+            <div class="fcard-sum"><span>20 photos numériques</span><span>5 photos artistiques</span></div>
           </div>
         </div>
         </div>
@@ -566,7 +547,7 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
     <h2 class="h2 rise">Un écrin de lumière à Bègles</h2>
     <div class="studio-grid">
       <div class="studio-col rise"><h3>Lumière d'atelier</h3><p>Une lumière maîtrisée toute l'année, quelle que soit la météo, pour des images douces et intemporelles.</p></div>
-      <div class="studio-col rise"><h3>Un cocon privatisé</h3><p>Le studio rien que pour vous : chauffé, intime et confortable, idéal pour les tout-petits et les futures mamans.</p></div>
+      <div class="studio-col rise"><h3>Un cocon privatisé</h3><p>Le studio rien que pour vous : chauffé, climatisé, intime et confortable, idéal pour les tout-petits et les futures mamans.</p></div>
       <div class="studio-col rise"><h3>À quelques minutes de la mairie</h3><p>À Bègles, à quelques minutes de la mairie et facilement accessible, avec parking. Sur rendez-vous.</p></div>
     </div>
   </div>
@@ -581,13 +562,13 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
   <div class="trouver-grid">
     <div class="trouver-card rise">
       <div class="trouver-name">Amour &amp; Lumière — Studio</div>
-      <div class="trouver-addr">12 rue de la République<br>33130 Bègles</div>
+      <div class="trouver-addr">2 Allée André Joseph Sire<br>33130 Bègles</div>
       <div class="trouver-meta">À quelques minutes de la mairie de Bègles · Parking à proximité · Sur rendez-vous</div>
-      <a class="btn btn--fill trouver-map-btn" href="https://www.google.com/maps/search/?api=1&query=12+rue+de+la+R%C3%A9publique+33130+B%C3%A8gles" target="_blank" rel="noopener" style="padding:15px 30px;">
+      <a class="btn btn--fill trouver-map-btn" href="https://www.google.com/maps/search/?api=1&query=2+All%C3%A9e+Andr%C3%A9+Joseph+Sire+33130+B%C3%A8gles" target="_blank" rel="noopener" style="padding:15px 30px;">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" style="flex:none"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" stroke="#fff" stroke-width="1.6"/><circle cx="12" cy="9" r="2.4" stroke="#fff" stroke-width="1.6"/></svg>Voir sur Google Maps</a>
     </div>
     <div class="trouver-map">
-      <iframe title="Localisation du studio Amour et Lumière à Bègles" src="https://www.google.com/maps?q=12+rue+de+la+R%C3%A9publique,+33130+B%C3%A8gles&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <iframe title="Localisation du studio Amour et Lumière à Bègles" src="https://www.google.com/maps?q=2+All%C3%A9e+Andr%C3%A9+Joseph+Sire,+33130+B%C3%A8gles&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
     </div>
   </div>
 </section>
@@ -709,9 +690,9 @@ document.getElementById('resa-form').addEventListener('submit', function(e){
 /* ---- FAQ ---- */
 var FAQ = [
   { q: "Comment se déroule une séance ?", a: "Un échange en amont pour cerner vos envies, puis 1 h de séance tout en douceur au studio. Nous guidons chaque pose pour que les vrais moments arrivent naturellement." },
-  { q: "Quand réserver une séance grossesse ?", a: "Idéalement entre le 7ᵉ et le 8ᵉ mois, lorsque le ventre est joliment arrondi. Réservez 4 à 6 semaines à l'avance pour garantir votre date." },
+  { q: "Quand réserver une séance grossesse ?", a: "Idéalement entre le 6ᵉ et le 8ᵉ mois, lorsque le ventre est joliment arrondi. Réservez 2 à 3 mois à l'avance pour garantir votre date." },
   { q: "Quand faire une séance nouveau-né ?", a: "Dans les 10 à 15 jours après la naissance, lorsque bébé dort encore beaucoup. Réservez pendant la grossesse pour bloquer une date autour du terme." },
-  { q: "Quand recevons-nous nos photos ?", a: "Votre galerie privée est livrée sous 1 semaine. Vous y sélectionnez vos images, retouchées avec soin, et commandez vos tirages." },
+  { q: "Quand recevons-nous nos photos ?", a: "Le choix de vos photos se fait directement au studio, à la fin de la séance. Votre galerie privée, retouchée avec soin, vous est ensuite livrée sous 1 semaine." },
   { q: "Que comprend l'acompte ?", a: "Un acompte de 30 % valide la réservation et la date. Il est déduit du total ; le solde est réglé le jour de la séance." }
 ];
 var faqList = document.getElementById('faq-list');
