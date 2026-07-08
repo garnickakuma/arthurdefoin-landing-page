@@ -107,6 +107,8 @@ body.menu-open{overflow:hidden;}
 .presta{text-align:center;}
 .presta-arch{aspect-ratio:4/5; border-radius:160px 160px 0 0; overflow:hidden; border:1px solid var(--line); margin-bottom:24px;}
 .presta-arch img{width:100%; height:100%; object-fit:cover;}
+.presta-intro{font-family:var(--sans); font-weight:300; font-size:16px; line-height:1.9; color:var(--muted); max-width:520px; margin:22px auto 0;}
+.presta-chap{font-family:var(--sans); font-weight:400; font-size:10px; letter-spacing:.32em; text-transform:uppercase; color:var(--accent); margin:0 0 8px;}
 .presta h3{font-family:var(--serif); font-weight:500; font-size:29px; margin:0 0 10px;}
 .presta p{font-size:15px; font-weight:300; line-height:1.75; color:var(--muted); margin:0 auto; max-width:300px;}
 
@@ -308,7 +310,7 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
 <!-- MENU BURGER -->
 <div class="menu" id="menu">
   <a href="#duo">Le duo</a>
-  <a href="#prestations">Prestations</a>
+  <a href="#prestations">Les chapitres</a>
   <a href="#galerie">Galerie</a>
   <a href="#tarifs">Tarifs</a>
   <a href="#trouver">Accès</a>
@@ -341,25 +343,29 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
 <!-- PRESTATIONS -->
 <section id="prestations" class="section wrap">
   <div class="head-center rise">
-    <div class="eyebrow">Nos prestations</div>
-    <h2 class="h2">Chaque instant de ce nouveau chapitre</h2>
+    <div class="eyebrow">Votre histoire</div>
+    <h2 class="h2 italic">Chaque séance, un nouveau chapitre</h2>
+    <p class="presta-intro">Une histoire s'écrit, page après page. Nous en sommes les auteurs — et chacun de ces chapitres mérite d'être immortalisé.</p>
   </div>
   <div class="swipe-wrap rise" data-swipe>
     <div class="swipe swipe--presta">
       <div class="presta">
         <div class="presta-arch"><img src="assets/photos/grossesse.jpg" alt="Séance grossesse en studio" style="object-position:center 42%"></div>
+        <div class="presta-chap">Chapitre I</div>
         <h3>Grossesse</h3>
-        <p>L'attente sublimée. Une séance tout en élégance, seule ou en couple, idéalement dès le 7ᵉ mois.</p>
+        <p>La première page. L'attente sublimée, seule ou en couple, idéalement dès le 7ᵉ mois.</p>
       </div>
       <div class="presta">
         <div class="presta-arch"><img src="assets/photos/maman-bebe.jpg" alt="Séance nouveau-né en studio" style="object-position:center 30%"></div>
+        <div class="presta-chap">Chapitre II</div>
         <h3>Nouveau-né</h3>
-        <p>Les tout premiers jours. Une séance cocon, en douceur et en chaleur, dans les 10 à 15 jours après la naissance.</p>
+        <p>Les premières lignes. Une séance cocon, en douceur, dans les 10 à 15 jours après la naissance.</p>
       </div>
       <div class="presta">
         <div class="presta-arch"><img src="assets/photos/papa-bebe.jpg" alt="Séance famille et bébé en studio" style="object-position:center 18%"></div>
+        <div class="presta-chap">Chapitre III</div>
         <h3>Famille &amp; bébé</h3>
-        <p>Les premiers liens, les premiers regards. La famille réunie autour de bébé, pour un souvenir à chérir.</p>
+        <p>Le récit à plusieurs mains. Les premiers liens, les premiers regards, la famille enfin réunie.</p>
       </div>
     </div>
   </div>
@@ -369,7 +375,7 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
 <section id="galerie" class="section wrap">
   <div class="head-center rise" style="margin-bottom:28px">
     <div class="eyebrow" style="margin-bottom:16px">Galerie</div>
-    <h2 class="h2">Nos séances en images</h2>
+    <h2 class="h2 italic">Des histoires déjà écrites</h2>
   </div>
   <div class="gal-toggle">
     <button type="button" class="gal-btn on" data-gal="nat">Naturelles</button>
@@ -473,13 +479,13 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
 <!-- RESERVER -->
 <section id="reserver" class="resa section">
   <div class="resa-inner">
-    <div class="eyebrow">Réservation</div>
-    <h2 class="h2 italic">Réserver ma séance</h2>
-    <p class="lead">Indiquez-nous votre formule et votre situation. Nous vous rappelons sous 24 h pour fixer ensemble la date de votre séance au studio.</p>
+    <div class="eyebrow">Le premier chapitre</div>
+    <h2 class="h2 italic">Écrivons votre histoire</h2>
+    <p class="lead">Indiquez-nous votre chapitre et votre situation. Nous vous rappelons sous 24 h pour fixer ensemble la date de votre séance au studio.</p>
 
     <form class="form-card" id="resa-form">
       <div class="form-block">
-        <label class="form-label">Quel type de shooting voulez-vous réserver ?</label>
+        <label class="form-label">Quel chapitre souhaitez-vous écrire ?</label>
         <div class="form-hint">Plusieurs choix possibles.</div>
         <div class="pill-grid">
           <button type="button" class="pill" data-type="grossesse">Grossesse</button>
