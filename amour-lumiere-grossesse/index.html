@@ -193,6 +193,23 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
 .fcard-old{position:relative; display:inline-block; font-family:var(--serif); font-size:16px; color:var(--faint2);}
 .fcard-old .strike{position:absolute; left:-1px; right:-1px; top:55%; height:1px; background:var(--faint2);}
 .fcard-sum{font-family:var(--sans); font-weight:300; font-size:11.5px; line-height:1.5; color:var(--muted4);}
+
+/* ===== Carrousels swipe (cartes glissables au doigt, aperçu des voisines) ===== */
+.swipe-wrap{position:relative;}
+.swipe{position:relative; display:flex; gap:16px; overflow-x:auto; overflow-y:hidden; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; scrollbar-width:none; -ms-overflow-style:none; padding-top:8px; padding-bottom:12px; padding-left:calc(50% - (var(--cardw) / 2)); padding-right:calc(50% - (var(--cardw) / 2)); cursor:grab; scroll-behavior:smooth; overscroll-behavior-x:contain;}
+.swipe::-webkit-scrollbar{display:none;}
+.swipe.is-drag{cursor:grabbing; scroll-snap-type:none; scroll-behavior:auto;}
+.swipe.is-drag > *{pointer-events:none;}
+.swipe > *{scroll-snap-align:center; flex:0 0 var(--cardw); width:var(--cardw); margin:0;}
+.swipe img{-webkit-user-drag:none; user-drag:none; user-select:none;}
+.swipe-dots{display:flex; justify-content:center; gap:9px; margin-top:24px;}
+.swipe-dot{width:7px; height:7px; padding:0; border:0; border-radius:50%; background:var(--line4); cursor:pointer; transition:background .2s ease, transform .2s ease;}
+.swipe-dot.on{background:var(--accent); transform:scale(1.35);}
+.swipe--presta{--cardw:clamp(240px,80vw,300px);}
+.swipe--tarifs{--cardw:clamp(250px,84vw,300px); align-items:stretch;}
+.swipe--tarifs .plan{width:var(--cardw); margin-top:0;}
+.swipe--formule{--cardw:clamp(200px,66vw,240px);}
+.swipe--formule .fcard{width:var(--cardw);}
 .fields{display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:20px; margin-bottom:24px;}
 .field-full{grid-column:1 / -1;}
 .field input{width:100%; font-family:var(--sans); font-weight:300; font-size:15px; color:var(--ink); background:var(--bg); border:1px solid var(--line); border-radius:10px; padding:14px 16px;}
@@ -297,7 +314,7 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
 
 <!-- HERO -->
 <header class="hero">
-  <img class="hero__img" src="assets/photos/hero-fleur-ivoire.jpg" alt="Photo artistique de grossesse — robe ivoire dans une corolle de pétales, studio Amour et Lumière">
+  <img class="hero__img" src="assets/photos/hero-fleur-ivoire.jpg?v=2" alt="Photo artistique de grossesse — robe ivoire dans une corolle de pétales, studio Amour et Lumière">
   <div class="hero__foot"></div>
   <div class="hero__cue"><span class="ar"></span>Découvrir</div>
 </header>
@@ -321,21 +338,23 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
     <div class="eyebrow">Nos prestations</div>
     <h2 class="h2">Chaque instant de ce nouveau chapitre</h2>
   </div>
-  <div class="presta-grid">
-    <div class="presta rise">
-      <div class="presta-arch"><img src="assets/photos/grossesse.jpg" alt="Séance grossesse en studio" style="object-position:center 42%"></div>
-      <h3>Grossesse</h3>
-      <p>L'attente sublimée. Une séance tout en élégance, seule ou en couple, idéalement dès le 7ᵉ mois.</p>
-    </div>
-    <div class="presta rise">
-      <div class="presta-arch"><img src="assets/photos/maman-bebe.jpg" alt="Séance nouveau-né en studio" style="object-position:center 30%"></div>
-      <h3>Nouveau-né</h3>
-      <p>Les tout premiers jours. Une séance cocon, en douceur et en chaleur, dans les 10 à 15 jours après la naissance.</p>
-    </div>
-    <div class="presta rise">
-      <div class="presta-arch"><img src="assets/photos/papa-bebe.jpg" alt="Séance famille et bébé en studio" style="object-position:center 18%"></div>
-      <h3>Famille &amp; bébé</h3>
-      <p>Les premiers liens, les premiers regards. La famille réunie autour de bébé, pour un souvenir à chérir.</p>
+  <div class="swipe-wrap rise" data-swipe>
+    <div class="swipe swipe--presta">
+      <div class="presta">
+        <div class="presta-arch"><img src="assets/photos/grossesse.jpg" alt="Séance grossesse en studio" style="object-position:center 42%"></div>
+        <h3>Grossesse</h3>
+        <p>L'attente sublimée. Une séance tout en élégance, seule ou en couple, idéalement dès le 7ᵉ mois.</p>
+      </div>
+      <div class="presta">
+        <div class="presta-arch"><img src="assets/photos/maman-bebe.jpg" alt="Séance nouveau-né en studio" style="object-position:center 30%"></div>
+        <h3>Nouveau-né</h3>
+        <p>Les tout premiers jours. Une séance cocon, en douceur et en chaleur, dans les 10 à 15 jours après la naissance.</p>
+      </div>
+      <div class="presta">
+        <div class="presta-arch"><img src="assets/photos/papa-bebe.jpg" alt="Séance famille et bébé en studio" style="object-position:center 18%"></div>
+        <h3>Famille &amp; bébé</h3>
+        <p>Les premiers liens, les premiers regards. La famille réunie autour de bébé, pour un souvenir à chérir.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -405,7 +424,8 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
     <div class="tarifs-promo"><span class="promo-pill">Offre limitée : −100 € sur chaque formule</span></div>
     <div class="rise">
       <div class="tarifs-sub">Au studio · Bègles</div>
-      <div class="tarifs-grid">
+      <div class="swipe-wrap" data-swipe>
+      <div class="swipe swipe--tarifs">
         <div class="plan">
           <div class="plan-top">
             <div class="plan-name">Essentielle</div>
@@ -464,6 +484,7 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
           <a class="btn btn--outline" href="#reserver">Réserver</a>
         </div>
       </div>
+      </div>
       <p class="plan-note">Un acompte de 30 % valide votre réservation · le solde est réglé le jour de la séance. &nbsp;*&nbsp;1 photo artistique spécialement retouchée avec soin.</p>
     </div>
   </div>
@@ -499,7 +520,8 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
 
       <div class="form-block">
         <label class="form-label">Formule souhaitée</label>
-        <div class="formule-grid">
+        <div class="swipe-wrap" data-swipe>
+        <div class="swipe swipe--formule">
           <div class="fcard on" data-formule="Essentielle">
             <div class="fcard-name">Essentielle</div>
             <div class="fcard-price"><span class="fcard-now">250&nbsp;€</span> <span class="fcard-old">350&nbsp;€<span class="strike"></span></span></div>
@@ -516,6 +538,7 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
             <div class="fcard-price"><span class="fcard-now">450&nbsp;€</span> <span class="fcard-old">550&nbsp;€<span class="strike"></span></span></div>
             <div class="fcard-sum">1 h · 20 photos numériques · 5 photos artistiques</div>
           </div>
+        </div>
         </div>
       </div>
 
@@ -737,6 +760,81 @@ if ('IntersectionObserver' in window){
       burger.setAttribute('aria-expanded', 'false');
     });
   }
+})();
+
+/* Carrousels swipe (cartes glissables + points indicateurs) */
+(function(){
+  document.querySelectorAll('[data-swipe]').forEach(function(wrap){
+    var track = wrap.querySelector('.swipe');
+    if (!track) return;
+    var cards = Array.prototype.slice.call(track.children);
+    if (cards.length < 2) return;
+
+    /* points */
+    var dotsWrap = document.createElement('div');
+    dotsWrap.className = 'swipe-dots';
+    cards.forEach(function(card, i){
+      var d = document.createElement('button');
+      d.type = 'button'; d.className = 'swipe-dot';
+      d.setAttribute('aria-label', 'Voir la carte ' + (i + 1));
+      d.addEventListener('click', function(){ centerOn(card); });
+      dotsWrap.appendChild(d);
+    });
+    wrap.appendChild(dotsWrap);
+    var dots = Array.prototype.slice.call(dotsWrap.children);
+
+    function centerOn(card){
+      var left = card.offsetLeft - (track.clientWidth - card.clientWidth) / 2;
+      track.scrollTo({ left: left, behavior: 'smooth' });
+    }
+    function activeIndex(){
+      var mid = track.scrollLeft + track.clientWidth / 2;
+      var best = 0, bd = Infinity;
+      cards.forEach(function(card, i){
+        var cc = card.offsetLeft + card.clientWidth / 2;
+        var dd = Math.abs(cc - mid);
+        if (dd < bd){ bd = dd; best = i; }
+      });
+      return best;
+    }
+    function sync(){
+      var a = activeIndex();
+      for (var i = 0; i < dots.length; i++) dots[i].classList.toggle('on', i === a);
+    }
+    var raf = 0;
+    track.addEventListener('scroll', function(){
+      if (raf) return;
+      raf = requestAnimationFrame(function(){ raf = 0; sync(); });
+    }, { passive: true });
+    sync();
+
+    /* glisser à la souris (le tactile est natif et fluide) */
+    var down = false, sx = 0, sl = 0, moved = false;
+    track.addEventListener('pointerdown', function(e){
+      if (e.pointerType === 'touch') return;
+      down = true; moved = false; sx = e.clientX; sl = track.scrollLeft;
+      track.classList.add('is-drag');
+      try { track.setPointerCapture(e.pointerId); } catch(_){}
+    });
+    track.addEventListener('pointermove', function(e){
+      if (!down) return;
+      var dx = e.clientX - sx;
+      if (Math.abs(dx) > 3) moved = true;
+      track.scrollLeft = sl - dx;
+    });
+    function end(){
+      if (!down) return;
+      down = false;
+      track.classList.remove('is-drag');
+      centerOn(cards[activeIndex()]);
+    }
+    track.addEventListener('pointerup', end);
+    track.addEventListener('pointercancel', end);
+    /* neutralise le clic fantôme après un glissé (sélection de formule) */
+    track.addEventListener('click', function(e){
+      if (moved){ e.preventDefault(); e.stopPropagation(); moved = false; }
+    }, true);
+  });
 })();
 </script>
 </body>
