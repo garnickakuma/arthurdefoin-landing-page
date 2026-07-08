@@ -424,7 +424,7 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
     <div class="tarifs-promo"><span class="promo-pill">Offre limitée : −100 € sur chaque formule</span></div>
     <div class="rise">
       <div class="tarifs-sub">Au studio · Bègles</div>
-      <div class="swipe-wrap" data-swipe>
+      <div class="swipe-wrap" data-swipe data-start="1">
       <div class="swipe swipe--tarifs">
         <div class="plan">
           <div class="plan-top">
@@ -806,6 +806,15 @@ if ('IntersectionObserver' in window){
       if (raf) return;
       raf = requestAnimationFrame(function(){ raf = 0; sync(); });
     }, { passive: true });
+
+    /* carte de départ (ex. Tarifs → carte du milieu en premier) */
+    var startAt = parseInt(wrap.getAttribute('data-start'), 10);
+    if (startAt > 0 && cards[startAt]){
+      var prev = track.style.scrollBehavior;
+      track.style.scrollBehavior = 'auto';
+      track.scrollLeft = cards[startAt].offsetLeft - (track.clientWidth - cards[startAt].clientWidth) / 2;
+      track.style.scrollBehavior = prev;
+    }
     sync();
 
     /* glisser à la souris (le tactile est natif et fluide) */
