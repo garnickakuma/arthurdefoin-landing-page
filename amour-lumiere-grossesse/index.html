@@ -901,10 +901,16 @@ document.getElementById('resa-form').addEventListener('submit', function(e){
   var grossEl = form.querySelector('.pill[data-gross].on');
   var formuleEl = form.querySelector('.fcard.on');
 
+  var formule = formuleEl ? formuleEl.getAttribute('data-formule') : '';
+  var prixEl = formuleEl ? formuleEl.querySelector('.fcard-now') : null;
+  var prix = prixEl ? prixEl.textContent.replace(/ /g, ' ').trim() : '';
+
   var payload = {
     chapitres: types.join(', '),
     stade_grossesse: grossEl ? grossEl.getAttribute('data-gross') : '',
-    formule: formuleEl ? formuleEl.getAttribute('data-formule') : '',
+    formule: formule,
+    prix: prix,
+    formule_prix: (formule && prix) ? (formule + ' — ' + prix) : formule,
     nom: form.nom.value.trim(),
     telephone: form.tel.value.trim(),
     email: form.email.value.trim(),
