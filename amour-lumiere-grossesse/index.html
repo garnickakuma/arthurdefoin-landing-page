@@ -888,11 +888,41 @@ document.querySelectorAll('.fcard').forEach(function(c){
     document.querySelectorAll('.fcard').forEach(function(x){ x.classList.toggle('on', x === c); });
   });
 });
-/* soumission -> écran de confirmation */
+/* soumission -> envoi vers Make (webhook) + écran de confirmation */
+var MAKE_WEBHOOK = 'https://hook.eu2.make.com/7fv61709dw73t4ly3afk9cpswq9sv5cf';
 document.getElementById('resa-form').addEventListener('submit', function(e){
   e.preventDefault();
-  /* TODO production : brancher sur emailing/CRM (le studio rappelle sous 24 h) */
-  document.getElementById('resa-form').hidden = true;
+  var form = document.getElementById('resa-form');
+
+  var types = Array.prototype.map.call(
+    form.querySelectorAll('.pill[data-type].on'),
+    function(p){ return p.textContent.trim(); }
+  );
+  var grossEl = form.querySelector('.pill[data-gross].on');
+  var formuleEl = form.querySelector('.fcard.on');
+
+  var payload = {
+    chapitres: types.join(', '),
+    stade_grossesse: grossEl ? grossEl.getAttribute('data-gross') : '',
+    formule: formuleEl ? formuleEl.getAttribute('data-formule') : '',
+    nom: form.nom.value.trim(),
+    telephone: form.tel.value.trim(),
+    email: form.email.value.trim(),
+    source: 'Landing Grossesse',
+    page: location.href,
+    date: new Date().toISOString()
+  };
+
+  try {
+    fetch(MAKE_WEBHOOK, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+      body: new URLSearchParams(payload).toString()
+    }).catch(function(){});
+  } catch (err) {}
+
+  form.hidden = true;
   document.getElementById('resa-done').hidden = false;
   document.getElementById('resa-done').scrollIntoView({ behavior: 'smooth', block: 'center' });
 });
