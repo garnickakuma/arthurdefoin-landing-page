@@ -137,6 +137,9 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
 .masonry.nat{columns:260px;}
 .masonry.art{columns:300px;}
 .masonry img{width:100%; border-radius:4px; border:1px solid var(--line); margin-bottom:16px; break-inside:avoid;}
+.masonry.is-collapsed img:nth-child(n+9){display:none;}
+.gal-more{display:block; margin:34px auto 0; font-family:var(--sans); font-size:12px; letter-spacing:.2em; text-transform:uppercase; padding:14px 34px; border-radius:40px; cursor:pointer; background:transparent; color:var(--ink); border:1px solid var(--line4); transition:all .18s ease;}
+.gal-more:hover{border-color:var(--accent); color:var(--accent);}
 
 /* TARIFS */
 .tarifs{background:var(--bg2);}
@@ -356,13 +359,13 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
         <p>La première page. L'attente sublimée, seule ou en couple, idéalement dès le 7ᵉ mois.</p>
       </div>
       <div class="presta">
-        <div class="presta-arch"><img src="assets/photos/maman-bebe.jpg" alt="Séance nouveau-né en studio" style="object-position:center 30%"></div>
+        <div class="presta-arch"><img src="assets/photos/presta-nouveau-ne.jpg" alt="Séance nouveau-né en studio" style="object-position:40% 42%"></div>
         <div class="presta-chap">Chapitre II</div>
         <h3>Nouveau-né</h3>
         <p>Les premières lignes. Une séance cocon, en douceur, dans les 10 à 15 jours après la naissance.</p>
       </div>
       <div class="presta">
-        <div class="presta-arch"><img src="assets/photos/papa-bebe.jpg" alt="Séance famille et bébé en studio" style="object-position:center 18%"></div>
+        <div class="presta-arch"><img src="assets/photos/maman-bebe.jpg" alt="Séance famille et bébé en studio" style="object-position:center 30%"></div>
         <div class="presta-chap">Chapitre III</div>
         <h3>Famille &amp; bébé</h3>
         <p>Le récit à plusieurs mains. Les premiers liens, les premiers regards, la famille enfin réunie.</p>
@@ -381,7 +384,7 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
     <button type="button" class="gal-btn on" data-gal="nat">Classiques</button>
     <button type="button" class="gal-btn" data-gal="art">Artistiques</button>
   </div>
-  <div class="masonry nat" id="gal-nat">
+  <div class="masonry nat is-collapsed" id="gal-nat">
     <img src="assets/photos/gal-c-01.jpg" alt="Séance photo en studio — Amour et Lumière, Bègles" loading="lazy">
     <img src="assets/photos/gal-c-02.jpg" alt="Séance photo nouveau-né en studio — Amour et Lumière, Bègles" loading="lazy">
     <img src="assets/photos/gal-c-03.jpg" alt="Séance photo nouveau-né en studio — Amour et Lumière, Bègles" loading="lazy">
@@ -389,7 +392,6 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
     <img src="assets/photos/gal-c-05.jpg" alt="Séance photo en studio — Amour et Lumière, Bègles" loading="lazy">
     <img src="assets/photos/gal-c-06.jpg" alt="Séance photo en studio — Amour et Lumière, Bègles" loading="lazy">
     <img src="assets/photos/gal-c-07.jpg" alt="Séance photo en studio — Amour et Lumière, Bègles" loading="lazy">
-    <img src="assets/photos/gal-c-08.jpg" alt="Séance photo en studio — Amour et Lumière, Bègles" loading="lazy">
     <img src="assets/photos/gal-c-09.jpg" alt="Séance photo en studio — Amour et Lumière, Bègles" loading="lazy">
     <img src="assets/photos/gal-c-10.jpg" alt="Séance photo en studio — Amour et Lumière, Bègles" loading="lazy">
     <img src="assets/photos/gal-c-11.jpg" alt="Séance photo nouveau-né en studio — Amour et Lumière, Bègles" loading="lazy">
@@ -400,7 +402,7 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
     <img src="assets/photos/gal-c-16.jpg" alt="Séance photo en studio — Amour et Lumière, Bègles" loading="lazy">
     <img src="assets/photos/gal-c-17.jpg" alt="Séance photo en studio — Amour et Lumière, Bègles" loading="lazy">
   </div>
-  <div class="masonry art" id="gal-art" hidden>
+  <div class="masonry art is-collapsed" id="gal-art" hidden>
     <img src="assets/photos/gal-art-new-01.jpg" alt="Photo artistique grossesse — corolle de pétales ivoire, reflet sur l'eau" loading="lazy">
     <img src="assets/photos/gal-art-new-02.jpg" alt="Photo artistique grossesse — voile orangé en mouvement" loading="lazy">
     <img src="assets/photos/gal-art-new-03.jpg" alt="Photo artistique grossesse — ailes de papillon fleuries" loading="lazy">
@@ -409,6 +411,7 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
     <img src="assets/photos/art-fleur-ivoire.jpg" alt="Photo artistique grossesse — pétales d'ivoire" loading="lazy">
     <img src="assets/photos/art-fleurs-bleues.jpg" alt="Photo artistique grossesse — cascade de fleurs bleues" loading="lazy">
   </div>
+  <button type="button" class="gal-more" id="gal-more" hidden>Voir plus</button>
 </section>
 
 <!-- TARIFS -->
@@ -665,15 +668,40 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
 </footer>
 
 <script>
-/* ---- Galerie toggle ---- */
-document.querySelectorAll('.gal-btn').forEach(function(btn){
-  btn.addEventListener('click', function(){
-    var g = btn.dataset.gal;
-    document.querySelectorAll('.gal-btn').forEach(function(b){ b.classList.toggle('on', b === btn); });
-    document.getElementById('gal-nat').hidden = (g !== 'nat');
-    document.getElementById('gal-art').hidden = (g !== 'art');
+/* ---- Galerie toggle + bouton « Voir plus » ---- */
+(function(){
+  var LIMIT = 8;
+  var galNat = document.getElementById('gal-nat');
+  var galArt = document.getElementById('gal-art');
+  var moreBtn = document.getElementById('gal-more');
+  function activeGrid(){ return galNat.hidden ? galArt : galNat; }
+  function refreshMore(){
+    var grid = activeGrid();
+    var collapsed = grid.classList.contains('is-collapsed');
+    var many = grid.querySelectorAll('img').length > LIMIT;
+    if (collapsed && many){ moreBtn.hidden = false; moreBtn.textContent = 'Voir plus'; }
+    else { moreBtn.hidden = true; }
+  }
+  document.querySelectorAll('.gal-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var g = btn.dataset.gal;
+      document.querySelectorAll('.gal-btn').forEach(function(b){ b.classList.toggle('on', b === btn); });
+      galNat.hidden = (g !== 'nat');
+      galArt.hidden = (g !== 'art');
+      /* on recollapse à chaque changement d'onglet */
+      galNat.classList.add('is-collapsed');
+      galArt.classList.add('is-collapsed');
+      refreshMore();
+    });
   });
-});
+  if (moreBtn){
+    moreBtn.addEventListener('click', function(){
+      activeGrid().classList.remove('is-collapsed');
+      refreshMore();
+    });
+    refreshMore();
+  }
+})();
 
 /* ---- Formulaire : types multi-select + révélation grossesse ---- */
 document.querySelectorAll('.pill[data-type]').forEach(function(p){
