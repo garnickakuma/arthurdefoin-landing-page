@@ -393,10 +393,10 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
     <h2 class="h2 italic">Des histoires déjà écrites</h2>
   </div>
   <div class="gal-toggle">
-    <button type="button" class="gal-btn on" data-gal="nat">Classiques</button>
-    <button type="button" class="gal-btn" data-gal="art">Artistiques</button>
+    <button type="button" class="gal-btn on" data-gal="art">Artistiques</button>
+    <button type="button" class="gal-btn" data-gal="nat">Classiques</button>
   </div>
-  <div class="masonry nat is-collapsed" id="gal-nat">
+  <div class="masonry nat" id="gal-nat" hidden>
     <img src="assets/photos/gal-c-01.jpg" alt="Séance photo en studio — Amour et Lumière, Bègles" loading="lazy">
     <img src="assets/photos/gal-c-02.jpg" alt="Séance photo nouveau-né en studio — Amour et Lumière, Bègles" loading="lazy">
     <img src="assets/photos/gal-c-03.jpg" alt="Séance photo nouveau-né en studio — Amour et Lumière, Bègles" loading="lazy">
@@ -420,7 +420,7 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
     <img src="assets/photos/gal-c-22.jpg" alt="Séance photo grossesse en studio — Amour et Lumière, Bègles" loading="lazy">
     <img src="assets/photos/gal-c-23.jpg" alt="Séance photo grossesse en studio — Amour et Lumière, Bègles" loading="lazy">
   </div>
-  <div class="masonry art is-collapsed" id="gal-art" hidden>
+  <div class="masonry art" id="gal-art">
     <img src="assets/photos/art-corail.jpg" alt="Photo artistique grossesse — robe de soie ivoire dans une corolle de pétales, reflet sur l'eau" loading="lazy">
     <img src="assets/photos/art-chemin-roses.jpg" alt="Photo artistique grossesse — chemin de roses rouges et robe blanche" loading="lazy">
     <img src="assets/photos/art-noir-blanc.jpg" alt="Photo artistique grossesse — voile blanc en mouvement sur fond sombre" loading="lazy">
@@ -435,7 +435,6 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
     <img src="assets/photos/art-rose-verte-01.jpg" alt="Photo artistique grossesse — éclosion florale vert tendre" loading="lazy">
     <img src="assets/photos/art-rose-verte-02.jpg" alt="Photo artistique grossesse — corolle de feuillage vert" loading="lazy">
   </div>
-  <button type="button" class="gal-more" id="gal-more" hidden>Voir plus</button>
 </section>
 
 <!-- TARIFS -->
@@ -821,44 +820,19 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
 </footer>
 
 <script>
-/* ---- Galerie toggle + bouton « Voir plus » ---- */
+/* ---- Galerie toggle (toutes les photos affichées) ---- */
 (function(){
   var galNat = document.getElementById('gal-nat');
   var galArt = document.getElementById('gal-art');
-  var moreBtn = document.getElementById('gal-more');
-  function activeGrid(){ return galNat.hidden ? galArt : galNat; }
-  function hasHidden(grid){
-    var imgs = grid.querySelectorAll('img');
-    for (var i = 0; i < imgs.length; i++){
-      if (getComputedStyle(imgs[i]).display === 'none') return true;
-    }
-    return false;
-  }
-  function refreshMore(){
-    var grid = activeGrid();
-    if (grid.classList.contains('is-collapsed') && hasHidden(grid)){ moreBtn.hidden = false; }
-    else { moreBtn.hidden = true; }
-  }
+  if (!galNat || !galArt) return;
   document.querySelectorAll('.gal-btn').forEach(function(btn){
     btn.addEventListener('click', function(){
       var g = btn.dataset.gal;
       document.querySelectorAll('.gal-btn').forEach(function(b){ b.classList.toggle('on', b === btn); });
       galNat.hidden = (g !== 'nat');
       galArt.hidden = (g !== 'art');
-      /* on recollapse à chaque changement d'onglet */
-      galNat.classList.add('is-collapsed');
-      galArt.classList.add('is-collapsed');
-      refreshMore();
     });
   });
-  if (moreBtn){
-    moreBtn.addEventListener('click', function(){
-      activeGrid().classList.remove('is-collapsed');
-      refreshMore();
-    });
-    window.addEventListener('resize', refreshMore);
-    refreshMore();
-  }
 })();
 
 /* ---- Avis : bouton « Voir plus d'avis » ---- */
