@@ -279,6 +279,37 @@ fbq('track', 'PageView');
   </div>
 </footer>
 
+<!-- MODALE ENGAGEMENT RÉSERVATION -->
+<div id="resa-modal" class="resa-overlay" role="dialog" aria-modal="true" aria-labelledby="resa-title">
+  <div class="resa-box">
+    <span class="resa-kicker">Avant de réserver</span>
+    <h3 id="resa-title">Une place réservée = une place qui ne sera pas offerte à une autre famille.</h3>
+    <p>Votre mini séance est <strong>100&nbsp;% gratuite</strong> — mais les places sont limitées à 50, et chaque créneau réservé bloque celui de quelqu'un d'autre.</p>
+    <p>Nous faisons aujourd'hui face à <strong>trop d'annulations de dernière minute</strong>. En réservant, vous vous engagez sincèrement à <strong>venir à votre rendez-vous</strong>.</p>
+    <p class="resa-fine">Un imprévu&nbsp;? Prévenez-nous à l'avance pour libérer votre place.</p>
+    <div class="resa-actions">
+      <button type="button" id="resa-cancel" class="btn btn-secondary">Pas maintenant</button>
+      <button type="button" id="resa-confirm" class="btn btn-primary">Je m'engage et je réserve</button>
+    </div>
+  </div>
+</div>
+
+<style>
+.resa-overlay { position: fixed; inset: 0; z-index: 1000; display: none; align-items: center; justify-content: center; padding: 1.25rem; background: rgba(21,21,47,0.55); backdrop-filter: blur(3px); }
+.resa-overlay.is-open { display: flex; animation: resaFade var(--dur, 280ms) var(--ease, ease); }
+@keyframes resaFade { from { opacity: 0; } to { opacity: 1; } }
+.resa-box { background: var(--paper, #FBF8F3); border: 1px solid var(--border-strong, #D8CAB2); box-shadow: var(--shadow-lg, 0 28px 60px -20px rgba(42,38,34,0.18)); max-width: 480px; width: 100%; padding: clamp(1.75rem, 4vw, 2.5rem); border-top: 4px solid var(--gold, #23234F); animation: resaRise var(--dur, 280ms) var(--ease, ease); }
+@keyframes resaRise { from { transform: translateY(12px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+.resa-kicker { display: inline-block; font-family: var(--font-mono, monospace); font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold, #23234F); margin-bottom: 0.75rem; }
+.resa-box h3 { font-family: var(--font-display, Georgia, serif); font-weight: 500; font-size: clamp(1.35rem, 3vw, 1.7rem); line-height: 1.15; color: var(--ink, #2A2622); margin-bottom: 1rem; }
+.resa-box p { font-family: var(--font-body, system-ui, sans-serif); font-size: 15px; line-height: 1.6; color: var(--ink-soft, #6E665B); margin: 0 0 0.85rem; }
+.resa-box p strong { color: var(--ink, #2A2622); }
+.resa-box .resa-fine { font-size: 13px; color: var(--ink-faint, #A99F90); margin-bottom: 1.5rem; }
+.resa-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+.resa-actions .btn { flex: 1 1 auto; text-align: center; justify-content: center; }
+@media (max-width: 420px) { .resa-actions { flex-direction: column-reverse; } }
+</style>
+
 <script>
 /* ---- Tirages toggle ---- */
 const btnTirages = document.getElementById('btn-tirages');
@@ -291,12 +322,39 @@ btnTirages.addEventListener('click', () => {
   if (tiragesOpen) pricingCards.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 });
 
-/* ---- Meta Pixel : Lead sur clic fotostudio ---- */
+/* ---- Réservation : pop-up d'engagement avant fotostudio ---- */
+const resaModal   = document.getElementById('resa-modal');
+const resaConfirm = document.getElementById('resa-confirm');
+const resaCancel  = document.getElementById('resa-cancel');
+let resaTarget = null;
+
+function openResaModal(url) {
+  resaTarget = url;
+  resaModal.classList.add('is-open');
+  document.body.style.overflow = 'hidden';
+}
+function closeResaModal() {
+  resaModal.classList.remove('is-open');
+  document.body.style.overflow = '';
+  resaTarget = null;
+}
+
 document.querySelectorAll('a[href*="fotostudio.io"]').forEach(a => {
-  a.addEventListener('click', () => {
-    if (typeof fbq !== 'undefined') fbq('track', 'Lead');
+  a.addEventListener('click', (e) => {
+    e.preventDefault();
+    openResaModal(a.href);
   });
 });
+
+resaConfirm.addEventListener('click', () => {
+  if (typeof fbq !== 'undefined') fbq('track', 'Lead');
+  const url = resaTarget;
+  closeResaModal();
+  if (url) window.open(url, '_blank', 'noopener');
+});
+resaCancel.addEventListener('click', closeResaModal);
+resaModal.addEventListener('click', (e) => { if (e.target === resaModal) closeResaModal(); });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && resaModal.classList.contains('is-open')) closeResaModal(); });
 
 /* ---- Year ---- */
 document.getElementById('year').textContent = new Date().getFullYear();
