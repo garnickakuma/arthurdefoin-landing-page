@@ -133,12 +133,15 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
 .gal-toggle{display:flex; flex-wrap:wrap; justify-content:center; gap:14px; margin:0 0 40px;}
 .gal-btn{font-family:var(--sans); font-size:12px; letter-spacing:.2em; text-transform:uppercase; padding:12px 30px; border-radius:40px; cursor:pointer; transition:all .15s; border:1px solid var(--line4); background:transparent; color:var(--ink);}
 .gal-btn.on{border-color:var(--accent); background:var(--accent); color:#fff;}
-.masonry{column-gap:12px; animation:alRise .5s ease both;}
-.masonry.nat{columns:165px;}
-.masonry.art{columns:200px;}
-.masonry img{width:100%; border-radius:4px; border:1px solid var(--line); margin-bottom:12px; break-inside:avoid; cursor:zoom-in; transition:transform .2s ease, box-shadow .2s ease;}
+.masonry{display:grid; gap:10px; grid-template-columns:repeat(3,1fr); animation:alRise .5s ease both;}
+@media(min-width:560px){.masonry{grid-template-columns:repeat(4,1fr);}}
+@media(min-width:860px){.masonry{grid-template-columns:repeat(5,1fr);}}
+.masonry img{width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:6px; border:1px solid var(--line); cursor:zoom-in; transition:transform .2s ease, box-shadow .2s ease;}
 .masonry img:hover{transform:translateY(-2px); box-shadow:0 12px 26px -16px rgba(74,64,56,.5);}
-.masonry.is-collapsed img:nth-child(n+9){display:none;}
+/* replié : 2 rangées pleines par palier -> bas bien droit, révéler n'ajoute que des rangées */
+.masonry.is-collapsed img:nth-child(n+7){display:none;}
+@media(min-width:560px){.masonry.is-collapsed img:nth-child(n+9){display:none;}}
+@media(min-width:860px){.masonry.is-collapsed img:nth-child(n+11){display:none;}}
 /* Visionneuse plein écran */
 .lightbox{position:fixed; inset:0; z-index:80; background:rgba(58,50,44,.92); display:flex; align-items:center; justify-content:center; padding:clamp(16px,4vw,48px); opacity:0; visibility:hidden; transition:opacity .28s ease, visibility .28s ease; cursor:zoom-out; -webkit-backdrop-filter:blur(2px); backdrop-filter:blur(2px);}
 .lightbox.open{opacity:1; visibility:visible;}
@@ -292,9 +295,9 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
 
 /* FOOTER */
 .footer{background:var(--bg); padding:56px clamp(20px,5vw,40px); border-top:1px solid var(--line);}
-.footer-inner{max-width:1140px; margin:0 auto; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:24px;}
-.footer img{height:40px; width:auto; opacity:.75;}
-.footer-info{font-family:var(--sans); font-weight:300; font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); text-align:right; line-height:2;}
+.footer-inner{max-width:1140px; margin:0 auto; display:flex; flex-direction:column; align-items:center; text-align:center; gap:20px;}
+.footer img{height:52px; width:auto; opacity:.85;}
+.footer-info{font-family:var(--sans); font-weight:300; font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); text-align:center; line-height:2;}
 
 /* reveal on scroll */
 .rise{opacity:0; transform:translateY(14px); transition:opacity .6s ease, transform .6s ease;}
@@ -320,12 +323,12 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
 
 <!-- MENU BURGER -->
 <div class="menu" id="menu">
-  <a href="#duo">Le duo</a>
   <a href="#prestations">Les chapitres</a>
   <a href="#galerie">Galerie</a>
   <a href="#tarifs">Tarifs</a>
-  <a href="#trouver">Accès</a>
   <a href="#reserver">Réserver</a>
+  <a href="#trouver">Accès</a>
+  <a href="#duo">Le duo</a>
   <div class="menu-base">Studio · Bègles · Bordeaux</div>
 </div>
 
@@ -428,7 +431,7 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
     <div class="tarifs-head rise">
       <div class="eyebrow">Tarifs</div>
       <h2 class="h2">Nos formules studio</h2>
-      <p>Au studio à Bègles, une parenthèse rien qu'à vous. Trois formules pensées pour la grossesse et le nouveau-né.</p>
+      <p>Au studio à Bègles, une parenthèse rien qu'à vous.</p>
     </div>
     <div class="tarifs-promo"><span class="promo-pill">Offre limitée : −100 € sur chaque formule</span></div>
     <div class="rise">
@@ -633,7 +636,7 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
           <div class="avis-count">Basé sur 27 avis Google</div>
         </div>
       </div>
-      <a class="avis-link" href="#">Laisser un avis</a>
+      <a class="avis-link" href="#" target="_blank" rel="noopener">Voir les avis</a>
     </div>
     <div class="avis-grid">
       <div class="avis-card rise">
@@ -671,23 +674,27 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
 <footer class="footer">
   <div class="footer-inner">
     <img src="assets/logo-amour-et-lumiere.png" alt="Amour et Lumière">
-    <div class="footer-info">contact@amouretlumiere.fr · @amouretlumiere<br>Studio à Bègles · à quelques minutes de la mairie</div>
+    <div class="footer-info">2 Allée André Joseph Sire · 33130 Bègles<br>contact@amouretlumiere.fr · @amouretlumiere</div>
   </div>
 </footer>
 
 <script>
 /* ---- Galerie toggle + bouton « Voir plus » ---- */
 (function(){
-  var LIMIT = 8;
   var galNat = document.getElementById('gal-nat');
   var galArt = document.getElementById('gal-art');
   var moreBtn = document.getElementById('gal-more');
   function activeGrid(){ return galNat.hidden ? galArt : galNat; }
+  function hasHidden(grid){
+    var imgs = grid.querySelectorAll('img');
+    for (var i = 0; i < imgs.length; i++){
+      if (getComputedStyle(imgs[i]).display === 'none') return true;
+    }
+    return false;
+  }
   function refreshMore(){
     var grid = activeGrid();
-    var collapsed = grid.classList.contains('is-collapsed');
-    var many = grid.querySelectorAll('img').length > LIMIT;
-    if (collapsed && many){ moreBtn.hidden = false; moreBtn.textContent = 'Voir plus'; }
+    if (grid.classList.contains('is-collapsed') && hasHidden(grid)){ moreBtn.hidden = false; }
     else { moreBtn.hidden = true; }
   }
   document.querySelectorAll('.gal-btn').forEach(function(btn){
@@ -707,6 +714,7 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
       activeGrid().classList.remove('is-collapsed');
       refreshMore();
     });
+    window.addEventListener('resize', refreshMore);
     refreshMore();
   }
 })();
