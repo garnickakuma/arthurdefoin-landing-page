@@ -148,16 +148,11 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
 .gal-toggle{display:flex; flex-wrap:wrap; justify-content:center; gap:14px; margin:0 0 40px;}
 .gal-btn{font-family:var(--sans); font-size:12px; letter-spacing:.2em; text-transform:uppercase; padding:12px 30px; border-radius:40px; cursor:pointer; transition:all .15s; border:1px solid var(--line4); background:transparent; color:var(--ink);}
 .gal-btn.on{border-color:var(--accent); background:var(--accent); color:#fff;}
-.masonry{column-count:2; column-gap:12px; animation:alRise .5s ease both;}
+.masonry{display:flex; align-items:flex-start; gap:12px; animation:alRise .5s ease both;}
 .masonry[hidden]{display:none;}
-@media(min-width:560px){.masonry{column-count:3;}}
-@media(min-width:860px){.masonry{column-count:4;}}
-.masonry img{display:block; width:100%; height:auto; margin:0 0 12px; break-inside:avoid; -webkit-column-break-inside:avoid; border-radius:6px; border:1px solid var(--line); cursor:zoom-in; transition:transform .2s ease, box-shadow .2s ease;}
+.masonry-col{flex:1 1 0; min-width:0; display:flex; flex-direction:column; gap:12px;}
+.masonry img{display:block; width:100%; height:auto; border-radius:6px; border:1px solid var(--line); cursor:zoom-in; transition:transform .2s ease, box-shadow .2s ease;}
 .masonry img:hover{transform:translateY(-2px); box-shadow:0 12px 26px -16px rgba(74,64,56,.5);}
-/* replié : on limite le nombre de vignettes visibles, « Voir plus » révèle le reste */
-.masonry.is-collapsed img:nth-child(n+7){display:none;}
-@media(min-width:560px){.masonry.is-collapsed img:nth-child(n+10){display:none;}}
-@media(min-width:860px){.masonry.is-collapsed img:nth-child(n+13){display:none;}}
 /* Visionneuse plein écran */
 .lightbox{position:fixed; inset:0; z-index:80; background:rgba(58,50,44,.92); display:flex; align-items:center; justify-content:center; padding:clamp(16px,4vw,48px); opacity:0; visibility:hidden; transition:opacity .28s ease, visibility .28s ease; cursor:zoom-out; -webkit-backdrop-filter:blur(2px); backdrop-filter:blur(2px);}
 .lightbox.open{opacity:1; visibility:visible;}
@@ -421,41 +416,41 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
     <button type="button" class="gal-btn" data-gal="nat">Classiques</button>
   </div>
   <div class="masonry nat" id="gal-nat" hidden>
-    <img src="assets/photos/gal-c-01.jpg" alt="Séance photo en studio — Amour et Lumière, Bègles" loading="lazy">
-    <img src="assets/photos/gal-c-02.jpg" alt="Séance photo en studio — Amour et Lumière, Bègles" loading="lazy">
-    <img src="assets/photos/gal-c-04.jpg" alt="Séance photo en studio — Amour et Lumière, Bègles" loading="lazy">
-    <img src="assets/photos/gal-c-03.jpg" alt="Séance photo en studio — Amour et Lumière, Bègles" loading="lazy">
-    <img src="assets/photos/gal-c-06.jpg" alt="Séance photo en studio — Amour et Lumière, Bègles" loading="lazy">
-    <img src="assets/photos/gal-c-09.jpg" alt="Séance photo en studio — Amour et Lumière, Bègles" loading="lazy">
-    <img src="assets/photos/gal-c-05.jpg" alt="Séance photo en studio — Amour et Lumière, Bègles" loading="lazy">
-    <img src="assets/photos/gal-c-13.jpg" alt="Séance photo en studio — Amour et Lumière, Bègles" loading="lazy">
-    <img src="assets/photos/gal-c-14.jpg" alt="Séance photo en studio — Amour et Lumière, Bègles" loading="lazy">
-    <img src="assets/photos/gal-c-07.jpg" alt="Séance photo en studio — Amour et Lumière, Bègles" loading="lazy">
-    <img src="assets/photos/gal-c-16.jpg" alt="Séance photo en studio — Amour et Lumière, Bègles" loading="lazy">
-    <img src="assets/photos/gal-c-17.jpg" alt="Séance photo en studio — Amour et Lumière, Bègles" loading="lazy">
-    <img src="assets/photos/gal-c-10.jpg" alt="Séance photo en studio — Amour et Lumière, Bègles" loading="lazy">
-    <img src="assets/photos/gal-c-19.jpg" alt="Séance photo en studio — Amour et Lumière, Bègles" loading="lazy">
-    <img src="assets/photos/gal-c-20.jpg" alt="Séance photo en studio — Amour et Lumière, Bègles" loading="lazy">
-    <img src="assets/photos/gal-c-12.jpg" alt="Séance photo en studio — Amour et Lumière, Bègles" loading="lazy">
-    <img src="assets/photos/gal-c-21.jpg" alt="Séance photo en studio — Amour et Lumière, Bègles" loading="lazy">
-    <img src="assets/photos/gal-c-22.jpg" alt="Séance photo en studio — Amour et Lumière, Bègles" loading="lazy">
-    <img src="assets/photos/gal-c-15.jpg" alt="Séance photo en studio — Amour et Lumière, Bègles" loading="lazy">
-    <img src="assets/photos/gal-c-23.jpg" alt="Séance photo en studio — Amour et Lumière, Bègles" loading="lazy">
-    <img src="assets/photos/gal-c-18.jpg" alt="Séance photo en studio — Amour et Lumière, Bègles" loading="lazy">
+    <img src="assets/photos/gal-c-01.jpg" data-r="0.667" alt="Séance photo en studio — Amour et Lumière, Bègles" loading="lazy">
+    <img src="assets/photos/gal-c-02.jpg" data-r="1.499" alt="Séance photo en studio — Amour et Lumière, Bègles" loading="lazy">
+    <img src="assets/photos/gal-c-04.jpg" data-r="1.499" alt="Séance photo en studio — Amour et Lumière, Bègles" loading="lazy">
+    <img src="assets/photos/gal-c-03.jpg" data-r="0.667" alt="Séance photo en studio — Amour et Lumière, Bègles" loading="lazy">
+    <img src="assets/photos/gal-c-06.jpg" data-r="1.499" alt="Séance photo en studio — Amour et Lumière, Bègles" loading="lazy">
+    <img src="assets/photos/gal-c-09.jpg" data-r="1.499" alt="Séance photo en studio — Amour et Lumière, Bègles" loading="lazy">
+    <img src="assets/photos/gal-c-05.jpg" data-r="1.000" alt="Séance photo en studio — Amour et Lumière, Bègles" loading="lazy">
+    <img src="assets/photos/gal-c-13.jpg" data-r="1.499" alt="Séance photo en studio — Amour et Lumière, Bègles" loading="lazy">
+    <img src="assets/photos/gal-c-14.jpg" data-r="1.499" alt="Séance photo en studio — Amour et Lumière, Bègles" loading="lazy">
+    <img src="assets/photos/gal-c-07.jpg" data-r="0.667" alt="Séance photo en studio — Amour et Lumière, Bègles" loading="lazy">
+    <img src="assets/photos/gal-c-16.jpg" data-r="1.499" alt="Séance photo en studio — Amour et Lumière, Bègles" loading="lazy">
+    <img src="assets/photos/gal-c-17.jpg" data-r="1.499" alt="Séance photo en studio — Amour et Lumière, Bègles" loading="lazy">
+    <img src="assets/photos/gal-c-10.jpg" data-r="0.667" alt="Séance photo en studio — Amour et Lumière, Bègles" loading="lazy">
+    <img src="assets/photos/gal-c-19.jpg" data-r="1.499" alt="Séance photo en studio — Amour et Lumière, Bègles" loading="lazy">
+    <img src="assets/photos/gal-c-20.jpg" data-r="1.499" alt="Séance photo en studio — Amour et Lumière, Bègles" loading="lazy">
+    <img src="assets/photos/gal-c-12.jpg" data-r="0.667" alt="Séance photo en studio — Amour et Lumière, Bègles" loading="lazy">
+    <img src="assets/photos/gal-c-21.jpg" data-r="1.499" alt="Séance photo en studio — Amour et Lumière, Bègles" loading="lazy">
+    <img src="assets/photos/gal-c-22.jpg" data-r="1.499" alt="Séance photo en studio — Amour et Lumière, Bègles" loading="lazy">
+    <img src="assets/photos/gal-c-15.jpg" data-r="0.667" alt="Séance photo en studio — Amour et Lumière, Bègles" loading="lazy">
+    <img src="assets/photos/gal-c-23.jpg" data-r="1.499" alt="Séance photo en studio — Amour et Lumière, Bègles" loading="lazy">
+    <img src="assets/photos/gal-c-18.jpg" data-r="0.667" alt="Séance photo en studio — Amour et Lumière, Bègles" loading="lazy">
   </div>
   <div class="masonry art" id="gal-art">
-    <img src="assets/photos/art-corail.jpg" alt="Photo artistique grossesse — robe de soie ivoire dans une corolle de pétales, reflet sur l'eau" loading="lazy">
-    <img src="assets/photos/art-orange.jpg" alt="Photo artistique grossesse — voile orangé en mouvement" loading="lazy">
-    <img src="assets/photos/art-chemin-roses.jpg" alt="Photo artistique grossesse — chemin de roses rouges et robe blanche" loading="lazy">
-    <img src="assets/photos/art-papillon-profil.jpg" alt="Photo artistique grossesse — ailes de papillon fleuries, de profil" loading="lazy">
-    <img src="assets/photos/art-noir-blanc.jpg" alt="Photo artistique grossesse — voile blanc en mouvement sur fond sombre" loading="lazy">
-    <img src="assets/photos/art-papillon-01.jpg" alt="Photo artistique grossesse — ailes de papillon fleuries rosées" loading="lazy">
-    <img src="assets/photos/art-rose-jaune.jpg" alt="Photo artistique grossesse — éclosion florale jaune dorée" loading="lazy">
-    <img src="assets/photos/art-papillon-02.jpg" alt="Photo artistique grossesse — ailes de papillon fleuries bleutées" loading="lazy">
-    <img src="assets/photos/art-rose-bleue.jpg" alt="Photo artistique grossesse — éclosion florale bleue" loading="lazy">
-    <img src="assets/photos/art-rose-rouge-02.jpg" alt="Photo artistique grossesse — corolle de pétales rouges" loading="lazy">
-    <img src="assets/photos/art-rose-verte-02.jpg" alt="Photo artistique grossesse — corolle de feuillage vert" loading="lazy">
-    <img src="assets/photos/art-rose-verte-01.jpg" alt="Photo artistique grossesse — éclosion florale vert tendre" loading="lazy">
+    <img src="assets/photos/art-corail.jpg" data-r="1.491" alt="Photo artistique grossesse — robe de soie ivoire dans une corolle de pétales, reflet sur l'eau" loading="lazy">
+    <img src="assets/photos/art-orange.jpg" data-r="0.666" alt="Photo artistique grossesse — voile orangé en mouvement" loading="lazy">
+    <img src="assets/photos/art-chemin-roses.jpg" data-r="1.491" alt="Photo artistique grossesse — chemin de roses rouges et robe blanche" loading="lazy">
+    <img src="assets/photos/art-papillon-profil.jpg" data-r="0.558" alt="Photo artistique grossesse — ailes de papillon fleuries, de profil" loading="lazy">
+    <img src="assets/photos/art-noir-blanc.jpg" data-r="1.340" alt="Photo artistique grossesse — voile blanc en mouvement sur fond sombre" loading="lazy">
+    <img src="assets/photos/art-papillon-01.jpg" data-r="0.558" alt="Photo artistique grossesse — ailes de papillon fleuries rosées" loading="lazy">
+    <img src="assets/photos/art-rose-jaune.jpg" data-r="1.491" alt="Photo artistique grossesse — éclosion florale jaune dorée" loading="lazy">
+    <img src="assets/photos/art-papillon-02.jpg" data-r="0.558" alt="Photo artistique grossesse — ailes de papillon fleuries bleutées" loading="lazy">
+    <img src="assets/photos/art-rose-rouge-02.jpg" data-r="1.491" alt="Photo artistique grossesse — corolle de pétales rouges" loading="lazy">
+    <img src="assets/photos/art-rose-bleue.jpg" data-r="0.558" alt="Photo artistique grossesse — éclosion florale bleue" loading="lazy">
+    <img src="assets/photos/art-rose-verte-01.jpg" data-r="1.491" alt="Photo artistique grossesse — éclosion florale vert tendre" loading="lazy">
+    <img src="assets/photos/art-rose-verte-02.jpg" data-r="0.558" alt="Photo artistique grossesse — corolle de feuillage vert" loading="lazy">
   </div>
 </section>
 
@@ -847,6 +842,37 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
 </div>
 
 <script>
+/* ---- Masonry équilibré (place chaque photo dans la colonne la plus courte) ---- */
+var galleryMasonry = (function(){
+  var masonries = Array.prototype.slice.call(document.querySelectorAll('.masonry'));
+  masonries.forEach(function(m){ m._imgs = Array.prototype.slice.call(m.querySelectorAll('img')); });
+  function colsFor(w){ return w < 560 ? 2 : (w < 860 ? 3 : 4); }
+  function layout(m){
+    var w = m.clientWidth;
+    if (!w) return;                 /* onglet masqué : on posera au moment de l'affichage */
+    var cols = colsFor(w);
+    if (m._cols === cols) return;   /* déjà en place pour cette largeur */
+    m._cols = cols;
+    while (m.firstChild) m.removeChild(m.firstChild);
+    var colEls = [], colH = [], i;
+    for (i = 0; i < cols; i++){
+      var c = document.createElement('div'); c.className = 'masonry-col';
+      m.appendChild(c); colEls.push(c); colH.push(0);
+    }
+    m._imgs.forEach(function(img){
+      var mi = 0;
+      for (var j = 1; j < cols; j++){ if (colH[j] < colH[mi]) mi = j; }
+      colEls[mi].appendChild(img);
+      colH[mi] += (parseFloat(img.getAttribute('data-r')) || 1);
+    });
+  }
+  function relayoutAll(){ masonries.forEach(layout); }
+  var t;
+  window.addEventListener('resize', function(){ clearTimeout(t); t = setTimeout(relayoutAll, 120); });
+  relayoutAll();
+  return { one: layout };
+})();
+
 /* ---- Galerie toggle (toutes les photos affichées) ---- */
 (function(){
   var galNat = document.getElementById('gal-nat');
@@ -858,6 +884,7 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
       document.querySelectorAll('.gal-btn').forEach(function(b){ b.classList.toggle('on', b === btn); });
       galNat.hidden = (g !== 'nat');
       galArt.hidden = (g !== 'art');
+      galleryMasonry.one(g === 'nat' ? galNat : galArt);
     });
   });
 })();
