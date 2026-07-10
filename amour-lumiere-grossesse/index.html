@@ -5,6 +5,23 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Amour & Lumière — Photographe grossesse & nouveau-né · Studio à Bègles (Bordeaux)</title>
 <meta name="description" content="Studio photo haut de gamme grossesse & nouveau-né à Bègles, près de Bordeaux. Photos artistiques d'exception. Offre limitée −100 € sur chaque formule. Réponse sous 24 h.">
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1364723162425570');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1364723162425570&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
@@ -926,6 +943,20 @@ document.getElementById('resa-form').addEventListener('submit', function(e){
       headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
       body: new URLSearchParams(payload).toString()
     }).catch(function(){});
+  } catch (err) {}
+
+  /* Meta Pixel : conversion « prospect » (Lead) à l'envoi du formulaire */
+  try {
+    if (window.fbq) {
+      var nameParts = payload.nom.split(' ');
+      fbq('init', '1364723162425570', {
+        em: payload.email.toLowerCase(),
+        ph: payload.telephone.replace(/[^0-9+]/g, ''),
+        fn: (nameParts[0] || '').toLowerCase(),
+        ln: nameParts.slice(1).join(' ').toLowerCase()
+      });
+      fbq('track', 'Lead', { content_name: payload.formule, value: 0, currency: 'EUR' });
+    }
   } catch (err) {}
 
   form.hidden = true;
