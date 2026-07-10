@@ -312,10 +312,17 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
 .faq-item.open .faq-a{display:block; animation:alRise .3s ease both;}
 
 /* FOOTER */
-.footer{background:var(--bg); padding:56px clamp(20px,5vw,40px); border-top:1px solid var(--line);}
+.footer{background:var(--bg); padding:56px clamp(20px,5vw,40px) 104px; border-top:1px solid var(--line);}
 .footer-inner{max-width:1140px; margin:0 auto; display:flex; flex-direction:column; align-items:center; text-align:center; gap:20px;}
 .footer img{height:52px; width:auto; opacity:.85;}
 .footer-info{font-family:var(--sans); font-weight:300; font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); text-align:center; line-height:2;}
+
+/* BARRE CTA FIXE EN BAS */
+.cta-bar{position:fixed; left:0; right:0; bottom:0; z-index:34; background:rgba(246,241,236,.94); -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px); border-top:1px solid var(--line); padding:12px clamp(16px,5vw,40px) calc(12px + env(safe-area-inset-bottom)); box-shadow:0 -10px 30px -22px rgba(74,64,56,.6); display:flex; justify-content:center; transform:translateY(130%); transition:transform .4s cubic-bezier(.22,.61,.36,1);}
+body.show-cta .cta-bar{transform:translateY(0);}
+body.menu-open .cta-bar,
+body.at-reserver .cta-bar{transform:translateY(130%);}
+.cta-bar .btn{width:100%; max-width:440px; padding:16px;}
 
 /* reveal on scroll */
 .rise{opacity:0; transform:translateY(14px); transition:opacity .6s ease, transform .6s ease;}
@@ -834,6 +841,11 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
   </div>
 </footer>
 
+<!-- BARRE CTA FIXE -->
+<div class="cta-bar">
+  <a class="btn btn--fill" href="#reserver">Réserver ma séance</a>
+</div>
+
 <script>
 /* ---- Galerie toggle (toutes les photos affichées) ---- */
 (function(){
@@ -995,11 +1007,22 @@ if ('IntersectionObserver' in window){
   document.querySelectorAll('.rise').forEach(function(el){ el.classList.add('in'); });
 }
 
-/* ---- Nav : transparente en haut, solide dès qu'on scrolle ---- */
+/* ---- Nav solide au scroll + barre CTA fixe (après la photo d'accueil) ---- */
 (function(){
-  function onScroll(){ document.body.classList.toggle('scrolled', window.scrollY > 24); }
+  function onScroll(){
+    document.body.classList.toggle('scrolled', window.scrollY > 24);
+    document.body.classList.toggle('show-cta', window.scrollY > window.innerHeight * 0.65);
+  }
   window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll, { passive: true });
   onScroll();
+  /* masque la barre quand on est sur le formulaire de réservation */
+  var resa = document.getElementById('reserver');
+  if (resa && 'IntersectionObserver' in window){
+    new IntersectionObserver(function(es){
+      document.body.classList.toggle('at-reserver', es[0].isIntersecting);
+    }, { rootMargin: '0px 0px -35% 0px' }).observe(resa);
+  }
 })();
 
 /* Menu burger */
