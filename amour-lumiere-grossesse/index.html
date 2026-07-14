@@ -224,6 +224,12 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
 .resa-inner .eyebrow{margin-bottom:20px;}
 .resa-inner h2{margin:0 0 20px;}
 .resa-inner .lead{font-size:17px; line-height:1.75; max-width:500px; margin:0 auto 38px;}
+.cal-embed{max-width:860px; margin:0 auto; min-height:560px; background:var(--card); border:1px solid var(--line2); border-radius:24px; overflow:hidden; padding:8px;}
+.resa-engage{max-width:620px; margin:26px auto 0;}
+.resa-engage p{font-family:var(--sans); font-weight:300; font-size:14px; line-height:1.75; color:var(--muted2); margin:0;}
+.resa-engage strong{color:var(--ink2); font-weight:500;}
+.resa-engage a{color:var(--accent); font-weight:500; text-decoration:none; white-space:nowrap;}
+.resa-engage a:hover{text-decoration:underline;}
 .form-card{background:var(--card); border:1px solid var(--line2); border-radius:24px; padding:44px; max-width:680px; margin:0 auto; text-align:left;}
 .form-block{margin-bottom:24px;}
 .form-label{font-family:var(--sans); font-weight:300; font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:11px;}
@@ -510,44 +516,14 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
 <section id="reserver" class="resa section">
   <div class="resa-inner">
     <div class="eyebrow">Réservez votre séance offerte</div>
-    <h2 class="h2 italic">Écrivons votre histoire</h2>
-    <p class="lead">Indiquez-nous votre chapitre et votre situation. Nous vous rappelons sous 24 h pour fixer ensemble la date de votre séance offerte au studio.</p>
+    <h2 class="h2 italic">Choisissez votre créneau</h2>
+    <p class="lead">La séance au studio est <strong style="color:var(--ink2);font-weight:500">offerte</strong> et sans obligation d'achat. Sélectionnez le créneau qui vous convient ci-dessous.</p>
 
-    <form class="form-card" id="resa-form">
-      <div class="form-block">
-        <label class="form-label">Quel chapitre souhaitez-vous écrire ?</label>
-        <div class="form-hint">Plusieurs choix possibles.</div>
-        <div class="pill-grid">
-          <button type="button" class="pill" data-type="grossesse">Grossesse</button>
-          <button type="button" class="pill" data-type="nouveauNe">Nouveau-né</button>
-          <button type="button" class="pill" data-type="famille">Famille</button>
-          <button type="button" class="pill" data-type="autre">Autre</button>
-        </div>
-      </div>
+    <!-- Cal.com : réservation en direct -->
+    <div id="cal-embed" class="cal-embed"></div>
 
-      <div class="form-block reveal-q" id="q-grossesse" hidden>
-        <label class="form-label">Où en êtes-vous de votre grossesse ?</label>
-        <div class="pill-grid small">
-          <button type="button" class="pill" data-gross="− de 6 mois">− de 6 mois</button>
-          <button type="button" class="pill" data-gross="6 à 7 mois">6 à 7 mois</button>
-          <button type="button" class="pill" data-gross="7 à 8 mois">7 à 8 mois</button>
-          <button type="button" class="pill" data-gross="+ de 8 mois">+ de 8 mois</button>
-        </div>
-      </div>
-
-      <div class="fields">
-        <div class="field"><label class="form-label">Prénom &amp; nom</label><input type="text" name="nom" placeholder="Camille Dupont" required autocomplete="name"></div>
-        <div class="field"><label class="form-label">Téléphone</label><input type="tel" name="tel" placeholder="06 12 34 56 78" required autocomplete="tel"></div>
-        <div class="field field-full"><label class="form-label">E-mail</label><input type="email" name="email" placeholder="camille@email.fr" required autocomplete="email"></div>
-      </div>
-      <button type="submit" class="form-submit">Demande de disponibilité</button>
-      <p class="form-fine">Sans engagement · Réponse sous 24 h</p>
-    </form>
-
-    <div class="form-done" id="resa-done" hidden>
-      <div class="done-check">✓</div>
-      <h3>Demande envoyée</h3>
-      <p>Merci ! Arthur &amp; Pierre-Henri reviennent vers vous sous 24 h avec leurs disponibilités.</p>
+    <div class="resa-engage rise">
+      <p>Même si la séance est <strong>offerte</strong>, une place réservée bloque celle d'une autre personne. En réservant, vous vous engagez à <strong>venir à votre rendez-vous</strong> — ou à nous prévenir de votre absence au <a href="tel:+33789954427">07&nbsp;89&nbsp;95&nbsp;44&nbsp;27</a>.</p>
     </div>
   </div>
 </section>
@@ -874,70 +850,29 @@ var galleryMasonry = (function(){
   document.addEventListener('keydown', function(e){ if (e.key === 'Escape') close(); });
 })();
 
-/* ---- Formulaire : types multi-select + révélation grossesse ---- */
-document.querySelectorAll('.pill[data-type]').forEach(function(p){
-  p.addEventListener('click', function(){
-    p.classList.toggle('on');
-    if (p.dataset.type === 'grossesse'){
-      document.getElementById('q-grossesse').hidden = !p.classList.contains('on');
-    }
-  });
+/* ---- Cal.com : réservation en direct + Pixel Meta sur réservation réussie ---- */
+(function (C, A, L) { var p = function (a, ar) { a.q.push(ar); }; var d = C.document; C.Cal = C.Cal || function () { var cal = C.Cal; var ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { var api = function () { p(api, arguments); }; var namespace = ar[1]; api.q = api.q || []; if (typeof namespace === "string") { cal.ns[namespace] = cal.ns[namespace] || api; p(cal.ns[namespace], ar); p(cal, ["initNamespace", namespace]); } else p(cal, ar); return; } p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+Cal("init", "seance", { origin: "https://cal.com" });
+Cal.ns.seance("inline", {
+  elementOrSelector: "#cal-embed",
+  config: { layout: "month_view" },
+  calLink: "amour-et-lumiere/seance-photo-offerte"
 });
-/* sous-question grossesse : sélection simple */
-document.querySelectorAll('.pill[data-gross]').forEach(function(p){
-  p.addEventListener('click', function(){
-    document.querySelectorAll('.pill[data-gross]').forEach(function(x){ x.classList.toggle('on', x === p); });
-  });
+Cal.ns.seance("ui", {
+  hideEventTypeDetails: false,
+  layout: "month_view",
+  styles: { branding: { brandColor: "#c2978f" } }
 });
-/* soumission -> envoi vers Make (webhook) + écran de confirmation */
-var MAKE_WEBHOOK = 'https://hook.eu2.make.com/7fv61709dw73t4ly3afk9cpswq9sv5cf';
-document.getElementById('resa-form').addEventListener('submit', function(e){
-  e.preventDefault();
-  var form = document.getElementById('resa-form');
-
-  var types = Array.prototype.map.call(
-    form.querySelectorAll('.pill[data-type].on'),
-    function(p){ return p.textContent.trim(); }
-  );
-  var grossEl = form.querySelector('.pill[data-gross].on');
-
-  var payload = {
-    chapitres: types.join(', '),
-    stade_grossesse: grossEl ? grossEl.getAttribute('data-gross') : '',
-    nom: form.nom.value.trim(),
-    telephone: form.tel.value.trim(),
-    email: form.email.value.trim(),
-    source: 'Landing Grossesse',
-    page: location.href,
-    date: new Date().toISOString()
-  };
-
-  try {
-    fetch(MAKE_WEBHOOK, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
-      body: new URLSearchParams(payload).toString()
-    }).catch(function(){});
-  } catch (err) {}
-
-  /* Meta Pixel : conversion « prospect » (Lead) à l'envoi du formulaire */
-  try {
-    if (window.fbq) {
-      var nameParts = payload.nom.split(' ');
-      fbq('init', '1364723162425570', {
-        em: payload.email.toLowerCase(),
-        ph: payload.telephone.replace(/[^0-9+]/g, ''),
-        fn: (nameParts[0] || '').toLowerCase(),
-        ln: nameParts.slice(1).join(' ').toLowerCase()
-      });
-      fbq('track', 'Lead', { content_name: payload.chapitres, value: 0, currency: 'EUR' });
-    }
-  } catch (err) {}
-
-  form.hidden = true;
-  document.getElementById('resa-done').hidden = false;
-  document.getElementById('resa-done').scrollIntoView({ behavior: 'smooth', block: 'center' });
+Cal.ns.seance("on", {
+  action: "bookingSuccessful",
+  callback: function () {
+    try {
+      if (window.fbq) {
+        fbq('track', 'Schedule');
+        fbq('track', 'Lead', { content_name: 'Séance offerte', value: 0, currency: 'EUR' });
+      }
+    } catch (e) {}
+  }
 });
 
 /* ---- FAQ ---- */
