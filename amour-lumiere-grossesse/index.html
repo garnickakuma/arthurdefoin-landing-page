@@ -799,7 +799,11 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
 /* ---- Masonry équilibré (place chaque photo dans la colonne la plus courte) ---- */
 var galleryMasonry = (function(){
   var masonries = Array.prototype.slice.call(document.querySelectorAll('.masonry'));
-  masonries.forEach(function(m){ m._imgs = Array.prototype.slice.call(m.querySelectorAll('img')); });
+  masonries.forEach(function(m){
+    m._imgs = Array.prototype.slice.call(m.querySelectorAll('img'));
+    /* réserve la hauteur de chaque photo -> pas de décalage au chargement (ancres fiables) */
+    m._imgs.forEach(function(img){ img.style.aspectRatio = '1 / ' + (parseFloat(img.getAttribute('data-r')) || 1); });
+  });
   function colsFor(w){ return w < 560 ? 2 : (w < 860 ? 3 : 4); }
   function layout(m){
     var w = m.clientWidth;
