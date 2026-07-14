@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Amour & Lumière — Photographe grossesse & nouveau-né · Studio à Bègles (Bordeaux)</title>
-<meta name="description" content="Studio photo haut de gamme grossesse & nouveau-né à Bègles, près de Bordeaux. Photos artistiques d'exception. Offre limitée −100 € sur chaque formule. Réponse sous 24 h.">
+<meta name="description" content="Studio photo haut de gamme grossesse & nouveau-né à Bègles, près de Bordeaux. Séance photo offerte : vous ne payez que les photos que vous aimez. Photos artistiques d'exception. Réponse sous 24 h.">
 <!-- Meta Pixel Code -->
 <script>
 !function(f,b,e,v,n,t,s)
@@ -100,7 +100,7 @@ body.menu-open{overflow:hidden;}
 .intro__offer{margin:0 0 44px;}
 .intro__offer-label{display:flex; align-items:center; justify-content:center; gap:16px; font-family:var(--sans); font-weight:400; font-size:11px; letter-spacing:.3em; text-transform:uppercase; color:var(--muted2); margin-bottom:16px;}
 .intro__offer-label .hr{display:block; width:42px; height:1px; background:var(--line4);}
-.intro__offer-amount{font-family:var(--sans); font-weight:300; font-size:clamp(44px,11.5vw,68px); line-height:1; letter-spacing:.01em; color:var(--accent);}
+.intro__offer-amount{font-family:var(--serif); font-weight:400; font-style:italic; font-size:clamp(38px,9vw,60px); line-height:1.05; color:var(--accent);}
 .intro__offer-sub{font-family:var(--sans); font-weight:300; font-size:13px; letter-spacing:.18em; text-transform:uppercase; color:var(--muted2); margin-top:12px;}
 .intro__cta{display:flex; flex-direction:column; gap:20px; align-items:center;}
 .intro__link{font-family:var(--sans); font-weight:400; font-size:12px; letter-spacing:.18em; text-transform:uppercase; color:var(--muted2); text-decoration:none; border-bottom:1px solid var(--line4); padding-bottom:5px; transition:color .2s ease, border-color .2s ease;}
@@ -169,8 +169,28 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
 .tarifs-head .eyebrow{margin-bottom:18px;}
 .tarifs-head h2{margin:0 0 12px;}
 .tarifs-head p{font-size:16px; font-weight:300; color:var(--muted); margin:0 auto; max-width:480px;}
-.tarifs-promo{display:flex; justify-content:center; margin:26px 0 40px;}
+.tarifs-promo{display:flex; justify-content:center; margin:26px 0 46px;}
 .tarifs-sub{text-align:center; font-family:var(--sans); font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:var(--accent); margin-bottom:30px;}
+/* étapes (séance offerte) */
+.steps{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:30px; margin:0 0 52px; max-width:900px; margin-left:auto; margin-right:auto;}
+.step{text-align:center;}
+.step-n{display:inline-flex; align-items:center; justify-content:center; width:46px; height:46px; border-radius:50%; border:1px solid var(--accent); color:var(--accent); font-family:var(--serif); font-size:22px; margin-bottom:16px;}
+.step h3{font-family:var(--serif); font-weight:500; font-size:23px; margin:0 0 8px; color:var(--ink);}
+.step p{font-family:var(--sans); font-weight:300; font-size:15px; line-height:1.7; color:var(--muted); max-width:280px; margin:0 auto;}
+/* grille à la carte */
+.carte{max-width:540px; margin:0 auto; background:var(--card); border:1px solid var(--line2); border-radius:20px; padding:clamp(24px,4vw,40px);}
+.carte-head{text-align:center; margin-bottom:22px;}
+.carte-title{font-family:var(--serif); font-style:italic; font-weight:400; font-size:clamp(25px,5vw,33px); color:var(--ink);}
+.carte-sub{font-family:var(--sans); font-weight:300; font-size:13px; color:var(--muted); margin-top:6px;}
+.carte-row{display:flex; align-items:center; justify-content:space-between; gap:16px; padding:15px 6px; border-top:1px solid var(--line3);}
+.carte-row:first-of-type{border-top:0;}
+.carte-l{font-family:var(--sans); font-weight:300; font-size:16px; color:var(--ink2); display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
+.carte-p{font-family:var(--serif); font-size:24px; color:var(--accent); white-space:nowrap;}
+.carte .heart{color:var(--accent); font-size:12px;}
+.carte-row.featured{background:var(--rose-pale2); border-radius:14px; border-top:0; padding-left:16px; padding-right:16px; margin:6px 0;}
+.carte-badge{font-family:var(--sans); font-weight:400; font-size:9px; letter-spacing:.16em; text-transform:uppercase; color:#fff; background:var(--accent); padding:4px 10px; border-radius:20px;}
+.carte-note{text-align:center; font-family:var(--sans); font-weight:300; font-size:13px; color:var(--faint); margin:22px 0 0;}
+.tarifs-cta{text-align:center; margin-top:44px;}
 .tarifs-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:26px; align-items:start;}
 .plan{background:var(--card); border:1px solid var(--line2); border-radius:20px; padding:38px 30px; display:flex; flex-direction:column;}
 .plan--feat{background:var(--accent); border-color:var(--accent); color:#fff; padding:44px 30px; margin-top:-14px; box-shadow:0 18px 40px -18px rgba(194,151,143,.7);}
@@ -364,13 +384,13 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
   <h1 class="intro__cats">Grossesse · Nouveau-né · Famille</h1>
   <div class="intro__place">Studio à Bègles</div>
   <div class="intro__offer">
-    <div class="intro__offer-label"><span class="hr"></span>Offre limitée<span class="hr"></span></div>
-    <div class="intro__offer-amount">−100 €</div>
-    <div class="intro__offer-sub">sur chaque formule</div>
+    <div class="intro__offer-label"><span class="hr"></span>L'offre du studio<span class="hr"></span></div>
+    <div class="intro__offer-amount">Séance offerte</div>
+    <div class="intro__offer-sub">Vous ne payez que les photos que vous aimez</div>
   </div>
   <div class="intro__cta">
-    <a class="btn btn--fill" href="#reserver">Réserver une séance</a>
-    <a class="intro__link" href="#tarifs">Voir nos formules</a>
+    <a class="btn btn--fill" href="#reserver">Réserver ma séance offerte</a>
+    <a class="intro__link" href="#tarifs">Comment ça marche</a>
   </div>
 </section>
 
@@ -458,85 +478,40 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
 <section id="tarifs" class="tarifs section">
   <div style="max-width:1140px; margin:0 auto;">
     <div class="tarifs-head rise">
-      <div class="eyebrow">Tarifs</div>
-      <h2 class="h2">Nos formules studio</h2>
-      <p>Au studio à Bègles, une parenthèse rien qu'à vous.</p>
+      <div class="eyebrow">Comment ça marche</div>
+      <h2 class="h2 italic">Vous ne payez que ce que vous aimez</h2>
+      <p>La séance est <strong style="color:var(--ink2);font-weight:500">100&nbsp;% offerte</strong>. Vous composez ensuite vos souvenirs, à la carte et sans aucune obligation.</p>
     </div>
-    <div class="tarifs-promo"><span class="promo-pill">Offre limitée : −100 € sur chaque formule</span></div>
-    <div class="rise">
-      <div class="tarifs-sub">Au studio · Bègles</div>
-      <div class="swipe-wrap" data-swipe data-start="1">
-      <div class="swipe swipe--tarifs">
-        <div class="plan">
-          <div class="plan-top">
-            <div class="plan-name">Essentielle</div>
-            <div class="plan-price"><span class="plan-now">250&nbsp;€</span> <span class="plan-old">350&nbsp;€<span class="strike"></span></span></div>
-            <div class="plan-off">−100 €</div>
-          </div>
-          <div class="plan-div"></div>
-          <div class="plan-feats">
-            <div class="feat"><span class="dot">●</span><span>Studio</span></div>
-            <div class="feat"><span class="dot">●</span><span>Séance photo de 1 h</span></div>
-            <div class="feat"><span class="dot">●</span><span>1 à 2 tenues</span></div>
-            <div class="feat"><span class="dot">●</span><span>Seule, en couple ou avec votre bébé</span></div>
-            <div class="feat"><span class="dot">●</span><span>Galerie photo web privée</span></div>
-            <div class="feat strong"><span class="dot">●</span><span>5 photos numériques HD retouchées</span></div>
-            <div class="feat"><span class="dot">●</span><span>1 photo artistique <span style="white-space:nowrap">(séance grossesse)</span></span></div>
-          </div>
-          <a class="btn btn--outline" href="#reserver">Réserver</a>
-        </div>
+    <div class="tarifs-promo"><span class="promo-pill">Séance photo offerte · sans engagement</span></div>
 
-        <div class="plan plan--feat">
-          <div class="plan-top">
-            <div class="plan-badge">La plus choisie</div>
-            <div class="plan-name">Signature</div>
-            <div class="plan-price"><span class="plan-now">350&nbsp;€</span> <span class="plan-old">450&nbsp;€<span class="strike"></span></span></div>
-            <div class="plan-off">−100 €</div>
-          </div>
-          <div class="plan-div"></div>
-          <div class="plan-feats">
-            <div class="feat"><span class="dot">●</span><span>Studio</span></div>
-            <div class="feat"><span class="dot">●</span><span>Séance photo de 1 h</span></div>
-            <div class="feat"><span class="dot">●</span><span>1 à 3 tenues</span></div>
-            <div class="feat"><span class="dot">●</span><span>Seule, en couple ou avec votre bébé</span></div>
-            <div class="feat"><span class="dot">●</span><span>Galerie photo web privée</span></div>
-            <div class="feat strong"><span class="dot">●</span><span>10 photos numériques HD retouchées</span></div>
-            <div class="feat"><span class="dot">●</span><span>3 photos artistiques <span style="white-space:nowrap">(séance grossesse)</span></span></div>
-          </div>
-          <a class="btn" href="#reserver" style="margin-top:26px; padding:13px; font-size:11px; letter-spacing:.2em; text-transform:uppercase; background:#fff; color:var(--accent); text-decoration:none; border-radius:40px; text-align:center;">Réserver</a>
-        </div>
-
-        <div class="plan">
-          <div class="plan-top">
-            <div class="plan-name">Prestige</div>
-            <div class="plan-price"><span class="plan-now">450&nbsp;€</span> <span class="plan-old">550&nbsp;€<span class="strike"></span></span></div>
-            <div class="plan-off">−100 €</div>
-          </div>
-          <div class="plan-div"></div>
-          <div class="plan-feats">
-            <div class="feat"><span class="dot">●</span><span>Studio</span></div>
-            <div class="feat"><span class="dot">●</span><span>Séance photo de 1 h</span></div>
-            <div class="feat"><span class="dot">●</span><span>1 à 4 tenues</span></div>
-            <div class="feat"><span class="dot">●</span><span>Seule, en couple ou avec votre bébé</span></div>
-            <div class="feat"><span class="dot">●</span><span>Galerie photo web privée</span></div>
-            <div class="feat strong"><span class="dot">●</span><span>20 photos numériques HD retouchées</span></div>
-            <div class="feat"><span class="dot">●</span><span>5 photos artistiques <span style="white-space:nowrap">(séance grossesse)</span></span></div>
-          </div>
-          <a class="btn btn--outline" href="#reserver">Réserver</a>
-        </div>
-      </div>
-      </div>
-      <p class="plan-note">Un acompte de 30 % valide votre réservation · le solde est réglé le jour de la séance.</p>
+    <div class="steps rise">
+      <div class="step"><span class="step-n">1</span><h3>Vous réservez</h3><p>Gratuitement, en 2 minutes. On vous rappelle sous 24 h pour fixer votre date.</p></div>
+      <div class="step"><span class="step-n">2</span><h3>Vous posez</h3><p>Votre séance au studio, offerte et tout en douceur — seule, en couple ou avec votre bébé.</p></div>
+      <div class="step"><span class="step-n">3</span><h3>Vous choisissez</h3><p>Au visionnage, vous ne repartez qu'avec les photos que vous aimez — ou aucune, sans engagement.</p></div>
     </div>
+
+    <div class="carte rise">
+      <div class="carte-head">
+        <div class="carte-title">Vos photos, à la carte</div>
+        <div class="carte-sub">Fichiers numériques HD retouchés · galerie privée</div>
+      </div>
+      <div class="carte-row"><span class="carte-l"><span class="heart">♥</span> 3 photos</span><span class="carte-p">75&nbsp;€</span></div>
+      <div class="carte-row"><span class="carte-l"><span class="heart">♥</span> 5 photos</span><span class="carte-p">99&nbsp;€</span></div>
+      <div class="carte-row"><span class="carte-l"><span class="heart">♥</span> 10 photos</span><span class="carte-p">149&nbsp;€</span></div>
+      <div class="carte-row featured"><span class="carte-l"><span class="heart">♥</span> Toute la galerie <span class="carte-badge">La plus choisie</span></span><span class="carte-p">199&nbsp;€</span></div>
+      <div class="carte-row"><span class="carte-l"><span class="heart">♥</span> Galerie + album</span><span class="carte-p">289&nbsp;€</span></div>
+      <p class="carte-note">Tirages, albums et tableaux également disponibles au studio.</p>
+    </div>
+    <div class="tarifs-cta rise"><a class="btn btn--fill" href="#reserver">Réserver ma séance offerte</a></div>
   </div>
 </section>
 
 <!-- RESERVER -->
 <section id="reserver" class="resa section">
   <div class="resa-inner">
-    <div class="eyebrow">Réservez votre séance</div>
+    <div class="eyebrow">Réservez votre séance offerte</div>
     <h2 class="h2 italic">Écrivons votre histoire</h2>
-    <p class="lead">Indiquez-nous votre chapitre et votre situation. Nous vous rappelons sous 24 h pour fixer ensemble la date de votre séance au studio.</p>
+    <p class="lead">Indiquez-nous votre chapitre et votre situation. Nous vous rappelons sous 24 h pour fixer ensemble la date de votre séance offerte au studio.</p>
 
     <form class="form-card" id="resa-form">
       <div class="form-block">
@@ -557,30 +532,6 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
           <button type="button" class="pill" data-gross="6 à 7 mois">6 à 7 mois</button>
           <button type="button" class="pill" data-gross="7 à 8 mois">7 à 8 mois</button>
           <button type="button" class="pill" data-gross="+ de 8 mois">+ de 8 mois</button>
-        </div>
-      </div>
-
-      <div class="form-block">
-        <label class="form-label">Formule souhaitée</label>
-        <div class="swipe-wrap" data-swipe data-start="1">
-        <div class="swipe swipe--formule">
-          <div class="fcard" data-formule="Essentielle">
-            <div class="fcard-name">Essentielle</div>
-            <div class="fcard-price"><span class="fcard-now">250&nbsp;€</span> <span class="fcard-old">350&nbsp;€<span class="strike"></span></span></div>
-            <div class="fcard-sum"><span>5 photos numériques</span><span>1 photo artistique</span></div>
-          </div>
-          <div class="fcard on" data-formule="Signature">
-            <div class="fcard-lead">La plus choisie</div>
-            <div class="fcard-name">Signature</div>
-            <div class="fcard-price"><span class="fcard-now">350&nbsp;€</span> <span class="fcard-old">450&nbsp;€<span class="strike"></span></span></div>
-            <div class="fcard-sum"><span>10 photos numériques</span><span>3 photos artistiques</span></div>
-          </div>
-          <div class="fcard" data-formule="Prestige">
-            <div class="fcard-name">Prestige</div>
-            <div class="fcard-price"><span class="fcard-now">450&nbsp;€</span> <span class="fcard-old">550&nbsp;€<span class="strike"></span></span></div>
-            <div class="fcard-sum"><span>20 photos numériques</span><span>5 photos artistiques</span></div>
-          </div>
-        </div>
         </div>
       </div>
 
@@ -838,7 +789,7 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
 
 <!-- BARRE CTA FIXE -->
 <div class="cta-bar">
-  <a class="btn btn--fill" href="#reserver">Réserver ma séance</a>
+  <a class="btn btn--fill" href="#reserver">Réserver ma séance offerte</a>
 </div>
 
 <script>
@@ -938,12 +889,6 @@ document.querySelectorAll('.pill[data-gross]').forEach(function(p){
     document.querySelectorAll('.pill[data-gross]').forEach(function(x){ x.classList.toggle('on', x === p); });
   });
 });
-/* formule : sélection simple */
-document.querySelectorAll('.fcard').forEach(function(c){
-  c.addEventListener('click', function(){
-    document.querySelectorAll('.fcard').forEach(function(x){ x.classList.toggle('on', x === c); });
-  });
-});
 /* soumission -> envoi vers Make (webhook) + écran de confirmation */
 var MAKE_WEBHOOK = 'https://hook.eu2.make.com/7fv61709dw73t4ly3afk9cpswq9sv5cf';
 document.getElementById('resa-form').addEventListener('submit', function(e){
@@ -955,18 +900,10 @@ document.getElementById('resa-form').addEventListener('submit', function(e){
     function(p){ return p.textContent.trim(); }
   );
   var grossEl = form.querySelector('.pill[data-gross].on');
-  var formuleEl = form.querySelector('.fcard.on');
-
-  var formule = formuleEl ? formuleEl.getAttribute('data-formule') : '';
-  var prixEl = formuleEl ? formuleEl.querySelector('.fcard-now') : null;
-  var prix = prixEl ? prixEl.textContent.replace(/ /g, ' ').trim() : '';
 
   var payload = {
     chapitres: types.join(', '),
     stade_grossesse: grossEl ? grossEl.getAttribute('data-gross') : '',
-    formule: formule,
-    prix: prix,
-    formule_prix: (formule && prix) ? (formule + ' — ' + prix) : formule,
     nom: form.nom.value.trim(),
     telephone: form.tel.value.trim(),
     email: form.email.value.trim(),
@@ -994,7 +931,7 @@ document.getElementById('resa-form').addEventListener('submit', function(e){
         fn: (nameParts[0] || '').toLowerCase(),
         ln: nameParts.slice(1).join(' ').toLowerCase()
       });
-      fbq('track', 'Lead', { content_name: payload.formule, value: 0, currency: 'EUR' });
+      fbq('track', 'Lead', { content_name: payload.chapitres, value: 0, currency: 'EUR' });
     }
   } catch (err) {}
 
@@ -1009,7 +946,8 @@ var FAQ = [
   { q: "Quand réserver une séance grossesse ?", a: "Idéalement entre le 6ᵉ et le 8ᵉ mois, lorsque le ventre est joliment arrondi. Réservez 2 à 3 mois à l'avance pour garantir votre date." },
   { q: "Quand faire une séance nouveau-né ?", a: "Dans les 10 à 15 jours après la naissance, lorsque bébé dort encore beaucoup. Réservez pendant la grossesse pour bloquer une date autour du terme." },
   { q: "Quand recevons-nous nos photos ?", a: "Le choix de vos photos se fait directement au studio, à la fin de la séance. Votre galerie privée, retouchée avec soin, vous est ensuite livrée sous 1 semaine." },
-  { q: "Que comprend l'acompte ?", a: "Un acompte de 30 % valide la réservation et la date. Il est déduit du total ; le solde est réglé le jour de la séance." }
+  { q: "La séance est-elle vraiment offerte ?", a: "Oui, la prise de vue est 100 % offerte et sans aucune obligation d'achat. Vous ne repartez qu'avec les photos que vous choisissez — ou aucune, en toute liberté." },
+  { q: "Comment se passe le paiement ?", a: "Après la séance, vous découvrez vos photos et composez votre sélection à la carte (à partir de 75 €). Vous ne payez que celles que vous aimez. Tirages, albums et tableaux sont aussi disponibles." }
 ];
 var faqList = document.getElementById('faq-list');
 FAQ.forEach(function(item, i){
