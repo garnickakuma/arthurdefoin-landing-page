@@ -60,9 +60,18 @@ h1,h2,h3{margin:0;}
 .btn--link:hover{color:var(--ink);}
 .promo-pill{display:inline-flex; align-items:center; gap:12px; max-width:100%; background:var(--accent); color:#fff; font-family:var(--sans); font-size:12px; letter-spacing:.14em; line-height:1.5; text-transform:uppercase; padding:13px 26px; border-radius:30px; text-align:center; white-space:normal;}
 
+/* BANDEAU OFFRE (header) */
+.promo-ribbon{position:fixed; top:0; left:0; right:0; z-index:39; height:38px; display:flex; align-items:center; justify-content:center; gap:9px; background:linear-gradient(90deg, var(--accent-h), var(--accent)); color:#fff; text-decoration:none; font-family:var(--sans); font-weight:400; font-size:11px; letter-spacing:.12em; text-transform:uppercase; padding:0 14px; text-align:center; line-height:1.2; transition:opacity .35s ease;}
+.promo-ribbon strong{font-weight:600;}
+.promo-ribbon .rb-dot{width:7px; height:7px; border-radius:50%; background:#fff; flex:none; animation:rbPulse 1.6s ease-in-out infinite;}
+.promo-ribbon .rb-more{display:none;}
+@media(min-width:600px){.promo-ribbon{font-size:12px;} .promo-ribbon .rb-more{display:inline;}}
+@keyframes rbPulse{0%,100%{opacity:.4; transform:scale(.75);}50%{opacity:1; transform:scale(1.15);}}
+body.menu-open .promo-ribbon{opacity:0; pointer-events:none;}
+
 /* NAV — barre fixe en overlay : logo + burger, transparente puis solide au scroll */
-html{scroll-padding-top:74px;}
-.nav{position:fixed; top:0; left:0; right:0; z-index:40; background:transparent; border-bottom:1px solid transparent; transition:background .4s ease, border-color .4s ease, backdrop-filter .4s ease;}
+html{scroll-padding-top:112px;}
+.nav{position:fixed; top:38px; left:0; right:0; z-index:40; background:transparent; border-bottom:1px solid transparent; transition:background .4s ease, border-color .4s ease, backdrop-filter .4s ease;}
 body.scrolled .nav{background:rgba(246,241,236,.86); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border-bottom-color:var(--line);}
 .nav-inner{display:flex; align-items:center; justify-content:space-between; padding:15px clamp(20px,5vw,40px); max-width:1240px; margin:0 auto;}
 .nav-logo{height:32px; width:auto; display:block;}
@@ -365,6 +374,12 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
 </style>
 </head>
 <body>
+
+<!-- BANDEAU OFFRE -->
+<a class="promo-ribbon" href="#reserver">
+  <span class="rb-dot" aria-hidden="true"></span>
+  <span><strong>Séance photo offerte</strong> · Offre limitée<span class="rb-more"> — réservez maintenant</span></span>
+</a>
 
 <!-- NAV -->
 <nav class="nav">
