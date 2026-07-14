@@ -973,6 +973,25 @@ if ('IntersectionObserver' in window){
   }
 })();
 
+/* Ancres : scroll doux SANS ajouter de #hash à l'URL (rechargement = haut de page) */
+(function(){
+  document.addEventListener('click', function(e){
+    var a = e.target.closest ? e.target.closest('a[href^="#"]') : null;
+    if (!a) return;
+    e.preventDefault();
+    var id = a.getAttribute('href').slice(1);
+    var el = id ? document.getElementById(id) : null;
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    else window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+  /* nettoie un éventuel #hash présent au chargement + repart du haut */
+  if (location.hash){
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    window.scrollTo(0, 0);
+    history.replaceState(null, '', location.pathname + location.search);
+  }
+})();
+
 /* Menu burger */
 (function(){
   var burger = document.getElementById('nav-burger');
