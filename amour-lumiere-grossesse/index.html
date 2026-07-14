@@ -91,7 +91,7 @@ body.menu-open{overflow:hidden;}
 /* ============ HERO — image seule, plein écran ============ */
 .sr-only{position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0;}
 .hero{position:relative; height:100svh; overflow:hidden; background:var(--bg);}
-.hero__img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:50% 24%; transform:scale(1.06); animation:heroZoom 16s ease-out forwards;}
+.hero__img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:50% 32%; transform:scale(1.06); animation:heroZoom 16s ease-out forwards;}
 @keyframes heroZoom{to{transform:scale(1);}}
 .hero__foot{position:absolute; left:0; right:0; bottom:0; height:22%; pointer-events:none; background:linear-gradient(to top, rgba(246,241,236,.9) 0%, rgba(246,241,236,0) 100%);}
 .hero__cue{position:absolute; left:50%; bottom:24px; transform:translateX(-50%); font-family:var(--sans); font-weight:300; font-size:10px; letter-spacing:.32em; text-transform:uppercase; color:var(--muted); display:flex; flex-direction:column; align-items:center; gap:12px; pointer-events:none;}
@@ -179,6 +179,8 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
 .tarifs-head h2{margin:0 0 12px;}
 .tarifs-head p{font-size:16px; font-weight:300; color:var(--muted); margin:0 auto; max-width:480px;}
 .tarifs-promo{display:flex; justify-content:center; margin:26px 0 46px;}
+.offer-line{display:flex; align-items:center; justify-content:center; gap:16px; margin:24px auto 46px; max-width:520px; font-family:var(--sans); font-weight:400; font-size:12px; letter-spacing:.22em; text-transform:uppercase; color:var(--accent); text-align:center;}
+.offer-line .hr{display:block; flex:1 1 auto; max-width:60px; height:1px; background:var(--line4);}
 .tarifs-sub{text-align:center; font-family:var(--sans); font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:var(--accent); margin-bottom:30px;}
 /* étapes (séance offerte) */
 .steps{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:30px; margin:0 0 52px; max-width:900px; margin-left:auto; margin-right:auto;}
@@ -402,7 +404,7 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
 
 <!-- HERO -->
 <header class="hero">
-  <img class="hero__img" src="assets/photos/hero-corail.jpg" alt="Photo artistique de grossesse — robe de soie ivoire dans une immense corolle de pétales, reflet sur l'eau, studio Amour et Lumière">
+  <img class="hero__img" src="assets/photos/hero-famille.jpg" alt="Séance photo de famille en studio — parents et bébé, studio Amour et Lumière à Bègles">
   <div class="hero__foot"></div>
   <div class="hero__cue">Découvrir<svg class="chev" width="22" height="12" viewBox="0 0 22 12" fill="none" aria-hidden="true"><path d="M1 1L11 10.5L21 1" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
 </header>
@@ -510,7 +512,7 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
       <h2 class="h2 italic">Vous ne payez que ce que vous aimez</h2>
       <p>La séance est <strong style="color:var(--ink2);font-weight:500">100&nbsp;% offerte</strong>. Vous composez ensuite vos souvenirs, à la carte et sans aucune obligation.</p>
     </div>
-    <div class="tarifs-promo"><span class="promo-pill">Séance photo offerte · sans engagement</span></div>
+    <div class="offer-line"><span class="hr"></span><span>Séance photo offerte · sans engagement</span><span class="hr"></span></div>
 
     <div class="steps rise">
       <div class="step"><span class="step-n">1</span><h3>Vous réservez</h3><p>Gratuitement, en 2 minutes. On vous rappelle sous 24 h pour fixer votre date.</p></div>
@@ -523,11 +525,11 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
         <div class="carte-title">Vos photos, à la carte</div>
         <div class="carte-sub">Fichiers numériques HD retouchés · galerie privée</div>
       </div>
-      <div class="carte-row"><span class="carte-l"><span class="heart">♥</span> 3 photos</span><span class="carte-p">75&nbsp;€</span></div>
-      <div class="carte-row"><span class="carte-l"><span class="heart">♥</span> 5 photos</span><span class="carte-p">99&nbsp;€</span></div>
-      <div class="carte-row"><span class="carte-l"><span class="heart">♥</span> 10 photos</span><span class="carte-p">149&nbsp;€</span></div>
-      <div class="carte-row featured"><span class="carte-l"><span class="heart">♥</span> Toute la galerie <span class="carte-badge">La plus choisie</span></span><span class="carte-p">199&nbsp;€</span></div>
-      <div class="carte-row"><span class="carte-l"><span class="heart">♥</span> Galerie + album</span><span class="carte-p">289&nbsp;€</span></div>
+      <div class="carte-row"><span class="carte-l">3 photos</span><span class="carte-p">75&nbsp;€</span></div>
+      <div class="carte-row"><span class="carte-l">5 photos</span><span class="carte-p">99&nbsp;€</span></div>
+      <div class="carte-row"><span class="carte-l">10 photos</span><span class="carte-p">149&nbsp;€</span></div>
+      <div class="carte-row featured"><span class="carte-l">Toute la galerie <span class="carte-badge">La plus choisie</span></span><span class="carte-p">199&nbsp;€</span></div>
+      <div class="carte-row"><span class="carte-l">Galerie + album</span><span class="carte-p">289&nbsp;€</span></div>
       <p class="carte-note">Tirages, albums et tableaux également disponibles au studio.</p>
     </div>
     <div class="tarifs-cta rise"><a class="btn btn--fill" href="#reserver">Réserver ma séance offerte</a></div>
