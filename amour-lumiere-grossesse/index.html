@@ -225,11 +225,18 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
 .resa-inner h2{margin:0 0 20px;}
 .resa-inner .lead{font-size:17px; line-height:1.75; max-width:500px; margin:0 auto 38px;}
 .cal-embed{max-width:860px; margin:0 auto; min-height:560px; background:var(--card); border:1px solid var(--line2); border-radius:24px; overflow:hidden; padding:8px;}
-.resa-engage{max-width:620px; margin:26px auto 0;}
+.resa-engage{max-width:600px; margin:0 auto 8px; text-align:center;}
 .resa-engage p{font-family:var(--sans); font-weight:300; font-size:14px; line-height:1.75; color:var(--muted2); margin:0;}
 .resa-engage strong{color:var(--ink2); font-weight:500;}
 .resa-engage a{color:var(--accent); font-weight:500; text-decoration:none; white-space:nowrap;}
 .resa-engage a:hover{text-decoration:underline;}
+.resa-check{display:inline-flex; align-items:center; gap:12px; margin-top:24px; cursor:pointer; font-family:var(--sans); font-size:15px; color:var(--ink2); text-align:left;}
+.resa-check input{position:absolute; opacity:0; width:0; height:0;}
+.resa-check-box{flex:none; width:24px; height:24px; border:1.5px solid var(--line4); border-radius:7px; background:#fff; display:inline-flex; align-items:center; justify-content:center; transition:background .18s ease, border-color .18s ease;}
+.resa-check-box::after{content:''; width:6px; height:11px; border:solid #fff; border-width:0 2px 2px 0; transform:rotate(45deg) scale(0); transition:transform .18s ease; margin-top:-2px;}
+.resa-check input:checked + .resa-check-box{background:var(--accent); border-color:var(--accent);}
+.resa-check input:checked + .resa-check-box::after{transform:rotate(45deg) scale(1);}
+.resa-check input:focus-visible + .resa-check-box{box-shadow:0 0 0 3px var(--rose-pale);}
 .form-card{background:var(--card); border:1px solid var(--line2); border-radius:24px; padding:44px; max-width:680px; margin:0 auto; text-align:left;}
 .form-block{margin-bottom:24px;}
 .form-label{font-family:var(--sans); font-weight:300; font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:11px;}
@@ -519,12 +526,17 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
     <h2 class="h2 italic">Choisissez votre créneau</h2>
     <p class="lead">La séance au studio est <strong style="color:var(--ink2);font-weight:500">offerte</strong> et sans obligation d'achat. Sélectionnez le créneau qui vous convient ci-dessous.</p>
 
-    <!-- Cal.com : réservation en direct -->
-    <div id="cal-embed" class="cal-embed"></div>
-
     <div class="resa-engage rise">
       <p>Même si la séance est <strong>offerte</strong>, une place réservée bloque celle d'une autre personne. En réservant, vous vous engagez à <strong>venir à votre rendez-vous</strong> — ou à nous prévenir de votre absence au <a href="tel:+33789954427">07&nbsp;89&nbsp;95&nbsp;44&nbsp;27</a>.</p>
+      <label class="resa-check">
+        <input type="checkbox" id="engage-check">
+        <span class="resa-check-box" aria-hidden="true"></span>
+        <span class="resa-check-txt">Je m'engage à être présent·e à la séance photo.</span>
+      </label>
     </div>
+
+    <!-- Cal.com : réservation en direct (révélée après la case d'engagement) -->
+    <div id="cal-embed" class="cal-embed" hidden></div>
   </div>
 </section>
 
@@ -850,30 +862,47 @@ var galleryMasonry = (function(){
   document.addEventListener('keydown', function(e){ if (e.key === 'Escape') close(); });
 })();
 
-/* ---- Cal.com : réservation en direct + Pixel Meta sur réservation réussie ---- */
+/* ---- Cal.com : agenda révélé après la case d'engagement + Pixel Meta ---- */
 (function (C, A, L) { var p = function (a, ar) { a.q.push(ar); }; var d = C.document; C.Cal = C.Cal || function () { var cal = C.Cal; var ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { var api = function () { p(api, arguments); }; var namespace = ar[1]; api.q = api.q || []; if (typeof namespace === "string") { cal.ns[namespace] = cal.ns[namespace] || api; p(cal.ns[namespace], ar); p(cal, ["initNamespace", namespace]); } else p(cal, ar); return; } p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
-Cal("init", "seance", { origin: "https://cal.com" });
-Cal.ns.seance("inline", {
-  elementOrSelector: "#cal-embed",
-  config: { layout: "month_view" },
-  calLink: "amour-et-lumiere/seance-photo-offerte"
-});
-Cal.ns.seance("ui", {
-  hideEventTypeDetails: false,
-  layout: "month_view",
-  styles: { branding: { brandColor: "#c2978f" } }
-});
-Cal.ns.seance("on", {
-  action: "bookingSuccessful",
-  callback: function () {
-    try {
-      if (window.fbq) {
-        fbq('track', 'Schedule');
-        fbq('track', 'Lead', { content_name: 'Séance offerte', value: 0, currency: 'EUR' });
+(function(){
+  var check = document.getElementById('engage-check');
+  var calDiv = document.getElementById('cal-embed');
+  if (!check || !calDiv) return;
+  var inited = false;
+  function initCal(){
+    Cal("init", "seance", { origin: "https://cal.com" });
+    Cal.ns.seance("inline", {
+      elementOrSelector: "#cal-embed",
+      config: { layout: "month_view" },
+      calLink: "amour-et-lumiere/seance-photo-offerte"
+    });
+    Cal.ns.seance("ui", {
+      hideEventTypeDetails: false,
+      layout: "month_view",
+      styles: { branding: { brandColor: "#c2978f" } }
+    });
+    Cal.ns.seance("on", {
+      action: "bookingSuccessful",
+      callback: function () {
+        try {
+          if (window.fbq) {
+            fbq('track', 'Schedule');
+            fbq('track', 'Lead', { content_name: 'Séance offerte', value: 0, currency: 'EUR' });
+          }
+        } catch (e) {}
       }
-    } catch (e) {}
+    });
   }
-});
+  check.addEventListener('change', function(){
+    if (check.checked){
+      calDiv.hidden = false;
+      if (!inited){ inited = true; initCal(); }
+      setTimeout(function(){ calDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }, 120);
+    } else {
+      calDiv.hidden = true;
+    }
+  });
+})();
 
 /* ---- FAQ ---- */
 var FAQ = [
