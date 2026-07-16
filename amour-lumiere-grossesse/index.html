@@ -75,6 +75,8 @@ html{scroll-padding-top:112px;}
 body.scrolled .nav{background:rgba(246,241,236,.86); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border-bottom-color:var(--line);}
 .nav-inner{display:flex; align-items:center; justify-content:space-between; padding:15px clamp(20px,5vw,40px); max-width:1240px; margin:0 auto;}
 .nav-logo{height:32px; width:auto; display:block;}
+.nav-cta{font-family:var(--sans); font-size:11px; letter-spacing:.18em; text-transform:uppercase; text-decoration:none; background:var(--accent); color:#fff; padding:11px 22px; border-radius:40px; transition:background .2s ease;}
+.nav-cta:hover{background:var(--accent-h); color:#fff;}
 .nav-burger{width:44px; height:44px; margin-right:-8px; display:flex; flex-direction:column; justify-content:center; align-items:center; gap:6px; background:none; border:0; cursor:pointer; padding:0;}
 .nav-burger span{display:block; width:26px; height:1.5px; background:var(--ink); transition:transform .35s ease, opacity .35s ease;}
 body.menu-open .nav-burger span:nth-child(1){transform:translateY(7.5px) rotate(45deg);}
@@ -90,7 +92,7 @@ body.menu-open{overflow:hidden;}
 
 /* ============ HERO — image seule, plein écran ============ */
 .sr-only{position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0;}
-.hero{position:relative; height:100svh; overflow:hidden; background:var(--bg);}
+.hero{position:relative; height:64svh; min-height:380px; overflow:hidden; background:var(--bg);}
 .hero__img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:50% 32%; transform:scale(1.06); animation:heroZoom 16s ease-out forwards;}
 @keyframes heroZoom{to{transform:scale(1);}}
 .hero__foot{position:absolute; left:0; right:0; bottom:0; height:22%; pointer-events:none; background:linear-gradient(to top, rgba(246,241,236,.9) 0%, rgba(246,241,236,0) 100%);}
@@ -112,6 +114,9 @@ body.menu-open{overflow:hidden;}
 .intro__offer-amount{font-family:var(--serif); font-weight:400; font-style:italic; font-size:clamp(38px,9vw,60px); line-height:1.05; color:var(--accent);}
 .intro__offer-sub{font-family:var(--sans); font-weight:300; font-size:13px; letter-spacing:.18em; text-transform:uppercase; color:var(--muted2); margin-top:12px;}
 .intro__cta{display:flex; flex-direction:column; gap:20px; align-items:center;}
+.intro__proof{display:flex; align-items:center; justify-content:center; gap:10px; flex-wrap:wrap; margin-top:28px; font-family:var(--sans); font-weight:300; font-size:13.5px; color:var(--muted2);}
+.intro__proof strong{color:var(--ink2); font-weight:500;}
+.ip-stars{color:var(--gold); letter-spacing:1.5px; font-size:14px;}
 .intro__link{font-family:var(--sans); font-weight:400; font-size:12px; letter-spacing:.18em; text-transform:uppercase; color:var(--muted2); text-decoration:none; border-bottom:1px solid var(--line4); padding-bottom:5px; transition:color .2s ease, border-color .2s ease;}
 .intro__link:hover{color:var(--accent); border-color:var(--accent);}
 
@@ -365,6 +370,8 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
 .footer-inner{max-width:1140px; margin:0 auto; display:flex; flex-direction:column; align-items:center; text-align:center; gap:20px;}
 .footer img{height:52px; width:auto; opacity:.85;}
 .footer-info{font-family:var(--sans); font-weight:300; font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); text-align:center; line-height:2;}
+.footer-map{font-family:var(--sans); font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--accent); text-decoration:none; border-bottom:1px solid var(--line4); padding-bottom:4px;}
+.footer-map:hover{color:var(--accent-h); border-color:var(--accent);}
 
 /* BARRE CTA FIXE EN BAS */
 .cta-bar{position:fixed; left:0; right:0; bottom:0; z-index:34; background:rgba(246,241,236,.94); -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px); border-top:1px solid var(--line); padding:12px clamp(16px,5vw,40px) calc(12px + env(safe-area-inset-bottom)); box-shadow:0 -10px 30px -22px rgba(74,64,56,.6); display:flex; justify-content:center; transform:translateY(130%); transition:transform .4s cubic-bezier(.22,.61,.36,1);}
@@ -397,20 +404,9 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
 <nav class="nav">
   <div class="nav-inner">
     <img class="nav-logo" src="assets/logo-amour-et-lumiere.png" alt="Amour et Lumière">
-    <button class="nav-burger" id="nav-burger" type="button" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    <a class="nav-cta" href="#reserver">Réserver</a>
   </div>
 </nav>
-
-<!-- MENU BURGER -->
-<div class="menu" id="menu">
-  <a href="#prestations">Les chapitres</a>
-  <a href="#galerie">Galerie</a>
-  <a href="#tarifs">Tarifs</a>
-  <a href="#reserver">Réserver</a>
-  <a href="#trouver">Accès</a>
-  <a href="#duo">Le duo</a>
-  <div class="menu-base">Studio · Bègles · Bordeaux</div>
-</div>
 
 <!-- HERO -->
 <header class="hero">
@@ -432,85 +428,9 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
     <a class="btn btn--fill" href="#reserver">Réserver ma séance offerte</a>
     <a class="intro__link" href="#tarifs">Comment ça marche</a>
   </div>
-</section>
-
-<!-- PRESTATIONS -->
-<section id="prestations" class="section wrap">
-  <div class="head-center rise">
-    <div class="eyebrow">Votre histoire</div>
-    <h2 class="h2 italic">Chaque séance, un nouveau chapitre</h2>
-    <p class="presta-intro">L'histoire d'une famille s'écrit, page après page — l'attente, les premiers jours, les années qui suivent. Chacun de ces chapitres mérite d'être immortalisé.</p>
-  </div>
-  <div class="swipe-wrap rise" data-swipe>
-    <div class="swipe swipe--presta">
-      <div class="presta">
-        <div class="presta-arch"><img src="assets/photos/grossesse.jpg" alt="Séance grossesse en studio" style="object-position:center 42%"></div>
-        <div class="presta-chap">Chapitre I</div>
-        <h3>Grossesse</h3>
-        <p>La première page. L'attente sublimée, seule ou en couple, idéalement dès le 6ᵉ mois.</p>
-      </div>
-      <div class="presta">
-        <div class="presta-arch"><img src="assets/photos/presta-nouveau-ne.jpg" alt="Séance nouveau-né en studio" style="object-position:40% 42%"></div>
-        <div class="presta-chap">Chapitre II</div>
-        <h3>Nouveau-né</h3>
-        <p>Les premières lignes. Une séance cocon, en douceur, dans les 10 à 15 jours après la naissance.</p>
-      </div>
-      <div class="presta">
-        <div class="presta-arch"><img src="assets/photos/maman-bebe.jpg" alt="Séance famille et bébé en studio" style="object-position:center 30%"></div>
-        <div class="presta-chap">Chapitre III</div>
-        <h3>La famille</h3>
-        <p>Le récit à plusieurs. Parents, enfants, fratrie — la famille réunie, à chaque âge, pour des souvenirs à chérir.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- GALERIE -->
-<section id="galerie" class="section wrap">
-  <div class="head-center rise" style="margin-bottom:28px">
-    <div class="eyebrow" style="margin-bottom:16px">Galerie</div>
-    <h2 class="h2 italic">Des histoires déjà écrites</h2>
-  </div>
-  <div class="gal-toggle">
-    <button type="button" class="gal-btn on" data-gal="nat">Classiques</button>
-    <button type="button" class="gal-btn" data-gal="art">Artistiques</button>
-  </div>
-  <div class="masonry nat" id="gal-nat">
-    <img src="assets/photos/gal-c-01.jpg" data-r="0.667" alt="Séance photo en studio — Amour et Lumière, Bègles" loading="lazy">
-    <img src="assets/photos/gal-c-02.jpg" data-r="1.499" alt="Séance photo en studio — Amour et Lumière, Bègles" loading="lazy">
-    <img src="assets/photos/gal-c-04.jpg" data-r="1.499" alt="Séance photo en studio — Amour et Lumière, Bègles" loading="lazy">
-    <img src="assets/photos/gal-c-03.jpg" data-r="0.667" alt="Séance photo en studio — Amour et Lumière, Bègles" loading="lazy">
-    <img src="assets/photos/gal-c-06.jpg" data-r="1.499" alt="Séance photo en studio — Amour et Lumière, Bègles" loading="lazy">
-    <img src="assets/photos/gal-c-09.jpg" data-r="1.499" alt="Séance photo en studio — Amour et Lumière, Bègles" loading="lazy">
-    <img src="assets/photos/gal-c-05.jpg" data-r="1.000" alt="Séance photo en studio — Amour et Lumière, Bègles" loading="lazy">
-    <img src="assets/photos/gal-c-13.jpg" data-r="1.499" alt="Séance photo en studio — Amour et Lumière, Bègles" loading="lazy">
-    <img src="assets/photos/gal-c-14.jpg" data-r="1.499" alt="Séance photo en studio — Amour et Lumière, Bègles" loading="lazy">
-    <img src="assets/photos/gal-c-07.jpg" data-r="0.667" alt="Séance photo en studio — Amour et Lumière, Bègles" loading="lazy">
-    <img src="assets/photos/gal-c-16.jpg" data-r="1.499" alt="Séance photo en studio — Amour et Lumière, Bègles" loading="lazy">
-    <img src="assets/photos/gal-c-17.jpg" data-r="1.499" alt="Séance photo en studio — Amour et Lumière, Bègles" loading="lazy">
-    <img src="assets/photos/gal-c-10.jpg" data-r="0.667" alt="Séance photo en studio — Amour et Lumière, Bègles" loading="lazy">
-    <img src="assets/photos/gal-c-19.jpg" data-r="1.499" alt="Séance photo en studio — Amour et Lumière, Bègles" loading="lazy">
-    <img src="assets/photos/gal-c-20.jpg" data-r="1.499" alt="Séance photo en studio — Amour et Lumière, Bègles" loading="lazy">
-    <img src="assets/photos/gal-c-12.jpg" data-r="0.667" alt="Séance photo en studio — Amour et Lumière, Bègles" loading="lazy">
-    <img src="assets/photos/gal-c-21.jpg" data-r="1.499" alt="Séance photo en studio — Amour et Lumière, Bègles" loading="lazy">
-    <img src="assets/photos/gal-c-22.jpg" data-r="1.499" alt="Séance photo en studio — Amour et Lumière, Bègles" loading="lazy">
-    <img src="assets/photos/gal-c-15.jpg" data-r="0.667" alt="Séance photo en studio — Amour et Lumière, Bègles" loading="lazy">
-    <img src="assets/photos/gal-c-23.jpg" data-r="1.499" alt="Séance photo en studio — Amour et Lumière, Bègles" loading="lazy">
-    <img src="assets/photos/gal-c-18.jpg" data-r="0.667" alt="Séance photo en studio — Amour et Lumière, Bègles" loading="lazy">
-  </div>
-  <div class="masonry art" id="gal-art" hidden>
-    <img src="assets/photos/art-corail.jpg" data-r="1.491" alt="Photo artistique grossesse — robe de soie ivoire dans une corolle de pétales, reflet sur l'eau" loading="lazy">
-    <img src="assets/photos/art-orange.jpg" data-r="0.666" alt="Photo artistique grossesse — voile orangé en mouvement" loading="lazy">
-    <img src="assets/photos/art-chemin-roses.jpg" data-r="1.491" alt="Photo artistique grossesse — chemin de roses rouges et robe blanche" loading="lazy">
-    <img src="assets/photos/art-papillon-profil.jpg" data-r="0.558" alt="Photo artistique grossesse — ailes de papillon fleuries, de profil" loading="lazy">
-    <img src="assets/photos/art-noir-blanc.jpg" data-r="1.340" alt="Photo artistique grossesse — voile blanc en mouvement sur fond sombre" loading="lazy">
-    <img src="assets/photos/art-papillon-01.jpg" data-r="0.558" alt="Photo artistique grossesse — ailes de papillon fleuries rosées" loading="lazy">
-    <img src="assets/photos/art-rose-jaune.jpg" data-r="1.491" alt="Photo artistique grossesse — éclosion florale jaune dorée" loading="lazy">
-    <img src="assets/photos/art-papillon-02.jpg" data-r="0.558" alt="Photo artistique grossesse — ailes de papillon fleuries bleutées" loading="lazy">
-    <img src="assets/photos/art-rose-rouge-02.jpg" data-r="1.491" alt="Photo artistique grossesse — corolle de pétales rouges" loading="lazy">
-    <img src="assets/photos/art-rose-bleue.jpg" data-r="0.558" alt="Photo artistique grossesse — éclosion florale bleue" loading="lazy">
-    <img src="assets/photos/art-rose-verte-01.jpg" data-r="1.491" alt="Photo artistique grossesse — éclosion florale vert tendre" loading="lazy">
-    <img src="assets/photos/art-rose-verte-02.jpg" data-r="0.558" alt="Photo artistique grossesse — corolle de feuillage vert" loading="lazy">
+  <div class="intro__proof">
+    <span class="ip-stars">★★★★★</span>
+    <span><strong>5,0</strong> sur Google · 30 avis</span>
   </div>
 </section>
 
@@ -568,55 +488,6 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
 
     <!-- Cal.com : réservation en direct (révélée après la case d'engagement) -->
     <div id="cal-embed" class="cal-embed" hidden></div>
-  </div>
-</section>
-
-<!-- LE STUDIO -->
-<section class="studio section">
-  <div class="studio-inner">
-    <div class="eyebrow rise">Le studio</div>
-    <h2 class="h2 rise">Un écrin de lumière à Bègles</h2>
-    <div class="studio-grid">
-      <div class="studio-col rise"><h3>Lumière d'atelier</h3><p>Une lumière maîtrisée toute l'année, quelle que soit la météo, pour des images douces et intemporelles.</p></div>
-      <div class="studio-col rise"><h3>Un cocon privatisé</h3><p>Le studio rien que pour vous : chauffé, climatisé, intime et confortable, idéal pour toute la famille — des tout-petits aux futures mamans.</p></div>
-      <div class="studio-col rise"><h3>À quelques minutes de la mairie</h3><p>À Bègles, à quelques minutes de la mairie et facilement accessible, avec parking. Sur rendez-vous.</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- OÙ NOUS TROUVER -->
-<section id="trouver" class="section wrap">
-  <div class="head-center rise" style="margin-bottom:44px">
-    <div class="eyebrow" style="margin-bottom:14px">Où nous trouver</div>
-    <h2 class="h2">Le studio, à Bègles</h2>
-  </div>
-  <div class="trouver-grid">
-    <div class="trouver-card rise">
-      <div class="trouver-name">Amour &amp; Lumière — Studio</div>
-      <div class="trouver-addr">2 Allée André Joseph Sire<br>33130 Bègles</div>
-      <div class="trouver-meta">À quelques minutes de la mairie de Bègles · Parking à proximité · Sur rendez-vous</div>
-      <a class="btn btn--fill trouver-map-btn" href="https://www.google.com/maps/search/?api=1&query=2+All%C3%A9e+Andr%C3%A9+Joseph+Sire+33130+B%C3%A8gles" target="_blank" rel="noopener" style="padding:15px 30px;">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" style="flex:none"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" stroke="#fff" stroke-width="1.6"/><circle cx="12" cy="9" r="2.4" stroke="#fff" stroke-width="1.6"/></svg>Voir sur Google Maps</a>
-    </div>
-    <div class="trouver-map">
-      <iframe title="Localisation du studio Amour et Lumière à Bègles" src="https://www.google.com/maps?q=2+All%C3%A9e+Andr%C3%A9+Joseph+Sire,+33130+B%C3%A8gles&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-    </div>
-  </div>
-</section>
-
-<!-- LE DUO -->
-<section id="duo" class="duo section">
-  <div class="duo-grid">
-    <div class="duo-portraits rise">
-      <div class="duo-arch"><img src="assets/photos/arthur.jpg" alt="Arthur, photographe"></div>
-      <div class="duo-arch b"><img src="assets/photos/pierre-henri.jpg" alt="Pierre-Henri, photographe"></div>
-    </div>
-    <div class="rise">
-      <div class="eyebrow" style="margin-bottom:20px">Le duo</div>
-      <h2 class="duo-h2">Deux regards,<br><span style="font-style:italic">une même lumière</span></h2>
-      <p class="duo-p">Nous sommes Arthur et Pierre-Henri. Depuis notre studio près de Bordeaux, nous photographions la famille sous toutes ses formes — de la grossesse aux premiers pas — avec une exigence d'atelier : une lumière travaillée, une direction tout en douceur, et le temps qu'il faut pour que les vrais moments arrivent.</p>
-      <p class="duo-p">Deux sensibilités complémentaires, pour des images tendres et intemporelles que l'on accroche au mur des années durant.</p>
-    </div>
   </div>
 </section>
 
@@ -789,6 +660,28 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
   </div>
 </section>
 
+<!-- GALERIE (compacte) -->
+<section id="galerie" class="section wrap">
+  <div class="head-center rise" style="margin-bottom:32px">
+    <div class="eyebrow" style="margin-bottom:14px">Galerie</div>
+    <h2 class="h2 italic">Des histoires déjà écrites</h2>
+  </div>
+  <div class="masonry" id="gal-main">
+    <img src="assets/photos/gal-c-06.jpg" data-r="1.499" alt="Séance photo famille en studio — maman et bébé, Amour et Lumière" loading="lazy">
+    <img src="assets/photos/gal-c-01.jpg" data-r="0.667" alt="Séance photo en couple en studio — Amour et Lumière" loading="lazy">
+    <img src="assets/photos/gal-c-04.jpg" data-r="1.499" alt="Séance photo en famille en studio — Amour et Lumière" loading="lazy">
+    <img src="assets/photos/gal-c-03.jpg" data-r="0.667" alt="Séance photo en studio — Amour et Lumière" loading="lazy">
+    <img src="assets/photos/gal-c-14.jpg" data-r="1.499" alt="Séance photo en couple en studio — Amour et Lumière" loading="lazy">
+    <img src="assets/photos/gal-c-07.jpg" data-r="0.667" alt="Séance photo en studio — Amour et Lumière" loading="lazy">
+    <img src="assets/photos/gal-c-20.jpg" data-r="1.499" alt="Séance photo grossesse en studio — Amour et Lumière" loading="lazy">
+    <img src="assets/photos/gal-c-10.jpg" data-r="0.667" alt="Séance photo en studio — Amour et Lumière" loading="lazy">
+    <img src="assets/photos/art-corail.jpg" data-r="1.491" alt="Photo artistique grossesse — corolle de pétales, Amour et Lumière" loading="lazy">
+    <img src="assets/photos/art-papillon-01.jpg" data-r="0.558" alt="Photo artistique grossesse — ailes de papillon fleuries" loading="lazy">
+    <img src="assets/photos/gal-c-02.jpg" data-r="1.499" alt="Séance photo enfant en studio — Amour et Lumière" loading="lazy">
+  </div>
+  <div class="tarifs-cta rise"><a class="btn btn--fill" href="#reserver">Réserver ma séance offerte</a></div>
+</section>
+
 <!-- FAQ -->
 <section class="faq">
   <div class="faq-head rise">
@@ -802,7 +695,12 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
 <footer class="footer">
   <div class="footer-inner">
     <img src="assets/logo-amour-et-lumiere.png" alt="Amour et Lumière">
-    <div class="footer-info">2 Allée André Joseph Sire · 33130 Bègles<br>contact@amouretlumiere.fr · @amouretlumiere</div>
+    <div class="footer-info">
+      Studio · 2 Allée André Joseph Sire · 33130 Bègles<br>
+      Parking à proximité · Sur rendez-vous<br>
+      contact@amouretlumiere.fr · @amouretlumiere
+    </div>
+    <a class="footer-map" href="https://www.google.com/maps/search/?api=1&amp;query=2+All%C3%A9e+Andr%C3%A9+Joseph+Sire+33130+B%C3%A8gles" target="_blank" rel="noopener">Voir l'itinéraire sur Google Maps</a>
   </div>
 </footer>
 
@@ -845,22 +743,6 @@ var galleryMasonry = (function(){
   window.addEventListener('resize', function(){ clearTimeout(t); t = setTimeout(relayoutAll, 120); });
   relayoutAll();
   return { one: layout };
-})();
-
-/* ---- Galerie toggle (toutes les photos affichées) ---- */
-(function(){
-  var galNat = document.getElementById('gal-nat');
-  var galArt = document.getElementById('gal-art');
-  if (!galNat || !galArt) return;
-  document.querySelectorAll('.gal-btn').forEach(function(btn){
-    btn.addEventListener('click', function(){
-      var g = btn.dataset.gal;
-      document.querySelectorAll('.gal-btn').forEach(function(b){ b.classList.toggle('on', b === btn); });
-      galNat.hidden = (g !== 'nat');
-      galArt.hidden = (g !== 'art');
-      galleryMasonry.one(g === 'nat' ? galNat : galArt);
-    });
-  });
 })();
 
 /* ---- Avis : bouton « Voir plus d'avis » ---- */
@@ -941,13 +823,10 @@ var galleryMasonry = (function(){
 
 /* ---- FAQ ---- */
 var FAQ = [
-  { q: "Quels types de séances proposez-vous ?", a: "Notre studio est avant tout un studio de famille : en couple, avec vos enfants, la fratrie ou plusieurs générations. Nous photographions aussi les grands moments — la grossesse et le nouveau-né — comme les chapitres d'une même histoire familiale." },
-  { q: "Comment se déroule une séance ?", a: "Un échange en amont pour cerner vos envies, puis environ 1 h de séance tout en douceur au studio. Nous guidons chaque pose pour que les vrais moments de famille arrivent naturellement." },
-  { q: "Quand réserver une séance grossesse ?", a: "Idéalement entre le 6ᵉ et le 8ᵉ mois, lorsque le ventre est joliment arrondi. Réservez 2 à 3 mois à l'avance pour garantir votre date." },
-  { q: "Quand faire une séance nouveau-né ?", a: "Dans les 10 à 15 jours après la naissance, lorsque bébé dort encore beaucoup. Réservez pendant la grossesse pour bloquer une date autour du terme." },
-  { q: "Quand recevons-nous nos photos ?", a: "Le choix de vos photos se fait directement au studio, à la fin de la séance. Votre galerie privée, retouchée avec soin, vous est ensuite livrée sous 1 semaine." },
   { q: "La séance est-elle vraiment offerte ?", a: "Oui, la prise de vue est 100 % offerte et sans aucune obligation d'achat. Vous ne repartez qu'avec les photos que vous choisissez — ou aucune, en toute liberté." },
-  { q: "Comment se passe le paiement ?", a: "Après la séance, vous découvrez vos photos et composez votre sélection à la carte (à partir de 75 €). Vous ne payez que celles que vous aimez. Tirages, albums et tableaux sont aussi disponibles." }
+  { q: "Comment se passe le paiement ?", a: "Après la séance, vous découvrez vos photos et composez votre sélection à la carte (à partir de 75 €). Vous ne payez que celles que vous aimez." },
+  { q: "Comment se déroule une séance ?", a: "Environ 1 h au studio à Bègles, tout en douceur. Nous guidons chaque pose pour que les vrais moments de famille arrivent naturellement. En famille, en couple, enceinte ou avec votre nouveau-né." },
+  { q: "Quand recevons-nous nos photos ?", a: "Le choix se fait directement au studio, à la fin de la séance. Votre galerie privée, retouchée avec soin, vous est livrée sous 1 semaine." }
 ];
 var faqList = document.getElementById('faq-list');
 FAQ.forEach(function(item, i){
@@ -1006,24 +885,6 @@ if ('IntersectionObserver' in window){
     if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
     window.scrollTo(0, 0);
     history.replaceState(null, '', location.pathname + location.search);
-  }
-})();
-
-/* Menu burger */
-(function(){
-  var burger = document.getElementById('nav-burger');
-  var menu = document.getElementById('menu');
-  if (!burger || !menu) return;
-  burger.addEventListener('click', function(){
-    var open = document.body.classList.toggle('menu-open');
-    burger.setAttribute('aria-expanded', open ? 'true' : 'false');
-  });
-  var links = menu.querySelectorAll('a');
-  for (var i = 0; i < links.length; i++){
-    links[i].addEventListener('click', function(){
-      document.body.classList.remove('menu-open');
-      burger.setAttribute('aria-expanded', 'false');
-    });
   }
 })();
 
