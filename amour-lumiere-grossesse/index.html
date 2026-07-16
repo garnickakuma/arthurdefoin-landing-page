@@ -93,19 +93,19 @@ body.menu-open{overflow:hidden;}
 /* ============ HERO — image seule, plein écran ============ */
 .sr-only{position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0;}
 /* HERO — la photo est une carte (entière, non rognée) */
-.hero{background:var(--bg); padding:56px clamp(20px,5vw,40px) 0;}
-.hero__card{position:relative; max-width:430px; margin:0 auto; border-radius:20px; overflow:hidden; border:1px solid var(--line2); box-shadow:0 30px 60px -34px rgba(74,64,56,.45);}
+.hero{background:var(--bg); padding:50px clamp(16px,4vw,40px) 0;}
+.hero__card{position:relative; max-width:560px; margin:0 auto; border-radius:18px; overflow:hidden; border:1px solid var(--line2); box-shadow:0 26px 54px -32px rgba(74,64,56,.45);}
 /* badge 0 € posé dans le coin (fond vide de la photo) */
 .hero__badge{position:absolute; top:14px; left:14px; z-index:2; background:rgba(251,248,244,.94); -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px); border:1px solid var(--line2); border-radius:14px; padding:11px 16px; text-align:left; box-shadow:0 14px 30px -18px rgba(74,64,56,.5);}
 .hb-price{display:block; font-family:var(--serif); font-weight:500; font-size:34px; line-height:1; color:var(--accent);}
 .hb-label{display:block; margin-top:4px; font-family:var(--sans); font-weight:300; font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted2);}
-.hero__img{display:block; width:100%; height:auto;}
+.hero__img{display:block; width:100%; height:auto; aspect-ratio:867/650;}
 
 /* ============ INTRO — le hero apparaît ensuite ============ */
 /* BLOC OFFRE (sous la photo) */
-.offre{text-align:center; max-width:620px; margin:0 auto; padding:clamp(30px,5vh,44px) clamp(24px,6vw,40px) clamp(48px,8vh,72px);}
-.offre__logo{width:150px; max-width:44%; height:auto; margin:0 auto 22px;}
-.offre__tag{display:inline-block; background:var(--accent); color:#fff; font-family:var(--sans); font-weight:500; font-size:11px; letter-spacing:.22em; text-transform:uppercase; padding:9px 20px; border-radius:30px; margin-bottom:26px;}
+.offre{text-align:center; max-width:620px; margin:0 auto; padding:22px clamp(24px,6vw,40px) clamp(48px,8vh,72px);}
+.offre__logo{width:130px; max-width:38%; height:auto; margin:0 auto 16px;}
+.offre__tag{display:inline-block; background:var(--accent); color:#fff; font-family:var(--sans); font-weight:500; font-size:11px; letter-spacing:.22em; text-transform:uppercase; padding:8px 18px; border-radius:30px; margin-bottom:20px;}
 .offre__h1{font-family:var(--serif); font-weight:400; font-size:clamp(30px,7.4vw,52px); line-height:1.14; color:var(--ink2); margin:0 0 20px; text-wrap:balance;}
 .offre__h1 em{font-style:italic; color:var(--accent);}
 .offre__lead{font-family:var(--sans); font-weight:300; font-size:16px; line-height:1.8; color:var(--muted2); margin:0 auto 26px; max-width:480px;}
@@ -278,6 +278,8 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
 .rm-box p a{color:var(--accent); font-weight:500; text-decoration:none; white-space:nowrap;}
 .rm-confirm{width:100%; margin-top:22px;}
 .rm-confirm:disabled{opacity:.45; cursor:not-allowed;}
+.rm-wa{display:inline-block; margin-top:16px; font-family:var(--sans); font-weight:300; font-size:13px; color:var(--muted); text-decoration:none;}
+.rm-wa:hover{color:var(--accent);}
 .resa-gate{display:flex; justify-content:center; margin:8px 0 0;}
 .resa-gate .btn{min-width:280px;}
 
@@ -425,7 +427,7 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
 <body>
 
 <!-- BANDEAU OFFRE -->
-<a class="promo-ribbon" href="#reserver">
+<a class="promo-ribbon" href="#" data-resa>
   <span class="rb-dot" aria-hidden="true"></span>
   <span><strong>Séance photo offerte</strong> · Offre limitée<span class="rb-more"> — réservez maintenant</span></span>
 </a>
@@ -433,7 +435,7 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
 <!-- HERO -->
 <header class="hero">
   <div class="hero__card">
-    <img class="hero__img" src="assets/photos/hero-famille.jpg" alt="Séance photo de famille en studio — parents et bébé, studio Amour et Lumière à Bègles">
+    <img class="hero__img" src="assets/photos/hero-famille-large.jpg" alt="Séance photo de famille en studio — parents et bébé, studio Amour et Lumière à Bègles">
     <div class="hero__badge">
       <span class="hb-price">0 €</span>
       <span class="hb-label">pour la séance photo</span>
@@ -452,7 +454,7 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
     <div class="ou-row"><span class="ou-dot"></span><span>Réservation en ligne <strong>gratuite, en 2 minutes</strong></span></div>
   </div>
   <div class="offre__cta">
-    <a class="btn btn--fill" href="#reserver">Je réserve ma séance offerte</a>
+    <a class="btn btn--fill" href="#" data-resa>Je réserve ma séance offerte</a>
     <a class="btn btn--outline" href="#galerie">Voir les photos</a>
   </div>
   <div class="intro__proof">
@@ -488,28 +490,7 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
       <div class="carte-row featured"><span class="carte-l">Toute la galerie <span class="carte-badge">La plus choisie</span></span><span class="carte-p">199&nbsp;€</span></div>
       <p class="carte-note">Tirages, albums et tableaux également disponibles au studio.</p>
     </div>
-    <div class="tarifs-cta rise"><a class="btn btn--fill" href="#reserver">Réserver ma séance offerte</a></div>
-  </div>
-</section>
-
-<!-- RESERVER -->
-<section id="reserver" class="resa section">
-  <div class="resa-inner">
-    <div class="eyebrow">Réservez votre séance offerte</div>
-    <h2 class="h2 italic">Choisissez votre créneau</h2>
-    <p class="lead">La séance au studio est <strong style="color:var(--ink2);font-weight:500">offerte</strong>, sans obligation d'achat. Choisissez le créneau qui vous convient.</p>
-
-    <a class="resa-wa" href="https://wa.me/33789954427" target="_blank" rel="noopener">
-      <svg viewBox="0 0 32 32" width="17" height="17" fill="currentColor" aria-hidden="true"><path d="M16 3C9.4 3 4 8.4 4 15c0 2.1.6 4.2 1.6 6L4 29l8.2-1.6c1.7.9 3.6 1.4 5.5 1.4h.3c6.6 0 12-5.4 12-12S22.6 3 16 3zm0 21.8c-1.7 0-3.4-.5-4.9-1.3l-.4-.2-4.9.9.9-4.8-.3-.4c-.9-1.5-1.4-3.2-1.4-5 0-5.3 4.3-9.7 9.7-9.7 2.6 0 5 1 6.8 2.8 1.8 1.8 2.8 4.2 2.8 6.8 0 5.4-4.3 9.9-9.6 9.9zm5.4-7.3c-.3-.1-1.8-.9-2-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-1.7-.8-2.8-1.5-3.9-3.4-.3-.5.3-.5.8-1.6.1-.2 0-.4 0-.5s-.7-1.6-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5 1.9.8 2.6.9 3.5.8.6-.1 1.8-.7 2-1.4.3-.7.3-1.3.2-1.4-.1-.2-.3-.3-.6-.4z"/></svg>
-      Une question ? Contactez-nous sur WhatsApp&nbsp;: +33&nbsp;7&nbsp;89&nbsp;95&nbsp;44&nbsp;27
-    </a>
-
-    <div class="resa-gate" id="resa-gate">
-      <button type="button" class="btn btn--fill" id="open-resa">Voir les créneaux disponibles</button>
-    </div>
-
-    <!-- Cal.com : agenda révélé après validation de l'engagement -->
-    <div id="cal-embed" class="cal-embed" hidden></div>
+    <div class="tarifs-cta rise"><a class="btn btn--fill" href="#" data-resa>Réserver ma séance offerte</a></div>
   </div>
 </section>
 
@@ -526,7 +507,11 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
       <span class="resa-check-box" aria-hidden="true"></span>
       <span class="resa-check-txt">Je m'engage à être présent·e à la séance photo.</span>
     </label>
-    <button type="button" class="btn btn--fill rm-confirm" id="rm-confirm" disabled>Voir les créneaux</button>
+    <button type="button" class="btn btn--fill rm-confirm" id="rm-confirm" disabled
+      data-cal-namespace="seance"
+      data-cal-link="amour-et-lumiere/seance-photo-offerte"
+      data-cal-config='{"layout":"month_view"}'>Je m'engage et je réserve</button>
+    <a class="rm-wa" href="https://wa.me/33789954427" target="_blank" rel="noopener">Une question ? Écrivez-nous sur WhatsApp</a>
   </div>
 </div>
 
@@ -734,7 +719,7 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
     <img src="assets/photos/art-papillon-01.jpg" data-r="0.558" alt="Photo artistique grossesse — ailes de papillon fleuries" loading="lazy">
     <img src="assets/photos/gal-c-02.jpg" data-r="1.499" alt="Séance photo enfant en studio — Amour et Lumière" loading="lazy">
   </div>
-  <div class="tarifs-cta rise"><a class="btn btn--fill" href="#reserver">Réserver ma séance offerte</a></div>
+  <div class="tarifs-cta rise"><a class="btn btn--fill" href="#" data-resa>Réserver ma séance offerte</a></div>
 </section>
 
 <!-- FAQ -->
@@ -834,40 +819,32 @@ var galleryMasonry = (function(){
 (function (C, A, L) { var p = function (a, ar) { a.q.push(ar); }; var d = C.document; C.Cal = C.Cal || function () { var cal = C.Cal; var ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { var api = function () { p(api, arguments); }; var namespace = ar[1]; api.q = api.q || []; if (typeof namespace === "string") { cal.ns[namespace] = cal.ns[namespace] || api; p(cal.ns[namespace], ar); p(cal, ["initNamespace", namespace]); } else p(cal, ar); return; } p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
 (function(){
   var check = document.getElementById('engage-check');
-  var calDiv = document.getElementById('cal-embed');
   var modal = document.getElementById('resa-modal');
   var confirmBtn = document.getElementById('rm-confirm');
   var closeBtn = document.getElementById('rm-close');
-  var gate = document.getElementById('resa-gate');
-  var openBtn = document.getElementById('open-resa');
-  if (!check || !calDiv || !modal) return;
-  var inited = false, confirmed = false;
-  function initCal(){
-    Cal("init", "seance", { origin: "https://cal.com" });
-    Cal.ns.seance("inline", {
-      elementOrSelector: "#cal-embed",
-      config: { layout: "month_view" },
-      calLink: "amour-et-lumiere/seance-photo-offerte"
-    });
-    Cal.ns.seance("ui", {
-      hideEventTypeDetails: false,
-      layout: "month_view",
-      styles: { branding: { brandColor: "#c2978f" } }
-    });
-    Cal.ns.seance("on", {
-      action: "bookingSuccessful",
-      callback: function () {
-        try {
-          if (window.fbq) {
-            fbq('track', 'Schedule');
-            fbq('track', 'Lead', { content_name: 'Séance offerte', value: 0, currency: 'EUR' });
-          }
-        } catch (e) {}
-      }
-    });
-  }
+  if (!check || !modal || !confirmBtn) return;
+
+  /* Cal.com prêt dès le départ : le bouton « Je m'engage et je réserve »
+     porte data-cal-link -> il ouvre l'agenda Cal en popup natif. */
+  Cal("init", "seance", { origin: "https://cal.com" });
+  Cal.ns.seance("ui", {
+    hideEventTypeDetails: false,
+    layout: "month_view",
+    styles: { branding: { brandColor: "#c2978f" } }
+  });
+  Cal.ns.seance("on", {
+    action: "bookingSuccessful",
+    callback: function () {
+      try {
+        if (window.fbq) {
+          fbq('track', 'Schedule');
+          fbq('track', 'Lead', { content_name: 'Séance offerte', value: 0, currency: 'EUR' });
+        }
+      } catch (e) {}
+    }
+  });
+
   function openModal(){
-    if (confirmed){ revealCal(); return; }
     modal.hidden = false;
     requestAnimationFrame(function(){ modal.classList.add('open'); });
     document.body.style.overflow = 'hidden';
@@ -877,42 +854,28 @@ var galleryMasonry = (function(){
     document.body.style.overflow = '';
     setTimeout(function(){ modal.hidden = true; }, 300);
   }
-  function revealCal(){
-    if (gate) gate.hidden = true;
-    calDiv.hidden = false;
-    if (!inited){ inited = true; initCal(); }
-    setTimeout(function(){ calDiv.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 150);
-  }
 
-  /* la case active le bouton de confirmation */
+  /* la case débloque le bouton */
   check.addEventListener('change', function(){ confirmBtn.disabled = !check.checked; });
 
-  /* validation -> on ferme la popup et on révèle l'agenda */
+  /* clic sur « Je m'engage et je réserve » : Cal ouvre son agenda,
+     on referme juste notre popup derrière. */
   confirmBtn.addEventListener('click', function(){
     if (!check.checked) return;
-    confirmed = true;
-    closeModal();
-    revealCal();
+    setTimeout(closeModal, 60);
   });
 
   closeBtn.addEventListener('click', closeModal);
   modal.addEventListener('click', function(e){ if (e.target === modal) closeModal(); });
   document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && !modal.hidden) closeModal(); });
 
-  if (openBtn) openBtn.addEventListener('click', openModal);
-
-  /* tous les CTA « réserver » (liens vers #reserver) ouvrent la popup */
+  /* TOUS les CTA « réserver » ouvrent la popup d'engagement */
   document.addEventListener('click', function(e){
-    var a = e.target.closest ? e.target.closest('a[href="#reserver"]') : null;
+    var a = e.target.closest ? e.target.closest('[data-resa]') : null;
     if (!a) return;
     e.preventDefault();
     e.stopPropagation();
-    if (confirmed){ revealCal(); }
-    else {
-      var sec = document.getElementById('reserver');
-      if (sec) sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      setTimeout(openModal, 380);
-    }
+    openModal();
   }, true);
 })();
 
