@@ -707,7 +707,7 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
     <div class="eyebrow" style="margin-bottom:14px">Galerie</div>
     <h2 class="h2 italic">Des histoires déjà écrites</h2>
   </div>
-  <div class="masonry" id="gal-main">
+  <div class="masonry" id="gal-main" data-limit="11">
     <img src="assets/photos/gal-c-06.jpg" data-r="1.499" alt="Séance photo famille en studio — maman et bébé, Amour et Lumière" loading="lazy">
     <img src="assets/photos/gal-c-01.jpg" data-r="0.667" alt="Séance photo en couple en studio — Amour et Lumière" loading="lazy">
     <img src="assets/photos/gal-c-04.jpg" data-r="1.499" alt="Séance photo en famille en studio — Amour et Lumière" loading="lazy">
@@ -719,7 +719,20 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
     <img src="assets/photos/art-corail.jpg" data-r="1.491" alt="Photo artistique grossesse — corolle de pétales, Amour et Lumière" loading="lazy">
     <img src="assets/photos/art-papillon-01.jpg" data-r="0.558" alt="Photo artistique grossesse — ailes de papillon fleuries" loading="lazy">
     <img src="assets/photos/gal-c-02.jpg" data-r="1.499" alt="Séance photo enfant en studio — Amour et Lumière" loading="lazy">
+    <img src="assets/photos/gal-c-17.jpg" data-r="1.499" alt="Séance photo de famille en studio — parents et bébé, Amour et Lumière" loading="lazy">
+    <img src="assets/photos/gal-c-12.jpg" data-r="0.667" alt="Séance photo nouveau-né en studio — deux bébés, Amour et Lumière" loading="lazy">
+    <img src="assets/photos/gal-c-13.jpg" data-r="1.499" alt="Séance photo enfant en studio — Amour et Lumière" loading="lazy">
+    <img src="assets/photos/gal-c-15.jpg" data-r="0.667" alt="Séance photo en couple en studio — Amour et Lumière" loading="lazy">
+    <img src="assets/photos/gal-c-09.jpg" data-r="1.499" alt="Portrait en studio — Amour et Lumière" loading="lazy">
+    <img src="assets/photos/gal-c-18.jpg" data-r="0.667" alt="Séance photo grossesse en studio — Amour et Lumière" loading="lazy">
+    <img src="assets/photos/gal-c-16.jpg" data-r="1.499" alt="Séance photo en couple en studio — Amour et Lumière" loading="lazy">
+    <img src="assets/photos/gal-c-05.jpg" data-r="1.000" alt="Séance photo bébé en studio — Amour et Lumière" loading="lazy">
+    <img src="assets/photos/gal-c-19.jpg" data-r="1.499" alt="Séance photo grossesse en studio — Amour et Lumière" loading="lazy">
+    <img src="assets/photos/gal-c-21.jpg" data-r="1.499" alt="Séance photo grossesse en studio — Amour et Lumière" loading="lazy">
+    <img src="assets/photos/gal-c-22.jpg" data-r="1.499" alt="Séance photo grossesse en studio — Amour et Lumière" loading="lazy">
+    <img src="assets/photos/gal-c-23.jpg" data-r="1.499" alt="Séance photo grossesse en studio — Amour et Lumière" loading="lazy">
   </div>
+  <button type="button" class="gal-more" id="gal-more">Voir plus de photos</button>
   <div class="tarifs-cta rise"><a class="btn btn--fill" href="#" data-resa>Réserver ma séance offerte</a></div>
 </section>
 
@@ -754,32 +767,50 @@ var galleryMasonry = (function(){
     m._imgs = Array.prototype.slice.call(m.querySelectorAll('img'));
     /* réserve la hauteur de chaque photo -> pas de décalage au chargement (ancres fiables) */
     m._imgs.forEach(function(img){ img.style.aspectRatio = '1 / ' + (parseFloat(img.getAttribute('data-r')) || 1); });
+    /* data-limit : on n'affiche que les N premières, le reste attend « Voir plus » */
+    m._limit = parseInt(m.getAttribute('data-limit'), 10) || m._imgs.length;
   });
   function colsFor(w){ return w < 560 ? 2 : (w < 860 ? 3 : 4); }
   function layout(m){
     var w = m.clientWidth;
     if (!w) return;                 /* onglet masqué : on posera au moment de l'affichage */
     var cols = colsFor(w);
-    if (m._cols === cols) return;   /* déjà en place pour cette largeur */
-    m._cols = cols;
+    if (m._cols === cols && m._laid === m._limit) return;   /* déjà en place */
+    m._cols = cols; m._laid = m._limit;
     while (m.firstChild) m.removeChild(m.firstChild);
     var colEls = [], colH = [], i;
     for (i = 0; i < cols; i++){
       var c = document.createElement('div'); c.className = 'masonry-col';
       m.appendChild(c); colEls.push(c); colH.push(0);
     }
-    m._imgs.forEach(function(img){
+    m._imgs.slice(0, m._limit).forEach(function(img){
       var mi = 0;
       for (var j = 1; j < cols; j++){ if (colH[j] < colH[mi]) mi = j; }
       colEls[mi].appendChild(img);
       colH[mi] += (parseFloat(img.getAttribute('data-r')) || 1);
     });
   }
-  function relayoutAll(){ masonries.forEach(layout); }
+  function relayoutAll(){ masonries.forEach(function(m){ layout(m); }); }
   var t;
   window.addEventListener('resize', function(){ clearTimeout(t); t = setTimeout(relayoutAll, 120); });
   relayoutAll();
-  return { one: layout };
+  return {
+    one: layout,
+    /* affiche tout : l'algo repose dans le même ordre, les photos déjà là ne bougent pas */
+    showAll: function(m){ m._limit = m._imgs.length; layout(m); }
+  };
+})();
+
+/* ---- Galerie : bouton « Voir plus de photos » ---- */
+(function(){
+  var gal = document.getElementById('gal-main');
+  var btn = document.getElementById('gal-more');
+  if (!gal || !btn) return;
+  if (gal._imgs.length <= gal._limit) { btn.hidden = true; return; }
+  btn.addEventListener('click', function(){
+    galleryMasonry.showAll(gal);
+    btn.remove();
+  });
 })();
 
 /* ---- Avis : bouton « Voir plus d'avis » ---- */
@@ -810,8 +841,11 @@ var galleryMasonry = (function(){
     document.body.style.overflow = '';
   }
   lb.addEventListener('click', close);
-  document.querySelectorAll('.masonry img').forEach(function(img){
-    img.addEventListener('click', function(){ open(img.currentSrc || img.src, img.alt); });
+  /* délégation : marche aussi pour les photos ajoutées via « Voir plus » */
+  document.addEventListener('click', function(e){
+    var img = e.target.closest ? e.target.closest('.masonry img') : null;
+    if (!img) return;
+    open(img.currentSrc || img.src, img.alt);
   });
   document.addEventListener('keydown', function(e){ if (e.key === 'Escape') close(); });
 })();
