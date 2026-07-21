@@ -299,6 +299,15 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
 .carte-row.featured{background:var(--rose-pale2); border-radius:14px; border-top:0; padding-left:16px; padding-right:16px; margin:6px 0;}
 .carte-badge{font-family:var(--sans); font-weight:400; font-size:9px; letter-spacing:.16em; text-transform:uppercase; color:#fff; background:var(--accent); padding:4px 10px; border-radius:20px;}
 .carte-note{text-align:center; font-family:var(--sans); font-weight:300; font-size:13px; color:var(--faint); margin:22px 0 0;}
+/* Tarifs secondaires : dépliés au clic sur « Voir tous les tarifs » */
+.carte-more{margin-top:8px; border-top:1px solid var(--line3);}
+.carte-more summary{list-style:none; cursor:pointer; text-align:center; font-family:var(--sans); font-weight:400; font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:var(--accent); padding:18px 6px 4px; user-select:none; transition:color .2s ease;}
+.carte-more summary::-webkit-details-marker{display:none;}
+.carte-more summary::after{content:"  +"; font-weight:500;}
+.carte-more[open] summary::after{content:"  −";}
+.carte-more summary:hover{color:var(--accent-h);}
+.carte-more-group{font-family:var(--sans); font-weight:500; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin:20px 0 0; padding-left:6px;}
+.carte-more .carte-row{font-size:15px;}
 .tarifs-cta{text-align:center; margin-top:44px;}
 .tarifs-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:26px; align-items:start;}
 .plan{background:var(--card); border:1px solid var(--line2); border-radius:20px; padding:38px 30px; display:flex; flex-direction:column;}
@@ -520,9 +529,8 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
 <!-- OFFRE -->
 <section class="offre rise">
   <img width="2962" height="577" class="offre__logo" src="assets/logo-amour-et-lumiere.png" alt="Amour et Lumière">
-  <div class="offre__tag">✦&nbsp;&nbsp;Séances photo offertes&nbsp;&nbsp;✦</div>
   <h1 class="offre__h1">Votre séance photo de famille en studio à <em>0 €</em>.</h1>
-  <p class="offre__lead">La prise de vue en studio est <strong>offerte</strong>. Vous venez, vous posez, et vous ne payez ensuite que <strong>les photos que vous aimez</strong> — ou aucune, sans engagement.</p>
+  <p class="offre__lead">La prise de vue est <strong>offerte</strong>. Vous ne payez que <strong>les photos que vous aimez</strong> — ou aucune.</p>
   <div class="offre__urgency">
     <div class="ou-row"><span class="ou-dot"></span><span><strong>Offre limitée</strong> — selon les disponibilités du studio</span></div>
     <div class="ou-row"><span class="ou-dot"></span><span>Réservation en ligne <strong>gratuite, en 2 minutes</strong></span></div>
@@ -566,7 +574,27 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
       <div class="carte-row"><span class="carte-l">5 photos</span><span class="carte-p">99&nbsp;€</span></div>
       <div class="carte-row"><span class="carte-l">10 photos</span><span class="carte-p">149&nbsp;€</span></div>
       <div class="carte-row featured"><span class="carte-l">Toute la galerie <span class="carte-badge">La plus choisie</span></span><span class="carte-p">199&nbsp;€</span></div>
-      <p class="carte-note">Tirages, albums et tableaux également disponibles au studio.</p>
+
+      <details class="carte-more">
+        <summary>Voir tous les tarifs</summary>
+        <div class="carte-more-body">
+          <div class="carte-more-group">Tirages</div>
+          <div class="carte-row"><span class="carte-l">Tirage 10 × 15</span><span class="carte-p">6&nbsp;€</span></div>
+          <div class="carte-row"><span class="carte-l">Tirage 20 × 30</span><span class="carte-p">19&nbsp;€</span></div>
+
+          <div class="carte-more-group">Tableaux aluminium</div>
+          <div class="carte-row"><span class="carte-l">Tableau alu 20 × 30</span><span class="carte-p">69&nbsp;€</span></div>
+          <div class="carte-row"><span class="carte-l">Tableau alu 30 × 45</span><span class="carte-p">99&nbsp;€</span></div>
+          <div class="carte-row"><span class="carte-l">Tableau alu 40 × 60</span><span class="carte-p">129&nbsp;€</span></div>
+
+          <div class="carte-more-group">Album</div>
+          <div class="carte-row"><span class="carte-l">Album photo</span><span class="carte-p">149&nbsp;€</span></div>
+
+          <div class="carte-more-group">Photo artistique — grossesse</div>
+          <div class="carte-row"><span class="carte-l">1 photo artistique</span><span class="carte-p">49&nbsp;€</span></div>
+          <div class="carte-row"><span class="carte-l">3 photos artistiques</span><span class="carte-p">99&nbsp;€</span></div>
+        </div>
+      </details>
     </div>
     <div class="tarifs-cta rise"><a class="btn btn--fill" href="#" data-resa>Réserver ma séance offerte</a></div>
   </div>
