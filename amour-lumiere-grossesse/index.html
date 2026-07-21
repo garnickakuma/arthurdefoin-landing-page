@@ -309,6 +309,7 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
 .carte-more summary::after{content:"  +"; font-weight:500;}
 .carte-more[open] summary::after{content:"  −";}
 .carte-more summary:hover{color:var(--accent-h);}
+.carte-more-intro{font-family:var(--sans); font-weight:300; font-size:13px; line-height:1.55; color:var(--muted); text-align:center; margin:6px 0 4px;}
 .carte-more-group{font-family:var(--sans); font-weight:500; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin:20px 0 0; padding-left:6px;}
 .carte-more .carte-row{font-size:15px;}
 .tarifs-cta{text-align:center; margin-top:44px;}
@@ -524,7 +525,7 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
     <img width="867" height="650" class="hero__img" src="assets/photos/hero-famille-large.webp" alt="Séance photo de famille en studio — parents et bébé, studio Amour et Lumière à Bègles">
     <div class="hero__loc">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
-      Studio à Bègles · Bordeaux
+      Studio à Bègles
     </div>
     <div class="hero__badge">
       <span class="hb-price">0 €</span>
@@ -574,8 +575,8 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
 
     <div class="carte rise">
       <div class="carte-head">
-        <div class="carte-title">Vos photos, à la carte</div>
-        <div class="carte-sub">Fichiers numériques HD retouchés · galerie privée</div>
+        <div class="carte-title">Vos photos numériques</div>
+        <div class="carte-sub">Fichiers HD retouchés · galerie privée</div>
       </div>
       <div class="carte-row"><span class="carte-l">3 photos</span><span class="carte-p">75&nbsp;€</span></div>
       <div class="carte-row"><span class="carte-l">5 photos</span><span class="carte-p">99&nbsp;€</span></div>
@@ -583,8 +584,10 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
       <div class="carte-row featured"><span class="carte-l">Toute la galerie <span class="carte-badge">La plus choisie</span></span><span class="carte-p">199&nbsp;€</span></div>
 
       <details class="carte-more">
-        <summary>Voir tous les tarifs</summary>
+        <summary>Les suppléments</summary>
         <div class="carte-more-body">
+          <p class="carte-more-intro">En plus de vos photos numériques, si vous le souhaitez :</p>
+
           <div class="carte-more-group">Tirages</div>
           <div class="carte-row"><span class="carte-l">Tirage 10 × 15</span><span class="carte-p">6&nbsp;€</span></div>
           <div class="carte-row"><span class="carte-l">Tirage 20 × 30</span><span class="carte-p">19&nbsp;€</span></div>
@@ -597,9 +600,9 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
           <div class="carte-more-group">Album</div>
           <div class="carte-row"><span class="carte-l">Album photo</span><span class="carte-p">149&nbsp;€</span></div>
 
-          <div class="carte-more-group">Photo artistique — grossesse</div>
-          <div class="carte-row"><span class="carte-l">1 photo artistique</span><span class="carte-p">49&nbsp;€</span></div>
-          <div class="carte-row"><span class="carte-l">3 photos artistiques</span><span class="carte-p">99&nbsp;€</span></div>
+          <div class="carte-more-group">Portraits artistiques — grossesse</div>
+          <div class="carte-row"><span class="carte-l">1 portrait artistique</span><span class="carte-p">49&nbsp;€</span></div>
+          <div class="carte-row"><span class="carte-l">3 portraits artistiques</span><span class="carte-p">99&nbsp;€</span></div>
         </div>
       </details>
     </div>
@@ -696,7 +699,7 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
     <div class="rise">
       <div class="eyebrow" style="margin-bottom:20px">Qui sommes-nous</div>
       <h2 class="duo-h2">Deux regards,<br><span style="font-style:italic">une même lumière</span></h2>
-      <p class="duo-p">Nous sommes Arthur et Pierre-Henri. Depuis notre studio à Bègles, près de Bordeaux, nous photographions la famille sous toutes ses formes — de la grossesse aux premiers pas — avec une exigence d'atelier : une lumière travaillée, une direction tout en douceur, et le temps qu'il faut pour que les vrais moments arrivent.</p>
+      <p class="duo-p">Nous sommes Arthur et Pierre-Henri. Depuis notre studio à Bègles, nous photographions la famille sous toutes ses formes — de la grossesse aux premiers pas — avec une exigence d'atelier : une lumière travaillée, une direction tout en douceur, et le temps qu'il faut pour que les vrais moments arrivent.</p>
       <p class="duo-p">Deux sensibilités complémentaires, pour des images tendres et intemporelles que l'on accroche au mur des années durant.</p>
     </div>
   </div>
