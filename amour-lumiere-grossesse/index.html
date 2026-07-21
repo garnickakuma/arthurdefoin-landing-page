@@ -504,6 +504,27 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
 .rise.in{opacity:1; transform:none;}
 
 @keyframes alRise{from{opacity:0; transform:translateY(12px)} to{opacity:1; transform:none}}
+/* ============================================================
+   ADAPTATIONS DESKTOP UNIQUEMENT (≥ 980px)
+   Tout est enfermé ici : en dessous (mobile + tablettes), rien
+   ne change. La version mobile n'est jamais touchée.
+   ============================================================ */
+@media(min-width:980px){
+  /* Hero en deux colonnes : la photo à gauche, l'offre à droite,
+     au lieu d'une petite carte perdue au centre. */
+  .lead-wrap{display:grid; grid-template-columns:1.05fr .95fr; align-items:center; column-gap:clamp(40px,5vw,72px); max-width:1180px; margin:0 auto; padding:56px clamp(24px,4vw,48px) 28px;}
+  .hero{padding:0;}
+  .hero__card{max-width:none; margin:0;}
+  .offre{text-align:left; max-width:none; margin:0; padding:0;}
+  .offre__logo{margin:0 0 22px; width:210px; max-width:58%;}
+  .offre__h1{font-size:clamp(40px,3.3vw,54px); margin-bottom:22px;}
+  .offre__lead{margin:0 0 26px; max-width:none; font-size:17px;}
+  .offre__urgency{margin:0 0 28px; max-width:none;}
+  .offre__cta{flex-direction:row; flex-wrap:wrap; max-width:none; margin:0; align-items:stretch;}
+  .offre__cta .btn{width:auto; flex:1 1 auto; min-width:210px;}
+  .intro__proof{justify-content:flex-start;}
+}
+
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto;}
   .rise{opacity:1 !important; transform:none !important; transition:none !important;}
@@ -519,6 +540,8 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
   <span><strong>Séance photo offerte</strong> · Offre limitée<span class="rb-more"> — réservez maintenant</span></span>
 </a>
 
+<!-- HERO + OFFRE (deux colonnes sur desktop, empilés sur mobile) -->
+<div class="lead-wrap">
 <!-- HERO -->
 <header class="hero">
   <div class="hero__card">
@@ -556,6 +579,7 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
     <span>Studio à Bègles</span>
   </div>
 </section>
+</div><!-- /.lead-wrap -->
 
 <!-- TARIFS -->
 <section id="tarifs" class="tarifs section">
