@@ -956,6 +956,17 @@ var galleryMasonry = (function(){
     }
   });
 
+  /* Rétablit le défilement de la page (body ET html : Cal peut verrouiller
+     les deux). Un seul endroit pour être sûr de ne rien oublier. */
+  function unlockScroll(){
+    document.body.style.overflow = '';
+    document.documentElement.style.overflow = '';
+  }
+  /* L'agenda Cal est-il actuellement affiché ? */
+  function calOuvert(){
+    return !!document.querySelector('cal-modal-box, iframe[src*="cal.com"]');
+  }
+
   function openModal(){
     modal.hidden = false;
     requestAnimationFrame(function(){ modal.classList.add('open'); });
@@ -963,18 +974,23 @@ var galleryMasonry = (function(){
   }
   function closeModal(){
     modal.classList.remove('open');
-    document.body.style.overflow = '';
+    unlockScroll();
     setTimeout(function(){ modal.hidden = true; }, 300);
   }
 
   /* la case débloque le bouton */
   check.addEventListener('change', function(){ confirmBtn.disabled = !check.checked; });
 
-  /* clic sur « Je m'engage et je réserve » : Cal ouvre son agenda,
-     on referme juste notre popup derrière. */
+  /* Clic sur « Je m'engage et je réserve » : Cal ouvre son agenda.
+     ON DÉBLOQUE LE DÉFILEMENT AVANT que Cal ne s'ouvre — sinon Cal mémorise
+     l'état "bloqué" de notre popup et le restaure à sa fermeture, ce qui fige
+     la page. Ce handler s'exécute avant celui de Cal (il remonte depuis le
+     bouton, Cal écoute au niveau du document), donc Cal lit "débloqué". */
   confirmBtn.addEventListener('click', function(){
     if (!check.checked) return;
-    setTimeout(closeModal, 60);
+    modal.classList.remove('open');
+    modal.hidden = true;
+    unlockScroll();
   });
 
   closeBtn.addEventListener('click', closeModal);
@@ -988,6 +1004,18 @@ var galleryMasonry = (function(){
     e.preventDefault();
     e.stopPropagation();
     openModal();
+  }, true);
+
+  /* FILET DE SÉCURITÉ : si l'agenda Cal se ferme par un chemin qu'on ne
+     contrôle pas (sa croix, un clic à côté, la touche Échap dans l'agenda…),
+     on rétablit quand même le défilement. Après chaque clic, si notre popup
+     est fermée ET que l'agenda Cal n'est plus affiché, on débloque la page.
+     Garantit qu'elle ne reste jamais figée, quelle que soit la façon de
+     fermer. */
+  document.addEventListener('click', function(){
+    setTimeout(function(){
+      if (modal.hidden && !calOuvert()) unlockScroll();
+    }, 80);
   }, true);
 })();
 
