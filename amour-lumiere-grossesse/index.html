@@ -317,8 +317,8 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
 .ps-title{font-family:var(--sans); font-weight:500; font-size:16px; color:var(--ink2);}
 .ps-sub{font-family:var(--serif); font-style:italic; font-weight:400; font-size:13.5px; color:var(--muted); margin-top:2px;}
 .ps-price{font-family:var(--serif); font-size:26px; color:var(--accent); white-space:nowrap; transition:opacity .15s ease;}
-.ps-stepper{display:flex; align-items:center; justify-content:center; gap:18px; margin-top:14px;}
-.ps-btn{width:36px; height:36px; border-radius:50%; border:1px solid var(--accent); background:var(--card); color:var(--accent); font-family:var(--sans); font-size:21px; line-height:1; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background .15s ease, color .15s ease, opacity .15s ease; -webkit-tap-highlight-color:transparent;}
+.ps-stepper{display:flex; align-items:center; justify-content:center; gap:18px; margin-top:14px; touch-action:manipulation;}
+.ps-btn{width:36px; height:36px; border-radius:50%; border:1px solid var(--accent); background:var(--card); color:var(--accent); font-family:var(--sans); font-size:21px; line-height:1; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background .15s ease, color .15s ease, opacity .15s ease; -webkit-tap-highlight-color:transparent; touch-action:manipulation; user-select:none; -webkit-user-select:none;}
 .ps-btn:hover:not(:disabled){background:var(--accent); color:#fff;}
 .ps-btn:active:not(:disabled){transform:translateY(1px);}
 .ps-btn:disabled{opacity:.3; cursor:not-allowed;}
