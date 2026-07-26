@@ -311,6 +311,19 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
 .carte-more summary:hover{color:var(--accent-h);}
 .carte-more-intro{font-family:var(--sans); font-weight:300; font-size:13px; line-height:1.55; color:var(--muted); text-align:center; margin:6px 0 4px;}
 .carte-more-group{font-family:var(--sans); font-weight:500; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin:20px 0 0; padding-left:6px;}
+/* Portraits signature — sélecteur interactif */
+.portrait-sig{margin-top:12px; background:var(--rose-pale2); border:1px solid var(--line2); border-radius:14px; padding:16px 18px;}
+.ps-head{display:flex; align-items:flex-start; justify-content:space-between; gap:14px;}
+.ps-title{font-family:var(--sans); font-weight:500; font-size:16px; color:var(--ink2);}
+.ps-sub{font-family:var(--serif); font-style:italic; font-weight:400; font-size:13.5px; color:var(--muted); margin-top:2px;}
+.ps-price{font-family:var(--serif); font-size:26px; color:var(--accent); white-space:nowrap; transition:opacity .15s ease;}
+.ps-stepper{display:flex; align-items:center; justify-content:center; gap:18px; margin-top:14px;}
+.ps-btn{width:36px; height:36px; border-radius:50%; border:1px solid var(--accent); background:var(--card); color:var(--accent); font-family:var(--sans); font-size:21px; line-height:1; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background .15s ease, color .15s ease, opacity .15s ease; -webkit-tap-highlight-color:transparent;}
+.ps-btn:hover:not(:disabled){background:var(--accent); color:#fff;}
+.ps-btn:active:not(:disabled){transform:translateY(1px);}
+.ps-btn:disabled{opacity:.3; cursor:not-allowed;}
+.ps-count{font-family:var(--sans); font-weight:300; font-size:15px; color:var(--ink2); min-width:96px; text-align:center;}
+.ps-count #ps-n{font-weight:600; color:var(--ink);}
 .carte-more .carte-row{font-size:15px;}
 .tarifs-cta{text-align:center; margin-top:44px;}
 .tarifs-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:26px; align-items:start;}
@@ -607,6 +620,22 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
       <div class="carte-row"><span class="carte-l">10 photos</span><span class="carte-p">149&nbsp;€</span></div>
       <div class="carte-row featured"><span class="carte-l">Toute la galerie <span class="carte-badge">La plus choisie</span></span><span class="carte-p">199&nbsp;€</span></div>
 
+      <!-- Portraits signature — sélecteur interactif -->
+      <div class="portrait-sig" id="portrait-sig">
+        <div class="ps-head">
+          <div>
+            <div class="ps-title">Portraits signature</div>
+            <div class="ps-sub">Nos créations grossesse signature</div>
+          </div>
+          <div class="ps-price"><span id="ps-amount">49</span>&nbsp;€</div>
+        </div>
+        <div class="ps-stepper">
+          <button type="button" class="ps-btn" id="ps-minus" aria-label="Retirer un portrait" disabled>−</button>
+          <span class="ps-count"><span id="ps-n">1</span>&nbsp;<span id="ps-word">portrait</span></span>
+          <button type="button" class="ps-btn" id="ps-plus" aria-label="Ajouter un portrait">+</button>
+        </div>
+      </div>
+
       <details class="carte-more">
         <summary>Les suppléments</summary>
         <div class="carte-more-body">
@@ -623,10 +652,6 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
 
           <div class="carte-more-group">Album</div>
           <div class="carte-row"><span class="carte-l">Album photo</span><span class="carte-p">149&nbsp;€</span></div>
-
-          <div class="carte-more-group">Portraits artistiques — grossesse</div>
-          <div class="carte-row"><span class="carte-l">1 portrait artistique</span><span class="carte-p">49&nbsp;€</span></div>
-          <div class="carte-row"><span class="carte-l">3 portraits artistiques</span><span class="carte-p">99&nbsp;€</span></div>
         </div>
       </details>
     </div>
@@ -1286,6 +1311,29 @@ if ('IntersectionObserver' in window){
       if (moved){ e.preventDefault(); e.stopPropagation(); moved = false; }
     }, true);
   });
+})();
+
+/* ---- Portraits signature : sélecteur de quantité + prix dynamique ---- */
+(function(){
+  var PRIX = [49, 89, 129, 169, 199];   /* index 0 = 1 portrait, jusqu'à 5 */
+  var n = 1;
+  var minus = document.getElementById('ps-minus');
+  var plus  = document.getElementById('ps-plus');
+  var nEl   = document.getElementById('ps-n');
+  var word  = document.getElementById('ps-word');
+  var amount= document.getElementById('ps-amount');
+  if (!minus || !plus || !amount) return;
+
+  function render(){
+    nEl.textContent = n;
+    word.textContent = n > 1 ? 'portraits' : 'portrait';
+    amount.textContent = PRIX[n - 1];
+    minus.disabled = (n <= 1);
+    plus.disabled  = (n >= PRIX.length);
+  }
+  minus.addEventListener('click', function(){ if (n > 1){ n--; render(); } });
+  plus.addEventListener('click',  function(){ if (n < PRIX.length){ n++; render(); } });
+  render();
 })();
 </script>
 </body>
