@@ -313,8 +313,11 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
 .carte-more-group{font-family:var(--sans); font-weight:500; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin:20px 0 0; padding-left:6px;}
 /* Vidéo « 3 étapes » — remplace les étapes statiques. Fond crème = fond page,
    donc les bords se fondent. Muette, autoplay en boucle. */
-.steps-video{max-width:900px; margin:4px auto 8px;}
-.steps-video video{width:100%; height:auto; display:block; border-radius:14px;}
+.steps-video{max-width:820px; margin:8px auto 12px; padding:0 clamp(0px,3vw,20px);}
+/* Le crème de la vidéo (#F2ECE2) diffère légèrement du fond de section
+   (#efe7df) : on l'assume en cadre (coins arrondis + filet + ombre douce),
+   dans le même langage que les autres cartes de la page. */
+.steps-video video{width:100%; height:auto; display:block; border-radius:16px; border:1px solid var(--line2); box-shadow:0 22px 50px -30px rgba(74,64,56,.42);}
 /* Portraits signature — sélecteur interactif */
 .portrait-sig{margin-top:12px; background:var(--rose-pale2); border:1px solid var(--line2); border-radius:14px; padding:16px 18px;}
 .ps-head{display:flex; align-items:flex-start; justify-content:space-between; gap:14px;}
