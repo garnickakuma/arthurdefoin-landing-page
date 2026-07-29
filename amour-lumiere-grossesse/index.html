@@ -383,6 +383,8 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
 .rm-box p{font-family:var(--sans); font-weight:300; font-size:15px; line-height:1.75; color:var(--muted2); margin:0 0 12px;}
 .rm-box p strong{color:var(--ink2); font-weight:500;}
 .rm-box p a{color:var(--accent); font-weight:500; text-decoration:none; white-space:nowrap;}
+.rm-tarifs{display:inline-block; margin:-4px 0 4px; font-family:var(--sans); font-weight:300; font-size:13px; color:var(--muted2); text-decoration:underline; text-underline-offset:3px; cursor:pointer;}
+.rm-tarifs:hover{color:var(--accent);}
 .rm-confirm{width:100%; margin-top:22px;}
 .rm-confirm:disabled{opacity:.45; cursor:not-allowed;}
 .rm-wa{display:inline-block; margin-top:16px; font-family:var(--sans); font-weight:300; font-size:13px; color:var(--muted); text-decoration:none;}
@@ -674,6 +676,7 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
     <span class="rm-kicker">Avant de réserver</span>
     <h3 id="rm-title">Une place réservée, c'est une place en moins pour une autre famille.</h3>
     <p>La <strong>séance photo est offerte</strong> : vous ne payez que <strong>les photos que vous aimez</strong>.</p>
+    <a href="#tarifs" class="rm-tarifs" id="rm-voir-tarifs">Voir les tarifs</a>
     <p>Comme les places sont limitées, en réservant vous vous engagez à <strong>venir à votre rendez-vous</strong> — ou à nous prévenir de votre absence au <a href="tel:+33789954427">07&nbsp;89&nbsp;95&nbsp;44&nbsp;27</a>.</p>
     <label class="resa-check">
       <input type="checkbox" id="engage-check">
@@ -1160,6 +1163,17 @@ var galleryMasonry = (function(){
     modal.hidden = true;
     unlockScroll();
   });
+
+  /* « Voir les tarifs » : ferme la modale puis défile jusqu'à la section tarifs */
+  var voirTarifs = document.getElementById('rm-voir-tarifs');
+  if (voirTarifs){
+    voirTarifs.addEventListener('click', function(e){
+      e.preventDefault();
+      closeModal();
+      var cible = document.getElementById('tarifs');
+      if (cible){ setTimeout(function(){ cible.scrollIntoView({ behavior:'smooth', block:'start' }); }, 320); }
+    });
+  }
 
   closeBtn.addEventListener('click', closeModal);
   modal.addEventListener('click', function(e){ if (e.target === modal) closeModal(); });
