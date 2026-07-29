@@ -316,8 +316,15 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
    donc les bords se fondent. Muette, autoplay en boucle. */
 /* Vidéo « 3 étapes » (v2) : son fond (#EFE6DF) correspond au fond de section,
    donc elle se fond sans couture — pas de cadre. */
-.steps-video{max-width:900px; margin:4px auto 8px;}
-.steps-video video{width:100%; height:auto; display:block;}
+.steps3{display:flex; gap:16px; max-width:900px; margin:4px auto 8px; justify-content:center;}
+.step3{flex:1 1 0; background:var(--card); border:1px solid var(--line2); border-radius:16px; padding:26px 20px; text-align:center; display:flex; flex-direction:column; align-items:center; gap:14px;}
+.step3-num{flex:none; width:40px; height:40px; border-radius:50%; background:var(--accent); color:#fff; font-family:var(--serif); font-size:20px; font-weight:600; display:inline-flex; align-items:center; justify-content:center;}
+.step3-title{font-family:var(--sans); font-weight:400; font-size:15px; line-height:1.45; color:var(--ink2);}
+.step3-free{color:var(--accent); font-weight:600;}
+@media(max-width:640px){
+  .steps3{flex-direction:column; gap:12px; max-width:440px;}
+  .step3{flex-direction:row; text-align:left; gap:16px; padding:16px 20px;}
+}
 /* Portraits signature — sélecteur interactif */
 .portrait-sig{margin-top:12px; background:var(--rose-pale2); border:1px solid var(--line2); border-radius:14px; padding:16px 18px;}
 .ps-head{display:flex; align-items:flex-start; justify-content:space-between; gap:14px;}
@@ -610,11 +617,19 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
     </div>
     <div class="offer-line"><span class="hr"></span><span>Séance photo offerte · sans engagement</span><span class="hr"></span></div>
 
-    <div class="steps-video rise">
-      <video autoplay muted loop playsinline preload="metadata" poster="assets/videos/3-etapes-poster.webp" aria-label="En trois étapes : vous réservez, vous posez, vous choisissez vos photos.">
-        <source src="assets/videos/3-etapes.webm" type="video/webm">
-        <source src="assets/videos/3-etapes.mp4" type="video/mp4">
-      </video>
+    <div class="steps3 rise">
+      <div class="step3">
+        <span class="step3-num">1</span>
+        <div class="step3-title">Réservation <span class="step3-free">gratuite</span></div>
+      </div>
+      <div class="step3">
+        <span class="step3-num">2</span>
+        <div class="step3-title">30 min de shooting <span class="step3-free">gratuit</span></div>
+      </div>
+      <div class="step3">
+        <span class="step3-num">3</span>
+        <div class="step3-title">30 min de découverte et commande des photos sur place</div>
+      </div>
     </div>
 
     <div class="carte rise" id="tarifs-carte" style="scroll-margin-top:24px;">
