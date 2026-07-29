@@ -318,7 +318,8 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
    donc elle se fond sans couture — pas de cadre. */
 .steps3{display:flex; gap:16px; max-width:900px; margin:4px auto 8px; justify-content:center;}
 .step3{flex:1 1 0; background:var(--card); border:1px solid var(--line2); border-radius:16px; padding:26px 20px; text-align:center; display:flex; flex-direction:column; align-items:center; gap:14px;}
-.step3-num{flex:none; width:40px; height:40px; border-radius:50%; background:var(--accent); color:#fff; font-family:var(--serif); font-size:20px; font-weight:600; display:inline-flex; align-items:center; justify-content:center;}
+.step3-num{flex:none; width:40px; height:40px; border-radius:50%; background:var(--accent); color:#fff; font-family:var(--serif); font-size:20px; font-weight:600; line-height:1; display:inline-flex; align-items:center; justify-content:center;}
+.step3-num span{display:block; transform:translateY(-1px);}
 .step3-title{font-family:var(--sans); font-weight:400; font-size:15px; line-height:1.45; color:var(--ink2);}
 .step3-free{color:var(--accent); font-weight:600;}
 @media(max-width:640px){
@@ -612,22 +613,20 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
   <div style="max-width:1140px; margin:0 auto;">
     <div class="tarifs-head rise">
       <div class="eyebrow">Comment ça marche</div>
-      <h2 class="h2 italic">Vous ne payez que ce que vous aimez</h2>
-      <p>La séance est <strong style="color:var(--ink2);font-weight:500">100&nbsp;% offerte</strong>. Vous composez ensuite vos souvenirs, à la carte et sans aucune obligation.</p>
+      <h2 class="h2 italic">Vous ne payez que les photos que vous aimez</h2>
     </div>
-    <div class="offer-line"><span class="hr"></span><span>Séance photo offerte · sans engagement</span><span class="hr"></span></div>
 
     <div class="steps3 rise">
       <div class="step3">
-        <span class="step3-num">1</span>
+        <span class="step3-num"><span>1</span></span>
         <div class="step3-title">Réservation <span class="step3-free">gratuite</span></div>
       </div>
       <div class="step3">
-        <span class="step3-num">2</span>
+        <span class="step3-num"><span>2</span></span>
         <div class="step3-title">30 min de shooting <span class="step3-free">gratuit</span></div>
       </div>
       <div class="step3">
-        <span class="step3-num">3</span>
+        <span class="step3-num"><span>3</span></span>
         <div class="step3-title">30 min de découverte et commande des photos sur place</div>
       </div>
     </div>
