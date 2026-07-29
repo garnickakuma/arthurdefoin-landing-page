@@ -285,7 +285,7 @@ fbq('track', 'PageView');
     <span class="resa-kicker">Avant de réserver</span>
     <h3 id="resa-title">Séance photo offerte</h3>
     <p>Vous ne payez que <strong>les photos que vous aimez</strong>.</p>
-    <a href="#tarifs-table" class="resa-tarifs" id="resa-voir-tarifs">Voir les tarifs</a>
+    <a href="#tarifs" class="resa-tarifs" id="resa-voir-tarifs">Voir les tarifs</a>
     <div class="resa-checks">
       <label class="resa-check" for="resa-agree">
         <input type="checkbox" id="resa-agree">
@@ -382,7 +382,7 @@ if (resaVoirTarifs) {
   resaVoirTarifs.addEventListener('click', (e) => {
     e.preventDefault();
     closeResaModal();
-    const cible = document.getElementById('tarifs-table');
+    const cible = document.getElementById('tarifs');
     if (cible) setTimeout(() => cible.scrollIntoView({ behavior: 'smooth', block: 'start' }), 60);
   });
 }
