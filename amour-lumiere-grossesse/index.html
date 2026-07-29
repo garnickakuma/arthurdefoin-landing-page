@@ -318,8 +318,8 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
    donc elle se fond sans couture — pas de cadre. */
 .steps3{display:flex; gap:16px; max-width:900px; margin:4px auto 8px; justify-content:center;}
 .step3{flex:1 1 0; background:var(--card); border:1px solid var(--line2); border-radius:16px; padding:26px 20px; text-align:center; display:flex; flex-direction:column; align-items:center; gap:14px;}
-.step3-num{flex:none; width:40px; height:40px; border-radius:50%; background:var(--accent); color:#fff; font-family:var(--serif); font-size:20px; font-weight:600; line-height:1; display:inline-flex; align-items:center; justify-content:center;}
-.step3-num span{display:block; transform:translateY(-1px);}
+.step3-num{flex:none; width:40px; height:40px; border-radius:50%; background:var(--accent); color:#fff; font-family:var(--serif); font-size:20px; font-weight:600; line-height:1; font-variant-numeric:lining-nums; font-feature-settings:"lnum" 1; display:inline-flex; align-items:center; justify-content:center;}
+.step3-num span{display:block;}
 .step3-title{font-family:var(--sans); font-weight:400; font-size:15px; line-height:1.45; color:var(--ink2);}
 .step3-free{color:var(--accent); font-weight:600;}
 @media(max-width:640px){
