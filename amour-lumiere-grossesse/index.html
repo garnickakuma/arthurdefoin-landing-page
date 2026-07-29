@@ -397,9 +397,10 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
 .resa-engage strong{color:var(--ink2); font-weight:500;}
 .resa-engage a{color:var(--accent); font-weight:500; text-decoration:none; white-space:nowrap;}
 .resa-engage a:hover{text-decoration:underline;}
-.resa-check{display:inline-flex; align-items:center; gap:13px; margin-top:24px; cursor:pointer; font-family:var(--sans); font-weight:400; font-size:17px; color:var(--ink2); text-align:left;}
+.rm-checks{display:flex; flex-direction:column; gap:15px; margin-top:24px; text-align:left;}
+.resa-check{display:flex; align-items:flex-start; gap:13px; cursor:pointer; font-family:var(--sans); font-weight:400; font-size:15px; line-height:1.45; color:var(--ink2); text-align:left;}
 .resa-check input{position:absolute; opacity:0; width:0; height:0;}
-.resa-check-box{flex:none; width:24px; height:24px; border:1.5px solid var(--line4); border-radius:7px; background:#fff; display:inline-flex; align-items:center; justify-content:center; transition:background .18s ease, border-color .18s ease;}
+.resa-check-box{flex:none; width:24px; height:24px; margin-top:1px; border:1.5px solid var(--line4); border-radius:7px; background:#fff; display:inline-flex; align-items:center; justify-content:center; transition:background .18s ease, border-color .18s ease;}
 .resa-check-box::after{content:''; width:6px; height:11px; border:solid #fff; border-width:0 2px 2px 0; transform:rotate(45deg) scale(0); transition:transform .18s ease; margin-top:-2px;}
 .resa-check input:checked + .resa-check-box{background:var(--accent); border-color:var(--accent);}
 .resa-check input:checked + .resa-check-box::after{transform:rotate(45deg) scale(1);}
@@ -674,15 +675,21 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
   <div class="rm-box">
     <button type="button" class="rm-close" id="rm-close" aria-label="Fermer">×</button>
     <span class="rm-kicker">Avant de réserver</span>
-    <h3 id="rm-title">Une place réservée, c'est une place en moins pour une autre famille.</h3>
-    <p>La <strong>séance photo est offerte</strong> : vous ne payez que <strong>les photos que vous aimez</strong>.</p>
+    <h3 id="rm-title">Séance photo offerte</h3>
+    <p>Vous ne payez que <strong>les photos que vous aimez</strong>.</p>
     <a href="#tarifs" class="rm-tarifs" id="rm-voir-tarifs">Voir les tarifs</a>
-    <p>Comme les places sont limitées, en réservant vous vous engagez à <strong>venir à votre rendez-vous</strong> — ou à nous prévenir de votre absence au <a href="tel:+33789954427">07&nbsp;89&nbsp;95&nbsp;44&nbsp;27</a>.</p>
-    <label class="resa-check">
-      <input type="checkbox" id="engage-check">
-      <span class="resa-check-box" aria-hidden="true"></span>
-      <span class="resa-check-txt">Je m'engage à être présent·e à la séance photo.</span>
-    </label>
+    <div class="rm-checks">
+      <label class="resa-check">
+        <input type="checkbox" id="engage-check">
+        <span class="resa-check-box" aria-hidden="true"></span>
+        <span class="resa-check-txt">J'ai compris que la séance est offerte, mais que les photos sont payantes.</span>
+      </label>
+      <label class="resa-check">
+        <input type="checkbox" id="engage-check2">
+        <span class="resa-check-box" aria-hidden="true"></span>
+        <span class="resa-check-txt">Je m'engage à être présent·e à la séance photo.</span>
+      </label>
+    </div>
     <button type="button" class="btn btn--fill rm-confirm" id="rm-confirm" disabled
       data-cal-namespace="seance"
       data-cal-link="amour-et-lumiere/seance-photo-offerte"
@@ -1102,10 +1109,15 @@ var galleryMasonry = (function(){
 (function (C, A, L) { var p = function (a, ar) { a.q.push(ar); }; var d = C.document; C.Cal = C.Cal || function () { var cal = C.Cal; var ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { var api = function () { p(api, arguments); }; var namespace = ar[1]; api.q = api.q || []; if (typeof namespace === "string") { cal.ns[namespace] = cal.ns[namespace] || api; p(cal.ns[namespace], ar); p(cal, ["initNamespace", namespace]); } else p(cal, ar); return; } p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
 (function(){
   var check = document.getElementById('engage-check');
+  var check2 = document.getElementById('engage-check2');
   var modal = document.getElementById('resa-modal');
   var confirmBtn = document.getElementById('rm-confirm');
   var closeBtn = document.getElementById('rm-close');
-  if (!check || !modal || !confirmBtn) return;
+  if (!check || !check2 || !modal || !confirmBtn) return;
+
+  /* Le bouton n'est actif que si les DEUX cases sont cochées */
+  function bothChecked(){ return check.checked && check2.checked; }
+  function syncGate(){ confirmBtn.disabled = !bothChecked(); }
 
   /* Cal.com prêt dès le départ : le bouton « Je m'engage et je réserve »
      porte data-cal-link -> il ouvre l'agenda Cal en popup natif. */
@@ -1139,6 +1151,9 @@ var galleryMasonry = (function(){
   }
 
   function openModal(){
+    check.checked = false;
+    check2.checked = false;
+    confirmBtn.disabled = true;
     modal.hidden = false;
     requestAnimationFrame(function(){ modal.classList.add('open'); });
     document.body.style.overflow = 'hidden';
@@ -1149,8 +1164,9 @@ var galleryMasonry = (function(){
     setTimeout(function(){ modal.hidden = true; }, 300);
   }
 
-  /* la case débloque le bouton */
-  check.addEventListener('change', function(){ confirmBtn.disabled = !check.checked; });
+  /* les cases débloquent le bouton */
+  check.addEventListener('change', syncGate);
+  check2.addEventListener('change', syncGate);
 
   /* Clic sur « Je m'engage et je réserve » : Cal ouvre son agenda.
      ON DÉBLOQUE LE DÉFILEMENT AVANT que Cal ne s'ouvre — sinon Cal mémorise
@@ -1158,7 +1174,7 @@ var galleryMasonry = (function(){
      la page. Ce handler s'exécute avant celui de Cal (il remonte depuis le
      bouton, Cal écoute au niveau du document), donc Cal lit "débloqué". */
   confirmBtn.addEventListener('click', function(){
-    if (!check.checked) return;
+    if (!bothChecked()) return;
     modal.classList.remove('open');
     modal.hidden = true;
     unlockScroll();
