@@ -110,7 +110,7 @@ fbq('track', 'PageView');
       </div>
     </div>
 
-    <div class="pricing-table">
+    <div class="pricing-table" id="tarifs-table" style="scroll-margin-top:24px;">
       <div class="pricing-table-head">
         <h3>Fichiers numériques</h3>
         <span class="badge badge-soft">Le plus choisi</span>
@@ -285,6 +285,7 @@ fbq('track', 'PageView');
     <span class="resa-kicker">Avant de réserver</span>
     <h3 id="resa-title">Séance photo offerte</h3>
     <p>Vous ne payez que <strong>les photos que vous aimez</strong>.</p>
+    <a href="#tarifs-table" class="resa-tarifs" id="resa-voir-tarifs">Voir les tarifs</a>
     <div class="resa-checks">
       <label class="resa-check" for="resa-agree">
         <input type="checkbox" id="resa-agree">
@@ -313,6 +314,8 @@ fbq('track', 'PageView');
 .resa-box p { font-family: var(--font-body, system-ui, sans-serif); font-size: 15px; line-height: 1.6; color: var(--ink-soft, #6E665B); margin: 0 0 0.85rem; }
 .resa-box p strong { color: var(--ink, #2A2622); }
 .resa-box .resa-fine { font-size: 13px; color: var(--ink-faint, #A99F90); margin-bottom: 1.5rem; }
+.resa-tarifs { display: inline-block; margin: -0.25rem 0 0.5rem; font-family: var(--font-body, system-ui, sans-serif); font-size: 13px; color: var(--ink-soft, #6E665B); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.resa-tarifs:hover { color: var(--gold, #23234F); }
 .resa-checks { display: flex; flex-direction: column; gap: 0.75rem; margin: 0.5rem 0 1.5rem; }
 .resa-check { display: flex; gap: 0.65rem; align-items: flex-start; font-family: var(--font-body, system-ui, sans-serif); font-size: 14px; line-height: 1.5; color: var(--ink-soft, #6E665B); margin: 0; cursor: pointer; }
 .resa-check input { margin: 0.15rem 0 0; width: 18px; height: 18px; flex: 0 0 auto; accent-color: var(--gold, #23234F); cursor: pointer; }
@@ -374,6 +377,16 @@ resaConfirm.addEventListener('click', () => {
   closeResaModal();
   if (url) window.open(url, '_blank', 'noopener');
 });
+const resaVoirTarifs = document.getElementById('resa-voir-tarifs');
+if (resaVoirTarifs) {
+  resaVoirTarifs.addEventListener('click', (e) => {
+    e.preventDefault();
+    closeResaModal();
+    const cible = document.getElementById('tarifs-table');
+    if (cible) setTimeout(() => cible.scrollIntoView({ behavior: 'smooth', block: 'start' }), 60);
+  });
+}
+
 resaCancel.addEventListener('click', closeResaModal);
 resaModal.addEventListener('click', (e) => { if (e.target === resaModal) closeResaModal(); });
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && resaModal.classList.contains('is-open')) closeResaModal(); });

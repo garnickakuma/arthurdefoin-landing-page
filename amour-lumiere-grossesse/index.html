@@ -621,7 +621,7 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
       </video>
     </div>
 
-    <div class="carte rise">
+    <div class="carte rise" id="tarifs-carte" style="scroll-margin-top:24px;">
       <div class="carte-head">
         <div class="carte-title">Vos photos numériques</div>
         <div class="carte-sub">Fichiers HD retouchés · galerie privée</div>
@@ -677,7 +677,7 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
     <span class="rm-kicker">Avant de réserver</span>
     <h3 id="rm-title">Séance photo offerte</h3>
     <p>Vous ne payez que <strong>les photos que vous aimez</strong>.</p>
-    <a href="#tarifs" class="rm-tarifs" id="rm-voir-tarifs">Voir les tarifs</a>
+    <a href="#tarifs-carte" class="rm-tarifs" id="rm-voir-tarifs">Voir les tarifs</a>
     <div class="rm-checks">
       <label class="resa-check">
         <input type="checkbox" id="engage-check">
@@ -1186,7 +1186,7 @@ var galleryMasonry = (function(){
     voirTarifs.addEventListener('click', function(e){
       e.preventDefault();
       closeModal();
-      var cible = document.getElementById('tarifs');
+      var cible = document.getElementById('tarifs-carte');
       if (cible){ setTimeout(function(){ cible.scrollIntoView({ behavior:'smooth', block:'start' }); }, 320); }
     });
   }
