@@ -283,13 +283,15 @@ fbq('track', 'PageView');
 <div id="resa-modal" class="resa-overlay" role="dialog" aria-modal="true" aria-labelledby="resa-title">
   <div class="resa-box">
     <span class="resa-kicker">Avant de réserver</span>
-    <h3 id="resa-title">Une place réservée = une place qui ne sera pas offerte à une autre famille.</h3>
-    <p>La séance photo est <strong>entièrement offerte</strong> : vous ne payez <strong>que les photos que vous aimez vraiment</strong>, sans aucune obligation.</p>
-    <p>Mais les places sont limitées à 50, et chaque créneau réservé bloque celui d'une autre famille. Face à <strong>trop d'annulations de dernière minute</strong>, en réservant vous vous engagez sincèrement à <strong>venir à votre rendez-vous</strong>.</p>
-    <p class="resa-fine">Un imprévu&nbsp;? Prévenez-nous à l'avance pour reprogrammer votre séance.</p>
+    <h3 id="resa-title">On vous garde votre place</h3>
+    <p>La séance est <strong>offerte</strong> — vous ne payez que <strong>les photos que vous aimez</strong>.</p>
+    <label class="resa-check" for="resa-agree">
+      <input type="checkbox" id="resa-agree">
+      <span>Je comprends que ma séance est <strong>gratuite</strong>, et je m'engage à <strong>être présent(e)</strong> à mon rendez-vous.</span>
+    </label>
     <div class="resa-actions">
       <button type="button" id="resa-cancel" class="btn btn-secondary">Pas maintenant</button>
-      <button type="button" id="resa-confirm" class="btn btn-primary">Je m'engage et je réserve</button>
+      <button type="button" id="resa-confirm" class="btn btn-primary" disabled>Je réserve</button>
     </div>
   </div>
 </div>
@@ -305,6 +307,10 @@ fbq('track', 'PageView');
 .resa-box p { font-family: var(--font-body, system-ui, sans-serif); font-size: 15px; line-height: 1.6; color: var(--ink-soft, #6E665B); margin: 0 0 0.85rem; }
 .resa-box p strong { color: var(--ink, #2A2622); }
 .resa-box .resa-fine { font-size: 13px; color: var(--ink-faint, #A99F90); margin-bottom: 1.5rem; }
+.resa-check { display: flex; gap: 0.65rem; align-items: flex-start; font-family: var(--font-body, system-ui, sans-serif); font-size: 14px; line-height: 1.5; color: var(--ink-soft, #6E665B); margin: 0.35rem 0 1.5rem; cursor: pointer; }
+.resa-check input { margin: 0.15rem 0 0; width: 18px; height: 18px; flex: 0 0 auto; accent-color: var(--gold, #23234F); cursor: pointer; }
+.resa-check strong { color: var(--ink, #2A2622); }
+#resa-confirm:disabled { opacity: 0.4; cursor: not-allowed; }
 .resa-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
 .resa-actions .btn { flex: 1 1 auto; text-align: center; justify-content: center; }
 @media (max-width: 420px) { .resa-actions { flex-direction: column-reverse; } }
@@ -326,10 +332,15 @@ btnTirages.addEventListener('click', () => {
 const resaModal   = document.getElementById('resa-modal');
 const resaConfirm = document.getElementById('resa-confirm');
 const resaCancel  = document.getElementById('resa-cancel');
+const resaAgree   = document.getElementById('resa-agree');
 let resaTarget = null;
+
+resaAgree.addEventListener('change', () => { resaConfirm.disabled = !resaAgree.checked; });
 
 function openResaModal(url) {
   resaTarget = url;
+  resaAgree.checked = false;
+  resaConfirm.disabled = true;
   resaModal.classList.add('is-open');
   document.body.style.overflow = 'hidden';
 }
