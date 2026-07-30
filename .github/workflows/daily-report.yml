@@ -1,0 +1,36 @@
+name: Rapport quotidien Amour et Lumière
+
+on:
+  schedule:
+    # 06:00 UTC ≈ 08h00 Paris l'été / 07h00 l'hiver. Reporte la journée de la veille (complète).
+    - cron: "0 6 * * *"
+  workflow_dispatch:
+    # Bouton "Run workflow" pour tester à la demande.
+    inputs:
+      date:
+        description: "Jour à reporter (YYYY-MM-DD). Vide = hier."
+        required: false
+        default: ""
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - run: pip install -r reporting/requirements.txt
+
+      - name: Envoi du rapport
+        run: python reporting/daily_report.py
+        env:
+          META_ACCESS_TOKEN:  ${{ secrets.META_ACCESS_TOKEN }}
+          META_AD_ACCOUNT_ID: ${{ secrets.META_AD_ACCOUNT_ID }}
+          CAL_API_KEY:        ${{ secrets.CAL_API_KEY }}
+          BREVO_API_KEY:      ${{ secrets.BREVO_API_KEY }}
+          REPORT_TO_EMAIL:    ${{ secrets.REPORT_TO_EMAIL }}
+          REPORT_FROM_EMAIL:  ${{ secrets.REPORT_FROM_EMAIL }}
+          REPORT_DATE:        ${{ github.event.inputs.date }}
