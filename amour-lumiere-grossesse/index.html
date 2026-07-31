@@ -1256,6 +1256,12 @@ var galleryMasonry = (function(){
     var syncBanner = function(){
       if (!calOuvert()){ pregDismiss = false; pregBanner.hidden = true; return; }
       pregBanner.hidden = pregDismiss;
+      /* La modale Cal est insérée APRÈS la barre : à z-index égal elle passe
+         devant. On remet la barre en dernier enfant du body pour repasser
+         au-dessus. Le garde-fou (déjà en dernier ?) évite la boucle infinie. */
+      if (!pregDismiss && document.body.lastElementChild !== pregBanner){
+        document.body.appendChild(pregBanner);
+      }
     };
     new MutationObserver(syncBanner).observe(document.body, { childList: true, subtree: true });
   }
