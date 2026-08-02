@@ -12,6 +12,22 @@
 <meta property="og:description" content="Apprends la photo en petit groupe avec un photographe pro, à Bordeaux. Tous niveaux, ton matériel ou le mien.">
 <meta property="og:url" content="https://formation.amour-et-lumiere.com/">
 <meta name="theme-color" content="#f6f1ec">
+<!-- Meta Pixel Code — Cours de Photo -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '2236005127156324');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=2236005127156324&ev=PageView&noscript=1"/></noscript>
+<!-- End Meta Pixel Code -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
@@ -551,6 +567,7 @@ document.addEventListener('click', function(e){
       method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(data)
     }).then(function(r){
       if (!r.ok) throw new Error('http '+r.status);
+      if (window.fbq) fbq('track', 'Lead', { content_name: 'Inscription cours photo' });
       fields.style.display = 'none';
       ok.style.display = 'block';
       ok.scrollIntoView({ behavior:'smooth', block:'center' });
