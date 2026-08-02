@@ -31,8 +31,9 @@ export async function onRequestPost({ request, env }) {
   if (data.website) return json({ ok: true });
 
   const nom = (data.nom || "").trim();
-  const contact = (data.contact || "").trim();
-  if (!nom || !contact) return json({ error: "champs requis" }, 400);
+  const email = (data.email || "").trim();
+  const tel = (data.tel || "").trim();
+  if (!nom || !email || !tel) return json({ error: "champs requis" }, 400);
 
   const cours = Array.isArray(data.cours) && data.cours.length ? data.cours.join(", ") : "—";
   const dispos = Array.isArray(data.dispos) && data.dispos.length ? data.dispos.join(", ") : "—";
@@ -47,7 +48,8 @@ export async function onRequestPost({ request, env }) {
       <p style="font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#c2978f;margin:0 0 4px;">Cours photo — nouvelle demande</p>
       <h1 style="font-size:20px;margin:0 0 18px;color:#2b2521;">${echap(nom)}</h1>
       <table style="width:100%;border-collapse:collapse;font-size:14px;">
-        <tr><td style="padding:7px 0;color:#6e665b;width:130px;">Contact</td><td style="padding:7px 0;font-weight:600;">${echap(contact)}</td></tr>
+        <tr><td style="padding:7px 0;color:#6e665b;width:130px;">Email</td><td style="padding:7px 0;font-weight:600;">${echap(email)}</td></tr>
+        <tr><td style="padding:7px 0;color:#6e665b;">Téléphone</td><td style="padding:7px 0;font-weight:600;">${echap(tel)}</td></tr>
         <tr><td style="padding:7px 0;color:#6e665b;">Cours voulu(s)</td><td style="padding:7px 0;font-weight:600;">${echap(cours)}</td></tr>
         <tr><td style="padding:7px 0;color:#6e665b;">Format</td><td style="padding:7px 0;font-weight:600;">${echap(format)}</td></tr>
         <tr><td style="padding:7px 0;color:#6e665b;">Niveau</td><td style="padding:7px 0;font-weight:600;">${echap(niveau)}</td></tr>
@@ -61,8 +63,8 @@ export async function onRequestPost({ request, env }) {
     subject: `🎓 Cours photo — ${nom}`,
     htmlContent: html,
   };
-  // Répondre directement au prospect si son contact est un email.
-  if (estEmail(contact)) payload.replyTo = { email: contact, name: nom };
+  // Répondre directement au prospect depuis Gmail.
+  if (estEmail(email)) payload.replyTo = { email, name: nom };
 
   const res = await fetch("https://api.brevo.com/v3/smtp/email", {
     method: "POST",
