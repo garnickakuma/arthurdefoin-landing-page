@@ -489,6 +489,19 @@ body.scrolled .nav-brand{color:var(--ink2); text-shadow:none;}
 var setScrolled = function(){ document.body.classList.toggle('scrolled', window.scrollY > 20); };
 setScrolled(); window.addEventListener('scroll', setScrolled, { passive:true });
 
+/* Ancres internes : défilement doux SANS laisser #... dans l'URL */
+document.addEventListener('click', function(e){
+  var a = e.target.closest ? e.target.closest('a[href^="#"]') : null;
+  if (!a) return;
+  var id = a.getAttribute('href');
+  if (!id || id === '#') return;
+  var cible = document.querySelector(id);
+  if (!cible) return;
+  e.preventDefault();
+  cible.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  if (history.replaceState) history.replaceState(null, '', location.pathname + location.search);
+});
+
 /* Apparition au scroll */
 (function(){
   var els = document.querySelectorAll('.rise');
