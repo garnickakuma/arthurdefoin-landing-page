@@ -302,6 +302,9 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
 .carte .heart{color:var(--accent); font-size:12px;}
 .carte-row.featured{background:var(--rose-pale2); border-radius:14px; border-top:0; padding-left:16px; padding-right:16px; margin:6px 0;}
 .carte-badge{font-family:var(--sans); font-weight:400; font-size:9px; letter-spacing:.16em; text-transform:uppercase; color:#fff; background:var(--accent); padding:4px 10px; border-radius:20px;}
+.carte-pay{display:flex; align-items:center; justify-content:center; gap:8px; margin:12px 0 2px; font-family:var(--sans); font-weight:300; font-size:13.5px; color:var(--muted2);}
+.carte-pay svg{color:var(--accent); flex:none;}
+.carte-pay strong{font-weight:500; color:var(--ink2);}
 .carte-note{text-align:center; font-family:var(--sans); font-weight:300; font-size:13px; color:var(--faint); margin:22px 0 0;}
 /* Tarifs secondaires : dépliés au clic sur « Voir tous les tarifs » */
 .carte-more{margin-top:8px; border-top:1px solid var(--line3);}
@@ -650,6 +653,11 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
       <div class="carte-row"><span class="carte-l">5 photos</span><span class="carte-p">99&nbsp;€</span></div>
       <div class="carte-row"><span class="carte-l">10 photos</span><span class="carte-p">149&nbsp;€</span></div>
       <div class="carte-row featured"><span class="carte-l">Toute la galerie <span class="carte-badge">La plus choisie</span></span><span class="carte-p">199&nbsp;€</span></div>
+
+      <div class="carte-pay">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2.5"/><path d="M2 10h20"/></svg>
+        <span>Paiement en <strong>3× sans frais</strong></span>
+      </div>
 
       <!-- Portraits signature — sélecteur interactif -->
       <div class="portrait-sig" id="portrait-sig">
