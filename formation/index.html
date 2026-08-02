@@ -122,13 +122,19 @@ body.scrolled .nav-brand{color:var(--ink2); text-shadow:none;}
 }
 
 /* PACK */
-.pack{max-width:920px; margin:24px auto 0;}
-.pack-inner{display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:18px; background:var(--ink2); color:#fff; border-radius:20px; padding:28px clamp(26px,4vw,40px);}
-.pack-txt{font-family:var(--sans); font-weight:300; font-size:15px; line-height:1.6; max-width:560px;}
-.pack-txt strong{font-weight:500;}
-.pack-price{font-family:var(--serif); white-space:nowrap;}
-.pack-price .old{font-size:20px; color:rgba(255,255,255,.5); text-decoration:line-through; margin-right:10px;}
-.pack-price .new{font-size:38px; color:#fff;}
+.pack{max-width:920px; margin:28px auto 0;}
+.pack-inner{background:var(--ink2); color:#fff; border-radius:20px; padding:clamp(28px,4vw,42px);}
+.pack-head{text-align:center; margin-bottom:24px;}
+.pack-eyebrow{font-family:var(--sans); font-weight:300; font-size:12px; letter-spacing:.3em; text-transform:uppercase; color:var(--accent);}
+.pack-title{font-family:var(--serif); font-weight:500; font-style:italic; font-size:clamp(24px,4vw,32px); color:#fff; margin:10px 0 8px;}
+.pack-sub{font-family:var(--sans); font-weight:300; font-size:14.5px; line-height:1.6; color:rgba(255,255,255,.82); max-width:480px; margin:0 auto;}
+.pack-tiers{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
+@media(min-width:640px){.pack-tiers{grid-template-columns:repeat(4,1fr);}}
+.pack-tier{display:flex; flex-direction:column; align-items:center; gap:5px; padding:18px 10px; border:1px solid rgba(255,255,255,.16); border-radius:14px;}
+.pack-tier.feat{background:var(--accent); border-color:var(--accent);}
+.pt-n{font-family:var(--sans); font-weight:300; font-size:13px; letter-spacing:.04em; color:rgba(255,255,255,.85);}
+.pack-tier.feat .pt-n{color:#fff;}
+.pt-off{font-family:var(--serif); font-weight:600; font-size:28px; color:#fff;}
 
 /* QUI JE SUIS */
 .about{background:var(--bg2);}
@@ -324,11 +330,20 @@ body.scrolled .nav-brand{color:var(--ink2); text-shadow:none;}
       </article>
     </div>
 
-    <!-- PACK -->
+    <!-- OFFRE DÉGRESSIVE -->
     <div class="pack rise">
       <div class="pack-inner">
-        <div class="pack-txt">Les <strong>4 cours en présentiel</strong> (Sors du mode auto, Portrait, Studio, Nuit) — le parcours complet pour vraiment maîtriser ton appareil.</div>
-        <div class="pack-price"><span class="old">395&nbsp;€</span><span class="new">340&nbsp;€</span></div>
+        <div class="pack-head">
+          <span class="pack-eyebrow">L'offre</span>
+          <h3 class="pack-title">Plus tu combines, plus tu économises</h3>
+          <p class="pack-sub">Choisis les cours que tu veux — présentiel ou distanciel, peu importe lesquels. La réduction s'applique sur le total.</p>
+        </div>
+        <div class="pack-tiers">
+          <div class="pack-tier"><span class="pt-n">2 cours</span><span class="pt-off">−5&nbsp;%</span></div>
+          <div class="pack-tier"><span class="pt-n">3 cours</span><span class="pt-off">−10&nbsp;%</span></div>
+          <div class="pack-tier"><span class="pt-n">4 cours</span><span class="pt-off">−15&nbsp;%</span></div>
+          <div class="pack-tier feat"><span class="pt-n">5 cours</span><span class="pt-off">−20&nbsp;%</span></div>
+        </div>
       </div>
     </div>
   </div>
@@ -431,7 +446,6 @@ body.scrolled .nav-brand{color:var(--ink2); text-shadow:none;}
             <label class="chip"><input type="checkbox" name="cours" value="Studio & flash"><span>Studio &amp; flash</span></label>
             <label class="chip"><input type="checkbox" name="cours" value="Photo de nuit"><span>Photo de nuit</span></label>
             <label class="chip"><input type="checkbox" name="cours" value="Retouche Lightroom"><span>Retouche Lightroom</span></label>
-            <label class="chip"><input type="checkbox" name="cours" value="Pack 4 cours"><span>Le pack (4 cours)</span></label>
           </div>
         </div>
 
