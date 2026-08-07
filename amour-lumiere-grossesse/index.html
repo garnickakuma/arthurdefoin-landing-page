@@ -193,7 +193,9 @@ body.menu-open{overflow:hidden;}
 .ou-row strong{color:var(--ink2); font-weight:500;}
 .ou-dot{flex:none; width:6px; height:6px; border-radius:50%; background:var(--accent); margin-top:7px;}
 .offre__cta{display:flex; flex-direction:column; gap:12px; align-items:stretch; max-width:420px; margin:0 auto;}
-.offre__cta .btn{width:100%;}
+.offre__cta > .btn{width:100%;}
+.offre__cta-sub{display:flex; gap:12px;}
+.offre__cta-sub .btn{flex:1 1 0; min-width:0; padding-left:12px; padding-right:12px;}
 
 .intro{text-align:center; padding:clamp(58px,11vh,110px) clamp(24px,6vw,40px) clamp(56px,9vh,96px); max-width:560px; margin:0 auto;}
 .intro__cats{font-family:var(--serif); font-weight:400; font-style:italic; font-size:clamp(24px,5.8vw,50px); line-height:1.22; color:var(--ink2); margin:0 0 16px; text-wrap:balance;}
@@ -208,6 +210,8 @@ body.menu-open{overflow:hidden;}
 .intro__proof strong{color:var(--ink2); font-weight:500;}
 .ip-stars{color:var(--gold); letter-spacing:1.5px; font-size:14px;}
 .ip-sep{color:var(--line4);}
+.ip-loc{display:inline-flex; align-items:center; gap:4px;}
+.ip-loc svg{color:var(--accent); flex:none;}
 .intro__link{font-family:var(--sans); font-weight:400; font-size:12px; letter-spacing:.18em; text-transform:uppercase; color:var(--muted2); text-decoration:none; border-bottom:1px solid var(--line4); padding-bottom:5px; transition:color .2s ease, border-color .2s ease;}
 .intro__link:hover{color:var(--accent); border-color:var(--accent);}
 
@@ -560,8 +564,8 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
   .hero__img{object-position:center 26%;}
   .hero__title{font-size:clamp(46px,4.4vw,68px);}
   .hero__sub{max-width:460px; font-size:17px;}
-  .offre__cta{flex-direction:row; justify-content:center; max-width:none;}
-  .offre__cta .btn{width:auto; flex:0 1 auto; min-width:230px;}
+  .offre__cta{max-width:460px;}
+  .offre__cta > .btn{width:100%;}
   .intro__proof{justify-content:center;}
 }
 
@@ -596,13 +600,18 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
 <section class="offre rise" id="reserver">
   <div class="offre__cta">
     <a class="btn btn--fill" href="#" data-resa>Je réserve ma séance offerte</a>
-    <a class="btn btn--outline" href="#galerie">Voir les photos</a>
+    <div class="offre__cta-sub">
+      <a class="btn btn--outline" href="#galerie">Voir les photos</a>
+      <a class="btn btn--outline" href="#tarifs">Voir les tarifs</a>
+    </div>
   </div>
   <div class="intro__proof">
     <span class="ip-stars">★★★★★</span>
     <span><strong>5,0</strong> sur Google · 30 avis</span>
     <span class="ip-sep" aria-hidden="true">·</span>
     <span><strong>120 familles</strong> photographiées cette année</span>
+    <span class="ip-sep" aria-hidden="true">·</span>
+    <span class="ip-loc"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>Studio à Bègles</span>
   </div>
 </section>
 </div><!-- /.lead-wrap -->
@@ -784,7 +793,7 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
     </div>
     <div class="rise">
       <div class="eyebrow" style="margin-bottom:20px">Le photographe</div>
-      <h2 class="duo-h2">Un regard,<br><span style="font-style:italic">une lumière</span></h2>
+      <h2 class="duo-h2">Un regard, <span style="font-style:italic">une lumière</span></h2>
       <p class="duo-p">Je suis Arthur. Depuis mon studio à Bègles, je photographie la famille sous toutes ses formes — de la grossesse aux premiers pas — avec une exigence d'atelier : une lumière travaillée, une direction tout en douceur, et le temps qu'il faut pour que les vrais moments arrivent.</p>
       <p class="duo-p">Des images tendres et intemporelles, que l'on accroche au mur des années durant.</p>
     </div>
