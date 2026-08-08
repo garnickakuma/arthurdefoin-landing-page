@@ -83,7 +83,7 @@ body.scrolled .nav-brand{color:var(--ink2); text-shadow:none;}
 .hero::after{content:''; position:absolute; inset:0; z-index:1; background:linear-gradient(to top, rgba(42,34,28,.8) 0%, rgba(42,34,28,.4) 40%, rgba(42,34,28,.05) 72%);}
 .hero-content{position:relative; z-index:2; width:100%; max-width:1180px; margin:0 auto; padding:0 clamp(22px,6vw,44px) clamp(44px,9vw,84px);}
 .hero-eyebrow{color:rgba(255,255,255,.9); margin-bottom:16px;}
-.hero-promo{display:inline-block; max-width:100%; margin:0 0 24px; background:var(--accent); color:#fff; font-family:var(--sans); font-weight:400; font-size:13px; letter-spacing:.02em; padding:9px 18px; border-radius:30px; box-shadow:0 10px 24px -10px rgba(0,0,0,.5);}
+.hero-promo{display:inline-block; max-width:100%; margin:16px 0 4px; background:#d1483a; color:#fff; font-family:var(--sans); font-weight:500; font-size:14px; letter-spacing:.02em; padding:10px 20px; border-radius:30px; box-shadow:0 12px 26px -8px rgba(209,72,58,.65);}
 .hero-promo strong{font-weight:700;}
 .hero-promo b{font-weight:700;}
 .hero-promo s{opacity:.7; margin-left:2px;}
@@ -123,7 +123,9 @@ body.scrolled .nav-brand{color:var(--ink2); text-shadow:none;}
 .cours-pricing strong{font-weight:500; color:var(--ink2);}
 .cours-grid{display:grid; grid-template-columns:1fr; gap:20px; max-width:920px; margin:0 auto;}
 @media(min-width:760px){.cours-grid{grid-template-columns:1fr 1fr;}}
-.cours{position:relative; display:flex; flex-direction:column; background:var(--card); border:1px solid var(--line2); border-radius:20px; padding:clamp(22px,3vw,28px); transition:box-shadow .25s ease, transform .25s ease;}
+.cours{position:relative; display:flex; flex-direction:column; background:var(--card); border:1px solid var(--line2); border-radius:20px; padding:clamp(22px,3vw,28px); transition:box-shadow .25s ease, transform .25s ease; cursor:pointer;}
+.cours-pick{display:inline-block; margin-top:18px; font-family:var(--sans); font-weight:500; font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:var(--accent);}
+.cours:hover .cours-pick{color:var(--accent-h);}
 .cours:hover{box-shadow:0 24px 50px -34px rgba(74,64,56,.5); transform:translateY(-2px);}
 .cours.feature{border-color:var(--accent); box-shadow:0 24px 50px -34px rgba(194,151,143,.7);}
 @media(min-width:760px){.cours.feature{grid-column:1 / -1; flex-direction:row; gap:30px; align-items:stretch;}}
@@ -209,6 +211,7 @@ body.scrolled .nav-brand{color:var(--ink2); text-shadow:none;}
 .chip input{position:absolute; opacity:0; width:0; height:0;}
 .chip span{display:inline-block; font-family:var(--sans); font-weight:300; font-size:13.5px; color:var(--muted2); background:var(--bg); border:1px solid var(--line4); padding:11px 18px; border-radius:30px; transition:all .15s ease;}
 .chip input:checked + span{background:var(--accent); border-color:var(--accent); color:#fff;}
+.chip-promo{display:inline-block; margin-left:5px; background:#d1483a; color:#fff; font-weight:600; font-size:10px; letter-spacing:.04em; padding:2px 7px; border-radius:20px; vertical-align:middle;}
 .chip input:focus-visible + span{box-shadow:0 0 0 3px var(--rose-pale);}
 .form-submit{width:100%; margin-top:8px; border:0;}
 .form-hp{position:absolute; left:-9999px; width:1px; height:1px; opacity:0;}
@@ -254,8 +257,8 @@ body.scrolled .nav-brand{color:var(--ink2); text-shadow:none;}
   <div class="hero-content">
     <span class="eyebrow hero-eyebrow">Cours de photo · Bordeaux</span>
     <h1>Sors du <em>mode auto.</em></h1>
+    <div class="hero-promo">🔥 <strong>&minus;50&nbsp;%</strong> sur ce cours&nbsp;: <b>45&nbsp;€</b> au lieu de <s>90&nbsp;€</s></div>
     <p class="hero-sub">Cours de photo en petit groupe (2 à 6 personnes) avec un photographe professionnel, à Bordeaux.</p>
-    <div class="hero-promo">🔥 <strong>&minus;50&nbsp;%</strong> sur ce cours · <b>45&nbsp;€</b> au lieu de <s>90&nbsp;€</s></div>
     <a class="btn btn--fill" href="#formulaire">J'en profite</a>
   </div>
 </header>
@@ -485,7 +488,7 @@ body.scrolled .nav-brand{color:var(--ink2); text-shadow:none;}
         <div class="fblock">
           <span class="flabel">Le(s) cours qui t'intéresse(nt)</span>
           <div class="chip-grid">
-            <label class="chip"><input type="checkbox" name="cours" value="Sortir du mode auto"><span>Sortir du mode auto</span></label>
+            <label class="chip"><input type="checkbox" name="cours" value="Sortir du mode auto" checked><span>Sortir du mode auto <span class="chip-promo">&minus;50&nbsp;%</span></span></label>
             <label class="chip"><input type="checkbox" name="cours" value="Portrait extérieur"><span>Portrait extérieur</span></label>
             <label class="chip"><input type="checkbox" name="cours" value="Studio & flash"><span>Studio &amp; flash</span></label>
             <label class="chip"><input type="checkbox" name="cours" value="Photo de nuit"><span>Photo de nuit</span></label>
@@ -568,6 +571,28 @@ document.addEventListener('click', function(e){
     entries.forEach(function(en){ if (en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } });
   }, { threshold:.12, rootMargin:'0px 0px -8% 0px' });
   els.forEach(function(e){ io.observe(e); });
+})();
+
+/* Cartes de cours cliquables -> pré-sélection dans le formulaire + scroll */
+(function(){
+  var COURS = ["Sortir du mode auto", "Portrait extérieur", "Studio & flash", "Photo de nuit", "Retouche Lightroom"];
+  var cards = document.querySelectorAll('.cours-grid .cours');
+  cards.forEach(function(card, i){
+    var val = COURS[i];
+    if (!val) return;
+    /* affordance visuelle "Choisir ce cours" */
+    var pick = document.createElement('span');
+    pick.className = 'cours-pick';
+    pick.textContent = 'Choisir ce cours →';
+    (card.querySelector('.cours-body') || card).appendChild(pick);
+    /* clic n'importe où sur la carte */
+    card.addEventListener('click', function(){
+      var chip = document.querySelector('input[name="cours"][value="' + val + '"]');
+      if (chip) chip.checked = true;
+      var form = document.getElementById('formulaire');
+      if (form) form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
 })();
 
 /* Formulaire -> fonction Cloudflare -> Brevo */
