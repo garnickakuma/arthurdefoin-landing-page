@@ -42,7 +42,7 @@ src="https://www.facebook.com/tr?id=2236005127156324&ev=PageView&noscript=1"/></
   --serif:'Cormorant Garamond',serif; --sans:'Jost',sans-serif;
 }
 *{box-sizing:border-box;}
-html{scroll-behavior:smooth; scroll-padding-top:76px;}
+html{scroll-behavior:smooth; scroll-padding-top:112px;}
 body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans); overflow-x:hidden; -webkit-font-smoothing:antialiased; font-variant-numeric:lining-nums; font-feature-settings:"lnum" 1;}
 img{display:block; max-width:100%;}
 a{color:var(--accent);}
@@ -63,7 +63,11 @@ h1,h2,h3{margin:0;}
 .btn--outline:hover{background:var(--accent); color:#fff;}
 
 /* NAV */
-.nav{position:fixed; top:0; left:0; right:0; z-index:40; background:transparent; transition:background .4s ease, border-color .4s ease; border-bottom:1px solid transparent;}
+.promo-ribbon{position:fixed; top:0; left:0; right:0; z-index:50; min-height:42px; display:flex; align-items:center; justify-content:center; gap:6px; flex-wrap:wrap; background:linear-gradient(90deg, var(--accent-h), var(--accent)); color:#fff; font-family:var(--sans); font-weight:400; font-size:12px; letter-spacing:.04em; text-transform:uppercase; text-decoration:none; padding:8px 16px; text-align:center; line-height:1.3;}
+.promo-ribbon strong{font-weight:700;}
+.promo-ribbon .pr-price{font-weight:700;}
+.promo-ribbon s{opacity:.72;}
+.nav{position:fixed; top:42px; left:0; right:0; z-index:40; background:transparent; transition:background .4s ease, border-color .4s ease; border-bottom:1px solid transparent;}
 body.scrolled .nav{background:rgba(246,241,236,.9); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border-bottom-color:var(--line);}
 .nav-inner{display:flex; align-items:center; justify-content:space-between; padding:14px clamp(20px,5vw,40px); max-width:1180px; margin:0 auto;}
 .nav-brand{font-family:var(--serif); font-weight:600; font-size:21px; letter-spacing:.005em; color:#fff; text-decoration:none; text-shadow:0 1px 10px rgba(0,0,0,.35); transition:color .3s ease, text-shadow .3s ease;}
@@ -79,6 +83,10 @@ body.scrolled .nav-brand{color:var(--ink2); text-shadow:none;}
 .hero::after{content:''; position:absolute; inset:0; z-index:1; background:linear-gradient(to top, rgba(42,34,28,.8) 0%, rgba(42,34,28,.4) 40%, rgba(42,34,28,.05) 72%);}
 .hero-content{position:relative; z-index:2; width:100%; max-width:1180px; margin:0 auto; padding:0 clamp(22px,6vw,44px) clamp(44px,9vw,84px);}
 .hero-eyebrow{color:rgba(255,255,255,.9); margin-bottom:16px;}
+.hero-promo{display:inline-block; max-width:100%; margin:0 0 24px; background:var(--accent); color:#fff; font-family:var(--sans); font-weight:400; font-size:13px; letter-spacing:.02em; padding:9px 18px; border-radius:30px; box-shadow:0 10px 24px -10px rgba(0,0,0,.5);}
+.hero-promo strong{font-weight:700;}
+.hero-promo b{font-weight:700;}
+.hero-promo s{opacity:.7; margin-left:2px;}
 .hero h1{font-family:var(--serif); font-weight:500; font-size:clamp(33px,8.6vw,84px); line-height:1.04; color:#fff; letter-spacing:-.01em; text-shadow:0 2px 22px rgba(0,0,0,.28);}
 .hero h1 em{font-style:italic; font-weight:500;}
 .hero-sub{margin:18px 0 28px; max-width:440px; font-family:var(--sans); font-weight:300; font-size:16px; line-height:1.7; color:rgba(255,255,255,.94); text-shadow:0 1px 12px rgba(0,0,0,.3);}
@@ -122,6 +130,9 @@ body.scrolled .nav-brand{color:var(--ink2); text-shadow:none;}
 .cours-badge{position:absolute; top:-12px; left:22px; z-index:4; font-family:var(--sans); font-weight:500; font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:#fff; background:var(--accent); padding:6px 14px; border-radius:20px;}
 /* prix dans l'angle haut-droit de la carte */
 .cours-price-tag{position:absolute; top:14px; right:14px; z-index:4; font-family:var(--serif); font-weight:600; font-size:20px; color:#fff; background:var(--accent); padding:5px 14px; border-radius:30px; box-shadow:0 6px 16px -6px rgba(0,0,0,.35);}
+.cours-price-tag.promo{display:inline-flex; align-items:baseline; gap:7px; background:#d1483a;}
+.cours-price-tag.promo s{font-size:14px; font-weight:400; opacity:.72;}
+.cours-badge.badge-promo{background:#d1483a; letter-spacing:.08em; top:-13px;}
 /* emplacement photo (à remplacer par une vraie image <img>) */
 .cours-photo{aspect-ratio:16/10; border-radius:14px; overflow:hidden; margin-bottom:18px; background:linear-gradient(135deg, var(--rose-pale) 0%, var(--bg2) 100%); display:flex; align-items:center; justify-content:center;}
 .cours-photo img{width:100%; height:100%; object-fit:cover; object-position:center 35%; display:block;}
@@ -222,6 +233,9 @@ body.scrolled .nav-brand{color:var(--ink2); text-shadow:none;}
 </head>
 <body>
 
+<!-- BANDEAU PROMO -->
+<a class="promo-ribbon" href="#cours">🔥 Offre limitée — <strong>&minus;50&nbsp;%</strong> sur «&nbsp;Sortir du mode auto&nbsp;» · <span class="pr-price">45&nbsp;€</span> au lieu de <s>90&nbsp;€</s></a>
+
 <!-- NAV -->
 <nav class="nav">
   <div class="nav-inner">
@@ -241,7 +255,8 @@ body.scrolled .nav-brand{color:var(--ink2); text-shadow:none;}
     <span class="eyebrow hero-eyebrow">Cours de photo · Bordeaux</span>
     <h1>Sors du <em>mode auto.</em></h1>
     <p class="hero-sub">Cours de photo en petit groupe (2 à 6 personnes) avec un photographe professionnel, à Bordeaux.</p>
-    <a class="btn btn--fill" href="#formulaire">Je veux suivre un cours</a>
+    <div class="hero-promo">🔥 <strong>&minus;50&nbsp;%</strong> sur ce cours · <b>45&nbsp;€</b> au lieu de <s>90&nbsp;€</s></div>
+    <a class="btn btn--fill" href="#formulaire">J'en profite</a>
   </div>
 </header>
 
@@ -283,8 +298,8 @@ body.scrolled .nav-brand{color:var(--ink2); text-shadow:none;}
     <div class="cours-grid">
       <!-- 1 -->
       <article class="cours feature rise">
-        <span class="cours-badge">Pour commencer</span>
-        <span class="cours-price-tag">90&nbsp;€</span>
+        <span class="cours-badge badge-promo">🔥 Offre limitée · &minus;50&nbsp;%</span>
+        <span class="cours-price-tag promo"><s>90&nbsp;€</s>&nbsp;45&nbsp;€</span>
         <div class="cours-photo"><img src="assets/cours-1.webp" width="1000" height="1242" loading="lazy" alt="Apprendre à sortir du mode automatique, appareil en main en extérieur"></div>
         <div class="cours-body">
           <div class="cours-headrow"><span class="cours-num">01</span><h3>Sortir du mode auto</h3></div>
