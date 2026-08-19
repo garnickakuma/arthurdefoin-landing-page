@@ -694,12 +694,11 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
     <h3 id="rm-title">Séance photo offerte</h3>
     <p>Vous ne payez que <strong>les photos que vous aimez</strong>.</p>
     <p>Un <strong>acompte de 30&nbsp;€</strong> est demandé pour valider toute réservation.</p>
-    <a href="#tarifs-carte" class="rm-tarifs" id="rm-voir-tarifs">Voir les tarifs</a>
     <div class="rm-checks">
       <label class="resa-check">
         <input type="checkbox" id="engage-check">
         <span class="resa-check-box" aria-hidden="true"></span>
-        <span class="resa-check-txt">J'ai compris que la séance est offerte, mais que les photos sont payantes.</span>
+        <span class="resa-check-txt">J'ai compris que la séance est offerte, mais que les photos sont payantes — <a href="#tarifs-carte" class="rm-tarifs" id="rm-voir-tarifs">voir les tarifs</a>.</span>
       </label>
       <label class="resa-check">
         <input type="checkbox" id="engage-check2">
@@ -1174,6 +1173,7 @@ var galleryMasonry = (function(){
   if (voirTarifs){
     voirTarifs.addEventListener('click', function(e){
       e.preventDefault();
+      e.stopPropagation();
       closeModal();
       var cible = document.getElementById('tarifs-carte');
       if (cible){ setTimeout(function(){ cible.scrollIntoView({ behavior:'smooth', block:'start' }); }, 320); }
