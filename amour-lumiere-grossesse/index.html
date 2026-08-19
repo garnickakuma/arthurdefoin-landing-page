@@ -693,6 +693,7 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
     <span class="rm-kicker">Avant de réserver</span>
     <h3 id="rm-title">Séance photo offerte</h3>
     <p>Vous ne payez que <strong>les photos que vous aimez</strong>.</p>
+    <p>Un <strong>acompte de 30&nbsp;€</strong> est demandé pour valider toute réservation.</p>
     <a href="#tarifs-carte" class="rm-tarifs" id="rm-voir-tarifs">Voir les tarifs</a>
     <div class="rm-checks">
       <label class="resa-check">
@@ -704,6 +705,11 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
         <input type="checkbox" id="engage-check2">
         <span class="resa-check-box" aria-hidden="true"></span>
         <span class="resa-check-txt">Je m'engage à être présent·e à la séance photo.</span>
+      </label>
+      <label class="resa-check">
+        <input type="checkbox" id="engage-check3">
+        <span class="resa-check-box" aria-hidden="true"></span>
+        <span class="resa-check-txt">Je comprends qu'un acompte de 30&nbsp;€ est demandé pour valider ma réservation.</span>
       </label>
     </div>
     <button type="button" class="btn btn--fill rm-confirm" id="rm-confirm" disabled>Je m'engage et je réserve sur WhatsApp</button>
@@ -1121,16 +1127,17 @@ var galleryMasonry = (function(){
 (function(){
   var check = document.getElementById('engage-check');
   var check2 = document.getElementById('engage-check2');
+  var check3 = document.getElementById('engage-check3');
   var modal = document.getElementById('resa-modal');
   var confirmBtn = document.getElementById('rm-confirm');
   var closeBtn = document.getElementById('rm-close');
-  if (!check || !check2 || !modal || !confirmBtn) return;
+  if (!check || !check2 || !check3 || !modal || !confirmBtn) return;
 
-  var WHATSAPP_URL = 'https://wa.me/33789954427?text=' + encodeURIComponent("Bonjour ! Je m'engage et j'aimerais réserver une date pour ma séance photo offerte 📸");
+  var WHATSAPP_URL = 'https://wa.me/33789954427?text=' + encodeURIComponent("Bonjour ! Je m'engage et j'aimerais réserver une date pour ma séance photo offerte, acompte de 30€ compris 📸");
 
-  /* Le bouton n'est actif que si les DEUX cases sont cochées */
-  function bothChecked(){ return check.checked && check2.checked; }
-  function syncGate(){ confirmBtn.disabled = !bothChecked(); }
+  /* Le bouton n'est actif que si les TROIS cases sont cochées */
+  function allChecked(){ return check.checked && check2.checked && check3.checked; }
+  function syncGate(){ confirmBtn.disabled = !allChecked(); }
 
   function unlockScroll(){
     document.body.style.overflow = '';
@@ -1140,6 +1147,7 @@ var galleryMasonry = (function(){
   function openModal(){
     check.checked = false;
     check2.checked = false;
+    check3.checked = false;
     confirmBtn.disabled = true;
     modal.hidden = false;
     requestAnimationFrame(function(){ modal.classList.add('open'); });
@@ -1154,10 +1162,11 @@ var galleryMasonry = (function(){
   /* les cases débloquent le bouton */
   check.addEventListener('change', syncGate);
   check2.addEventListener('change', syncGate);
+  check3.addEventListener('change', syncGate);
 
   /* Clic sur « Je m'engage et je réserve » : ouvre WhatsApp pour fixer une date. */
   confirmBtn.addEventListener('click', function(){
-    if (!bothChecked()) return;
+    if (!allChecked()) return;
     try {
       if (window.fbq) {
         fbq('track', 'Schedule');
