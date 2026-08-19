@@ -706,11 +706,7 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
         <span class="resa-check-txt">Je m'engage à être présent·e à la séance photo.</span>
       </label>
     </div>
-    <button type="button" class="btn btn--fill rm-confirm" id="rm-confirm" disabled
-      data-cal-namespace="seance"
-      data-cal-link="amour-et-lumiere/seance-photo-offerte"
-      data-cal-config='{"layout":"month_view"}'>Je m'engage et je réserve</button>
-    <a class="rm-wa" href="https://wa.me/33789954427" target="_blank" rel="noopener">Une question ? Écrivez-nous sur WhatsApp</a>
+    <button type="button" class="btn btn--fill rm-confirm" id="rm-confirm" disabled>Je m'engage et je réserve sur WhatsApp</button>
   </div>
 </div>
 
@@ -1121,8 +1117,7 @@ var galleryMasonry = (function(){
   document.addEventListener('keydown', function(e){ if (e.key === 'Escape') close(); });
 })();
 
-/* ---- Cal.com : agenda révélé après la case d'engagement + Pixel Meta ---- */
-(function (C, A, L) { var p = function (a, ar) { a.q.push(ar); }; var d = C.document; C.Cal = C.Cal || function () { var cal = C.Cal; var ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { var api = function () { p(api, arguments); }; var namespace = ar[1]; api.q = api.q || []; if (typeof namespace === "string") { cal.ns[namespace] = cal.ns[namespace] || api; p(cal.ns[namespace], ar); p(cal, ["initNamespace", namespace]); } else p(cal, ar); return; } p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+/* ---- Modale d'engagement + réservation par WhatsApp + Pixel Meta ---- */
 (function(){
   var check = document.getElementById('engage-check');
   var check2 = document.getElementById('engage-check2');
@@ -1131,39 +1126,15 @@ var galleryMasonry = (function(){
   var closeBtn = document.getElementById('rm-close');
   if (!check || !check2 || !modal || !confirmBtn) return;
 
+  var WHATSAPP_URL = 'https://wa.me/33789954427?text=' + encodeURIComponent("Bonjour ! Je m'engage et j'aimerais réserver une date pour ma séance photo offerte 📸");
+
   /* Le bouton n'est actif que si les DEUX cases sont cochées */
   function bothChecked(){ return check.checked && check2.checked; }
   function syncGate(){ confirmBtn.disabled = !bothChecked(); }
 
-  /* Cal.com prêt dès le départ : le bouton « Je m'engage et je réserve »
-     porte data-cal-link -> il ouvre l'agenda Cal en popup natif. */
-  Cal("init", "seance", { origin: "https://cal.com" });
-  Cal.ns.seance("ui", {
-    hideEventTypeDetails: false,
-    layout: "month_view",
-    styles: { branding: { brandColor: "#c2978f" } }
-  });
-  Cal.ns.seance("on", {
-    action: "bookingSuccessful",
-    callback: function () {
-      try {
-        if (window.fbq) {
-          fbq('track', 'Schedule');
-          fbq('track', 'Lead', { content_name: 'Séance offerte', value: 0, currency: 'EUR' });
-        }
-      } catch (e) {}
-    }
-  });
-
-  /* Rétablit le défilement de la page (body ET html : Cal peut verrouiller
-     les deux). Un seul endroit pour être sûr de ne rien oublier. */
   function unlockScroll(){
     document.body.style.overflow = '';
     document.documentElement.style.overflow = '';
-  }
-  /* L'agenda Cal est-il actuellement affiché ? */
-  function calOuvert(){
-    return !!document.querySelector('cal-modal-box, iframe[src*="cal.com"]');
   }
 
   function openModal(){
@@ -1184,16 +1155,17 @@ var galleryMasonry = (function(){
   check.addEventListener('change', syncGate);
   check2.addEventListener('change', syncGate);
 
-  /* Clic sur « Je m'engage et je réserve » : Cal ouvre son agenda.
-     ON DÉBLOQUE LE DÉFILEMENT AVANT que Cal ne s'ouvre — sinon Cal mémorise
-     l'état "bloqué" de notre popup et le restaure à sa fermeture, ce qui fige
-     la page. Ce handler s'exécute avant celui de Cal (il remonte depuis le
-     bouton, Cal écoute au niveau du document), donc Cal lit "débloqué". */
+  /* Clic sur « Je m'engage et je réserve » : ouvre WhatsApp pour fixer une date. */
   confirmBtn.addEventListener('click', function(){
     if (!bothChecked()) return;
-    modal.classList.remove('open');
-    modal.hidden = true;
-    unlockScroll();
+    try {
+      if (window.fbq) {
+        fbq('track', 'Schedule');
+        fbq('track', 'Lead', { content_name: 'Séance offerte', value: 0, currency: 'EUR' });
+      }
+    } catch (e) {}
+    window.open(WHATSAPP_URL, '_blank', 'noopener');
+    closeModal();
   });
 
   /* « Voir les tarifs » : ferme la modale puis défile jusqu'à la section tarifs */
@@ -1218,18 +1190,6 @@ var galleryMasonry = (function(){
     e.preventDefault();
     e.stopPropagation();
     openModal();
-  }, true);
-
-  /* FILET DE SÉCURITÉ : si l'agenda Cal se ferme par un chemin qu'on ne
-     contrôle pas (sa croix, un clic à côté, la touche Échap dans l'agenda…),
-     on rétablit quand même le défilement. Après chaque clic, si notre popup
-     est fermée ET que l'agenda Cal n'est plus affiché, on débloque la page.
-     Garantit qu'elle ne reste jamais figée, quelle que soit la façon de
-     fermer. */
-  document.addEventListener('click', function(){
-    setTimeout(function(){
-      if (modal.hidden && !calOuvert()) unlockScroll();
-    }, 80);
   }, true);
 
 })();
