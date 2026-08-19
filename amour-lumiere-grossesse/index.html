@@ -620,7 +620,7 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
     <div class="steps3 rise">
       <div class="step3">
         <span class="step3-num"><span>1</span></span>
-        <div class="step3-title">Réservation <span class="step3-free">gratuite</span></div>
+        <div class="step3-title">Réservation <span class="step3-free">— 30&nbsp;€ d'acompte</span></div>
       </div>
       <div class="step3">
         <span class="step3-num"><span>2</span></span>
@@ -704,15 +704,10 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
       <label class="resa-check">
         <input type="checkbox" id="engage-check2">
         <span class="resa-check-box" aria-hidden="true"></span>
-        <span class="resa-check-txt">Je m'engage à être présent·e à la séance photo.</span>
-      </label>
-      <label class="resa-check">
-        <input type="checkbox" id="engage-check3">
-        <span class="resa-check-box" aria-hidden="true"></span>
         <span class="resa-check-txt">Je comprends qu'un acompte de 30&nbsp;€ est demandé pour valider ma réservation.</span>
       </label>
     </div>
-    <button type="button" class="btn btn--fill rm-confirm" id="rm-confirm" disabled>Je m'engage et je réserve sur WhatsApp</button>
+    <button type="button" class="btn btn--fill rm-confirm" id="rm-confirm" disabled>Je réserve sur WhatsApp (acompte 30&nbsp;€)</button>
   </div>
 </div>
 
@@ -1127,16 +1122,15 @@ var galleryMasonry = (function(){
 (function(){
   var check = document.getElementById('engage-check');
   var check2 = document.getElementById('engage-check2');
-  var check3 = document.getElementById('engage-check3');
   var modal = document.getElementById('resa-modal');
   var confirmBtn = document.getElementById('rm-confirm');
   var closeBtn = document.getElementById('rm-close');
-  if (!check || !check2 || !check3 || !modal || !confirmBtn) return;
+  if (!check || !check2 || !modal || !confirmBtn) return;
 
-  var WHATSAPP_URL = 'https://wa.me/33789954427?text=' + encodeURIComponent("Bonjour ! Je m'engage et j'aimerais réserver une date pour ma séance photo offerte, acompte de 30€ compris 📸");
+  var WHATSAPP_URL = 'https://wa.me/33789954427?text=' + encodeURIComponent("Bonjour ! J'aimerais réserver une date pour ma séance photo offerte, acompte de 30€ compris 📸");
 
-  /* Le bouton n'est actif que si les TROIS cases sont cochées */
-  function allChecked(){ return check.checked && check2.checked && check3.checked; }
+  /* Le bouton n'est actif que si les DEUX cases sont cochées */
+  function allChecked(){ return check.checked && check2.checked; }
   function syncGate(){ confirmBtn.disabled = !allChecked(); }
 
   function unlockScroll(){
@@ -1147,7 +1141,6 @@ var galleryMasonry = (function(){
   function openModal(){
     check.checked = false;
     check2.checked = false;
-    check3.checked = false;
     confirmBtn.disabled = true;
     modal.hidden = false;
     requestAnimationFrame(function(){ modal.classList.add('open'); });
@@ -1162,9 +1155,8 @@ var galleryMasonry = (function(){
   /* les cases débloquent le bouton */
   check.addEventListener('change', syncGate);
   check2.addEventListener('change', syncGate);
-  check3.addEventListener('change', syncGate);
 
-  /* Clic sur « Je m'engage et je réserve » : ouvre WhatsApp pour fixer une date. */
+  /* Clic sur « Je réserve » : ouvre WhatsApp pour fixer une date. */
   confirmBtn.addEventListener('click', function(){
     if (!allChecked()) return;
     try {
@@ -1206,7 +1198,7 @@ var galleryMasonry = (function(){
 /* ---- FAQ ---- */
 var FAQ = [
   { q: "La séance est-elle vraiment offerte ?", a: "Oui, la prise de vue est 100 % offerte et sans aucune obligation d'achat. Vous ne repartez qu'avec les photos que vous choisissez — ou aucune, en toute liberté." },
-  { q: "Comment se passe le paiement ?", a: "Après la séance, vous découvrez vos photos et composez votre sélection à la carte (à partir de 75 €). Vous ne payez que celles que vous aimez." },
+  { q: "Comment se passe le paiement ?", a: "Un acompte de 30 € vous est demandé au moment de la réservation pour valider votre créneau. Après la séance, vous découvrez vos photos et composez votre sélection à la carte (à partir de 75 €). Vous ne payez que celles que vous aimez." },
   { q: "Comment se déroule une séance ?", a: "Environ 1 h au studio à Bègles, tout en douceur. Nous guidons chaque pose pour que les vrais moments de famille arrivent naturellement. En famille, en couple, enceinte ou avec votre nouveau-né." },
   { q: "Quand recevons-nous nos photos ?", a: "Le choix se fait directement au studio, à la fin de la séance. Votre galerie privée, retouchée avec soin, vous est livrée sous 1 semaine." }
 ];
