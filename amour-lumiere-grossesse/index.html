@@ -553,7 +553,7 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
    ============================================================ */
 @media(min-width:980px){
   .hero{min-height:72vh;}
-  .hero__img{object-position:center 15%;}
+  .hero__img{object-position:center 35%;}
   .hero__title{font-size:clamp(46px,4.4vw,68px);}
   .hero__sub{max-width:460px; font-size:17px;}
   .offre__cta{max-width:460px;}
@@ -580,7 +580,10 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
 <div class="lead-wrap">
 <!-- HERO immersif : photo plein cadre, logo en haut, titre en surimpression -->
 <header class="hero">
-  <img width="1200" height="1800" class="hero__img" src="assets/photos/hero-jessica-75.webp" alt="Séance photo maman et bébé en studio — Amour et Lumière à Bègles">
+  <picture>
+    <source media="(min-width:980px)" srcset="assets/photos/gal-c-03.webp">
+    <img width="1200" height="1800" class="hero__img" src="assets/photos/hero-jessica-75.webp" alt="Séance photo maman et bébé en studio — Amour et Lumière à Bègles">
+  </picture>
   <div class="hero__scrim" aria-hidden="true"></div>
   <div class="hero__content">
     <h1 class="hero__title">Votre séance photo <em>gratuite</em>.</h1>
