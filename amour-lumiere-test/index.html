@@ -144,10 +144,13 @@ body.menu-open .promo-ribbon{opacity:0; pointer-events:none;}
 
 /* NAV — barre fixe en overlay : logo + burger, transparente puis solide au scroll */
 html{scroll-padding-top:58px;}
-.nav{position:fixed; top:38px; left:0; right:0; z-index:40; background:transparent; border-bottom:1px solid transparent; transition:background .4s ease, border-color .4s ease, backdrop-filter .4s ease;}
-body.scrolled .nav{background:rgba(246,241,236,.86); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border-bottom-color:var(--line);}
+.nav{position:fixed; top:38px; left:0; right:0; z-index:40; background:transparent; border-bottom:1px solid transparent; opacity:0; pointer-events:none; transform:translateY(-8px); transition:opacity .4s ease, transform .4s ease, background .4s ease, border-color .4s ease, backdrop-filter .4s ease;}
+body.scrolled .nav{opacity:1; pointer-events:auto; transform:translateY(0); background:rgba(246,241,236,.86); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border-bottom-color:var(--line);}
 .nav-inner{display:flex; align-items:center; justify-content:space-between; padding:15px clamp(20px,5vw,40px); max-width:1240px; margin:0 auto;}
 .nav-logo{height:32px; width:auto; display:block;}
+.nav-logo--dark{display:none;}
+body.scrolled .nav-logo--light{display:none;}
+body.scrolled .nav-logo--dark{display:block;}
 .nav-cta{font-family:var(--sans); font-size:11px; letter-spacing:.18em; text-transform:uppercase; text-decoration:none; background:var(--accent); color:#fff; padding:11px 22px; border-radius:40px; transition:background .2s ease;}
 .nav-cta:hover{background:var(--accent-h); color:#fff;}
 .nav-burger{width:44px; height:44px; margin-right:-8px; display:flex; flex-direction:column; justify-content:center; align-items:center; gap:6px; background:none; border:0; cursor:pointer; padding:0;}
@@ -177,21 +180,26 @@ body.menu-open{overflow:hidden;}
 .hero__scroll{position:absolute; bottom:16px; left:50%; transform:translateX(-50%); z-index:3; color:rgba(255,255,255,.92); animation:heroBounce 1.8s ease-in-out infinite;}
 .hero__scroll svg{width:30px; height:30px; display:block;}
 
-/* Hero défilé — colonnes de portraits artistiques en mouvement continu */
-.hero-marquee{position:absolute; inset:0; z-index:0; display:flex; gap:3px;}
-.hm-col{position:relative; flex:1 1 0; height:100%; overflow:hidden;}
-.hm-track{display:flex; flex-direction:column; width:100%; will-change:transform;}
-.hm-track img{width:100%; height:34vh; min-height:260px; object-fit:cover; margin-bottom:3px;}
-.hm-col.a .hm-track{animation:hmUp 46s linear infinite;}
-.hm-col.b .hm-track{animation:hmUp 58s linear infinite;}
-.hm-col.c .hm-track{animation:hmUp 40s linear infinite;}
-@keyframes hmUp{from{transform:translateY(0);}to{transform:translateY(-50%);}}
-@media(max-width:720px){
-  .hero-marquee{gap:2px;}
-  .hm-track img{height:26vh; min-height:190px;}
-  .hm-col.c{display:none;}
+/* Hero — photo unique, bouton "touch" avec fondu vers une autre photo */
+.hero__img{opacity:0; z-index:0; transition:opacity 1s ease;}
+.hero__img.is-front{opacity:1; z-index:1;}
+.hero-touch{
+  position:absolute; z-index:3; right:clamp(20px,6vw,64px); top:34%;
+  width:76px; height:76px; border-radius:50%; cursor:pointer;
+  background:rgba(255,255,255,.12); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
+  border:1px solid rgba(255,255,255,.6); color:#fff;
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px;
+  font-family:var(--sans); font-size:9.5px; letter-spacing:.16em; text-transform:uppercase;
+  transition:transform .2s ease, background .2s ease;
 }
-@media(prefers-reduced-motion:reduce){ .hm-track{animation:none !important;} }
+.hero-touch:hover{ background:rgba(255,255,255,.22); transform:scale(1.04); }
+.hero-touch:active{ transform:scale(.96); }
+.hero-touch svg{ width:18px; height:18px; }
+.hero-touch-ring{ position:absolute; inset:-9px; border-radius:50%; border:1px solid rgba(255,255,255,.65); animation:htPulse 2.4s ease-out infinite; pointer-events:none; }
+.hero-touch-ring--2{ animation-delay:1.2s; }
+@keyframes htPulse{ 0%{ transform:scale(.82); opacity:.85; } 100%{ transform:scale(1.55); opacity:0; } }
+@media(max-width:640px){ .hero-touch{ width:64px; height:64px; top:30%; right:18px; } }
+@media(prefers-reduced-motion:reduce){ .hero-touch-ring{ animation:none; opacity:0; } }
 
 /* Carrousel "cartes qui tournent" — teintes du portrait artistique */
 .ac-wrap{background:var(--bg2);}
@@ -617,6 +625,15 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
 </head>
 <body>
 
+<!-- NAV — cachée en transparence sur le hero, apparaît au scroll -->
+<nav class="nav" id="site-nav">
+  <div class="nav-inner">
+    <img class="nav-logo nav-logo--light" src="assets/logo-amour-et-lumiere-ivoire.png" alt="Amour et Lumière">
+    <img class="nav-logo nav-logo--dark" src="assets/logo-amour-et-lumiere.png" alt="Amour et Lumière">
+    <a class="nav-cta" href="#tarifs">Réserver</a>
+  </div>
+</nav>
+
 <!-- BANDEAU POSITIONNEMENT -->
 <a class="promo-ribbon" href="#" data-resa>
   <span class="rb-dot" aria-hidden="true"></span>
@@ -627,39 +644,15 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
 <div class="lead-wrap">
 <!-- HERO immersif : photo plein cadre, logo en haut, titre en surimpression -->
 <header class="hero">
-  <div class="hero-marquee" aria-hidden="true">
-    <div class="hm-col a"><div class="hm-track">
-      <img src="assets/photos/art-chemin-roses.webp" alt="">
-      <img src="assets/photos/art-rose-jaune.webp" alt="">
-      <img src="assets/photos/art-fleurs-bleues.webp" alt="">
-      <img src="assets/photos/art-corail.webp" alt="">
-      <img src="assets/photos/art-chemin-roses.webp" alt="">
-      <img src="assets/photos/art-rose-jaune.webp" alt="">
-      <img src="assets/photos/art-fleurs-bleues.webp" alt="">
-      <img src="assets/photos/art-corail.webp" alt="">
-    </div></div>
-    <div class="hm-col b"><div class="hm-track">
-      <img src="assets/photos/art-rose-verte-01.webp" alt="">
-      <img src="assets/photos/art-papillon-01.webp" alt="">
-      <img src="assets/photos/art-fleur-ivoire.webp" alt="">
-      <img src="assets/photos/art-rose-rouge-02.webp" alt="">
-      <img src="assets/photos/art-rose-verte-01.webp" alt="">
-      <img src="assets/photos/art-papillon-01.webp" alt="">
-      <img src="assets/photos/art-fleur-ivoire.webp" alt="">
-      <img src="assets/photos/art-rose-rouge-02.webp" alt="">
-    </div></div>
-    <div class="hm-col c"><div class="hm-track">
-      <img src="assets/photos/art-orange.webp" alt="">
-      <img src="assets/photos/art-rose-bleue.webp" alt="">
-      <img src="assets/photos/art-papillon-02.webp" alt="">
-      <img src="assets/photos/art-noir-blanc.webp" alt="">
-      <img src="assets/photos/art-orange.webp" alt="">
-      <img src="assets/photos/art-rose-bleue.webp" alt="">
-      <img src="assets/photos/art-papillon-02.webp" alt="">
-      <img src="assets/photos/art-noir-blanc.webp" alt="">
-    </div></div>
-  </div>
+  <img class="hero__img is-front" id="hero-img-a" src="assets/photos/art-chemin-roses.webp" alt="Portrait artistique grossesse — Amour et Lumière">
+  <img class="hero__img" id="hero-img-b" src="assets/photos/art-rose-jaune.webp" alt="" aria-hidden="true">
   <div class="hero__scrim" aria-hidden="true"></div>
+  <button type="button" class="hero-touch" id="hero-touch" aria-label="Découvrir un autre portrait artistique">
+    <span class="hero-touch-ring" aria-hidden="true"></span>
+    <span class="hero-touch-ring hero-touch-ring--2" aria-hidden="true"></span>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11.5V6a2 2 0 0 1 4 0v5"/><path d="M13 6a2 2 0 0 1 4 0v6"/><path d="M17 8.5a2 2 0 0 1 4 0V14a7 7 0 0 1-7 7h-1a7 7 0 0 1-6-3.4L4.2 13.6a1.7 1.7 0 0 1 2.6-2.1L9 13.5"/></svg>
+    <span>Touch</span>
+  </button>
   <div class="hero__content">
     <h1 class="hero__title">Votre séance <em>grossesse</em>.</h1>
     <p class="hero__sub">Portrait artistique inclus. Studio à Bègles, près de Bordeaux.</p>
@@ -1448,6 +1441,46 @@ if ('IntersectionObserver' in window){
   });
 })();
 
+/* ---- Nav : apparaît (fond solide) au scroll ---- */
+(function(){
+  function onScroll(){ document.body.classList.toggle('scrolled', window.scrollY > 60); }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+})();
+
+/* ---- Hero : bouton "Touch" -> fondu vers un autre portrait artistique ---- */
+(function(){
+  var HERO_IMAGES = [
+    'assets/photos/art-chemin-roses.webp',
+    'assets/photos/art-rose-jaune.webp',
+    'assets/photos/art-fleurs-bleues.webp',
+    'assets/photos/art-rose-verte-01.webp',
+    'assets/photos/art-corail.webp',
+    'assets/photos/art-rose-rouge-02.webp',
+    'assets/photos/art-orange.webp',
+    'assets/photos/art-rose-bleue.webp',
+  ];
+  var btn = document.getElementById('hero-touch');
+  var layers = [document.getElementById('hero-img-a'), document.getElementById('hero-img-b')];
+  if (!btn || !layers[0] || !layers[1]) return;
+
+  var idx = 0;
+  var front = 0;
+  layers[1].src = HERO_IMAGES[1 % HERO_IMAGES.length];
+
+  btn.addEventListener('click', function(){
+    var oldFront = front;
+    var back = 1 - front;
+    idx = (idx + 1) % HERO_IMAGES.length;
+    layers[back].src = HERO_IMAGES[idx];
+    requestAnimationFrame(function(){
+      layers[back].classList.add('is-front');
+      layers[oldFront].classList.remove('is-front');
+    });
+    front = back;
+  });
+})();
+
 /* ---- Carrousel "cartes qui tournent" — teintes du portrait artistique ---- */
 (function(){
   var track = document.getElementById('ac-track');
@@ -1460,7 +1493,7 @@ if ('IntersectionObserver' in window){
     { src: 'assets/photos/art-fleurs-bleues.webp',label: 'Bleu ciel' },
     { src: 'assets/photos/art-rose-verte-01.webp',label: 'Vert tendre' },
     { src: 'assets/photos/art-corail.webp',       label: 'Corail' },
-    { src: 'assets/photos/art-fleur-ivoire.webp', label: 'Ivoire' },
+    { src: 'assets/photos/art-noir-blanc.webp',   label: 'Noir & blanc' },
   ];
 
   track.innerHTML = STYLES.map(function(s, i){
