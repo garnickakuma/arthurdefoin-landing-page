@@ -176,6 +176,39 @@ body.menu-open{overflow:hidden;}
 .hero__sub strong{font-weight:500; color:#fff;}
 .hero__scroll{position:absolute; bottom:16px; left:50%; transform:translateX(-50%); z-index:3; color:rgba(255,255,255,.92); animation:heroBounce 1.8s ease-in-out infinite;}
 .hero__scroll svg{width:30px; height:30px; display:block;}
+
+/* Hero défilé — colonnes de portraits artistiques en mouvement continu */
+.hero-marquee{position:absolute; inset:0; z-index:0; display:flex; gap:3px;}
+.hm-col{position:relative; flex:1 1 0; height:100%; overflow:hidden;}
+.hm-track{display:flex; flex-direction:column; width:100%; will-change:transform;}
+.hm-track img{width:100%; height:34vh; min-height:260px; object-fit:cover; margin-bottom:3px;}
+.hm-col.a .hm-track{animation:hmUp 46s linear infinite;}
+.hm-col.b .hm-track{animation:hmUp 58s linear infinite;}
+.hm-col.c .hm-track{animation:hmUp 40s linear infinite;}
+@keyframes hmUp{from{transform:translateY(0);}to{transform:translateY(-50%);}}
+@media(max-width:720px){
+  .hero-marquee{gap:2px;}
+  .hm-track img{height:26vh; min-height:190px;}
+  .hm-col.c{display:none;}
+}
+@media(prefers-reduced-motion:reduce){ .hm-track{animation:none !important;} }
+
+/* Carrousel "cartes qui tournent" — teintes du portrait artistique */
+.ac-wrap{background:var(--bg2);}
+.ac-stage{position:relative; display:flex; align-items:center; justify-content:center; gap:14px; perspective:1500px; height:clamp(340px,46vw,480px); margin-top:8px;}
+.ac-track{position:relative; width:100%; height:100%; transform-style:preserve-3d;}
+.ac-card{position:absolute; top:50%; left:50%; width:230px; height:340px; margin:-170px 0 0 -115px; border-radius:14px; overflow:hidden; box-shadow:0 24px 50px -20px rgba(60,45,35,.35); transition:transform .6s cubic-bezier(.22,1,.36,1), opacity .6s ease; cursor:pointer;}
+.ac-card img{width:100%; height:100%; object-fit:cover; display:block;}
+.ac-label{position:absolute; left:0; right:0; bottom:0; padding:14px; background:linear-gradient(to top, rgba(20,14,10,.65), transparent); color:#fff; font-family:var(--serif); font-style:italic; font-size:19px; text-align:center;}
+.ac-nav{position:relative; z-index:5; width:44px; height:44px; border-radius:50%; border:1px solid var(--line4); background:#fff; color:var(--accent); font-size:22px; line-height:1; cursor:pointer; flex:none; transition:background .2s ease,color .2s ease;}
+.ac-nav:hover{background:var(--accent); color:#fff;}
+.ac-dots{display:flex; justify-content:center; gap:8px; margin-top:26px;}
+.ac-dot{width:7px; height:7px; border-radius:50%; background:var(--line4); border:none; padding:0; cursor:pointer; transition:background .2s ease, transform .2s ease;}
+.ac-dot.active{background:var(--accent); transform:scale(1.35);}
+@media(max-width:640px){
+  .ac-card{width:190px; height:280px; margin:-140px 0 0 -95px;}
+  .ac-nav{width:38px; height:38px; font-size:19px;}
+}
 @keyframes heroBounce{0%,100%{transform:translateX(-50%) translateY(0);}50%{transform:translateX(-50%) translateY(7px);}}
 
 /* ============ INTRO — le hero apparaît ensuite ============ */
@@ -379,6 +412,19 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
 .plan .btn{margin-top:26px; padding:13px; font-size:11px;}
 .plan-note{text-align:center; font-family:var(--sans); font-weight:300; font-size:13px; color:var(--faint); margin:28px 0 0;}
 
+/* Offre phare — bandeau Grossesse en tête des tarifs */
+.plan-hero{display:grid; grid-template-columns:1fr 1.15fr; background:var(--card); border:1px solid var(--line2); border-radius:20px; overflow:hidden;}
+.plan-hero-photo{position:relative; min-height:320px;}
+.plan-hero-photo img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover;}
+.plan-hero-content{padding:clamp(28px,4vw,48px); display:flex; flex-direction:column; justify-content:center;}
+.plan-hero-content .plan-badge{color:var(--accent); margin-bottom:6px;}
+@media(max-width:780px){
+  .plan-hero{grid-template-columns:1fr;}
+  .plan-hero-photo{min-height:280px;}
+}
+.tarifs-grid--duo{grid-template-columns:1fr 1.3fr;}
+@media(max-width:780px){ .tarifs-grid--duo{grid-template-columns:1fr;} }
+
 /* RESERVER */
 .resa{background:var(--bg);}
 .resa-inner{max-width:920px; margin:0 auto; text-align:center;}
@@ -581,24 +627,52 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
 <div class="lead-wrap">
 <!-- HERO immersif : photo plein cadre, logo en haut, titre en surimpression -->
 <header class="hero">
-  <picture>
-    <source media="(min-width:980px)" srcset="assets/photos/hero-fanny-solmaz-hoarau-17.jpg">
-    <img width="1200" height="1800" class="hero__img" src="assets/photos/hero-jessica-75.webp" alt="Séance photo maman et bébé en studio — Amour et Lumière à Bègles">
-  </picture>
+  <div class="hero-marquee" aria-hidden="true">
+    <div class="hm-col a"><div class="hm-track">
+      <img src="assets/photos/art-chemin-roses.webp" alt="">
+      <img src="assets/photos/art-rose-jaune.webp" alt="">
+      <img src="assets/photos/art-fleurs-bleues.webp" alt="">
+      <img src="assets/photos/art-corail.webp" alt="">
+      <img src="assets/photos/art-chemin-roses.webp" alt="">
+      <img src="assets/photos/art-rose-jaune.webp" alt="">
+      <img src="assets/photos/art-fleurs-bleues.webp" alt="">
+      <img src="assets/photos/art-corail.webp" alt="">
+    </div></div>
+    <div class="hm-col b"><div class="hm-track">
+      <img src="assets/photos/art-rose-verte-01.webp" alt="">
+      <img src="assets/photos/art-papillon-01.webp" alt="">
+      <img src="assets/photos/art-fleur-ivoire.webp" alt="">
+      <img src="assets/photos/art-rose-rouge-02.webp" alt="">
+      <img src="assets/photos/art-rose-verte-01.webp" alt="">
+      <img src="assets/photos/art-papillon-01.webp" alt="">
+      <img src="assets/photos/art-fleur-ivoire.webp" alt="">
+      <img src="assets/photos/art-rose-rouge-02.webp" alt="">
+    </div></div>
+    <div class="hm-col c"><div class="hm-track">
+      <img src="assets/photos/art-orange.webp" alt="">
+      <img src="assets/photos/art-rose-bleue.webp" alt="">
+      <img src="assets/photos/art-papillon-02.webp" alt="">
+      <img src="assets/photos/art-noir-blanc.webp" alt="">
+      <img src="assets/photos/art-orange.webp" alt="">
+      <img src="assets/photos/art-rose-bleue.webp" alt="">
+      <img src="assets/photos/art-papillon-02.webp" alt="">
+      <img src="assets/photos/art-noir-blanc.webp" alt="">
+    </div></div>
+  </div>
   <div class="hero__scrim" aria-hidden="true"></div>
   <div class="hero__content">
-    <h1 class="hero__title">Photographe <em>Grossesse, Nouveau-né &amp; Famille</em>.</h1>
-    <p class="hero__sub">Studio à Bègles, près de Bordeaux.</p>
+    <h1 class="hero__title">Votre séance <em>grossesse</em>.</h1>
+    <p class="hero__sub">Portrait artistique inclus. Studio à Bègles, près de Bordeaux.</p>
   </div>
 </header>
 
 <!-- RÉSERVATION -->
 <section class="offre rise" id="reserver">
   <div class="offre__cta">
-    <a class="btn btn--fill" href="#" data-resa>Je réserve ma séance — 250&nbsp;€</a>
+    <a class="btn btn--fill" href="#" data-resa>Je réserve ma séance grossesse — 250&nbsp;€</a>
     <div style="font-family:var(--sans); font-size:13px; color:var(--muted2); margin-top:10px;">ou 83&nbsp;€/mois en 3× sans frais</div>
     <div class="offre__cta-sub">
-      <a class="btn btn--outline" href="#galerie">Voir les photos</a>
+      <a class="btn btn--outline" href="#artistiques">Voir les portraits artistiques</a>
       <a class="btn btn--outline" href="#tarifs">Voir les tarifs</a>
     </div>
   </div>
@@ -612,6 +686,22 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
   </div>
 </section>
 </div><!-- /.lead-wrap -->
+
+<!-- CARROUSEL PORTRAITS ARTISTIQUES -->
+<section class="section ac-wrap" id="artistiques">
+  <div style="max-width:1140px; margin:0 auto;">
+    <div class="head-center rise" style="margin-bottom:8px;">
+      <div class="eyebrow" style="margin-bottom:14px">Inclus dans la séance grossesse</div>
+      <h2 class="h2 italic">Le portrait artistique</h2>
+    </div>
+    <div class="ac-stage rise">
+      <button type="button" class="ac-nav ac-prev" aria-label="Portrait précédent">‹</button>
+      <div class="ac-track" id="ac-track"></div>
+      <button type="button" class="ac-nav ac-next" aria-label="Portrait suivant">›</button>
+    </div>
+    <div class="ac-dots" id="ac-dots"></div>
+  </div>
+</section>
 
 <!-- TARIFS -->
 <section id="tarifs" class="tarifs section">
@@ -637,63 +727,62 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
       </div>
     </div>
 
-    <div class="tarifs-grid rise" id="tarifs-carte" style="scroll-margin-top:24px;">
-      <div class="plan">
-        <div class="plan-top">
-          <div class="plan-badge">7 à 8 mois</div>
-          <div class="plan-name">Grossesse</div>
+    <div id="tarifs-carte" style="scroll-margin-top:24px;">
+
+      <!-- L'OFFRE PHARE — Grossesse -->
+      <div class="plan-hero rise">
+        <div class="plan-hero-photo"><img src="assets/photos/art-chemin-roses.webp" alt="Portrait artistique grossesse — Amour et Lumière" loading="lazy"></div>
+        <div class="plan-hero-content">
+          <div class="plan-badge">L'offre phare — 7 à 8 mois</div>
+          <div class="plan-name" style="font-size:clamp(28px,4vw,38px);">Séance Grossesse</div>
           <div class="plan-price"><span class="plan-now">250&nbsp;€</span></div>
           <div class="plan-off">ou 83&nbsp;€/mois en 3× sans frais</div>
+          <div class="plan-div"></div>
+          <div class="plan-feats">
+            <div class="feat"><span class="dot">✦</span><span>10 photos classiques retouchées HD</span></div>
+            <div class="feat strong"><span class="dot">✦</span><span>1 portrait artistique inclus</span></div>
+          </div>
+          <a class="btn btn--fill" style="margin-top:24px; align-self:flex-start;" href="https://wa.me/33789954427?text=Bonjour%20!%20J'aimerais%20r%C3%A9server%20ma%20s%C3%A9ance%20Grossesse%20(250%E2%82%AC)%20%F0%9F%93%B8" target="_blank" rel="noopener">Réserver ma séance grossesse</a>
         </div>
-        <div class="plan-div"></div>
-        <div class="plan-feats">
-          <div class="feat"><span class="dot">✦</span><span>10 photos classiques retouchées HD</span></div>
-          <div class="feat strong"><span class="dot">✦</span><span>1 portrait artistique inclus</span></div>
-        </div>
-        <a class="btn btn--outline" href="https://wa.me/33789954427?text=Bonjour%20!%20J'aimerais%20r%C3%A9server%20ma%20s%C3%A9ance%20Grossesse%20(250%E2%82%AC)%20%F0%9F%93%B8" target="_blank" rel="noopener">Réserver</a>
-      </div>
-      <div class="plan">
-        <div class="plan-top">
-          <div class="plan-badge">5 à 15 jours</div>
-          <div class="plan-name">Naissance</div>
-          <div class="plan-price"><span class="plan-now">250&nbsp;€</span></div>
-          <div class="plan-off">ou 83&nbsp;€/mois en 3× sans frais</div>
-        </div>
-        <div class="plan-div"></div>
-        <div class="plan-feats">
-          <div class="feat"><span class="dot">✦</span><span>10 photos classiques retouchées HD</span></div>
-        </div>
-        <a class="btn btn--outline" href="https://wa.me/33789954427?text=Bonjour%20!%20J'aimerais%20r%C3%A9server%20ma%20s%C3%A9ance%20Naissance%20(250%E2%82%AC)%20%F0%9F%93%B8" target="_blank" rel="noopener">Réserver</a>
-      </div>
-      <div class="plan">
-        <div class="plan-top">
-          <div class="plan-badge">Un an</div>
-          <div class="plan-name">Famille</div>
-          <div class="plan-price"><span class="plan-now">250&nbsp;€</span></div>
-          <div class="plan-off">ou 83&nbsp;€/mois en 3× sans frais</div>
-        </div>
-        <div class="plan-div"></div>
-        <div class="plan-feats">
-          <div class="feat"><span class="dot">✦</span><span>10 photos classiques retouchées HD</span></div>
-        </div>
-        <a class="btn btn--outline" href="https://wa.me/33789954427?text=Bonjour%20!%20J'aimerais%20r%C3%A9server%20ma%20s%C3%A9ance%20Famille%20(250%E2%82%AC)%20%F0%9F%93%B8" target="_blank" rel="noopener">Réserver</a>
       </div>
 
-      <div class="plan plan--feat rise" style="grid-column:1/-1; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:24px; text-align:left; padding:34px 36px; margin-top:4px;">
-        <div style="max-width:520px;">
-          <div class="plan-badge" style="margin-bottom:8px;">Offre combinée</div>
-          <div class="plan-name" style="font-size:26px;">Duo Grossesse + Naissance</div>
-          <p style="font-family:var(--sans); font-weight:300; font-size:14px; color:var(--rose-pale2); margin-top:10px; line-height:1.6;">Votre créneau naissance est bloqué dès aujourd'hui — la fenêtre naissance (5 à 15 jours) est courte, l'agenda se remplit vite.</p>
-        </div>
-        <div style="text-align:right;">
-          <div class="plan-price" style="margin:0;">
-            <span class="plan-old"><span class="strike"></span>500&nbsp;€</span>
-            <span class="plan-now">450&nbsp;€</span>
+      <!-- SECOND : Naissance + Duo -->
+      <div class="tarifs-grid tarifs-grid--duo rise" style="margin-top:22px;">
+        <div class="plan">
+          <div class="plan-top">
+            <div class="plan-badge">5 à 15 jours</div>
+            <div class="plan-name">Naissance</div>
+            <div class="plan-price"><span class="plan-now">250&nbsp;€</span></div>
+            <div class="plan-off">ou 83&nbsp;€/mois en 3× sans frais</div>
           </div>
-          <div class="plan-off" style="color:var(--rose-pale2); margin-bottom:16px;">ou 150&nbsp;€/mois en 3× sans frais</div>
-          <a class="btn" style="background:#fff; color:var(--accent);" href="https://wa.me/33789954427?text=Bonjour%20!%20J'aimerais%20r%C3%A9server%20le%20Duo%20Grossesse%20%2B%20Naissance%20(450%E2%82%AC)%20%F0%9F%93%B8" target="_blank" rel="noopener">Réserver le Duo</a>
+          <div class="plan-div"></div>
+          <div class="plan-feats">
+            <div class="feat"><span class="dot">✦</span><span>10 photos classiques retouchées HD</span></div>
+          </div>
+          <a class="btn btn--outline" href="https://wa.me/33789954427?text=Bonjour%20!%20J'aimerais%20r%C3%A9server%20ma%20s%C3%A9ance%20Naissance%20(250%E2%82%AC)%20%F0%9F%93%B8" target="_blank" rel="noopener">Réserver</a>
+        </div>
+
+        <div class="plan plan--feat" style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:22px; text-align:left; padding:30px 32px;">
+          <div style="max-width:340px;">
+            <div class="plan-badge" style="margin-bottom:8px;">Combinez et économisez</div>
+            <div class="plan-name" style="font-size:24px;">Duo Grossesse + Naissance</div>
+            <p style="font-family:var(--sans); font-weight:300; font-size:13.5px; color:var(--rose-pale2); margin-top:8px; line-height:1.6;">Votre créneau naissance est bloqué dès aujourd'hui — la fenêtre (5 à 15 jours) est courte.</p>
+          </div>
+          <div style="text-align:right;">
+            <div class="plan-price" style="margin:0;">
+              <span class="plan-old"><span class="strike"></span>500&nbsp;€</span>
+              <span class="plan-now">450&nbsp;€</span>
+            </div>
+            <div class="plan-off" style="color:var(--rose-pale2); margin-bottom:14px;">ou 150&nbsp;€/mois en 3×</div>
+            <a class="btn" style="background:#fff; color:var(--accent);" href="https://wa.me/33789954427?text=Bonjour%20!%20J'aimerais%20r%C3%A9server%20le%20Duo%20Grossesse%20%2B%20Naissance%20(450%E2%82%AC)%20%F0%9F%93%B8" target="_blank" rel="noopener">Réserver le Duo</a>
+          </div>
         </div>
       </div>
+
+      <!-- MENTION DISCRÈTE : Famille -->
+      <p class="rise" style="text-align:center; font-family:var(--sans); font-size:14px; color:var(--muted2); max-width:520px; margin:28px auto 0;">
+        Vous voulez aussi immortaliser les 1&nbsp;an de votre enfant&nbsp;? <strong style="color:var(--ink2);">Séance Famille — 250&nbsp;€</strong>, à réserver séparément quand le moment sera venu — <a href="https://wa.me/33789954427?text=Bonjour%20!%20J'aimerais%20des%20infos%20sur%20la%20s%C3%A9ance%20Famille%20(250%E2%82%AC)%20%F0%9F%93%B8" target="_blank" rel="noopener">nous en parler</a>.
+      </p>
     </div>
 
     <details class="carte-more rise" style="max-width:640px; margin:36px auto 0;">
@@ -1357,6 +1446,76 @@ if ('IntersectionObserver' in window){
       if (moved){ e.preventDefault(); e.stopPropagation(); moved = false; }
     }, true);
   });
+})();
+
+/* ---- Carrousel "cartes qui tournent" — teintes du portrait artistique ---- */
+(function(){
+  var track = document.getElementById('ac-track');
+  var dotsWrap = document.getElementById('ac-dots');
+  if (!track) return;
+
+  var STYLES = [
+    { src: 'assets/photos/art-chemin-roses.webp', label: 'Rouge passion' },
+    { src: 'assets/photos/art-rose-jaune.webp',   label: 'Jaune soleil' },
+    { src: 'assets/photos/art-fleurs-bleues.webp',label: 'Bleu ciel' },
+    { src: 'assets/photos/art-rose-verte-01.webp',label: 'Vert tendre' },
+    { src: 'assets/photos/art-corail.webp',       label: 'Corail' },
+    { src: 'assets/photos/art-fleur-ivoire.webp', label: 'Ivoire' },
+  ];
+
+  track.innerHTML = STYLES.map(function(s, i){
+    return '<div class="ac-card" data-i="' + i + '"><img src="' + s.src + '" alt="Portrait artistique grossesse — ' + s.label + '" loading="lazy"><span class="ac-label">' + s.label + '</span></div>';
+  }).join('');
+  dotsWrap.innerHTML = STYLES.map(function(_, i){
+    return '<button type="button" class="ac-dot" data-i="' + i + '" aria-label="Voir le portrait ' + (i+1) + '"></button>';
+  }).join('');
+
+  var cards = [].slice.call(track.querySelectorAll('.ac-card'));
+  var dots = [].slice.call(dotsWrap.querySelectorAll('.ac-dot'));
+  var n = cards.length;
+  var active = 0;
+  var timer = null;
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function render(){
+    cards.forEach(function(card, i){
+      var offset = i - active;
+      if (offset > n / 2) offset -= n;
+      if (offset < -n / 2) offset += n;
+      var abs = Math.abs(offset);
+      var tx = offset * 190;
+      var tz = -abs * 170;
+      var ry = offset * -32;
+      card.style.transform = 'translateX(' + tx + 'px) translateZ(' + tz + 'px) rotateY(' + ry + 'deg)';
+      card.style.opacity = abs > 2 ? 0 : (1 - abs * 0.28);
+      card.style.zIndex = 10 - abs;
+      card.style.pointerEvents = abs > 2 ? 'none' : 'auto';
+    });
+    dots.forEach(function(d, i){ d.classList.toggle('active', i === active); });
+  }
+
+  function go(i){ active = (i + n) % n; render(); }
+  function next(){ go(active + 1); }
+  function prev(){ go(active - 1); }
+
+  function startAuto(){
+    if (reduced) return;
+    stopAuto();
+    timer = setInterval(next, 3800);
+  }
+  function stopAuto(){ if (timer) clearInterval(timer); }
+
+  document.querySelector('.ac-next').addEventListener('click', function(){ next(); startAuto(); });
+  document.querySelector('.ac-prev').addEventListener('click', function(){ prev(); startAuto(); });
+  cards.forEach(function(card){ card.addEventListener('click', function(){ go(+card.dataset.i); startAuto(); }); });
+  dots.forEach(function(d){ d.addEventListener('click', function(){ go(+d.dataset.i); startAuto(); }); });
+
+  var stage = document.querySelector('.ac-stage');
+  stage.addEventListener('mouseenter', stopAuto);
+  stage.addEventListener('mouseleave', startAuto);
+
+  render();
+  startAuto();
 })();
 
 </script>
