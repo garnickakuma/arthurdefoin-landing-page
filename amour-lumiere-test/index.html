@@ -169,41 +169,52 @@ body.menu-open{overflow:hidden;}
 /* ============ HERO — image seule, plein écran ============ */
 .sr-only{position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0;}
 /* HERO — la photo est une carte (entière, non rognée) */
-.hero{position:relative; min-height:78vh; display:flex; overflow:hidden; background:var(--ink2);}
+html, body{ overflow-x:hidden; }
+.hero{position:relative; min-height:100vh; min-height:100svh; display:flex; overflow:hidden; background:var(--ink2); cursor:pointer;}
 .hero__img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 30%;}
 .hero__scrim{position:absolute; inset:0; z-index:1; background:linear-gradient(to bottom, rgba(24,18,14,0) 42%, rgba(24,18,14,.14) 62%, rgba(24,18,14,.55) 100%);}
-.hero__content{position:relative; z-index:2; margin-top:auto; width:100%; padding:0 clamp(22px,6vw,44px) clamp(40px,9vw,58px); text-align:center;}
+/* Titre déplacé hors du hero — affiché dans la section réservation, juste en dessous */
 .hero__title{font-family:var(--serif); font-weight:500; font-size:clamp(34px,8.4vw,58px); line-height:1.05; color:#fff; margin:0; text-shadow:0 1px 16px rgba(0,0,0,.45);}
 .hero__title em{font-style:italic; font-weight:700; color:#fff;}
 .hero__sub{margin:14px auto 0; max-width:340px; font-family:var(--sans); font-weight:300; font-size:15px; line-height:1.6; color:rgba(255,255,255,.94); text-shadow:0 1px 12px rgba(0,0,0,.5);}
 .hero__sub strong{font-weight:500; color:#fff;}
-.hero__scroll{position:absolute; bottom:16px; left:50%; transform:translateX(-50%); z-index:3; color:rgba(255,255,255,.92); animation:heroBounce 1.8s ease-in-out infinite;}
-.hero__scroll svg{width:30px; height:30px; display:block;}
+.hero__title--onlight, .hero__title--onlight em{ color:var(--ink); text-shadow:none; }
+.hero__sub--onlight{ color:var(--muted2); text-shadow:none; margin-bottom:26px; }
+.hero__sub--onlight strong{ color:var(--ink2); }
 
-/* Hero — photo unique, bouton "touch" avec fondu vers une autre photo */
+/* Hero — photo unique, bouton "touch" (centré) avec fondu ; disparaît après le 1er tap */
 .hero__img{opacity:0; z-index:0; transition:opacity 1s ease;}
 .hero__img.is-front{opacity:1; z-index:1;}
 .hero-touch{
-  position:absolute; z-index:3; right:clamp(20px,6vw,64px); top:34%;
-  width:76px; height:76px; border-radius:50%; cursor:pointer;
+  position:absolute; z-index:3; left:50%; top:50%; transform:translate(-50%,-50%);
+  width:84px; height:84px; border-radius:50%; cursor:pointer;
   background:rgba(255,255,255,.12); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
   border:1px solid rgba(255,255,255,.6); color:#fff;
   display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px;
-  font-family:var(--sans); font-size:9.5px; letter-spacing:.16em; text-transform:uppercase;
-  transition:transform .2s ease, background .2s ease;
+  font-family:var(--sans); font-size:10px; letter-spacing:.16em; text-transform:uppercase;
+  transition:transform .2s ease, background .2s ease, opacity .5s ease;
 }
-.hero-touch:hover{ background:rgba(255,255,255,.22); transform:scale(1.04); }
-.hero-touch:active{ transform:scale(.96); }
-.hero-touch svg{ width:18px; height:18px; }
+.hero-touch.is-hidden{ opacity:0; pointer-events:none; }
+.hero-touch:active{ transform:translate(-50%,-50%) scale(.96); }
+.hero-touch svg{ width:20px; height:20px; }
 .hero-touch-ring{ position:absolute; inset:-9px; border-radius:50%; border:1px solid rgba(255,255,255,.65); animation:htPulse 2.4s ease-out infinite; pointer-events:none; }
 .hero-touch-ring--2{ animation-delay:1.2s; }
 @keyframes htPulse{ 0%{ transform:scale(.82); opacity:.85; } 100%{ transform:scale(1.55); opacity:0; } }
-@media(max-width:640px){ .hero-touch{ width:64px; height:64px; top:30%; right:18px; } }
 @media(prefers-reduced-motion:reduce){ .hero-touch-ring{ animation:none; opacity:0; } }
+
+/* Indicateur de scroll — 3 chevrons + "Scroll" */
+.hero-scrolldown{ position:absolute; z-index:3; left:50%; bottom:26px; transform:translateX(-50%); display:flex; flex-direction:column; align-items:center; pointer-events:none; }
+.hsd-chevrons{ display:flex; flex-direction:column; align-items:center; }
+.hsd-chev{ width:20px; height:10px; color:#fff; opacity:.3; animation:hsdFade 1.8s ease-in-out infinite; }
+.hsd-chev:nth-child(2){ margin-top:-4px; animation-delay:.15s; }
+.hsd-chev:nth-child(3){ margin-top:-4px; animation-delay:.3s; }
+@keyframes hsdFade{ 0%,100%{ opacity:.22; transform:translateY(0); } 50%{ opacity:1; transform:translateY(3px); } }
+.hsd-label{ margin-top:4px; font-family:var(--sans); font-weight:400; font-size:9.5px; letter-spacing:.24em; text-transform:uppercase; color:rgba(255,255,255,.85); }
+@media(prefers-reduced-motion:reduce){ .hsd-chev{ animation:none; } }
 
 /* Carrousel "cartes qui tournent" — teintes du portrait artistique */
 .ac-wrap{background:var(--bg2);}
-.ac-stage{position:relative; display:flex; align-items:center; justify-content:center; gap:14px; perspective:1500px; height:clamp(340px,46vw,480px); margin-top:8px;}
+.ac-stage{position:relative; display:flex; align-items:center; justify-content:center; gap:14px; perspective:1500px; height:clamp(340px,46vw,480px); margin-top:8px; touch-action:pan-y; user-select:none;}
 .ac-track{position:relative; width:100%; height:100%; transform-style:preserve-3d;}
 .ac-card{position:absolute; top:50%; left:50%; width:230px; height:340px; margin:-170px 0 0 -115px; border-radius:14px; overflow:hidden; box-shadow:0 24px 50px -20px rgba(60,45,35,.35); transition:transform .6s cubic-bezier(.22,1,.36,1), opacity .6s ease; cursor:pointer;}
 .ac-card img{width:100%; height:100%; object-fit:cover; display:block;}
@@ -214,7 +225,8 @@ body.menu-open{overflow:hidden;}
 .ac-dot{width:7px; height:7px; border-radius:50%; background:var(--line4); border:none; padding:0; cursor:pointer; transition:background .2s ease, transform .2s ease;}
 .ac-dot.active{background:var(--accent); transform:scale(1.35);}
 @media(max-width:640px){
-  .ac-card{width:190px; height:280px; margin:-140px 0 0 -95px;}
+  .ac-stage{height:400px;}
+  .ac-card{width:250px; height:365px; margin:-183px 0 0 -125px;}
   .ac-nav{width:38px; height:38px; font-size:19px;}
 }
 @keyframes heroBounce{0%,100%{transform:translateX(-50%) translateY(0);}50%{transform:translateX(-50%) translateY(7px);}}
@@ -607,7 +619,7 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
    ne change. La version mobile n'est jamais touchée.
    ============================================================ */
 @media(min-width:980px){
-  .hero{min-height:92vh;}
+  .hero{min-height:100vh; min-height:100svh;}
   .hero__img{object-position:center 35%;}
   .hero__title{font-size:clamp(46px,4.4vw,68px);}
   .hero__sub{max-width:460px; font-size:17px;}
@@ -636,14 +648,13 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
 
 <!-- BANDEAU POSITIONNEMENT -->
 <a class="promo-ribbon" href="#" data-resa>
-  <span class="rb-dot" aria-hidden="true"></span>
   <span><strong>Photographe Grossesse, Nouveau-né &amp; Famille</strong><span class="rb-more"> — Studio à Bègles</span></span>
 </a>
 
 <!-- HERO + OFFRE (deux colonnes sur desktop, empilés sur mobile) -->
 <div class="lead-wrap">
-<!-- HERO immersif : photo plein cadre, logo en haut, titre en surimpression -->
-<header class="hero">
+<!-- HERO immersif : photo plein écran, rien d'autre au chargement -->
+<header class="hero" id="hero-photo">
   <img class="hero__img is-front" id="hero-img-a" src="assets/photos/art-chemin-roses.webp" alt="Portrait artistique grossesse — Amour et Lumière">
   <img class="hero__img" id="hero-img-b" src="assets/photos/art-rose-jaune.webp" alt="" aria-hidden="true">
   <div class="hero__scrim" aria-hidden="true"></div>
@@ -653,19 +664,24 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11.5V6a2 2 0 0 1 4 0v5"/><path d="M13 6a2 2 0 0 1 4 0v6"/><path d="M17 8.5a2 2 0 0 1 4 0V14a7 7 0 0 1-7 7h-1a7 7 0 0 1-6-3.4L4.2 13.6a1.7 1.7 0 0 1 2.6-2.1L9 13.5"/></svg>
     <span>Touch</span>
   </button>
-  <div class="hero__content">
-    <h1 class="hero__title">Votre séance <em>grossesse</em>.</h1>
-    <p class="hero__sub">Portrait artistique inclus. Studio à Bègles, près de Bordeaux.</p>
+  <div class="hero-scrolldown" aria-hidden="true">
+    <span class="hsd-chevrons">
+      <svg class="hsd-chev" viewBox="0 0 24 12"><path d="M2 2l10 8 10-8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <svg class="hsd-chev" viewBox="0 0 24 12"><path d="M2 2l10 8 10-8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <svg class="hsd-chev" viewBox="0 0 24 12"><path d="M2 2l10 8 10-8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </span>
+    <span class="hsd-label">Scroll</span>
   </div>
 </header>
 
 <!-- RÉSERVATION -->
 <section class="offre rise" id="reserver">
   <div class="offre__cta">
+    <h1 class="hero__title hero__title--onlight">Votre séance <em>grossesse</em>.</h1>
+    <p class="hero__sub hero__sub--onlight">Portrait artistique inclus. Studio à Bègles, près de Bordeaux.</p>
     <a class="btn btn--fill" href="#" data-resa>Je réserve ma séance grossesse — 250&nbsp;€</a>
     <div style="font-family:var(--sans); font-size:13px; color:var(--muted2); margin-top:10px;">ou 83&nbsp;€/mois en 3× sans frais</div>
     <div class="offre__cta-sub">
-      <a class="btn btn--outline" href="#artistiques">Voir les portraits artistiques</a>
       <a class="btn btn--outline" href="#tarifs">Voir les tarifs</a>
     </div>
   </div>
@@ -1460,15 +1476,17 @@ if ('IntersectionObserver' in window){
     'assets/photos/art-orange.webp',
     'assets/photos/art-rose-bleue.webp',
   ];
+  var hero = document.getElementById('hero-photo');
   var btn = document.getElementById('hero-touch');
   var layers = [document.getElementById('hero-img-a'), document.getElementById('hero-img-b')];
-  if (!btn || !layers[0] || !layers[1]) return;
+  if (!hero || !btn || !layers[0] || !layers[1]) return;
 
   var idx = 0;
   var front = 0;
+  var touched = false;
   layers[1].src = HERO_IMAGES[1 % HERO_IMAGES.length];
 
-  btn.addEventListener('click', function(){
+  function nextPhoto(){
     var oldFront = front;
     var back = 1 - front;
     idx = (idx + 1) % HERO_IMAGES.length;
@@ -1478,7 +1496,11 @@ if ('IntersectionObserver' in window){
       layers[oldFront].classList.remove('is-front');
     });
     front = back;
-  });
+    if (!touched){ touched = true; btn.classList.add('is-hidden'); }
+  }
+
+  /* On peut toucher n'importe où sur la photo, pas seulement le bouton */
+  hero.addEventListener('click', nextPhoto);
 })();
 
 /* ---- Carrousel "cartes qui tournent" — teintes du portrait artistique ---- */
@@ -1538,14 +1560,85 @@ if ('IntersectionObserver' in window){
   }
   function stopAuto(){ if (timer) clearInterval(timer); }
 
+  var dragged = false;
+
   document.querySelector('.ac-next').addEventListener('click', function(){ next(); startAuto(); });
   document.querySelector('.ac-prev').addEventListener('click', function(){ prev(); startAuto(); });
-  cards.forEach(function(card){ card.addEventListener('click', function(){ go(+card.dataset.i); startAuto(); }); });
+  cards.forEach(function(card){
+    card.addEventListener('click', function(){
+      if (dragged){ dragged = false; return; }
+      go(+card.dataset.i); startAuto();
+    });
+  });
   dots.forEach(function(d){ d.addEventListener('click', function(){ go(+d.dataset.i); startAuto(); }); });
 
   var stage = document.querySelector('.ac-stage');
   stage.addEventListener('mouseenter', stopAuto);
   stage.addEventListener('mouseleave', startAuto);
+
+  /* Swipe tactile — écoute directement les événements touch (plus fiable sur mobile que Pointer Events ici) */
+  var touchStartX = 0;
+  var touchDeciding = false;
+  var touchHorizontal = false;
+
+  stage.addEventListener('touchstart', function(e){
+    if (!e.touches || e.touches.length !== 1) return;
+    touchStartX = e.touches[0].clientX;
+    touchDeciding = true;
+    touchHorizontal = false;
+    dragged = false;
+    stopAuto();
+  }, { passive: true });
+
+  stage.addEventListener('touchmove', function(e){
+    if (!e.touches || e.touches.length !== 1) return;
+    var dx = e.touches[0].clientX - touchStartX;
+    if (touchDeciding && Math.abs(dx) > 8) {
+      touchHorizontal = true;
+      touchDeciding = false;
+    }
+    if (touchHorizontal) {
+      dragged = true;
+      e.preventDefault(); /* empêche le scroll vertical de la page pendant le swipe horizontal */
+    }
+  }, { passive: false });
+
+  stage.addEventListener('touchend', function(e){
+    if (touchHorizontal) {
+      var dx = e.changedTouches[0].clientX - touchStartX;
+      if (dx < -40) next();
+      else if (dx > 40) prev();
+    }
+    touchDeciding = false;
+    touchHorizontal = false;
+    startAuto();
+  });
+
+  /* Swipe souris (desktop) via Pointer Events, ignoré si l'appareil gère déjà le tactile ci-dessus */
+  var pointerDown = false;
+  var startX = 0;
+  stage.addEventListener('pointerdown', function(e){
+    if (e.pointerType === 'touch') return;
+    pointerDown = true;
+    dragged = false;
+    startX = e.clientX;
+    stopAuto();
+    if (stage.setPointerCapture) { try { stage.setPointerCapture(e.pointerId); } catch (err) {} }
+  });
+  stage.addEventListener('pointermove', function(e){
+    if (!pointerDown) return;
+    if (Math.abs(e.clientX - startX) > 10) dragged = true;
+  });
+  function endSwipe(e){
+    if (!pointerDown) return;
+    pointerDown = false;
+    var dx = e.clientX - startX;
+    if (dx < -40) next();
+    else if (dx > 40) prev();
+    startAuto();
+  }
+  stage.addEventListener('pointerup', endSwipe);
+  stage.addEventListener('pointercancel', function(){ pointerDown = false; startAuto(); });
 
   render();
   startAuto();
