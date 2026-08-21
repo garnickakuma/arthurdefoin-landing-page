@@ -635,55 +635,12 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
       </div>
     </div>
 
-    <div class="carte rise" id="tarifs-carte" style="scroll-margin-top:24px;">
-      <div class="carte-head">
-        <div class="carte-title">Vos photos numériques</div>
-        <div class="carte-sub">Fichiers HD retouchés · galerie privée</div>
+    <div class="carte rise" id="tarifs-carte" style="scroll-margin-top:24px; text-align:center;">
+      <div class="carte-head" style="margin-bottom:6px;">
+        <div class="carte-title">Tarif sur devis</div>
+        <div class="carte-sub">Chaque séance est unique : le tarif dépend de vos envies et des photos que vous choisissez. Écrivez-nous sur WhatsApp, on vous répond avec plaisir.</div>
       </div>
-      <div class="carte-row"><span class="carte-l">3 photos</span><span class="carte-p">75&nbsp;€</span></div>
-      <div class="carte-row"><span class="carte-l">5 photos</span><span class="carte-p">99&nbsp;€</span></div>
-      <div class="carte-row"><span class="carte-l">10 photos</span><span class="carte-p">149&nbsp;€</span></div>
-      <div class="carte-row featured"><span class="carte-l">Toute la galerie <span class="carte-badge">La plus choisie</span></span><span class="carte-p">199&nbsp;€</span></div>
-
-      <div class="carte-pay">
-        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2.5"/><path d="M2 10h20"/></svg>
-        <span>Paiement en <strong>3× sans frais</strong> possible</span>
-      </div>
-
-      <!-- Portraits signature — sélecteur interactif -->
-      <div class="portrait-sig" id="portrait-sig">
-        <div class="ps-head">
-          <div>
-            <div class="ps-title">Portraits artistiques</div>
-            <div class="ps-sub">Nos créations grossesse signature</div>
-          </div>
-          <div class="ps-price"><span id="ps-amount">49</span>&nbsp;€</div>
-        </div>
-        <div class="ps-stepper">
-          <button type="button" class="ps-btn" id="ps-minus" aria-label="Retirer un portrait" disabled>−</button>
-          <span class="ps-count"><span id="ps-n">1</span>&nbsp;<span id="ps-word">portrait</span></span>
-          <button type="button" class="ps-btn" id="ps-plus" aria-label="Ajouter un portrait">+</button>
-        </div>
-      </div>
-
-      <details class="carte-more">
-        <summary>Les suppléments</summary>
-        <div class="carte-more-body">
-          <p class="carte-more-intro">En plus de vos photos numériques, si vous le souhaitez :</p>
-
-          <div class="carte-more-group">Tirages</div>
-          <div class="carte-row"><span class="carte-l">Tirage 10 × 15</span><span class="carte-p">6&nbsp;€</span></div>
-          <div class="carte-row"><span class="carte-l">Tirage 20 × 30</span><span class="carte-p">19&nbsp;€</span></div>
-
-          <div class="carte-more-group">Tableaux aluminium</div>
-          <div class="carte-row"><span class="carte-l">Tableau alu 20 × 30</span><span class="carte-p">69&nbsp;€</span></div>
-          <div class="carte-row"><span class="carte-l">Tableau alu 30 × 45</span><span class="carte-p">99&nbsp;€</span></div>
-          <div class="carte-row"><span class="carte-l">Tableau alu 40 × 60</span><span class="carte-p">129&nbsp;€</span></div>
-
-          <div class="carte-more-group">Album</div>
-          <div class="carte-row"><span class="carte-l">Album photo</span><span class="carte-p">149&nbsp;€</span></div>
-        </div>
-      </details>
+      <a class="btn btn--fill" href="https://wa.me/33789954427?text=Bonjour%20!%20J'aimerais%20conna%C3%AEtre%20le%20tarif%20pour%20ma%20s%C3%A9ance%20photo%20%F0%9F%93%B8" target="_blank" rel="noopener" style="margin-top:22px;">Demander mon tarif sur WhatsApp</a>
     </div>
     <div class="tarifs-cta rise"><a class="btn btn--fill" href="#" data-resa>Réserver ma séance offerte</a></div>
   </div>
@@ -1201,7 +1158,7 @@ var galleryMasonry = (function(){
 /* ---- FAQ ---- */
 var FAQ = [
   { q: "La séance est-elle vraiment offerte ?", a: "Oui, la prise de vue est 100 % offerte et sans aucune obligation d'achat. Vous ne repartez qu'avec les photos que vous choisissez — ou aucune, en toute liberté." },
-  { q: "Comment se passe le paiement ?", a: "Un acompte de 30 € vous est demandé au moment de la réservation pour valider votre créneau. Après la séance, vous découvrez vos photos et composez votre sélection à la carte (à partir de 75 €). Vous ne payez que celles que vous aimez." },
+  { q: "Comment se passe le paiement ?", a: "Un acompte de 30 € vous est demandé au moment de la réservation pour valider votre créneau. Le tarif de vos photos se fait sur devis, selon votre sélection : après la séance, vous découvrez vos photos et nous vous établissons un devis personnalisé sur WhatsApp. Vous ne payez que celles que vous aimez." },
   { q: "Comment se déroule une séance ?", a: "Environ 1 h au studio à Bègles, tout en douceur. Nous guidons chaque pose pour que les vrais moments de famille arrivent naturellement. En famille, en couple, enceinte ou avec votre nouveau-né." },
   { q: "Quand recevons-nous nos photos ?", a: "Le choix se fait directement au studio, à la fin de la séance. Votre galerie privée, retouchée avec soin, vous est livrée sous 1 semaine." }
 ];
@@ -1331,28 +1288,6 @@ if ('IntersectionObserver' in window){
   });
 })();
 
-/* ---- Portraits signature : sélecteur de quantité + prix dynamique ---- */
-(function(){
-  var PRIX = [49, 89, 129, 169, 199];   /* index 0 = 1 portrait, jusqu'à 5 */
-  var n = 1;
-  var minus = document.getElementById('ps-minus');
-  var plus  = document.getElementById('ps-plus');
-  var nEl   = document.getElementById('ps-n');
-  var word  = document.getElementById('ps-word');
-  var amount= document.getElementById('ps-amount');
-  if (!minus || !plus || !amount) return;
-
-  function render(){
-    nEl.textContent = n;
-    word.textContent = n > 1 ? 'portraits' : 'portrait';
-    amount.textContent = PRIX[n - 1];
-    minus.disabled = (n <= 1);
-    plus.disabled  = (n >= PRIX.length);
-  }
-  minus.addEventListener('click', function(){ if (n > 1){ n--; render(); } });
-  plus.addEventListener('click',  function(){ if (n < PRIX.length){ n++; render(); } });
-  render();
-})();
 </script>
 </body>
 </html>
