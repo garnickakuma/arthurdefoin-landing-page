@@ -742,7 +742,7 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
       </div>
       <div class="step3">
         <span class="step3-num"><span>3</span></span>
-        <div class="step3-title">Famille <span class="step3-free">un an</span></div>
+        <div class="step3-title">Famille <span class="step3-free">quand vous voulez</span></div>
       </div>
     </div>
 
@@ -1485,12 +1485,16 @@ function initCarousel(cfg){
   var timer = null;
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var dragged = false;
+  var loop = cfg.loop !== false;
+  var autoDir = 1;
 
   function render(){
     cards.forEach(function(card, i){
       var offset = i - active;
-      if (offset > n / 2) offset -= n;
-      if (offset < -n / 2) offset += n;
+      if (loop) {
+        if (offset > n / 2) offset -= n;
+        if (offset < -n / 2) offset += n;
+      }
       var abs = Math.abs(offset);
       var tx = offset * 190;
       var tz = -abs * 170;
@@ -1503,14 +1507,26 @@ function initCarousel(cfg){
     dots.forEach(function(d, i){ d.classList.toggle('active', i === active); });
   }
 
-  function go(i){ active = (i + n) % n; render(); }
+  function go(i){
+    active = loop ? (i + n) % n : Math.max(0, Math.min(n - 1, i));
+    render();
+  }
   function next(){ go(active + 1); }
   function prev(){ go(active - 1); }
 
+  /* Avance automatique : boucle en continu si loop=true, sinon fait l'aller-retour
+     (Grossesse reste le premier, Famille le dernier — pas de saut Famille -> Grossesse) */
+  function autoStep(){
+    if (loop) { go(active + 1); return; }
+    var nextIdx = active + autoDir;
+    if (nextIdx > n - 1) { autoDir = -1; nextIdx = active + autoDir; }
+    else if (nextIdx < 0) { autoDir = 1; nextIdx = active + autoDir; }
+    go(nextIdx);
+  }
   function startAuto(){
     if (reduced) return;
     stopAuto();
-    timer = setInterval(next, 3800);
+    timer = setInterval(autoStep, 3800);
   }
   function stopAuto(){ if (timer) clearInterval(timer); }
 
@@ -1623,14 +1639,14 @@ function initCarousel(cfg){
     },
     {
       src: 'assets/photos/pierre-henri.jpg', pos: 'center 20%',
-      moment: '1 an', name: 'Famille', price: '250&nbsp;€',
+      moment: 'Quand vous voulez', name: 'Famille', price: '250&nbsp;€',
       sub: '10 photos classiques HD',
       msg: "Bonjour ! J'aimerais réserver ma séance Famille (250€) 📸"
     },
   ];
   initCarousel({
     trackId: 'pc-track', dotsId: 'pc-dots', stageId: 'pc-stage',
-    prevSel: '.pc-prev', nextSel: '.pc-next', dotLabel: 'Voir la prestation',
+    prevSel: '.pc-prev', nextSel: '.pc-next', dotLabel: 'Voir la prestation', loop: false,
     items: OFFERS.map(function(o){
       var posStyle = o.pos ? ' style="object-position:' + o.pos + ';"' : '';
       var oldPrice = o.old ? '<span class="ac-offer-old">' + o.old + '</span>' : '';
