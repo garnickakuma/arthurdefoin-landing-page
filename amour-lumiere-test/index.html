@@ -150,14 +150,17 @@ body.menu-open .promo-ribbon{opacity:0; pointer-events:none;}
 
 /* NAV — barre fixe en overlay : logo + burger, transparente puis solide au scroll */
 html{scroll-padding-top:58px;}
-.nav{position:fixed; top:38px; left:0; right:0; z-index:40; background:transparent; border-bottom:1px solid transparent; opacity:0; pointer-events:none; transform:translateY(-8px); transition:opacity .4s ease, transform .4s ease, background .4s ease, border-color .4s ease, backdrop-filter .4s ease;}
+.nav{position:fixed; top:0; left:0; right:0; z-index:40; background:transparent; border-bottom:1px solid transparent; opacity:0; pointer-events:none; transform:translateY(-8px); transition:opacity .4s ease, transform .4s ease, background .4s ease, border-color .4s ease, backdrop-filter .4s ease;}
 body.scrolled .nav{opacity:1; pointer-events:auto; transform:translateY(0); background:rgba(246,241,236,.86); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border-bottom-color:var(--line);}
-.nav-inner{display:flex; align-items:center; justify-content:space-between; padding:15px clamp(20px,5vw,40px); max-width:1240px; margin:0 auto;}
-.nav-logo{height:32px; width:auto; display:block;}
+.nav-inner{display:flex; align-items:center; justify-content:space-between; gap:14px; padding:15px clamp(16px,5vw,40px); max-width:1240px; margin:0 auto;}
+.nav-logo{height:28px; width:auto; display:block;}
 .nav-logo--dark{display:none;}
 body.scrolled .nav-logo--light{display:none;}
 body.scrolled .nav-logo--dark{display:block;}
-.nav-cta{font-family:var(--sans); font-size:11px; letter-spacing:.18em; text-transform:uppercase; text-decoration:none; background:var(--accent); color:#fff; padding:11px 22px; border-radius:40px; transition:background .2s ease;}
+.nav-links{display:flex; align-items:center; gap:clamp(10px,3vw,26px);}
+.nav-link{font-family:var(--sans); font-size:11px; letter-spacing:.14em; text-transform:uppercase; text-decoration:none; color:var(--ink2); white-space:nowrap;}
+.nav-link:hover{color:var(--accent);}
+.nav-cta{font-family:var(--sans); font-size:11px; letter-spacing:.14em; text-transform:uppercase; text-decoration:none; background:var(--accent); color:#fff; padding:11px 18px; border-radius:40px; transition:background .2s ease; white-space:nowrap; cursor:pointer; border:0;}
 .nav-cta:hover{background:var(--accent-h); color:#fff;}
 .nav-burger{width:44px; height:44px; margin-right:-8px; display:flex; flex-direction:column; justify-content:center; align-items:center; gap:6px; background:none; border:0; cursor:pointer; padding:0;}
 .nav-burger span{display:block; width:26px; height:1.5px; background:var(--ink); transition:transform .35s ease, opacity .35s ease;}
@@ -176,7 +179,7 @@ body.menu-open{overflow:hidden;}
 .sr-only{position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0;}
 /* HERO — la photo est une carte (entière, non rognée) */
 html, body{ overflow-x:hidden; }
-.hero{position:relative; min-height:100vh; min-height:100svh; display:flex; flex-direction:column; overflow:hidden; background:var(--ink2);}
+.hero{position:relative; min-height:100vh; min-height:100svh; min-height:calc(var(--vh, 1vh) * 100); display:flex; flex-direction:column; overflow:hidden; background:var(--ink2);}
 .hero__img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 30%;}
 .hero__scrim{position:absolute; inset:0; z-index:1; background:linear-gradient(to bottom, rgba(24,18,14,0) 42%, rgba(24,18,14,.14) 62%, rgba(24,18,14,.55) 100%);}
 .hero__content{position:relative; z-index:2; margin-top:auto; width:100%; padding:0 clamp(22px,6vw,44px) clamp(40px,9vw,58px); text-align:center;}
@@ -189,8 +192,10 @@ html, body{ overflow-x:hidden; }
 .hero__sub--onlight{ color:var(--muted2); text-shadow:none; margin-bottom:26px; }
 .hero__sub--onlight strong{ color:var(--ink2); }
 
-/* Hero promo — badge + prix barré */
+/* Hero promo — minimal : eyebrow + prix barré */
 .hero-badge{display:inline-block; background:var(--accent); color:#fff; font-family:var(--sans); font-weight:600; font-size:11px; letter-spacing:.16em; text-transform:uppercase; padding:9px 20px; border-radius:30px; margin-bottom:18px; box-shadow:0 10px 24px -10px rgba(0,0,0,.4);}
+.hero-eyebrow{display:block; font-family:var(--sans); font-weight:500; font-size:12px; letter-spacing:.24em; text-transform:uppercase; color:#fff; text-shadow:0 1px 8px rgba(0,0,0,.5); margin-bottom:14px;}
+.hero__content .btn{margin-top:6px;}
 .hero-price{display:flex; align-items:baseline; justify-content:center; gap:14px; margin:16px 0 6px;}
 .hero-price-old{position:relative; font-family:var(--serif); font-size:clamp(22px,4vw,30px); color:rgba(255,255,255,.65); text-shadow:0 1px 8px rgba(0,0,0,.4);}
 .hero-price-old .strike{position:absolute; left:-2px; right:-2px; top:52%; height:2px; background:rgba(255,255,255,.75);}
@@ -377,12 +382,18 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
 .carte-pay strong{font-weight:500; color:var(--ink2);}
 .carte-note{text-align:center; font-family:var(--sans); font-weight:300; font-size:13px; color:var(--faint); margin:22px 0 0;}
 /* Tarifs secondaires : dépliés au clic sur « Voir tous les tarifs » */
-.carte-more{margin-top:8px; border-top:1px solid var(--line3);}
-.carte-more summary{list-style:none; cursor:pointer; text-align:center; font-family:var(--sans); font-weight:400; font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:var(--accent); padding:18px 6px 4px; user-select:none; transition:color .2s ease;}
+.carte-more{margin-top:8px; text-align:center;}
+.carte-more summary{list-style:none; cursor:pointer; display:inline-flex; align-items:center; gap:10px; font-family:var(--sans); font-weight:500; font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:var(--accent); border:1px solid var(--line4); border-radius:30px; padding:13px 24px; user-select:none; transition:background .2s ease, border-color .2s ease;}
 .carte-more summary::-webkit-details-marker{display:none;}
-.carte-more summary::after{content:"  +"; font-weight:500;}
-.carte-more[open] summary::after{content:"  −";}
-.carte-more summary:hover{color:var(--accent-h);}
+.carte-more summary::after{content:"+"; font-size:15px; font-weight:600; line-height:1;}
+.carte-more[open] summary::after{content:"−";}
+.carte-more summary:hover{background:var(--rose-pale2); border-color:var(--accent);}
+.carte-more-body{border-top:1px solid var(--line3); margin-top:20px; padding-top:8px;}
+
+/* Encart conditions — acompte / espèces / week-end, mis en valeur */
+.conditions-box{background:var(--rose-pale2); border:1px solid var(--line2); border-radius:16px; padding:clamp(18px,3vw,24px) clamp(20px,4vw,30px); max-width:640px; margin:32px auto 0; text-align:center;}
+.conditions-box p{font-family:var(--sans); font-weight:300; font-size:13.5px; line-height:1.75; color:var(--ink2); margin:0;}
+.conditions-box strong{color:var(--accent); font-weight:600;}
 .carte-more-intro{font-family:var(--sans); font-weight:300; font-size:13px; line-height:1.55; color:var(--muted); text-align:center; margin:6px 0 4px;}
 .carte-more-group{font-family:var(--sans); font-weight:500; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin:20px 0 0; padding-left:6px;}
 /* Vidéo « 3 étapes » — remplace les étapes statiques. Fond crème = fond page,
@@ -649,16 +660,14 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
 <!-- NAV — cachée en transparence sur le hero, apparaît au scroll -->
 <nav class="nav" id="site-nav">
   <div class="nav-inner">
-    <img class="nav-logo nav-logo--light" src="assets/logo-amour-et-lumiere-ivoire.png" alt="Amour et Lumière">
-    <img class="nav-logo nav-logo--dark" src="assets/logo-amour-et-lumiere.png" alt="Amour et Lumière">
-    <a class="nav-cta" href="#tarifs">Réserver</a>
+    <img class="nav-logo" src="assets/logo-amour-et-lumiere.png" alt="Amour et Lumière">
+    <div class="nav-links">
+      <a class="nav-link" href="#tarifs">Offre</a>
+      <a class="nav-link" href="#galerie">Galerie</a>
+      <a class="nav-cta" href="#" data-resa="general">Réserver</a>
+    </div>
   </div>
 </nav>
-
-<!-- BANDEAU POSITIONNEMENT -->
-<a class="promo-ribbon" href="#tarifs">
-  <span><strong>Offre Rentrée</strong><span class="rb-more"> — Mini séance à 99&nbsp;€ au lieu de 250&nbsp;€, durée limitée</span></span>
-</a>
 
 <!-- HERO + OFFRE (deux colonnes sur desktop, empilés sur mobile) -->
 <div class="lead-wrap">
@@ -667,17 +676,13 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
   <img class="hero__img is-front" src="assets/photos/gal-c-06.webp" alt="Séance photo studio famille — Amour et Lumière">
   <div class="hero__scrim" aria-hidden="true"></div>
   <div class="hero__content">
-    <span class="hero-badge">🎒 Offre Rentrée — durée limitée</span>
-    <h1 class="hero__title">Mini séance <em>photo studio</em></h1>
+    <span class="hero-eyebrow">Offre Rentrée · durée limitée</span>
     <div class="hero-price">
       <span class="hero-price-old"><span class="strike"></span>250&nbsp;€</span>
       <span class="hero-price-now">99&nbsp;€</span>
     </div>
-    <p class="hero-price-note">10 photos studio — Famille, grossesse, nouveau-né, bébé, couple.</p>
-    <div class="contact-row">
-      <a class="btn btn--fill" href="mailto:defoin.arthur@gmail.com?subject=Offre%20Rentr%C3%A9e%20-%20Mini%20s%C3%A9ance%2099%E2%82%AC">📧 Par email</a>
-      <a class="btn btn--onphoto" href="https://wa.me/33789954427?text=Bonjour%20!%20L'offre%20Rentr%C3%A9e%20m'int%C3%A9resse%20(mini%20s%C3%A9ance%2099%E2%82%AC)%20%F0%9F%93%B8" target="_blank" rel="noopener">💬 WhatsApp</a>
-    </div>
+    <p class="hero-price-note">Mini séance photo studio</p>
+    <a class="btn btn--onphoto" href="#" data-resa="general">Réserver</a>
   </div>
   <div class="hero-scrolldown" aria-hidden="true">
     <span class="hsd-chevrons">
@@ -734,7 +739,7 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
       </div>
       <div class="step3">
         <span class="step3-num"><span>2</span></span>
-        <div class="step3-title">Acompte <span class="step3-free">29&nbsp;€ pour valider</span></div>
+        <div class="step3-title">Acompte <span class="step3-free">29&nbsp;€, le reste sur place</span></div>
       </div>
       <div class="step3">
         <span class="step3-num"><span>3</span></span>
@@ -742,49 +747,12 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
       </div>
     </div>
 
-    <div id="tarifs-carte" class="tarifs-grid rise" style="grid-template-columns:1fr 1fr; scroll-margin-top:24px;">
-      <div class="plan">
-        <div class="plan-top">
-          <div class="plan-badge">Offre Rentrée</div>
-          <div class="plan-name">Mini séance</div>
-          <div class="plan-price">
-            <span class="plan-old"><span class="strike"></span>250&nbsp;€</span>
-            <span class="plan-now">99&nbsp;€</span>
-          </div>
-          <div class="plan-off">Offre limitée</div>
-        </div>
-        <div class="plan-div"></div>
-        <div class="plan-feats">
-          <div class="feat"><span class="dot">✦</span><span>10 photos studio retouchées HD</span></div>
-        </div>
-        <div style="font-family:var(--sans); font-size:12.5px; color:var(--muted2); margin-top:10px;">29&nbsp;€ d'acompte + 70&nbsp;€ en espèces sur place</div>
-        <div class="contact-row" style="margin-top:20px;">
-          <a class="btn btn--outline" href="mailto:defoin.arthur@gmail.com?subject=Offre%20Rentr%C3%A9e%20-%20Mini%20s%C3%A9ance%2099%E2%82%AC">Email</a>
-          <a class="btn btn--outline" href="https://wa.me/33789954427?text=Bonjour%20!%20J'aimerais%20r%C3%A9server%20la%20Mini%20s%C3%A9ance%20(99%E2%82%AC%2C%20offre%20Rentr%C3%A9e)%20%F0%9F%93%B8" target="_blank" rel="noopener">WhatsApp</a>
-        </div>
-      </div>
-
-      <div class="plan plan--feat">
-        <div class="plan-top">
-          <div class="plan-badge">Offre Rentrée</div>
-          <div class="plan-name">Séance complète</div>
-          <div class="plan-price">
-            <span class="plan-old"><span class="strike"></span>350&nbsp;€</span>
-            <span class="plan-now">149&nbsp;€</span>
-          </div>
-          <div class="plan-off">Offre limitée</div>
-        </div>
-        <div class="plan-div"></div>
-        <div class="plan-feats">
-          <div class="feat strong"><span class="dot">✦</span><span>Toute la galerie (environ 30 photos)</span></div>
-        </div>
-        <div style="font-family:var(--sans); font-size:12.5px; color:var(--rose-pale2); margin-top:10px;">29&nbsp;€ d'acompte + 120&nbsp;€ en espèces sur place</div>
-        <div class="contact-row" style="margin-top:20px;">
-          <a class="btn" style="background:#fff; color:var(--accent);" href="mailto:defoin.arthur@gmail.com?subject=Offre%20Rentr%C3%A9e%20-%20S%C3%A9ance%20compl%C3%A8te%20149%E2%82%AC">Email</a>
-          <a class="btn" style="background:#fff; color:var(--accent);" href="https://wa.me/33789954427?text=Bonjour%20!%20J'aimerais%20r%C3%A9server%20la%20S%C3%A9ance%20compl%C3%A8te%20(149%E2%82%AC%2C%20offre%20Rentr%C3%A9e)%20%F0%9F%93%B8" target="_blank" rel="noopener">WhatsApp</a>
-        </div>
-      </div>
+    <div class="ac-stage rise" id="pc-stage" style="scroll-margin-top:24px;">
+      <button type="button" class="ac-nav pc-prev" aria-label="Formule précédente">‹</button>
+      <div class="ac-track" id="pc-track"></div>
+      <button type="button" class="ac-nav pc-next" aria-label="Formule suivante">›</button>
     </div>
+    <div class="ac-dots" id="pc-dots"></div>
 
     <details class="carte-more rise" style="max-width:640px; margin:36px auto 0;">
       <summary>Ce que vous pouvez ajouter après la séance</summary>
@@ -796,15 +764,12 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
       </div>
     </details>
 
-    <p style="font-family:var(--sans); font-weight:300; font-size:13px; color:var(--muted); max-width:640px; margin:28px auto 0; text-align:center; line-height:1.7;">
-      Offre Rentrée valable pour une durée limitée. Un acompte de <strong style="color:var(--ink2); font-weight:500;">29&nbsp;€</strong> est obligatoire pour valider votre réservation — le solde (70&nbsp;€ pour la mini séance, 120&nbsp;€ pour la séance complète) est réglé <strong style="color:var(--ink2); font-weight:500;">en espèces sur place</strong>, le jour de la séance. Séances uniquement <strong style="color:var(--ink2); font-weight:500;">le samedi ou le dimanche</strong>. Vous venez avec vos propres vêtements, le papa et les enfants sont inclus sans supplément.
-    </p>
+    <div class="conditions-box rise">
+      <p>Offre Rentrée valable pour une durée limitée. Un acompte de <strong>29&nbsp;€</strong> est obligatoire pour valider votre réservation — le solde (70&nbsp;€ pour la mini séance, 120&nbsp;€ pour la séance complète) est réglé <strong>en espèces sur place</strong>, le jour de la séance. Séances uniquement <strong>le samedi ou le dimanche</strong>. Vous venez avec vos propres vêtements, le papa et les enfants sont inclus sans supplément.</p>
+    </div>
 
     <div class="tarifs-cta rise">
-      <div class="contact-row" style="max-width:420px; margin:0 auto;">
-        <a class="btn btn--fill" href="mailto:defoin.arthur@gmail.com?subject=Offre%20Rentr%C3%A9e%20-%20R%C3%A9servation">📧 Réserver par email</a>
-        <a class="btn btn--outline" href="https://wa.me/33789954427?text=Bonjour%20!%20J'aimerais%20r%C3%A9server%20l'offre%20Rentr%C3%A9e%20%F0%9F%93%B8" target="_blank" rel="noopener">💬 Réserver sur WhatsApp</a>
-      </div>
+      <a class="btn btn--fill" href="#" data-resa="general">Réserver</a>
     </div>
   </div>
 </section>
@@ -841,12 +806,23 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
   </div>
   <button type="button" class="gal-more" id="gal-more">Voir plus de photos</button>
   <div class="tarifs-cta rise">
-    <div class="contact-row" style="max-width:420px; margin:0 auto;">
-      <a class="btn btn--fill" href="mailto:defoin.arthur@gmail.com?subject=Offre%20Rentr%C3%A9e%20-%20R%C3%A9servation">📧 Email</a>
-      <a class="btn btn--outline" href="https://wa.me/33789954427?text=Bonjour%20!%20J'aimerais%20r%C3%A9server%20l'offre%20Rentr%C3%A9e%20%F0%9F%93%B8" target="_blank" rel="noopener">💬 WhatsApp</a>
-    </div>
+    <a class="btn btn--fill" href="#" data-resa="general">Réserver</a>
   </div>
 </section>
+
+<!-- MODALE RÉSERVATION -->
+<div class="rm-overlay" id="resa-modal" role="dialog" aria-modal="true" aria-labelledby="rm-title" hidden>
+  <div class="rm-box">
+    <button type="button" class="rm-close" id="rm-close" aria-label="Fermer">×</button>
+    <span class="rm-kicker">Avant de réserver</span>
+    <h3 id="rm-title">Réserver votre séance</h3>
+    <p>Un acompte de <strong>29&nbsp;€</strong> est demandé pour valider votre créneau. Le solde est réglé en espèces sur place, le jour de la séance — uniquement le samedi ou le dimanche.</p>
+    <div class="contact-row" style="margin-top:22px;">
+      <a class="btn btn--fill" id="rm-email" href="#">📧 Email</a>
+      <a class="btn btn--outline" id="rm-wa" href="#" target="_blank" rel="noopener">💬 WhatsApp</a>
+    </div>
+  </div>
+</div>
 
 <!-- QUI SOMMES-NOUS -->
 <section id="duo" class="duo section">
@@ -1202,6 +1178,61 @@ var galleryMasonry = (function(){
   document.addEventListener('keydown', function(e){ if (e.key === 'Escape') close(); });
 })();
 
+/* ---- Modale de réservation : un seul bouton « Réserver » ouvre le choix Email / WhatsApp ---- */
+(function(){
+  var modal = document.getElementById('resa-modal');
+  var closeBtn = document.getElementById('rm-close');
+  var emailLink = document.getElementById('rm-email');
+  var waLink = document.getElementById('rm-wa');
+  if (!modal || !emailLink || !waLink) return;
+
+  var RESA = {
+    mini: {
+      subject: "Offre Rentrée - Mini séance 99€",
+      wa: "Bonjour ! J'aimerais réserver la Mini séance (99€, offre Rentrée) 📸"
+    },
+    complete: {
+      subject: "Offre Rentrée - Séance complète 149€",
+      wa: "Bonjour ! J'aimerais réserver la Séance complète (149€, offre Rentrée) 📸"
+    },
+    general: {
+      subject: "Offre Rentrée - Réservation",
+      wa: "Bonjour ! J'aimerais réserver l'offre Rentrée 📸"
+    }
+  };
+
+  function unlockScroll(){
+    document.body.style.overflow = '';
+    document.documentElement.style.overflow = '';
+  }
+  function openModal(kind){
+    var opt = RESA[kind] || RESA.general;
+    emailLink.href = 'mailto:defoin.arthur@gmail.com?subject=' + encodeURIComponent(opt.subject);
+    waLink.href = 'https://wa.me/33789954427?text=' + encodeURIComponent(opt.wa);
+    modal.hidden = false;
+    requestAnimationFrame(function(){ modal.classList.add('open'); });
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal(){
+    modal.classList.remove('open');
+    unlockScroll();
+    setTimeout(function(){ modal.hidden = true; }, 300);
+  }
+
+  closeBtn.addEventListener('click', closeModal);
+  modal.addEventListener('click', function(e){ if (e.target === modal) closeModal(); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && !modal.hidden) closeModal(); });
+  emailLink.addEventListener('click', closeModal);
+  waLink.addEventListener('click', closeModal);
+
+  document.addEventListener('click', function(e){
+    var a = e.target.closest ? e.target.closest('[data-resa]') : null;
+    if (!a) return;
+    e.preventDefault();
+    openModal(a.getAttribute('data-resa'));
+  });
+})();
+
 /* ---- Suivi Pixel Meta sur les clics « nous contacter » (email / WhatsApp) ---- */
 (function(){
   document.addEventListener('click', function(e){
@@ -1360,6 +1391,16 @@ if ('IntersectionObserver' in window){
   onScroll();
 })();
 
+/* ---- Hero : hauteur stable sur mobile (évite que l'image "saute" quand la
+   barre d'adresse du navigateur apparaît/disparaît pendant le scroll) ----
+   Mesurée une seule fois au chargement, jamais pendant le scroll. */
+(function(){
+  function setVH(){ document.documentElement.style.setProperty('--vh', window.innerHeight * 0.01 + 'px'); }
+  setVH();
+  window.addEventListener('orientationchange', setVH);
+  window.addEventListener('load', setVH);
+})();
+
 /* ---- Carrousel générique "cartes qui tournent" (types de séance) ---- */
 function initCarousel(cfg){
   var track = document.getElementById(cfg.trackId);
@@ -1505,6 +1546,36 @@ function initCarousel(cfg){
     prevSel: '.ac-prev', nextSel: '.ac-next', dotLabel: 'Voir la séance',
     items: CATEGORIES.map(function(c){
       return '<img src="' + c.src + '" alt="Séance photo studio ' + c.label + ' — Amour et Lumière" loading="lazy"><span class="ac-label">' + c.label + '</span>';
+    })
+  });
+})();
+
+/* Les 2 formules — carrousel non-bouclant : Mini séance <-> Séance complète */
+(function(){
+  var OFFERS = [
+    {
+      src: 'assets/photos/gal-c-13.webp', pos: 'center 20%', resa: 'mini',
+      moment: 'Offre Rentrée', name: 'Mini séance', old: '250&nbsp;€', price: '99&nbsp;€',
+      sub: "10 photos studio — 29€ d'acompte + 70€ sur place"
+    },
+    {
+      src: 'assets/photos/gal-c-17.webp', pos: 'center 20%', resa: 'complete',
+      moment: 'Offre Rentrée', name: 'Séance complète', old: '350&nbsp;€', price: '149&nbsp;€',
+      sub: "Toute la galerie — 29€ d'acompte + 120€ sur place"
+    },
+  ];
+  initCarousel({
+    trackId: 'pc-track', dotsId: 'pc-dots', stageId: 'pc-stage',
+    prevSel: '.pc-prev', nextSel: '.pc-next', dotLabel: 'Voir la formule', loop: false,
+    items: OFFERS.map(function(o){
+      return '<img src="' + o.src + '" alt="Séance ' + o.name + ' — Amour et Lumière" loading="lazy" style="object-position:' + o.pos + ';">' +
+        '<div class="ac-offer-info">' +
+          '<span class="ac-offer-moment">' + o.moment + '</span>' +
+          '<span class="ac-offer-name">' + o.name + '</span>' +
+          '<span class="ac-offer-price"><span class="ac-offer-old">' + o.old + '</span>' + o.price + '</span>' +
+          '<span class="ac-offer-sub">' + o.sub + '</span>' +
+          '<a class="ac-offer-btn" href="#" data-resa="' + o.resa + '">Réserver</a>' +
+        '</div>';
     })
   });
 })();
