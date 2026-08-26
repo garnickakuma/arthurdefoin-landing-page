@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>[TEST] Amour et Lumière — Photographe de famille · Grossesse & nouveau-né · Studio à Bègles (Bordeaux)</title>
+<title>[TEST] Offre Rentrée — Mini séance photo studio 99&euro; · Amour et Lumière, Bègles (Bordeaux)</title>
 <meta name="robots" content="noindex, nofollow">
-<meta name="description" content="Studio photo de famille haut de gamme à Bègles, près de Bordeaux : famille, grossesse et nouveau-né. Réponse sous 24 h.">
+<meta name="description" content="Offre Rentrée : mini séance photo studio à 99€ (au lieu de 250€) à Bègles, près de Bordeaux. Famille, grossesse, nouveau-né, bébé, couple. Offre limitée.">
 <link rel="canonical" href="https://seance.amour-et-lumiere.com/">
 
 <!-- ==========================================================
@@ -19,16 +19,16 @@
 <meta property="og:locale" content="fr_FR">
 <meta property="og:site_name" content="Amour et Lumière">
 <meta property="og:url" content="https://seance.amour-et-lumiere.com/">
-<meta property="og:title" content="Photographe grossesse, nouveau-né &amp; famille — Studio à Bègles">
-<meta property="og:description" content="Studio privatisé à Bègles, près de Bordeaux. Famille, grossesse et nouveau-né.">
+<meta property="og:title" content="Offre Rentrée — Mini séance photo studio 99€ — Amour et Lumière, Bègles">
+<meta property="og:description" content="Mini séance photo studio à 99€ au lieu de 250€ (offre limitée). Famille, grossesse, nouveau-né, bébé, couple. Studio à Bègles, près de Bordeaux.">
 <meta property="og:image" content="https://seance.amour-et-lumiere.com/assets/photos/og-partage.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Un couple et leur bébé en studio photo à Bègles">
 
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Photographe grossesse, nouveau-né &amp; famille — Studio à Bègles">
-<meta name="twitter:description" content="Studio privatisé à Bègles, près de Bordeaux. Famille, grossesse et nouveau-né.">
+<meta name="twitter:title" content="Offre Rentrée — Mini séance photo studio 99€ — Amour et Lumière, Bègles">
+<meta name="twitter:description" content="Mini séance photo studio à 99€ au lieu de 250€ (offre limitée). Famille, grossesse, nouveau-né, bébé, couple.">
 <meta name="twitter:image" content="https://seance.amour-et-lumiere.com/assets/photos/og-partage.jpg">
 
 <!-- ==========================================================
@@ -71,8 +71,10 @@
   "makesOffer": [
     {
       "@type": "Offer",
-      "name": "Séance photo grossesse, nouveau-né et famille",
-      "description": "Séance en studio à Bègles."
+      "name": "Offre Rentrée — Mini séance photo studio",
+      "description": "Mini séance photo studio à Bègles (10 photos), 99€ au lieu de 250€. Famille, grossesse, nouveau-né, bébé, couple.",
+      "price": "99",
+      "priceCurrency": "EUR"
     }
   ]
 }
@@ -131,6 +133,10 @@ h1,h2,h3{margin:0;}
 .btn--outline:hover{background:var(--accent); color:#fff;}
 .btn--link{color:var(--ink); text-decoration:none; padding:17px 6px; border-bottom:1px solid var(--accent); border-radius:0;}
 .btn--link:hover{color:var(--ink);}
+.btn--onphoto{border-color:rgba(255,255,255,.7); color:#fff; background:rgba(255,255,255,.1); backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px);}
+.btn--onphoto:hover{background:#fff; color:var(--accent); border-color:#fff;}
+.contact-row{display:flex; flex-wrap:wrap; gap:12px; justify-content:center;}
+.contact-row .btn{flex:1 1 180px;}
 .promo-pill{display:inline-flex; align-items:center; gap:12px; max-width:100%; background:var(--accent); color:#fff; font-family:var(--sans); font-size:12px; letter-spacing:.14em; line-height:1.5; text-transform:uppercase; padding:13px 26px; border-radius:30px; text-align:center; white-space:normal;}
 
 /* BANDEAU OFFRE (header) */
@@ -170,9 +176,10 @@ body.menu-open{overflow:hidden;}
 .sr-only{position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0;}
 /* HERO — la photo est une carte (entière, non rognée) */
 html, body{ overflow-x:hidden; }
-.hero{position:relative; min-height:100vh; min-height:100svh; display:flex; overflow:hidden; background:var(--ink2); cursor:pointer;}
+.hero{position:relative; min-height:100vh; min-height:100svh; display:flex; flex-direction:column; overflow:hidden; background:var(--ink2);}
 .hero__img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 30%;}
 .hero__scrim{position:absolute; inset:0; z-index:1; background:linear-gradient(to bottom, rgba(24,18,14,0) 42%, rgba(24,18,14,.14) 62%, rgba(24,18,14,.55) 100%);}
+.hero__content{position:relative; z-index:2; margin-top:auto; width:100%; padding:0 clamp(22px,6vw,44px) clamp(40px,9vw,58px); text-align:center;}
 /* Titre déplacé hors du hero — affiché dans la section réservation, juste en dessous */
 .hero__title{font-family:var(--serif); font-weight:500; font-size:clamp(34px,8.4vw,58px); line-height:1.05; color:#fff; margin:0; text-shadow:0 1px 16px rgba(0,0,0,.45);}
 .hero__title em{font-style:italic; font-weight:700; color:#fff;}
@@ -182,25 +189,17 @@ html, body{ overflow-x:hidden; }
 .hero__sub--onlight{ color:var(--muted2); text-shadow:none; margin-bottom:26px; }
 .hero__sub--onlight strong{ color:var(--ink2); }
 
-/* Hero — photo unique, bouton "touch" (centré) avec fondu ; disparaît après le 1er tap */
-.hero__img{opacity:0; z-index:0; transition:opacity 1s ease;}
+/* Hero promo — badge + prix barré */
+.hero-badge{display:inline-block; background:var(--accent); color:#fff; font-family:var(--sans); font-weight:600; font-size:11px; letter-spacing:.16em; text-transform:uppercase; padding:9px 20px; border-radius:30px; margin-bottom:18px; box-shadow:0 10px 24px -10px rgba(0,0,0,.4);}
+.hero-price{display:flex; align-items:baseline; justify-content:center; gap:14px; margin:16px 0 6px;}
+.hero-price-old{position:relative; font-family:var(--serif); font-size:clamp(22px,4vw,30px); color:rgba(255,255,255,.65); text-shadow:0 1px 8px rgba(0,0,0,.4);}
+.hero-price-old .strike{position:absolute; left:-2px; right:-2px; top:52%; height:2px; background:rgba(255,255,255,.75);}
+.hero-price-now{font-family:var(--serif); font-size:clamp(48px,10vw,76px); line-height:1; color:#fff; text-shadow:0 2px 18px rgba(0,0,0,.5);}
+.hero-price-note{font-family:var(--sans); font-weight:400; font-size:13px; letter-spacing:.06em; color:rgba(255,255,255,.85); margin-bottom:22px;}
+
+/* Hero — photo unique statique */
+.hero__img{opacity:0; z-index:0;}
 .hero__img.is-front{opacity:1; z-index:1;}
-.hero-touch{
-  position:absolute; z-index:3; left:50%; top:50%; transform:translate(-50%,-50%);
-  width:84px; height:84px; border-radius:50%; cursor:pointer;
-  background:rgba(255,255,255,.12); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
-  border:1px solid rgba(255,255,255,.6); color:#fff;
-  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px;
-  font-family:var(--sans); font-size:10px; letter-spacing:.16em; text-transform:uppercase;
-  transition:transform .2s ease, background .2s ease, opacity .5s ease;
-}
-.hero-touch.is-hidden{ opacity:0; pointer-events:none; }
-.hero-touch:active{ transform:translate(-50%,-50%) scale(.96); }
-.hero-touch svg{ width:20px; height:20px; }
-.hero-touch-ring{ position:absolute; inset:-9px; border-radius:50%; border:1px solid rgba(255,255,255,.65); animation:htPulse 2.4s ease-out infinite; pointer-events:none; }
-.hero-touch-ring--2{ animation-delay:1.2s; }
-@keyframes htPulse{ 0%{ transform:scale(.82); opacity:.85; } 100%{ transform:scale(1.55); opacity:0; } }
-@media(prefers-reduced-motion:reduce){ .hero-touch-ring{ animation:none; opacity:0; } }
 
 /* Indicateur de scroll — 3 chevrons + "Scroll" */
 .hero-scrolldown{ position:absolute; z-index:3; left:50%; bottom:26px; transform:translateX(-50%); display:flex; flex-direction:column; align-items:center; pointer-events:none; }
@@ -657,23 +656,29 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
 </nav>
 
 <!-- BANDEAU POSITIONNEMENT -->
-<a class="promo-ribbon" href="#" data-resa>
-  <span><strong>Photographe Grossesse, Nouveau-né &amp; Famille</strong><span class="rb-more"> — Studio à Bègles</span></span>
+<a class="promo-ribbon" href="#tarifs">
+  <span><strong>Offre Rentrée</strong><span class="rb-more"> — Mini séance à 99&nbsp;€ au lieu de 250&nbsp;€, durée limitée</span></span>
 </a>
 
 <!-- HERO + OFFRE (deux colonnes sur desktop, empilés sur mobile) -->
 <div class="lead-wrap">
-<!-- HERO immersif : photo plein écran, rien d'autre au chargement -->
+<!-- HERO promo : photo studio + prix mis en avant -->
 <header class="hero" id="hero-photo">
-  <img class="hero__img is-front" id="hero-img-a" src="assets/photos/art-chemin-roses.webp" alt="Portrait artistique grossesse — Amour et Lumière">
-  <img class="hero__img" id="hero-img-b" src="assets/photos/art-rose-jaune.webp" alt="" aria-hidden="true">
+  <img class="hero__img is-front" src="assets/photos/gal-c-06.webp" alt="Séance photo studio famille — Amour et Lumière">
   <div class="hero__scrim" aria-hidden="true"></div>
-  <button type="button" class="hero-touch" id="hero-touch" aria-label="Découvrir un autre portrait artistique">
-    <span class="hero-touch-ring" aria-hidden="true"></span>
-    <span class="hero-touch-ring hero-touch-ring--2" aria-hidden="true"></span>
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11.5V6a2 2 0 0 1 4 0v5"/><path d="M13 6a2 2 0 0 1 4 0v6"/><path d="M17 8.5a2 2 0 0 1 4 0V14a7 7 0 0 1-7 7h-1a7 7 0 0 1-6-3.4L4.2 13.6a1.7 1.7 0 0 1 2.6-2.1L9 13.5"/></svg>
-    <span>Touch</span>
-  </button>
+  <div class="hero__content">
+    <span class="hero-badge">🎒 Offre Rentrée — durée limitée</span>
+    <h1 class="hero__title">Mini séance <em>photo studio</em></h1>
+    <div class="hero-price">
+      <span class="hero-price-old"><span class="strike"></span>250&nbsp;€</span>
+      <span class="hero-price-now">99&nbsp;€</span>
+    </div>
+    <p class="hero-price-note">10 photos studio — Famille, grossesse, nouveau-né, bébé, couple.</p>
+    <div class="contact-row">
+      <a class="btn btn--fill" href="mailto:defoin.arthur@gmail.com?subject=Offre%20Rentr%C3%A9e%20-%20Mini%20s%C3%A9ance%2099%E2%82%AC">📧 Par email</a>
+      <a class="btn btn--onphoto" href="https://wa.me/33789954427?text=Bonjour%20!%20L'offre%20Rentr%C3%A9e%20m'int%C3%A9resse%20(mini%20s%C3%A9ance%2099%E2%82%AC)%20%F0%9F%93%B8" target="_blank" rel="noopener">💬 WhatsApp</a>
+    </div>
+  </div>
   <div class="hero-scrolldown" aria-hidden="true">
     <span class="hsd-chevrons">
       <svg class="hsd-chev" viewBox="0 0 24 12"><path d="M2 2l10 8 10-8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -684,17 +689,8 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
   </div>
 </header>
 
-<!-- RÉSERVATION -->
+<!-- PREUVE SOCIALE -->
 <section class="offre rise" id="reserver">
-  <div class="offre__cta">
-    <h1 class="hero__title hero__title--onlight">Votre séance <em>grossesse</em>.</h1>
-    <p class="hero__sub hero__sub--onlight">Portrait artistique inclus. Studio à Bègles, près de Bordeaux.</p>
-    <a class="btn btn--fill" href="#" data-resa>Je réserve ma séance grossesse — 250&nbsp;€</a>
-    <div style="font-family:var(--sans); font-size:13px; color:var(--muted2); margin-top:10px;">ou 83&nbsp;€/mois en 3× sans frais</div>
-    <div class="offre__cta-sub">
-      <a class="btn btn--outline" href="#tarifs">Voir les tarifs</a>
-    </div>
-  </div>
   <div class="intro__proof">
     <span class="ip-stars">★★★★★</span>
     <span><strong>5,0</strong> sur Google · 30 avis</span>
@@ -706,17 +702,17 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
 </section>
 </div><!-- /.lead-wrap -->
 
-<!-- CARROUSEL PORTRAITS ARTISTIQUES -->
-<section class="section ac-wrap" id="artistiques">
+<!-- CARROUSEL TYPES DE SÉANCE -->
+<section class="section ac-wrap" id="categories">
   <div style="max-width:1140px; margin:0 auto;">
     <div class="head-center rise" style="margin-bottom:8px;">
-      <div class="eyebrow" style="margin-bottom:14px">Inclus dans la séance grossesse</div>
-      <h2 class="h2 italic">Le portrait artistique</h2>
+      <div class="eyebrow" style="margin-bottom:14px">L'offre Rentrée s'adapte à vous</div>
+      <h2 class="h2 italic">Pour toute la famille</h2>
     </div>
     <div class="ac-stage rise" id="ac-stage">
-      <button type="button" class="ac-nav ac-prev" aria-label="Portrait précédent">‹</button>
+      <button type="button" class="ac-nav ac-prev" aria-label="Type de séance précédent">‹</button>
       <div class="ac-track" id="ac-track"></div>
-      <button type="button" class="ac-nav ac-next" aria-label="Portrait suivant">›</button>
+      <button type="button" class="ac-nav ac-next" aria-label="Type de séance suivant">›</button>
     </div>
     <div class="ac-dots" id="ac-dots"></div>
   </div>
@@ -734,33 +730,64 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
     <div class="steps3 rise">
       <div class="step3">
         <span class="step3-num"><span>1</span></span>
-        <div class="step3-title">Grossesse <span class="step3-free">7 à 8 mois</span></div>
+        <div class="step3-title">Contact <span class="step3-free">email ou WhatsApp</span></div>
       </div>
       <div class="step3">
         <span class="step3-num"><span>2</span></span>
-        <div class="step3-title">Naissance <span class="step3-free">5 à 15 jours</span></div>
+        <div class="step3-title">Acompte <span class="step3-free">50&nbsp;€ pour valider</span></div>
       </div>
       <div class="step3">
         <span class="step3-num"><span>3</span></span>
-        <div class="step3-title">Famille <span class="step3-free">quand vous voulez</span></div>
+        <div class="step3-title">Séance <span class="step3-free">samedi ou dimanche</span></div>
       </div>
     </div>
 
-    <div id="tarifs-carte" style="scroll-margin-top:24px;">
-      <div class="ac-stage rise" id="pc-stage">
-        <button type="button" class="ac-nav pc-prev" aria-label="Prestation précédente">‹</button>
-        <div class="ac-track" id="pc-track"></div>
-        <button type="button" class="ac-nav pc-next" aria-label="Prestation suivante">›</button>
+    <div id="tarifs-carte" class="tarifs-grid rise" style="grid-template-columns:1fr 1fr; scroll-margin-top:24px;">
+      <div class="plan">
+        <div class="plan-top">
+          <div class="plan-badge">Offre Rentrée</div>
+          <div class="plan-name">Mini séance</div>
+          <div class="plan-price">
+            <span class="plan-old"><span class="strike"></span>250&nbsp;€</span>
+            <span class="plan-now">99&nbsp;€</span>
+          </div>
+          <div class="plan-off">Offre limitée</div>
+        </div>
+        <div class="plan-div"></div>
+        <div class="plan-feats">
+          <div class="feat"><span class="dot">✦</span><span>10 photos studio retouchées HD</span></div>
+        </div>
+        <div class="contact-row" style="margin-top:24px;">
+          <a class="btn btn--outline" href="mailto:defoin.arthur@gmail.com?subject=Offre%20Rentr%C3%A9e%20-%20Mini%20s%C3%A9ance%2099%E2%82%AC">Email</a>
+          <a class="btn btn--outline" href="https://wa.me/33789954427?text=Bonjour%20!%20J'aimerais%20r%C3%A9server%20la%20Mini%20s%C3%A9ance%20(99%E2%82%AC%2C%20offre%20Rentr%C3%A9e)%20%F0%9F%93%B8" target="_blank" rel="noopener">WhatsApp</a>
+        </div>
       </div>
-      <div class="ac-dots" id="pc-dots"></div>
+
+      <div class="plan plan--feat">
+        <div class="plan-top">
+          <div class="plan-badge">Offre Rentrée</div>
+          <div class="plan-name">Séance complète</div>
+          <div class="plan-price">
+            <span class="plan-old"><span class="strike"></span>350&nbsp;€</span>
+            <span class="plan-now">149&nbsp;€</span>
+          </div>
+          <div class="plan-off">Offre limitée</div>
+        </div>
+        <div class="plan-div"></div>
+        <div class="plan-feats">
+          <div class="feat strong"><span class="dot">✦</span><span>Toute la galerie (environ 30 photos)</span></div>
+        </div>
+        <div class="contact-row" style="margin-top:24px;">
+          <a class="btn" style="background:#fff; color:var(--accent);" href="mailto:defoin.arthur@gmail.com?subject=Offre%20Rentr%C3%A9e%20-%20S%C3%A9ance%20compl%C3%A8te%20149%E2%82%AC">Email</a>
+          <a class="btn" style="background:#fff; color:var(--accent);" href="https://wa.me/33789954427?text=Bonjour%20!%20J'aimerais%20r%C3%A9server%20la%20S%C3%A9ance%20compl%C3%A8te%20(149%E2%82%AC%2C%20offre%20Rentr%C3%A9e)%20%F0%9F%93%B8" target="_blank" rel="noopener">WhatsApp</a>
+        </div>
+      </div>
     </div>
 
     <details class="carte-more rise" style="max-width:640px; margin:36px auto 0;">
       <summary>Ce que vous pouvez ajouter après la séance</summary>
       <div class="carte-more-body">
-        <div class="carte-row"><span class="carte-l">Photo classique supplémentaire</span><span class="carte-p">25&nbsp;€ / unité</span></div>
-        <div class="carte-row"><span class="carte-l">Passage en noir & blanc de toute la galerie</span><span class="carte-p">25&nbsp;€</span></div>
-        <div class="carte-row"><span class="carte-l">Portrait artistique supplémentaire</span><span class="carte-p">59&nbsp;€</span></div>
+        <div class="carte-row"><span class="carte-l">Photo studio supplémentaire</span><span class="carte-p">25&nbsp;€ / unité</span></div>
         <div class="carte-row"><span class="carte-l">Tirage 10×15</span><span class="carte-p">6&nbsp;€</span></div>
         <div class="carte-row"><span class="carte-l">Tirage 20×30</span><span class="carte-p">19&nbsp;€</span></div>
         <div class="carte-row"><span class="carte-l">Tableaux aluminium et albums photo</span><span class="carte-p">Sur demande au studio</span></div>
@@ -768,45 +795,23 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
     </details>
 
     <p style="font-family:var(--sans); font-weight:300; font-size:13px; color:var(--muted); max-width:640px; margin:28px auto 0; text-align:center; line-height:1.7;">
-      Le règlement valide définitivement le créneau. Séance reportable une fois sans frais jusqu'à 72h avant. Vous venez avec vos propres vêtements — deux tenues possibles si vous le souhaitez, aucun prêt de robes ni d'accessoires. Le papa et les enfants sont inclus sans supplément.
+      Offre Rentrée valable pour une durée limitée. Un acompte de <strong style="color:var(--ink2); font-weight:500;">50&nbsp;€</strong> est obligatoire pour valider votre réservation — le solde est réglé <strong style="color:var(--ink2); font-weight:500;">en espèces sur place</strong>, le jour de la séance. Séances uniquement <strong style="color:var(--ink2); font-weight:500;">le samedi ou le dimanche</strong>. Vous venez avec vos propres vêtements, le papa et les enfants sont inclus sans supplément.
     </p>
 
-    <div class="tarifs-cta rise"><a class="btn btn--fill" href="#" data-resa>Réserver ma séance</a></div>
+    <div class="tarifs-cta rise">
+      <div class="contact-row" style="max-width:420px; margin:0 auto;">
+        <a class="btn btn--fill" href="mailto:defoin.arthur@gmail.com?subject=Offre%20Rentr%C3%A9e%20-%20R%C3%A9servation">📧 Réserver par email</a>
+        <a class="btn btn--outline" href="https://wa.me/33789954427?text=Bonjour%20!%20J'aimerais%20r%C3%A9server%20l'offre%20Rentr%C3%A9e%20%F0%9F%93%B8" target="_blank" rel="noopener">💬 Réserver sur WhatsApp</a>
+      </div>
+    </div>
   </div>
 </section>
-
-<!-- MODALE ENGAGEMENT -->
-<div class="rm-overlay" id="resa-modal" role="dialog" aria-modal="true" aria-labelledby="rm-title" hidden>
-  <div class="rm-box">
-    <button type="button" class="rm-close" id="rm-close" aria-label="Fermer">×</button>
-    <span class="rm-kicker">Avant de réserver</span>
-    <h3 id="rm-title">Réserver votre séance</h3>
-    <p>250&nbsp;€ la séance (Grossesse, Naissance ou Famille) — <a href="#tarifs-carte" class="rm-tarifs" id="rm-voir-tarifs">voir le tarif</a>.</p>
-    <div class="rm-checks">
-      <label class="resa-check">
-        <input type="checkbox" id="engage-check">
-        <span class="resa-check-box" aria-hidden="true"></span>
-        <span class="resa-check-txt">J'ai compris que le règlement valide définitivement le créneau — en 1× ou 3× sans frais.</span>
-      </label>
-      <label class="resa-check">
-        <input type="checkbox" id="engage-check2">
-        <span class="resa-check-box" aria-hidden="true"></span>
-        <span class="resa-check-txt">Je viens avec mes propres vêtements (aucun prêt de robes) et je sais que la séance est reportable une fois, sans frais, jusqu'à 72h avant.</span>
-      </label>
-    </div>
-    <button type="button" class="btn btn--fill rm-confirm" id="rm-confirm" disabled>Je réserve sur WhatsApp</button>
-  </div>
-</div>
 
 <!-- GALERIE (compacte) -->
 <section id="galerie" class="section wrap">
   <div class="head-center rise" style="margin-bottom:32px">
     <div class="eyebrow" style="margin-bottom:14px">Galerie</div>
     <h2 class="h2 italic">Des histoires déjà écrites</h2>
-  </div>
-  <div class="gal-toggle rise">
-    <button type="button" class="gal-btn on" data-gal="gal-classiques">Classiques</button>
-    <button type="button" class="gal-btn" data-gal="gal-artistiques">Artistiques</button>
   </div>
   <div class="masonry" id="gal-classiques" data-limit="11">
     <img width="867" height="1300" src="assets/photos/gal-c-06.webp" data-r="1.499" alt="Séance photo famille en studio — maman et bébé, Amour et Lumière" loading="lazy">
@@ -832,23 +837,13 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
     <img width="867" height="1300" src="assets/photos/gal-c-23.webp" data-r="1.499" alt="Séance photo grossesse en studio — Amour et Lumière" loading="lazy">
     <img width="867" height="1300" src="assets/photos/gal-c-08.webp" data-r="1.499" alt="Séance photo en studio — Amour et Lumière" loading="lazy">
   </div>
-  <div class="masonry" id="gal-artistiques" data-limit="11" hidden>
-    <img width="939" height="1400" src="assets/photos/art-corail.webp" data-r="1.491" alt="Photo artistique grossesse — corolle de pétales, Amour et Lumière" loading="lazy">
-    <img width="1400" height="781" src="assets/photos/art-papillon-01.webp" data-r="0.558" alt="Photo artistique grossesse — ailes de papillon fleuries" loading="lazy">
-    <img width="939" height="1400" src="assets/photos/art-rose-rouge-01.webp" data-r="1.491" alt="Photo artistique grossesse — rose rouge, Amour et Lumière" loading="lazy">
-    <img width="1400" height="781" src="assets/photos/art-papillon-02.webp" data-r="0.558" alt="Photo artistique grossesse — ailes de papillon fleuries" loading="lazy">
-    <img width="1400" height="933" src="assets/photos/art-orange.webp" data-r="0.666" alt="Photo artistique grossesse — teintes orangées, Amour et Lumière" loading="lazy">
-    <img width="939" height="1400" src="assets/photos/art-rose-verte-01.webp" data-r="1.491" alt="Photo artistique grossesse — rose verte, Amour et Lumière" loading="lazy">
-    <img width="1045" height="1400" src="assets/photos/art-noir-blanc.webp" data-r="1.340" alt="Photo artistique grossesse en noir et blanc, Amour et Lumière" loading="lazy">
-    <img width="1400" height="781" src="assets/photos/art-papillon-profil.webp" data-r="0.558" alt="Photo artistique grossesse — papillon de profil, Amour et Lumière" loading="lazy">
-    <img width="939" height="1400" src="assets/photos/art-chemin-roses.webp" data-r="1.491" alt="Photo artistique grossesse — chemin de roses, Amour et Lumière" loading="lazy">
-    <img width="939" height="1400" src="assets/photos/art-rose-jaune.webp" data-r="1.491" alt="Photo artistique grossesse — rose jaune, Amour et Lumière" loading="lazy">
-    <img width="1400" height="781" src="assets/photos/art-rose-bleue.webp" data-r="0.558" alt="Photo artistique grossesse — rose bleue, Amour et Lumière" loading="lazy">
-    <img width="939" height="1400" src="assets/photos/art-rose-rouge-02.webp" data-r="1.491" alt="Photo artistique grossesse — rose rouge, Amour et Lumière" loading="lazy">
-    <img width="1400" height="781" src="assets/photos/art-rose-verte-02.webp" data-r="0.558" alt="Photo artistique grossesse — rose verte, Amour et Lumière" loading="lazy">
-  </div>
   <button type="button" class="gal-more" id="gal-more">Voir plus de photos</button>
-  <div class="tarifs-cta rise"><a class="btn btn--fill" href="#" data-resa>Réserver ma séance</a></div>
+  <div class="tarifs-cta rise">
+    <div class="contact-row" style="max-width:420px; margin:0 auto;">
+      <a class="btn btn--fill" href="mailto:defoin.arthur@gmail.com?subject=Offre%20Rentr%C3%A9e%20-%20R%C3%A9servation">📧 Email</a>
+      <a class="btn btn--outline" href="https://wa.me/33789954427?text=Bonjour%20!%20J'aimerais%20r%C3%A9server%20l'offre%20Rentr%C3%A9e%20%F0%9F%93%B8" target="_blank" rel="noopener">💬 WhatsApp</a>
+    </div>
+  </div>
 </section>
 
 <!-- QUI SOMMES-NOUS -->
@@ -1205,87 +1200,25 @@ var galleryMasonry = (function(){
   document.addEventListener('keydown', function(e){ if (e.key === 'Escape') close(); });
 })();
 
-/* ---- Modale d'engagement + réservation par WhatsApp + Pixel Meta ---- */
+/* ---- Suivi Pixel Meta sur les clics « nous contacter » (email / WhatsApp) ---- */
 (function(){
-  var check = document.getElementById('engage-check');
-  var check2 = document.getElementById('engage-check2');
-  var modal = document.getElementById('resa-modal');
-  var confirmBtn = document.getElementById('rm-confirm');
-  var closeBtn = document.getElementById('rm-close');
-  if (!check || !check2 || !modal || !confirmBtn) return;
-
-  var WHATSAPP_URL = 'https://wa.me/33789954427?text=' + encodeURIComponent("Bonjour ! J'aimerais réserver une date pour ma séance photo (250€) 📸");
-
-  /* Le bouton n'est actif que si les DEUX cases sont cochées */
-  function allChecked(){ return check.checked && check2.checked; }
-  function syncGate(){ confirmBtn.disabled = !allChecked(); }
-
-  function unlockScroll(){
-    document.body.style.overflow = '';
-    document.documentElement.style.overflow = '';
-  }
-
-  function openModal(){
-    check.checked = false;
-    check2.checked = false;
-    confirmBtn.disabled = true;
-    modal.hidden = false;
-    requestAnimationFrame(function(){ modal.classList.add('open'); });
-    document.body.style.overflow = 'hidden';
-  }
-  function closeModal(){
-    modal.classList.remove('open');
-    unlockScroll();
-    setTimeout(function(){ modal.hidden = true; }, 300);
-  }
-
-  /* les cases débloquent le bouton */
-  check.addEventListener('change', syncGate);
-  check2.addEventListener('change', syncGate);
-
-  /* Clic sur « Je réserve » : ouvre WhatsApp pour fixer une date. */
-  confirmBtn.addEventListener('click', function(){
-    if (!allChecked()) return;
+  document.addEventListener('click', function(e){
+    var a = e.target.closest ? e.target.closest('a[href^="mailto:"], a[href*="wa.me"]') : null;
+    if (!a) return;
     try {
       if (window.fbq) {
-        fbq('track', 'Schedule');
-        fbq('track', 'Lead', { content_name: 'Séance photo', value: 0, currency: 'EUR' });
+        fbq('track', 'Contact');
+        fbq('track', 'Lead', { content_name: 'Offre Rentrée', value: 0, currency: 'EUR' });
       }
-    } catch (e) {}
-    window.open(WHATSAPP_URL, '_blank', 'noopener');
-    closeModal();
+    } catch (err) {}
   });
-
-  /* « Voir les tarifs » : ferme la modale puis défile jusqu'à la section tarifs */
-  var voirTarifs = document.getElementById('rm-voir-tarifs');
-  if (voirTarifs){
-    voirTarifs.addEventListener('click', function(e){
-      e.preventDefault();
-      e.stopPropagation();
-      closeModal();
-      var cible = document.getElementById('tarifs-carte');
-      if (cible){ setTimeout(function(){ cible.scrollIntoView({ behavior:'smooth', block:'start' }); }, 320); }
-    });
-  }
-
-  closeBtn.addEventListener('click', closeModal);
-  modal.addEventListener('click', function(e){ if (e.target === modal) closeModal(); });
-  document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && !modal.hidden) closeModal(); });
-
-  /* TOUS les CTA « réserver » ouvrent la popup d'engagement */
-  document.addEventListener('click', function(e){
-    var a = e.target.closest ? e.target.closest('[data-resa]') : null;
-    if (!a) return;
-    e.preventDefault();
-    e.stopPropagation();
-    openModal();
-  }, true);
-
 })();
 
 /* ---- FAQ ---- */
 var FAQ = [
-  { q: "Comment fonctionne le paiement ?", a: "Le règlement se fait à la réservation, en 1× ou en 3× sans frais, et valide définitivement votre créneau. Il n'y a pas d'acompte partiel." },
+  { q: "Comment réserver l'offre Rentrée ?", a: "Contactez-nous par email (defoin.arthur@gmail.com) ou sur WhatsApp. Votre créneau est confirmé dès réception de l'acompte de 50 €." },
+  { q: "Comment fonctionne le paiement ?", a: "Un acompte de 50 € est obligatoire pour valider votre réservation. Le solde est réglé en espèces sur place, le jour de la séance." },
+  { q: "Quels jours sont disponibles ?", a: "Les séances de l'offre Rentrée ont lieu uniquement le week-end, le samedi ou le dimanche." },
   { q: "Que dois-je porter ?", a: "Vos propres vêtements — deux tenues sont possibles si vous le souhaitez. Nous vous conseillons sur les matières et les couleurs avant la séance. Aucun prêt de robes ni d'accessoires." },
   { q: "Puis-je reporter ma séance ?", a: "Oui, une fois et sans frais, jusqu'à 72h avant la séance." },
   { q: "Comment se déroule une séance ?", a: "Environ 1 h au studio à Bègles, tout en douceur. Nous guidons chaque pose pour que les vrais moments de famille arrivent naturellement. Le papa et les enfants sont inclus sans supplément." },
@@ -1425,46 +1358,7 @@ if ('IntersectionObserver' in window){
   onScroll();
 })();
 
-/* ---- Hero : bouton "Touch" -> fondu vers un autre portrait artistique ---- */
-(function(){
-  var HERO_IMAGES = [
-    'assets/photos/art-chemin-roses.webp',
-    'assets/photos/art-rose-jaune.webp',
-    'assets/photos/art-fleurs-bleues.webp',
-    'assets/photos/art-rose-verte-01.webp',
-    'assets/photos/art-corail.webp',
-    'assets/photos/art-rose-rouge-02.webp',
-    'assets/photos/art-orange.webp',
-    'assets/photos/art-rose-bleue.webp',
-  ];
-  var hero = document.getElementById('hero-photo');
-  var btn = document.getElementById('hero-touch');
-  var layers = [document.getElementById('hero-img-a'), document.getElementById('hero-img-b')];
-  if (!hero || !btn || !layers[0] || !layers[1]) return;
-
-  var idx = 0;
-  var front = 0;
-  var touched = false;
-  layers[1].src = HERO_IMAGES[1 % HERO_IMAGES.length];
-
-  function nextPhoto(){
-    var oldFront = front;
-    var back = 1 - front;
-    idx = (idx + 1) % HERO_IMAGES.length;
-    layers[back].src = HERO_IMAGES[idx];
-    requestAnimationFrame(function(){
-      layers[back].classList.add('is-front');
-      layers[oldFront].classList.remove('is-front');
-    });
-    front = back;
-    if (!touched){ touched = true; btn.classList.add('is-hidden'); }
-  }
-
-  /* On peut toucher n'importe où sur la photo, pas seulement le bouton */
-  hero.addEventListener('click', nextPhoto);
-})();
-
-/* ---- Carrousel générique "cartes qui tournent" (portraits artistiques + prestations) ---- */
+/* ---- Carrousel générique "cartes qui tournent" (types de séance) ---- */
 function initCarousel(cfg){
   var track = document.getElementById(cfg.trackId);
   var dotsWrap = document.getElementById(cfg.dotsId);
@@ -1595,69 +1489,20 @@ function initCarousel(cfg){
   startAuto();
 }
 
-/* Portraits artistiques */
+/* Types de séance — l'offre Rentrée s'applique à toutes */
 (function(){
-  var STYLES = [
-    { src: 'assets/photos/art-chemin-roses.webp', label: 'Rouge passion' },
-    { src: 'assets/photos/art-rose-jaune.webp',   label: 'Jaune soleil' },
-    { src: 'assets/photos/art-fleurs-bleues.webp',label: 'Bleu ciel', pos: '22% 30%' },
-    { src: 'assets/photos/art-rose-verte-01.webp',label: 'Vert tendre' },
-    { src: 'assets/photos/art-corail.webp',       label: 'Corail' },
-    { src: 'assets/photos/art-noir-blanc.webp',   label: 'Noir & blanc' },
+  var CATEGORIES = [
+    { src: 'assets/photos/gal-c-04.webp', label: 'Famille' },
+    { src: 'assets/photos/gal-c-20.webp', label: 'Grossesse' },
+    { src: 'assets/photos/presta-nouveau-ne.jpg', label: 'Nouveau-né' },
+    { src: 'assets/photos/gal-c-05.webp', label: 'Bébé' },
+    { src: 'assets/photos/gal-c-01.webp', label: 'Couple' },
   ];
   initCarousel({
     trackId: 'ac-track', dotsId: 'ac-dots', stageId: 'ac-stage',
-    prevSel: '.ac-prev', nextSel: '.ac-next', dotLabel: 'Voir le portrait',
-    items: STYLES.map(function(s){
-      var posStyle = s.pos ? ' style="object-position:' + s.pos + ';"' : '';
-      return '<img src="' + s.src + '" alt="Portrait artistique grossesse — ' + s.label + '" loading="lazy"' + posStyle + '><span class="ac-label">' + s.label + '</span>';
-    })
-  });
-})();
-
-/* Prestations — même carrousel, cartes tarif */
-(function(){
-  var WA = 'https://wa.me/33789954427?text=';
-  var OFFERS = [
-    {
-      src: 'assets/photos/art-chemin-roses.webp', pos: 'center 20%',
-      moment: '7 à 8 mois', name: 'Grossesse', price: '250&nbsp;€',
-      sub: '10 photos + 1 portrait artistique',
-      msg: "Bonjour ! J'aimerais réserver ma séance Grossesse (250€) 📸"
-    },
-    {
-      src: 'assets/photos/presta-nouveau-ne.jpg', pos: 'center 25%',
-      moment: '5 à 15 jours', name: 'Naissance', price: '250&nbsp;€',
-      sub: '10 photos classiques HD',
-      msg: "Bonjour ! J'aimerais réserver ma séance Naissance (250€) 📸"
-    },
-    {
-      src: 'assets/photos/maman-bebe.jpg', pos: 'center 22%',
-      moment: 'Combinez et économisez', name: 'Duo', old: '500&nbsp;€', price: '450&nbsp;€',
-      sub: 'Grossesse + Naissance — créneau bloqué dès aujourd’hui',
-      msg: "Bonjour ! J'aimerais réserver le Duo Grossesse + Naissance (450€) 📸"
-    },
-    {
-      src: 'assets/photos/pierre-henri.jpg', pos: 'center 20%',
-      moment: 'Quand vous voulez', name: 'Famille', price: '250&nbsp;€',
-      sub: '10 photos classiques HD',
-      msg: "Bonjour ! J'aimerais réserver ma séance Famille (250€) 📸"
-    },
-  ];
-  initCarousel({
-    trackId: 'pc-track', dotsId: 'pc-dots', stageId: 'pc-stage',
-    prevSel: '.pc-prev', nextSel: '.pc-next', dotLabel: 'Voir la prestation', loop: false,
-    items: OFFERS.map(function(o){
-      var posStyle = o.pos ? ' style="object-position:' + o.pos + ';"' : '';
-      var oldPrice = o.old ? '<span class="ac-offer-old">' + o.old + '</span>' : '';
-      return '<img src="' + o.src + '" alt="Séance ' + o.name + ' — Amour et Lumière" loading="lazy"' + posStyle + '>' +
-        '<div class="ac-offer-info">' +
-          '<span class="ac-offer-moment">' + o.moment + '</span>' +
-          '<span class="ac-offer-name">' + o.name + '</span>' +
-          '<span class="ac-offer-price">' + oldPrice + o.price + '</span>' +
-          '<span class="ac-offer-sub">' + o.sub + '</span>' +
-          '<a class="ac-offer-btn" href="' + WA + encodeURIComponent(o.msg) + '" target="_blank" rel="noopener">Réserver</a>' +
-        '</div>';
+    prevSel: '.ac-prev', nextSel: '.ac-next', dotLabel: 'Voir la séance',
+    items: CATEGORIES.map(function(c){
+      return '<img src="' + c.src + '" alt="Séance photo studio ' + c.label + ' — Amour et Lumière" loading="lazy"><span class="ac-label">' + c.label + '</span>';
     })
   });
 })();
