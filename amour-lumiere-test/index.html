@@ -80,6 +80,8 @@
 }
 </script>
 
+<!-- Leaflet (carte animée "où ça se passe") --><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css">
+
 <!-- Meta Pixel Code -->
 <script>
 !function(f,b,e,v,n,t,s)
@@ -178,7 +180,7 @@ body.menu-open{overflow:hidden;}
 /* ============ HERO — image seule, plein écran ============ */
 .sr-only{position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0;}
 /* HERO — la photo est une carte (entière, non rognée) */
-html, body{ overflow-x:hidden; }
+html, body{ overflow-x:clip; }
 .hero{position:relative; min-height:100vh; min-height:100svh; min-height:calc(var(--vh, 1vh) * 100); display:flex; flex-direction:column; overflow:hidden; background:var(--ink2);}
 .hero__img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 30%;}
 .hero__scrim{position:absolute; inset:0; z-index:1; background:linear-gradient(to bottom, rgba(24,18,14,0) 42%, rgba(24,18,14,.14) 62%, rgba(24,18,14,.55) 100%);}
@@ -401,6 +403,26 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
 .conditions-box{background:var(--rose-pale2); border:1px solid var(--line2); border-radius:16px; padding:clamp(18px,3vw,24px) clamp(20px,4vw,30px); max-width:640px; margin:32px auto 0; text-align:center;}
 .conditions-box p{font-family:var(--sans); font-weight:300; font-size:13.5px; line-height:1.75; color:var(--ink2); margin:0;}
 .conditions-box strong{color:var(--accent); font-weight:600;}
+
+/* Carte animée "où ça se passe" — Bordeaux -> Bègles -> studio, au fil du scroll */
+.scrollmap-wrap{position:relative; height:280vh;}
+.scrollmap-sticky{position:sticky; top:0; height:100vh; overflow:hidden; background:var(--bg2);}
+.scrollmap{position:absolute; inset:0; z-index:1; filter:saturate(.75) contrast(.96);}
+.scrollmap .leaflet-control-container{display:none;}
+.scrollmap-scrim{position:absolute; inset:0; z-index:2; pointer-events:none; box-shadow:inset 0 0 min(140px,14vw) rgba(58,50,44,.28);}
+.scrollmap-info{
+  position:absolute; z-index:3; left:50%; bottom:clamp(28px,6vh,64px); transform:translateX(-50%) translateY(18px);
+  opacity:0; pointer-events:none; transition:opacity .5s ease, transform .5s ease;
+  background:var(--card); border:1px solid var(--line2); border-radius:20px; padding:clamp(20px,3vw,30px) clamp(26px,4vw,40px);
+  text-align:center; box-shadow:0 30px 70px -30px rgba(58,50,44,.5); max-width:90vw;
+}
+.scrollmap-info.visible{opacity:1; transform:translateX(-50%) translateY(0); pointer-events:auto;}
+.scrollmap-info .eyebrow{margin-bottom:8px;}
+.scrollmap-addr{font-family:var(--serif); font-style:italic; font-size:clamp(18px,3vw,22px); color:var(--ink2); margin:0 0 16px;}
+.map-pin{width:34px; height:34px;}
+.map-pin svg{width:100%; height:100%; display:block; filter:drop-shadow(0 6px 10px rgba(0,0,0,.35)); animation:pinDrop .65s cubic-bezier(.34,1.56,.64,1) both;}
+@keyframes pinDrop{0%{transform:translateY(-70px) scale(.4); opacity:0;}70%{transform:translateY(5px) scale(1.08); opacity:1;}100%{transform:translateY(0) scale(1); opacity:1;}}
+@media(prefers-reduced-motion:reduce){ .map-pin svg{animation:none;} }
 .carte-more-intro{font-family:var(--sans); font-weight:300; font-size:13px; line-height:1.55; color:var(--muted); text-align:center; margin:6px 0 4px;}
 .carte-more-group{font-family:var(--sans); font-weight:500; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin:20px 0 0; padding-left:6px;}
 /* Vidéo « 3 étapes » — remplace les étapes statiques. Fond crème = fond page,
@@ -751,7 +773,7 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
       </div>
       <div class="step3">
         <span class="step3-num"><span>3</span></span>
-        <div class="step3-title">Séance <span class="step3-free">30 min, samedi ou dimanche</span></div>
+        <div class="step3-title">Séance <span class="step3-free">à Bègles, samedi ou dimanche</span></div>
       </div>
     </div>
 
@@ -781,6 +803,25 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
     </div>
   </div>
 </section>
+
+<!-- CARTE ANIMÉE — De Bordeaux au studio, au fil du scroll -->
+<section class="section" style="padding-bottom:0;">
+  <div class="head-center rise" style="margin-bottom:8px;">
+    <div class="eyebrow" style="margin-bottom:14px">La séance</div>
+    <h2 class="h2 italic">À Bègles, près de Bordeaux</h2>
+  </div>
+</section>
+<div class="scrollmap-wrap" id="scrollmap-wrap">
+  <div class="scrollmap-sticky">
+    <div id="scrollmap" class="scrollmap"></div>
+    <div class="scrollmap-scrim" aria-hidden="true"></div>
+    <div class="scrollmap-info" id="scrollmap-info">
+      <span class="eyebrow">Amour et Lumière</span>
+      <p class="scrollmap-addr">2 allée André Joseph Sire<br>33130 Bègles</p>
+      <a class="btn btn--outline" href="https://www.google.com/maps/search/?api=1&amp;query=2+All%C3%A9e+Andr%C3%A9+Joseph+Sire+33130+B%C3%A8gles" target="_blank" rel="noopener">Itinéraire</a>
+    </div>
+  </div>
+</div>
 
 <!-- GALERIE (compacte) -->
 <section id="galerie" class="section wrap">
@@ -1057,6 +1098,7 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
   </div>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
 
 <script>
 /* ---- Masonry équilibré (place chaque photo dans la colonne la plus courte) ---- */
@@ -1420,6 +1462,82 @@ if ('IntersectionObserver' in window){
   setVH();
   window.addEventListener('orientationchange', setVH);
   window.addEventListener('load', setVH);
+})();
+
+/* ---- Carte animée "où ça se passe" : Bordeaux -> Bègles -> studio au fil du scroll ---- */
+(function(){
+  var wrap = document.getElementById('scrollmap-wrap');
+  var mapEl = document.getElementById('scrollmap');
+  var infoEl = document.getElementById('scrollmap-info');
+  if (!wrap || !mapEl || typeof L === 'undefined') return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    /* Pas d'animation : carte statique directement centrée sur le studio */
+    var staticMap = L.map(mapEl, { zoomControl:false, dragging:false, scrollWheelZoom:false, doubleClickZoom:false, boxZoom:false, keyboard:false, touchZoom:false }).setView([44.8068264,-0.5399247], 16);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom:19, attribution:'&copy; OpenStreetMap' }).addTo(staticMap);
+    L.marker([44.8068264,-0.5399247]).addTo(staticMap);
+    infoEl.classList.add('visible');
+    return;
+  }
+
+  var STUDIO = [44.8068264, -0.5399247];
+  var BEGLES = [44.8047, -0.5468];
+  var BORDEAUX = [44.8378, -0.5792];
+  var OVERVIEW = [44.8210, -0.5620];
+
+  var map = L.map(mapEl, {
+    zoomControl:false, attributionControl:true, dragging:false, scrollWheelZoom:false,
+    doubleClickZoom:false, boxZoom:false, keyboard:false, touchZoom:false, tap:false, fadeAnimation:true
+  }).setView(OVERVIEW, 11);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom:19, attribution:'&copy; OpenStreetMap' }).addTo(map);
+
+  function pinIcon(){
+    return L.divIcon({
+      className: 'map-pin-wrap',
+      html: '<div class="map-pin"><svg viewBox="0 0 24 34" xmlns="http://www.w3.org/2000/svg"><path d="M12 0C5.4 0 0 5.4 0 12c0 9 12 22 12 22s12-13 12-22c0-6.6-5.4-12-12-12z" fill="#c2978f"/><circle cx="12" cy="12" r="5" fill="#fff"/></svg></div>',
+      iconSize:[34,34], iconAnchor:[17,34]
+    });
+  }
+  function dotIcon(){
+    return L.divIcon({ className:'', html:'<div style="width:9px;height:9px;border-radius:50%;background:#8a7f73;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.35);"></div>', iconSize:[9,9], iconAnchor:[5,5] });
+  }
+
+  var bordeauxMarker = null, beglesMarker = null, studioMarker = null;
+  var stage = -1;
+
+  function goStage(i){
+    if (i === stage) return;
+    stage = i;
+    if (i === 0){
+      infoEl.classList.remove('visible');
+      if (studioMarker){ map.removeLayer(studioMarker); studioMarker = null; }
+      map.flyTo(OVERVIEW, 11, { duration:1 });
+      if (!bordeauxMarker) bordeauxMarker = L.marker(BORDEAUX, { icon: dotIcon() }).addTo(map);
+      if (beglesMarker){ map.removeLayer(beglesMarker); beglesMarker = null; }
+      setTimeout(function(){ if (stage === 0) beglesMarker = L.marker(BEGLES, { icon: pinIcon() }).addTo(map); }, 500);
+    } else if (i === 1){
+      infoEl.classList.remove('visible');
+      map.flyTo(BEGLES, 14, { duration:1.1 });
+    } else if (i === 2){
+      map.flyTo(STUDIO, 16.5, { duration:1.1 });
+      setTimeout(function(){
+        if (stage !== 2) return;
+        if (beglesMarker){ map.removeLayer(beglesMarker); beglesMarker = null; }
+        if (!studioMarker) studioMarker = L.marker(STUDIO, { icon: pinIcon() }).addTo(map);
+      }, 750);
+      setTimeout(function(){ if (stage === 2) infoEl.classList.add('visible'); }, 1300);
+    }
+  }
+
+  function onScroll(){
+    var rect = wrap.getBoundingClientRect();
+    var total = rect.height - window.innerHeight;
+    var progress = total > 0 ? (0 - rect.top) / total : (rect.top < 0 ? 1 : 0);
+    progress = Math.max(0, Math.min(1, progress));
+    var i = progress < 0.08 ? -1 : (progress < 0.42 ? 0 : (progress < 0.72 ? 1 : 2));
+    goStage(i);
+  }
+  window.addEventListener('scroll', function(){ requestAnimationFrame(onScroll); }, { passive:true });
+  setTimeout(function(){ map.invalidateSize(); onScroll(); }, 200);
 })();
 
 /* ---- Carrousel générique "cartes qui tournent" (types de séance) ---- */
