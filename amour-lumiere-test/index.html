@@ -1209,17 +1209,30 @@ var galleryMasonry = (function(){
     }
   };
 
+  /* Verrouille le scroll SANS remonter en haut de la page (bug classique sur
+     mobile : un simple overflow:hidden sur le body fait sauter le scroll à 0) */
+  var lockedScrollY = 0;
+  function lockScroll(){
+    lockedScrollY = window.scrollY;
+    document.body.style.position = 'fixed';
+    document.body.style.top = (-lockedScrollY) + 'px';
+    document.body.style.left = '0';
+    document.body.style.right = '0';
+  }
   function unlockScroll(){
-    document.body.style.overflow = '';
-    document.documentElement.style.overflow = '';
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.left = '';
+    document.body.style.right = '';
+    window.scrollTo(0, lockedScrollY);
   }
   function openModal(kind){
     var opt = RESA[kind] || RESA.general;
     emailLink.href = 'mailto:defoin.arthur@gmail.com?subject=' + encodeURIComponent(opt.subject);
     waLink.href = 'https://wa.me/33789954427?text=' + encodeURIComponent(opt.wa);
+    lockScroll();
     modal.hidden = false;
     requestAnimationFrame(function(){ modal.classList.add('open'); });
-    document.body.style.overflow = 'hidden';
   }
   function closeModal(){
     modal.classList.remove('open');
