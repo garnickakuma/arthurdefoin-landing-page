@@ -195,12 +195,13 @@ html, body{ overflow-x:hidden; }
 /* Hero promo — minimal : eyebrow + prix barré */
 .hero-badge{display:inline-block; background:var(--accent); color:#fff; font-family:var(--sans); font-weight:600; font-size:11px; letter-spacing:.16em; text-transform:uppercase; padding:9px 20px; border-radius:30px; margin-bottom:18px; box-shadow:0 10px 24px -10px rgba(0,0,0,.4);}
 .hero-eyebrow{display:block; font-family:var(--sans); font-weight:500; font-size:12px; letter-spacing:.24em; text-transform:uppercase; color:#fff; text-shadow:0 1px 8px rgba(0,0,0,.5); margin-bottom:14px;}
-.hero__content .btn{margin-top:6px;}
-.hero-price{display:flex; align-items:baseline; justify-content:center; gap:14px; margin:16px 0 6px;}
-.hero-price-old{position:relative; font-family:var(--serif); font-size:clamp(22px,4vw,30px); color:rgba(255,255,255,.65); text-shadow:0 1px 8px rgba(0,0,0,.4);}
-.hero-price-old .strike{position:absolute; left:-2px; right:-2px; top:52%; height:2px; background:rgba(255,255,255,.75);}
-.hero-price-now{font-family:var(--serif); font-size:clamp(48px,10vw,76px); line-height:1; color:#fff; text-shadow:0 2px 18px rgba(0,0,0,.5);}
-.hero-price-note{font-family:var(--sans); font-weight:400; font-size:13px; letter-spacing:.06em; color:rgba(255,255,255,.85); margin-bottom:22px;}
+.hero__content .btn{margin-top:18px;}
+.hero-price{display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:14px; margin:16px 0 6px;}
+.hero-price-old{position:relative; font-family:var(--serif); font-size:clamp(24px,4.4vw,32px); color:rgba(255,255,255,.8); text-shadow:0 1px 8px rgba(0,0,0,.4);}
+.hero-price-old .strike{position:absolute; left:-2px; right:-2px; top:52%; height:2.5px; background:rgba(255,255,255,.9);}
+.hero-price-now{font-family:var(--serif); font-size:clamp(52px,11vw,80px); line-height:1; color:#fff; text-shadow:0 2px 18px rgba(0,0,0,.5);}
+.hero-price-badge{display:inline-flex; align-items:center; justify-content:center; background:var(--accent); color:#fff; font-family:var(--sans); font-weight:700; font-size:14px; padding:7px 14px; border-radius:20px; box-shadow:0 8px 18px -8px rgba(0,0,0,.5);}
+.hero-top-label{position:absolute; z-index:2; top:clamp(64px,13vh,120px); left:0; right:0; text-align:center; font-family:var(--serif); font-style:italic; font-weight:500; font-size:clamp(22px,5.5vw,36px); color:var(--ink);}
 
 /* Hero — photo unique statique */
 .hero__img{opacity:0; z-index:0;}
@@ -234,14 +235,20 @@ html, body{ overflow-x:hidden; }
   .ac-nav{width:38px; height:38px; font-size:19px;}
 }
 
-/* Cartes "prestations" — même carrousel, contenu tarif en surimpression */
-.ac-offer-info{position:absolute; left:0; right:0; bottom:0; padding:18px 16px 20px; text-align:center; background:linear-gradient(to top, rgba(20,14,10,.82) 8%, rgba(20,14,10,.35) 55%, transparent);}
-.ac-offer-moment{display:block; font-family:var(--sans); font-weight:500; font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:rgba(255,255,255,.8);}
-.ac-offer-name{display:block; font-family:var(--serif); font-style:italic; font-size:23px; color:#fff; margin:4px 0 6px;}
-.ac-offer-price{display:block; font-family:var(--serif); font-size:25px; color:#fff;}
-.ac-offer-old{font-family:var(--serif); font-size:15px; color:rgba(255,255,255,.6); text-decoration:line-through; margin-right:8px;}
-.ac-offer-sub{display:block; font-family:var(--sans); font-weight:300; font-size:11.5px; color:rgba(255,255,255,.75); margin:2px 0 12px;}
-.ac-offer-btn{display:inline-block; padding:9px 22px; border-radius:30px; background:#fff; color:var(--accent); font-family:var(--sans); font-weight:500; font-size:11px; letter-spacing:.12em; text-transform:uppercase; text-decoration:none;}
+/* Cartes "prestations" — même carrousel, contenu tarif en surimpression, en plus grand */
+#pc-stage{height:clamp(420px,52vw,560px);}
+#pc-stage .ac-card{width:290px; height:420px; margin:-210px 0 0 -145px;}
+@media(max-width:640px){
+  #pc-stage{height:480px;}
+  #pc-stage .ac-card{width:310px; height:450px; margin:-225px 0 0 -155px;}
+}
+.ac-offer-info{position:absolute; left:0; right:0; bottom:0; padding:22px 20px 26px; text-align:center; background:linear-gradient(to top, rgba(20,14,10,.85) 12%, rgba(20,14,10,.4) 58%, transparent);}
+.ac-offer-moment{display:block; font-family:var(--sans); font-weight:500; font-size:11.5px; letter-spacing:.18em; text-transform:uppercase; color:rgba(255,255,255,.85);}
+.ac-offer-name{display:block; font-family:var(--serif); font-style:italic; font-size:29px; color:#fff; margin:6px 0 8px;}
+.ac-offer-price{display:block; font-family:var(--serif); font-size:32px; color:#fff;}
+.ac-offer-old{font-family:var(--serif); font-size:18px; color:rgba(255,255,255,.65); text-decoration:line-through; margin-right:10px;}
+.ac-offer-sub{display:block; font-family:var(--sans); font-weight:300; font-size:13.5px; line-height:1.5; color:rgba(255,255,255,.85); margin:6px 0 16px;}
+.ac-offer-btn{display:inline-block; padding:12px 28px; border-radius:30px; background:#fff; color:var(--accent); font-family:var(--sans); font-weight:600; font-size:12.5px; letter-spacing:.12em; text-transform:uppercase; text-decoration:none;}
 .ac-offer-btn:hover{background:var(--rose-pale);}
 @keyframes heroBounce{0%,100%{transform:translateX(-50%) translateY(0);}50%{transform:translateX(-50%) translateY(7px);}}
 
@@ -675,13 +682,14 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
 <header class="hero" id="hero-photo">
   <img class="hero__img is-front" src="assets/photos/gal-c-06.webp" alt="Séance photo studio famille — Amour et Lumière">
   <div class="hero__scrim" aria-hidden="true"></div>
+  <span class="hero-top-label">Séance photo studio</span>
   <div class="hero__content">
     <span class="hero-eyebrow">Offre Rentrée · durée limitée</span>
     <div class="hero-price">
       <span class="hero-price-old"><span class="strike"></span>250&nbsp;€</span>
       <span class="hero-price-now">99&nbsp;€</span>
+      <span class="hero-price-badge">-60%</span>
     </div>
-    <p class="hero-price-note">Mini séance photo studio</p>
     <a class="btn btn--onphoto" href="#" data-resa="general">Réserver</a>
   </div>
   <div class="hero-scrolldown" aria-hidden="true">
@@ -743,7 +751,7 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
       </div>
       <div class="step3">
         <span class="step3-num"><span>3</span></span>
-        <div class="step3-title">Séance <span class="step3-free">samedi ou dimanche</span></div>
+        <div class="step3-title">Séance <span class="step3-free">30 min, samedi ou dimanche</span></div>
       </div>
     </div>
 
@@ -1254,8 +1262,8 @@ var FAQ = [
   { q: "Quels jours sont disponibles ?", a: "Les séances de l'offre Rentrée ont lieu uniquement le week-end, le samedi ou le dimanche." },
   { q: "Que dois-je porter ?", a: "Vos propres vêtements — deux tenues sont possibles si vous le souhaitez. Nous vous conseillons sur les matières et les couleurs avant la séance. Aucun prêt de robes ni d'accessoires." },
   { q: "Puis-je reporter ma séance ?", a: "Oui, une fois et sans frais, jusqu'à 72h avant la séance." },
-  { q: "Comment se déroule une séance ?", a: "Environ 1 h au studio à Bègles, tout en douceur. Nous guidons chaque pose pour que les vrais moments de famille arrivent naturellement. Le papa et les enfants sont inclus sans supplément." },
-  { q: "Quand recevons-nous nos photos ?", a: "Le choix se fait directement au studio, à la fin de la séance. Votre galerie privée, retouchée avec soin, vous est livrée sous 1 semaine." },
+  { q: "Comment se déroule une séance ?", a: "La séance dure 30 minutes, en studio à Bègles — pour la mini séance comme pour la séance complète. Nous guidons chaque pose pour que les vrais moments de famille arrivent naturellement. Le papa et les enfants sont inclus sans supplément." },
+  { q: "Quand recevons-nous nos photos ?", a: "Vos photos retouchées sont livrées sous 48 h via une galerie privée en ligne. Vous y choisissez vous-même le nombre de photos correspondant à votre formule : 10 pour la mini séance, toute la galerie pour la séance complète." },
   { q: "Où se trouve le studio et comment se garer ?", a: "Le studio est au 2 allée André Joseph Sire, 33130 Bègles. Stationnement possible à proximité." }
 ];
 var faqList = document.getElementById('faq-list');
