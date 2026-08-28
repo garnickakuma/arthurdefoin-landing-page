@@ -89,11 +89,11 @@ n.queue=[];t=b.createElement(e);t.async=!0;
 t.src=v;s=b.getElementsByTagName(e)[0];
 s.parentNode.insertBefore(t,s)}(window, document,'script',
 'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '1364723162425570');
+fbq('init', '1377261774609838');
 fbq('track', 'PageView');
 </script>
 <noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=1364723162425570&ev=PageView&noscript=1"
+src="https://www.facebook.com/tr?id=1377261774609838&ev=PageView&noscript=1"
 /></noscript>
 <!-- End Meta Pixel Code -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1337,10 +1337,12 @@ var galleryMasonry = (function(){
   });
 })();
 
-/* ---- Suivi Pixel Meta sur les clics « nous contacter » (email / WhatsApp) ---- */
+/* ---- Suivi Pixel Meta sur les clics « nous contacter » (email / SMS / WhatsApp) ----
+   Un prospect = un clic sur un des 3 boutons de contact (on ne peut pas savoir si le
+   message est réellement envoyé une fois l'app externe ouverte, donc le clic fait foi). */
 (function(){
   document.addEventListener('click', function(e){
-    var a = e.target.closest ? e.target.closest('a[href^="mailto:"], a[href*="wa.me"]') : null;
+    var a = e.target.closest ? e.target.closest('a[href^="mailto:"], a[href^="sms:"], a[href*="wa.me"]') : null;
     if (!a) return;
     try {
       if (window.fbq) {
