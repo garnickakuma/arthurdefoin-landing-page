@@ -139,6 +139,10 @@ h1,h2,h3{margin:0;}
 .contact-row{display:flex; flex-wrap:wrap; gap:12px; justify-content:center;}
 .contact-row .btn{flex:1 1 180px;}
 .contact-row--3 .btn{flex:1 1 130px; padding:13px 12px; font-size:10.5px; letter-spacing:.08em;}
+@media(max-width:480px){
+  .contact-row--3{flex-wrap:nowrap; gap:8px;}
+  .contact-row--3 .btn{flex:1 1 0; min-width:0; padding:12px 4px; font-size:9px; letter-spacing:.02em; white-space:nowrap;}
+}
 .promo-pill{display:inline-flex; align-items:center; gap:12px; max-width:100%; background:var(--accent); color:#fff; font-family:var(--sans); font-size:12px; letter-spacing:.14em; line-height:1.5; text-transform:uppercase; padding:13px 26px; border-radius:30px; text-align:center; white-space:normal;}
 
 /* BANDEAU OFFRE (header) */
@@ -887,9 +891,9 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
     <h3 id="rm-title">Réserver votre séance</h3>
     <p>Un acompte de <strong>29&nbsp;€</strong> est demandé pour valider votre créneau. Le solde est réglé en espèces sur place, le jour de la séance — uniquement le samedi ou le dimanche.</p>
     <div class="contact-row contact-row--3" style="margin-top:22px;">
-      <a class="btn btn--fill" id="rm-email" href="#">📧 Email</a>
-      <a class="btn btn--outline" id="rm-wa" href="#" target="_blank" rel="noopener">💬 WhatsApp</a>
-      <a class="btn btn--outline" id="rm-tel" href="#">📞 Téléphone</a>
+      <a class="btn btn--fill" id="rm-email" href="#">Email</a>
+      <a class="btn btn--outline" id="rm-sms" href="#">SMS</a>
+      <a class="btn btn--outline" id="rm-wa" href="#" target="_blank" rel="noopener">WhatsApp</a>
     </div>
   </div>
 </div>
@@ -1253,9 +1257,9 @@ var galleryMasonry = (function(){
   var closeBtn = document.getElementById('rm-close');
   var emailLink = document.getElementById('rm-email');
   var waLink = document.getElementById('rm-wa');
-  var telLink = document.getElementById('rm-tel');
+  var smsLink = document.getElementById('rm-sms');
   if (!modal || !emailLink || !waLink) return;
-  if (telLink) telLink.href = 'tel:+33789954427';
+  if (smsLink) smsLink.href = 'sms:+33789954427';
 
   var RESA = {
     mini: {
@@ -1314,7 +1318,7 @@ var galleryMasonry = (function(){
   document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && !modal.hidden) closeModal(); });
   emailLink.addEventListener('click', closeModal);
   waLink.addEventListener('click', closeModal);
-  if (telLink) telLink.addEventListener('click', closeModal);
+  if (smsLink) smsLink.addEventListener('click', closeModal);
 
   document.addEventListener('click', function(e){
     var a = e.target.closest ? e.target.closest('[data-resa]') : null;
