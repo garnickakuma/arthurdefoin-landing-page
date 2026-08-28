@@ -412,14 +412,35 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
 /* Vidéo « 3 étapes » (v2) : son fond (#EFE6DF) correspond au fond de section,
    donc elle se fond sans couture — pas de cadre. */
 .steps3{display:flex; gap:16px; max-width:900px; margin:4px auto 8px; justify-content:center;}
-.step3{flex:1 1 0; background:var(--card); border:1px solid var(--line2); border-radius:16px; padding:26px 20px; text-align:center; display:flex; flex-direction:column; align-items:center; gap:14px;}
+.step3{position:relative; flex:1 1 0; background:var(--card); border:1px solid var(--line2); border-radius:16px; padding:26px 20px; text-align:center; display:flex; flex-direction:column; align-items:center; gap:14px; cursor:pointer; -webkit-user-select:none; user-select:none; -webkit-touch-callout:none; transition:background .15s ease, border-color .15s ease;}
+.step3:focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
+.step3.pressed{background:var(--rose-pale2); border-color:var(--accent);}
 .step3-num{flex:none; width:40px; height:40px; border-radius:50%; background:var(--accent); color:#fff; font-family:var(--serif); font-size:20px; font-weight:600; line-height:1; font-variant-numeric:lining-nums; font-feature-settings:"lnum" 1; display:inline-flex; align-items:center; justify-content:center;}
 .step3-num span{display:block;}
 .step3-title{font-family:var(--sans); font-weight:400; font-size:15px; line-height:1.45; color:var(--ink2);}
 .step3-free{color:var(--accent); font-weight:600;}
+
+/* Indice "appuyer et maintenir" — clignote sur la 1re carte jusqu'au premier essai */
+.step3-hint{position:absolute; right:12px; bottom:12px; width:24px; height:24px; pointer-events:none; transition:opacity .3s ease;}
+.step3-hint.hidden{opacity:0;}
+.s3h-dot{position:absolute; inset:7px; border-radius:50%; background:var(--accent); box-shadow:0 4px 10px -3px rgba(58,50,44,.5);}
+.s3h-ring{position:absolute; inset:0; border-radius:50%; border:2px solid var(--accent); opacity:0; animation:s3hPulse 1.8s ease-out infinite;}
+@keyframes s3hPulse{0%{transform:scale(.4); opacity:.7;} 70%{transform:scale(1); opacity:0;} 100%{opacity:0;}}
+@media(prefers-reduced-motion:reduce){ .s3h-ring{animation:none;} }
+
+/* Pop-up d'info supplémentaire — appui maintenu (mobile) ou clic maintenu (PC) */
+.step3-popup{position:absolute; z-index:20; left:50%; top:calc(100% + 10px); width:min(280px,86vw); transform:translateX(-50%) translateY(6px); background:var(--card); border:1px solid var(--line2); border-radius:14px; padding:14px 16px; box-shadow:0 24px 50px -20px rgba(58,50,44,.5); text-align:left; opacity:0; pointer-events:none; transition:opacity .18s ease, transform .18s ease;}
+.step3-popup:before{content:''; position:absolute; left:50%; top:-6px; width:12px; height:12px; background:var(--card); border-left:1px solid var(--line2); border-top:1px solid var(--line2); transform:translateX(-50%) rotate(45deg);}
+.step3-popup p{margin:0; font-family:var(--sans); font-weight:300; font-size:13px; line-height:1.65; color:var(--ink2);}
+.step3.pressed .step3-popup{opacity:1; transform:translateX(-50%) translateY(0); pointer-events:auto;}
+@media(prefers-reduced-motion:reduce){ .step3-popup{transition:none;} }
+
 @media(max-width:640px){
   .steps3{flex-direction:column; gap:12px; max-width:440px;}
   .step3{flex-direction:row; text-align:left; gap:16px; padding:16px 20px;}
+  .step3-popup{left:auto; right:0; top:calc(100% + 8px); transform:translateY(6px); width:min(300px,90vw);}
+  .step3-popup:before{left:auto; right:20px;}
+  .step3.pressed .step3-popup{transform:translateY(0);}
 }
 /* Portraits signature — sélecteur interactif */
 .portrait-sig{margin-top:12px; background:var(--rose-pale2); border:1px solid var(--line2); border-radius:14px; padding:16px 18px;}
@@ -748,29 +769,34 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
     </div>
 
     <div class="steps3 rise">
-      <div class="step3">
+      <div class="step3" tabindex="0" role="button" aria-label="Étape 1 : Contact — appuyer pour en savoir plus">
         <span class="step3-num"><span>1</span></span>
         <div class="step3-body">
           <div class="step3-title">Contact <span class="step3-free">email ou WhatsApp</span></div>
         </div>
+        <span class="step3-hint" id="step3-hint" aria-hidden="true"><span class="s3h-ring"></span><span class="s3h-dot"></span></span>
+        <div class="step3-popup"><p>Un premier échange obligatoire pour savoir quel type de séance vous souhaitez, puis choisir ensemble la date.</p></div>
       </div>
-      <div class="step3">
+      <div class="step3" tabindex="0" role="button" aria-label="Étape 2 : Acompte — appuyer pour en savoir plus">
         <span class="step3-num"><span>2</span></span>
         <div class="step3-body">
           <div class="step3-title">Acompte <span class="step3-free">29&nbsp;€, le reste sur place</span></div>
         </div>
+        <div class="step3-popup"><p>Le règlement de l'acompte se fait par Wero pour bloquer votre date. Vous pouvez changer de date en nous prévenant au plus tard 72&nbsp;h avant. Le reste est à régler en espèces sur place.</p></div>
       </div>
-      <div class="step3">
+      <div class="step3" tabindex="0" role="button" aria-label="Étape 3 : Séance — appuyer pour en savoir plus">
         <span class="step3-num"><span>3</span></span>
         <div class="step3-body">
-          <div class="step3-title">Séance <span class="step3-free">30 min, à Bègles, à deux pas de la mairie</span></div>
+          <div class="step3-title">Séance <span class="step3-free">photos au studio à Bègles</span></div>
         </div>
+        <div class="step3-popup"><p>La séance dure en moyenne une trentaine de minutes. Vous pouvez venir avec deux tenues si vous souhaitez varier — nous ne proposons pas de prêt de tenues.</p></div>
       </div>
-      <div class="step3">
+      <div class="step3" tabindex="0" role="button" aria-label="Étape 4 : Livraison — appuyer pour en savoir plus">
         <span class="step3-num"><span>4</span></span>
         <div class="step3-body">
-          <div class="step3-title">Livraison <span class="step3-free">vos photos par email, sous une semaine environ</span></div>
+          <div class="step3-title">Livraison <span class="step3-free">de vos photos, sous une semaine environ</span></div>
         </div>
+        <div class="step3-popup"><p>Pour la séance complète, toutes les photos vous sont livrées. Pour la mini séance, vous choisissez vous-même vos 10 photos via une galerie en ligne. Dans tous les cas, vos photos sont retouchées.</p></div>
       </div>
     </div>
   </div>
@@ -1299,7 +1325,7 @@ var FAQ = [
   { q: "Que dois-je porter ?", a: "Vos propres vêtements — deux tenues sont possibles si vous le souhaitez. Nous vous conseillons sur les matières et les couleurs avant la séance. Aucun prêt de robes ni d'accessoires." },
   { q: "Puis-je reporter ma séance ?", a: "Oui, une fois et sans frais, jusqu'à 72h avant la séance." },
   { q: "Comment se déroule une séance ?", a: "La séance dure 30 minutes, en studio à Bègles — pour la mini séance comme pour la séance complète. Nous guidons chaque pose pour que les vrais moments de famille arrivent naturellement. Le papa et les enfants sont inclus sans supplément." },
-  { q: "Quand recevons-nous nos photos ?", a: "Vos photos retouchées vous sont envoyées par email sous une semaine environ : 10 photos pour la mini séance, toute la galerie pour la séance complète." },
+  { q: "Quand recevons-nous nos photos ?", a: "Vos photos retouchées sont prêtes sous une semaine environ. Pour la séance complète, toutes les photos vous sont livrées. Pour la mini séance, vous recevez l'accès à une galerie en ligne et choisissez vous-même vos 10 photos." },
   { q: "Où se trouve le studio et comment se garer ?", a: "Le studio est au 2 allée André Joseph Sire, 33130 Bègles. Stationnement possible à proximité." }
 ];
 var faqList = document.getElementById('faq-list');
@@ -1443,6 +1469,32 @@ if ('IntersectionObserver' in window){
   setVH();
   window.addEventListener('orientationchange', setVH);
   window.addEventListener('load', setVH);
+})();
+
+/* ---- Étapes "comment ça marche" : appui maintenu = infos supplémentaires ---- */
+(function(){
+  var cards = [].slice.call(document.querySelectorAll('.step3'));
+  var hint = document.getElementById('step3-hint');
+  var hintDismissed = false;
+  function dismissHint(){
+    if (hintDismissed || !hint) return;
+    hintDismissed = true;
+    hint.classList.add('hidden');
+  }
+  cards.forEach(function(card){
+    if (!card.querySelector('.step3-popup')) return;
+    function press(){ card.classList.add('pressed'); dismissHint(); }
+    function release(){ card.classList.remove('pressed'); }
+    card.addEventListener('mousedown', press);
+    card.addEventListener('touchstart', press, { passive: true });
+    card.addEventListener('mouseup', release);
+    card.addEventListener('mouseleave', release);
+    card.addEventListener('touchend', release);
+    card.addEventListener('touchcancel', release);
+    card.addEventListener('keydown', function(e){ if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); press(); } });
+    card.addEventListener('keyup', function(e){ if (e.key === 'Enter' || e.key === ' ') { release(); } });
+    card.addEventListener('contextmenu', function(e){ e.preventDefault(); });
+  });
 })();
 
 /* ---- Carrousel générique "cartes qui tournent" (types de séance) ---- */
