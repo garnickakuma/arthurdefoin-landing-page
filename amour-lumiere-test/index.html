@@ -138,10 +138,10 @@ h1,h2,h3{margin:0;}
 .btn--onphoto:hover{background:#fff; color:var(--accent); border-color:#fff;}
 .contact-row{display:flex; flex-wrap:wrap; gap:12px; justify-content:center;}
 .contact-row .btn{flex:1 1 180px;}
-.contact-row--3 .btn{flex:1 1 130px; padding:13px 12px; font-size:10.5px; letter-spacing:.08em;}
+.contact-row--3 .btn{flex:1 1 130px; padding:13px 12px; font-size:12px; letter-spacing:.08em;}
 @media(max-width:480px){
   .contact-row--3{flex-wrap:nowrap; gap:8px;}
-  .contact-row--3 .btn{flex:1 1 0; min-width:0; padding:12px 4px; font-size:9px; letter-spacing:.02em; white-space:nowrap;}
+  .contact-row--3 .btn{flex:1 1 0; min-width:0; padding:12px 4px; font-size:10.5px; letter-spacing:.02em; white-space:nowrap;}
 }
 .promo-pill{display:inline-flex; align-items:center; gap:12px; max-width:100%; background:var(--accent); color:#fff; font-family:var(--sans); font-size:12px; letter-spacing:.14em; line-height:1.5; text-transform:uppercase; padding:13px 26px; border-radius:30px; text-align:center; white-space:normal;}
 
@@ -534,7 +534,12 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
 .rm-kicker{display:inline-block; font-family:var(--sans); font-weight:400; font-size:10px; letter-spacing:.28em; text-transform:uppercase; color:var(--accent); margin-bottom:14px;}
 .rm-box h3{font-family:var(--serif); font-weight:400; font-style:italic; font-size:clamp(22px,4.6vw,29px); line-height:1.22; color:var(--ink2); margin:0 0 18px;}
 .rm-box p{font-family:var(--sans); font-weight:300; font-size:15px; line-height:1.75; color:var(--muted2); margin:0 0 12px;}
-.rm-box p strong{color:var(--accent); font-weight:700;}
+.rm-steps{display:flex; flex-direction:column; gap:14px; text-align:left; margin:0 0 16px;}
+.rm-step{display:flex; align-items:flex-start; gap:12px;}
+.rm-step-num{flex:none; width:24px; height:24px; margin-top:1px; border-radius:50%; background:var(--accent); color:#fff; font-family:var(--sans); font-weight:700; font-size:12px; display:flex; align-items:center; justify-content:center;}
+.rm-step span:last-child{font-family:var(--sans); font-weight:300; font-size:14.5px; line-height:1.5; color:var(--muted2);}
+.rm-note{font-family:var(--sans); font-weight:300; font-size:12.5px; line-height:1.6; color:var(--muted); margin:0 0 4px;}
+.rm-box p strong, .rm-step strong{color:var(--accent); font-weight:700;}
 .rm-box p a{color:var(--accent); font-weight:500; text-decoration:none; white-space:nowrap;}
 .rm-tarifs{display:inline-block; margin:-4px 0 4px; font-family:var(--sans); font-weight:300; font-size:13px; color:var(--muted2); text-decoration:underline; text-underline-offset:3px; cursor:pointer;}
 .rm-tarifs:hover{color:var(--accent);}
@@ -889,7 +894,12 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
     <button type="button" class="rm-close" id="rm-close" aria-label="Fermer">×</button>
     <span class="rm-kicker">Avant de réserver</span>
     <h3 id="rm-title">Réserver votre séance</h3>
-    <p>Un acompte de <strong>29&nbsp;€</strong> est demandé pour valider votre créneau. Le solde est réglé en espèces sur place, le jour de la séance — uniquement le samedi ou le dimanche.</p>
+    <div class="rm-steps">
+      <div class="rm-step"><span class="rm-step-num">1</span><span>On échange sur votre formule et la date souhaitée</span></div>
+      <div class="rm-step"><span class="rm-step-num">2</span><span>On bloque la date avec un acompte de <strong>29&nbsp;€</strong></span></div>
+      <div class="rm-step"><span class="rm-step-num">3</span><span>On se retrouve le jour J pour votre séance</span></div>
+    </div>
+    <p class="rm-note">Solde réglé en espèces sur place — séances le samedi ou le dimanche.</p>
     <div class="contact-row contact-row--3" style="margin-top:22px;">
       <a class="btn btn--fill" id="rm-email" href="#">Email</a>
       <a class="btn btn--outline" id="rm-sms" href="#">SMS</a>
