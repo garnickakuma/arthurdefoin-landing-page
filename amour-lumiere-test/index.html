@@ -195,13 +195,12 @@ html, body{ overflow-x:clip; }
 /* Hero promo — minimal : eyebrow + prix barré */
 .hero-badge{display:inline-block; background:var(--accent); color:#fff; font-family:var(--sans); font-weight:600; font-size:11px; letter-spacing:.16em; text-transform:uppercase; padding:9px 20px; border-radius:30px; margin-bottom:18px; box-shadow:0 10px 24px -10px rgba(0,0,0,.4);}
 .hero-eyebrow{display:block; font-family:var(--sans); font-weight:500; font-size:12px; letter-spacing:.24em; text-transform:uppercase; color:#fff; text-shadow:0 1px 8px rgba(0,0,0,.5); margin-bottom:14px;}
-.hero__content .btn{margin-top:18px;}
 .hero-price{display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:14px; margin:16px 0 6px;}
 .hero-price-old{position:relative; font-family:var(--serif); font-size:clamp(24px,4.4vw,32px); color:rgba(255,255,255,.8); text-shadow:0 1px 8px rgba(0,0,0,.4);}
 .hero-price-old .strike{position:absolute; left:-2px; right:-2px; top:52%; height:2.5px; background:rgba(255,255,255,.9);}
 .hero-price-now{font-family:var(--serif); font-size:clamp(52px,11vw,80px); line-height:1; color:#fff; text-shadow:0 2px 18px rgba(0,0,0,.5);}
 .hero-price-badge{display:inline-flex; align-items:center; justify-content:center; background:var(--accent); color:#fff; font-family:var(--sans); font-weight:700; font-size:14px; padding:7px 14px; border-radius:20px; box-shadow:0 8px 18px -8px rgba(0,0,0,.5);}
-.hero-top-label{position:absolute; z-index:2; top:clamp(64px,13vh,120px); left:0; right:0; text-align:center; font-family:var(--serif); font-style:italic; font-weight:500; font-size:clamp(22px,5.5vw,36px); color:var(--ink);}
+.hero-top-label{position:absolute; z-index:2; top:clamp(18px,3.6vh,34px); left:0; right:0; text-align:center; font-family:var(--sans); font-weight:600; font-size:clamp(12px,3.2vw,15px); letter-spacing:.22em; text-transform:uppercase; color:#fff; text-shadow:0 1px 10px rgba(0,0,0,.5);}
 
 /* Hero — photo unique statique */
 .hero__img{opacity:0; z-index:0;}
@@ -695,7 +694,6 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
       <span class="hero-price-now">99&nbsp;€</span>
       <span class="hero-price-badge">-60%</span>
     </div>
-    <a class="btn btn--onphoto" href="#" data-resa="general">Réserver</a>
   </div>
   <div class="hero-scrolldown" aria-hidden="true">
     <span class="hsd-chevrons">
@@ -1460,6 +1458,9 @@ function initCarousel(cfg){
   var dragged = false;
   var loop = cfg.loop !== false;
   var autoDir = 1;
+  var autoOnce = !!cfg.autoOnce;
+  var autoDelay = cfg.autoDelay || 3800;
+  var autoFired = false;
 
   function render(){
     cards.forEach(function(card, i){
@@ -1473,9 +1474,9 @@ function initCarousel(cfg){
       var tz = -abs * 170;
       var ry = offset * -32;
       card.style.transform = 'translateX(' + tx + 'px) translateZ(' + tz + 'px) rotateY(' + ry + 'deg)';
-      card.style.opacity = abs > 2 ? 0 : (1 - abs * 0.28);
+      card.style.opacity = abs > 1 ? 0 : Math.max(0, 1 - abs * 0.55);
       card.style.zIndex = 10 - abs;
-      card.style.pointerEvents = abs > 2 ? 'none' : 'auto';
+      card.style.pointerEvents = abs > 1 ? 'none' : 'auto';
     });
     dots.forEach(function(d, i){ d.classList.toggle('active', i === active); });
   }
@@ -1499,9 +1500,14 @@ function initCarousel(cfg){
   function startAuto(){
     if (reduced) return;
     stopAuto();
-    timer = setInterval(autoStep, 3800);
+    if (autoOnce) {
+      if (autoFired) return;
+      timer = setTimeout(function(){ autoFired = true; autoStep(); }, autoDelay);
+    } else {
+      timer = setInterval(autoStep, autoDelay);
+    }
   }
-  function stopAuto(){ if (timer) clearInterval(timer); }
+  function stopAuto(){ if (timer) { clearTimeout(timer); clearInterval(timer); } }
 
   stage.querySelector(cfg.nextSel).addEventListener('click', function(){ next(); startAuto(); });
   stage.querySelector(cfg.prevSel).addEventListener('click', function(){ prev(); startAuto(); });
@@ -1603,6 +1609,7 @@ function initCarousel(cfg){
   initCarousel({
     trackId: 'pc-track', dotsId: 'pc-dots', stageId: 'pc-stage',
     prevSel: '.pc-prev', nextSel: '.pc-next', dotLabel: 'Voir la formule', loop: false,
+    autoOnce: true, autoDelay: 7000,
     items: OFFERS.map(function(o){
       return '<img src="' + o.src + '" alt="Séance ' + o.name + ' — Amour et Lumière" loading="lazy" style="object-position:' + o.pos + ';">' +
         '<div class="ac-offer-info">' +
