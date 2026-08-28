@@ -138,6 +138,7 @@ h1,h2,h3{margin:0;}
 .btn--onphoto:hover{background:#fff; color:var(--accent); border-color:#fff;}
 .contact-row{display:flex; flex-wrap:wrap; gap:12px; justify-content:center;}
 .contact-row .btn{flex:1 1 180px;}
+.contact-row--3 .btn{flex:1 1 130px; padding:13px 12px; font-size:10.5px; letter-spacing:.08em;}
 .promo-pill{display:inline-flex; align-items:center; gap:12px; max-width:100%; background:var(--accent); color:#fff; font-family:var(--sans); font-size:12px; letter-spacing:.14em; line-height:1.5; text-transform:uppercase; padding:13px 26px; border-radius:30px; text-align:center; white-space:normal;}
 
 /* BANDEAU OFFRE (header) */
@@ -237,19 +238,29 @@ html, body{ overflow-x:clip; }
 
 /* Cartes "prestations" — même carrousel, contenu tarif en surimpression, en plus grand */
 #pc-stage{height:clamp(420px,52vw,560px);}
-#pc-stage .ac-card{width:290px; height:420px; margin:-210px 0 0 -145px;}
+#pc-stage .ac-card{width:290px; height:420px; margin:-210px 0 0 -145px; animation:pcCardGlow 2.8s ease-in-out infinite;}
+@keyframes pcCardGlow{
+  0%,100%{ box-shadow:0 24px 50px -20px rgba(60,45,35,.35), 0 0 0 0 rgba(194,151,143,.55); }
+  50%{ box-shadow:0 24px 50px -20px rgba(60,45,35,.35), 0 0 0 5px rgba(194,151,143,0); }
+}
 @media(max-width:640px){
   #pc-stage{height:480px;}
   #pc-stage .ac-card{width:310px; height:450px; margin:-225px 0 0 -155px;}
 }
+@media(prefers-reduced-motion:reduce){ #pc-stage .ac-card{ animation:none; } }
 .ac-offer-info{position:absolute; left:0; right:0; bottom:0; padding:22px 20px 26px; text-align:center; background:linear-gradient(to top, rgba(20,14,10,.85) 12%, rgba(20,14,10,.4) 58%, transparent);}
 .ac-offer-moment{display:block; font-family:var(--sans); font-weight:500; font-size:11.5px; letter-spacing:.18em; text-transform:uppercase; color:rgba(255,255,255,.85);}
 .ac-offer-name{display:block; font-family:var(--serif); font-style:italic; font-size:29px; color:#fff; margin:6px 0 8px;}
 .ac-offer-price{display:block; font-family:var(--serif); font-size:32px; color:#fff;}
 .ac-offer-old{font-family:var(--serif); font-size:18px; color:rgba(255,255,255,.65); text-decoration:line-through; margin-right:10px;}
 .ac-offer-sub{display:block; font-family:var(--sans); font-weight:300; font-size:13.5px; line-height:1.5; color:rgba(255,255,255,.85); margin:6px 0 16px;}
-.ac-offer-btn{display:inline-block; padding:12px 28px; border-radius:30px; background:#fff; color:var(--accent); font-family:var(--sans); font-weight:600; font-size:12.5px; letter-spacing:.12em; text-transform:uppercase; text-decoration:none;}
+.ac-offer-btn{display:inline-block; padding:12px 28px; border-radius:30px; background:#fff; color:var(--accent); font-family:var(--sans); font-weight:600; font-size:12.5px; letter-spacing:.12em; text-transform:uppercase; text-decoration:none; animation:pcBtnGlow 2.8s ease-in-out infinite;}
 .ac-offer-btn:hover{background:var(--rose-pale);}
+@keyframes pcBtnGlow{
+  0%,100%{ box-shadow:0 0 0 0 rgba(194,151,143,.6); }
+  50%{ box-shadow:0 0 12px 5px rgba(194,151,143,0); }
+}
+@media(prefers-reduced-motion:reduce){ .ac-offer-btn{ animation:none; } }
 @keyframes heroBounce{0%,100%{transform:translateX(-50%) translateY(0);}50%{transform:translateX(-50%) translateY(7px);}}
 
 /* ============ INTRO — le hero apparaît ensuite ============ */
@@ -519,7 +530,7 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
 .rm-kicker{display:inline-block; font-family:var(--sans); font-weight:400; font-size:10px; letter-spacing:.28em; text-transform:uppercase; color:var(--accent); margin-bottom:14px;}
 .rm-box h3{font-family:var(--serif); font-weight:400; font-style:italic; font-size:clamp(22px,4.6vw,29px); line-height:1.22; color:var(--ink2); margin:0 0 18px;}
 .rm-box p{font-family:var(--sans); font-weight:300; font-size:15px; line-height:1.75; color:var(--muted2); margin:0 0 12px;}
-.rm-box p strong{color:var(--ink2); font-weight:500;}
+.rm-box p strong{color:var(--accent); font-weight:700;}
 .rm-box p a{color:var(--accent); font-weight:500; text-decoration:none; white-space:nowrap;}
 .rm-tarifs{display:inline-block; margin:-4px 0 4px; font-family:var(--sans); font-weight:300; font-size:13px; color:var(--muted2); text-decoration:underline; text-underline-offset:3px; cursor:pointer;}
 .rm-tarifs:hover{color:var(--accent);}
@@ -875,9 +886,10 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
     <span class="rm-kicker">Avant de réserver</span>
     <h3 id="rm-title">Réserver votre séance</h3>
     <p>Un acompte de <strong>29&nbsp;€</strong> est demandé pour valider votre créneau. Le solde est réglé en espèces sur place, le jour de la séance — uniquement le samedi ou le dimanche.</p>
-    <div class="contact-row" style="margin-top:22px;">
+    <div class="contact-row contact-row--3" style="margin-top:22px;">
       <a class="btn btn--fill" id="rm-email" href="#">📧 Email</a>
       <a class="btn btn--outline" id="rm-wa" href="#" target="_blank" rel="noopener">💬 WhatsApp</a>
+      <a class="btn btn--outline" id="rm-tel" href="#">📞 Téléphone</a>
     </div>
   </div>
 </div>
@@ -1241,7 +1253,9 @@ var galleryMasonry = (function(){
   var closeBtn = document.getElementById('rm-close');
   var emailLink = document.getElementById('rm-email');
   var waLink = document.getElementById('rm-wa');
+  var telLink = document.getElementById('rm-tel');
   if (!modal || !emailLink || !waLink) return;
+  if (telLink) telLink.href = 'tel:+33789954427';
 
   var RESA = {
     mini: {
@@ -1273,7 +1287,13 @@ var galleryMasonry = (function(){
     document.body.style.top = '';
     document.body.style.left = '';
     document.body.style.right = '';
+    /* html{scroll-behavior:smooth} ferait animer ce repositionnement (effet
+       "rechargement" qui remonte en haut puis redescend) — on le désactive
+       le temps du saut instantané, puis on le restaure. */
+    var prevBehavior = document.documentElement.style.scrollBehavior;
+    document.documentElement.style.scrollBehavior = 'auto';
     window.scrollTo(0, lockedScrollY);
+    document.documentElement.style.scrollBehavior = prevBehavior;
   }
   function openModal(kind){
     var opt = RESA[kind] || RESA.general;
@@ -1294,6 +1314,7 @@ var galleryMasonry = (function(){
   document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && !modal.hidden) closeModal(); });
   emailLink.addEventListener('click', closeModal);
   waLink.addEventListener('click', closeModal);
+  if (telLink) telLink.addEventListener('click', closeModal);
 
   document.addEventListener('click', function(e){
     var a = e.target.closest ? e.target.closest('[data-resa]') : null;
