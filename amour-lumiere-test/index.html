@@ -402,18 +402,9 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
 .conditions-box p{font-family:var(--sans); font-weight:300; font-size:13.5px; line-height:1.75; color:var(--ink2); margin:0;}
 .conditions-box strong{color:var(--accent); font-weight:600;}
 
-/* Étape 3 : petite mini-carte Bordeaux -> Bègles -> studio */
 .step3-body{display:flex; flex-direction:column; align-items:center; gap:10px;}
-.step3-mini-map{display:flex; align-items:center; justify-content:center; gap:8px; margin-top:2px;}
-.step3-mini-map figure{margin:0; display:flex; flex-direction:column; align-items:center; gap:6px;}
-.step3-mini-map img{width:64px; height:64px; object-fit:cover; border-radius:14px; background:var(--rose-pale2); border:1px solid var(--line2); display:block;}
-.step3-mini-map figure.mm-empty img{display:none;}
-.step3-mini-map figure.mm-empty::before{content:''; display:block; width:64px; height:64px; border-radius:14px; background:var(--rose-pale2); border:1px dashed var(--line5);}
-.step3-mini-map figcaption{font-family:var(--sans); font-weight:500; font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--muted2);}
-.mm-arrow{color:var(--faint2); font-size:16px; margin-bottom:22px;}
 @media(max-width:640px){
   .step3-body{align-items:flex-start;}
-  .step3-mini-map img, .step3-mini-map figure.mm-empty::before{width:52px; height:52px;}
 }
 .carte-more-intro{font-family:var(--sans); font-weight:300; font-size:13px; line-height:1.55; color:var(--muted); text-align:center; margin:6px 0 4px;}
 .carte-more-group{font-family:var(--sans); font-weight:500; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin:20px 0 0; padding-left:6px;}
@@ -770,14 +761,7 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
       <div class="step3">
         <span class="step3-num"><span>3</span></span>
         <div class="step3-body">
-          <div class="step3-title">Séance <span class="step3-free">à Bègles, samedi ou dimanche</span></div>
-          <div class="step3-mini-map">
-            <figure><img src="assets/photos/mini-map-bordeaux.png" alt="" loading="lazy" onerror="this.closest('figure').classList.add('mm-empty')"><figcaption>Bordeaux</figcaption></figure>
-            <span class="mm-arrow">›</span>
-            <figure><img src="assets/photos/mini-map-begles.png" alt="" loading="lazy" onerror="this.closest('figure').classList.add('mm-empty')"><figcaption>Bègles</figcaption></figure>
-            <span class="mm-arrow">›</span>
-            <figure><img src="assets/photos/mini-map-studio.png" alt="" loading="lazy" onerror="this.closest('figure').classList.add('mm-empty')"><figcaption>Studio</figcaption></figure>
-          </div>
+          <div class="step3-title">Studio <span class="step3-free">à Bègles, à deux pas de la mairie</span></div>
         </div>
       </div>
     </div>
