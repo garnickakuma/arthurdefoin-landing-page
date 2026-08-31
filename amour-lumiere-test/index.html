@@ -1313,8 +1313,18 @@ var galleryMasonry = (function(){
       if (!h || !armed) return;
       if (baseline === null) { baseline = h; return; }
       if (Math.abs(h - baseline) > 80) {
+        baseline = h; /* on ne réagit qu'aux vrais changements d'étape suivants, pas aux petits ajustements dans la même étape */
         var steps = document.querySelector('.rm-steps');
         if (steps) steps.hidden = true;
+        /* Un balayage qui démarre sur l'iframe ne peut pas faire défiler notre
+           page derrière (limite technique des iframes) — on scrolle donc
+           nous-mêmes automatiquement jusqu'au haut de la nouvelle étape à
+           chaque fois que le calendrier change de contenu, pour qu'il n'y ait
+           jamais besoin de "sortir" du cadre pour continuer. */
+        requestAnimationFrame(function(){
+          var box = document.querySelector('.rm-box');
+          if (box) box.scrollTo({ top: Math.max(0, embedEl.offsetTop - 12), behavior: 'smooth' });
+        });
       }
     });
     ro.observe(embedEl);
