@@ -823,7 +823,7 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
         <div class="step3-body">
           <div class="step3-title">Acompte <span class="step3-free">29&nbsp;€, le reste sur place</span></div>
         </div>
-        <div class="step3-popup"><span class="step3-popup-eyebrow">Bon à savoir</span><p>Le règlement de l'acompte se fait par Wero pour bloquer votre date. Vous pouvez changer de date en nous prévenant au plus tard 72&nbsp;h avant. Le reste est à régler en espèces sur place.</p></div>
+        <div class="step3-popup"><span class="step3-popup-eyebrow">Bon à savoir</span><p>L'acompte se règle par carte directement lors de la réservation en ligne, pour bloquer votre date. Vous pouvez changer de date en nous prévenant au plus tard 72&nbsp;h avant. Le reste est à régler en espèces sur place.</p></div>
       </div>
       <div class="step3" tabindex="0" role="button" aria-label="Étape 3 : Séance — appuyer pour en savoir plus">
         <span class="step3-num"><span>3</span></span>
@@ -865,7 +865,7 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
     </details>
 
     <div class="conditions-box rise">
-      <p>Offre Rentrée valable pour une durée limitée. Un acompte de <strong>29&nbsp;€</strong> est obligatoire pour valider votre réservation — le solde (70&nbsp;€ pour la mini séance, 120&nbsp;€ pour la séance complète) est réglé <strong>en espèces sur place</strong>, le jour de la séance. Séances uniquement <strong>le samedi ou le dimanche</strong>.</p>
+      <p>Offre Rentrée valable pour une durée limitée. Un acompte de <strong>29&nbsp;€</strong>, réglé par carte lors de la réservation, est obligatoire pour valider votre créneau — le solde (70&nbsp;€ pour la mini séance, 120&nbsp;€ pour la séance complète) est réglé <strong>en espèces sur place</strong>, le jour de la séance. Séances uniquement <strong>le samedi ou le dimanche</strong>.</p>
     </div>
 
     <div class="tarifs-cta rise">
@@ -917,15 +917,15 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
     <span class="rm-kicker">Avant de réserver</span>
     <h3 id="rm-title">Réserver votre séance</h3>
     <div class="rm-steps">
-      <div class="rm-step"><span class="rm-step-num">1</span><span>Choisissez un créneau ci-dessous — il vous est <strong>pré-réservé</strong></span></div>
-      <div class="rm-step"><span class="rm-step-num">2</span><span>Confirmez-le avec un acompte de <strong>29&nbsp;€ par Wero</strong> au <strong>07&nbsp;89&nbsp;95&nbsp;44&nbsp;27</strong></span></div>
-      <div class="rm-step"><span class="rm-step-num">3</span><span>Sans acompte reçu, le créneau est libéré pour quelqu'un d'autre</span></div>
+      <div class="rm-step"><span class="rm-step-num">1</span><span>Choisissez un créneau ci-dessous</span></div>
+      <div class="rm-step"><span class="rm-step-num">2</span><span>Réglez l'acompte de <strong>29&nbsp;€ par carte</strong> pour le confirmer immédiatement</span></div>
+      <div class="rm-step"><span class="rm-step-num">3</span><span>Rendez-vous le jour J pour votre séance</span></div>
     </div>
     <div id="cal-inline-embed" class="rm-cal-embed"></div>
     <div id="rm-confirmed" class="rm-confirmed" hidden>
       <div class="rm-confirmed-check">✓</div>
-      <h4>Votre créneau est pré-réservé !</h4>
-      <p>Pour le confirmer définitivement, merci d'envoyer un acompte de <strong>29&nbsp;€ par Wero</strong> au <strong>07&nbsp;89&nbsp;95&nbsp;44&nbsp;27</strong>, en indiquant dans la note le prénom et le nom de la réservation que vous venez d'effectuer. Sans acompte reçu, le créneau sera libéré pour quelqu'un d'autre.</p>
+      <h4>Votre séance est confirmée !</h4>
+      <p>Votre acompte de <strong>29&nbsp;€</strong> a bien été reçu. Vous allez recevoir un email de confirmation avec tous les détails — à bientôt !</p>
     </div>
     <p class="rm-note" style="margin-top:14px;">Des questions ? <a href="#" id="rm-email">Email</a> · <a href="#" id="rm-wa" target="_blank" rel="noopener">WhatsApp</a></p>
   </div>
@@ -1294,7 +1294,7 @@ var galleryMasonry = (function(){
   Cal("init", "seance-photo", { origin: "https://cal.com" });
   Cal.ns["seance-photo"]("inline", {
     elementOrSelector: "#cal-inline-embed",
-    calLink: "amour-et-lumiere/seance-photo",
+    calLink: "amour-et-lumiere/seance-photo-studio",
     config: { layout: "month_view" }
   });
   Cal.ns["seance-photo"]("ui", { styles: { branding: { brandColor: "#c2978f" } }, hideEventTypeDetails: false, layout: "month_view" });
@@ -1411,8 +1411,8 @@ var galleryMasonry = (function(){
 
 /* ---- FAQ ---- */
 var FAQ = [
-  { q: "Comment réserver l'offre Rentrée ?", a: "Contactez-nous par email (defoin.arthur@gmail.com) ou sur WhatsApp. Votre créneau est confirmé dès réception de l'acompte de 29 €." },
-  { q: "Comment fonctionne le paiement ?", a: "Un acompte de 29 € est obligatoire pour valider votre réservation. Le solde est réglé en espèces sur place, le jour de la séance : 70 € pour la mini séance, 120 € pour la séance complète." },
+  { q: "Comment réserver l'offre Rentrée ?", a: "Cliquez sur « Réserver », choisissez votre créneau et réglez l'acompte de 29 € par carte : votre séance est confirmée immédiatement." },
+  { q: "Comment fonctionne le paiement ?", a: "Un acompte de 29 € est réglé par carte au moment de la réservation pour la valider. Le solde est réglé en espèces sur place, le jour de la séance : 70 € pour la mini séance, 120 € pour la séance complète." },
   { q: "Quels jours sont disponibles ?", a: "Les séances de l'offre Rentrée ont lieu uniquement le week-end, le samedi ou le dimanche." },
   { q: "Que dois-je porter ?", a: "Vos propres vêtements — deux tenues sont possibles si vous le souhaitez. Nous vous conseillons sur les matières et les couleurs avant la séance. Aucun prêt de robes ni d'accessoires." },
   { q: "Puis-je reporter ma séance ?", a: "Oui, une fois et sans frais, jusqu'à 72h avant la séance." },
