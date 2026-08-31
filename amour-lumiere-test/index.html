@@ -526,7 +526,8 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
 .rm-overlay{position:fixed; inset:0; z-index:90; background:rgba(58,50,44,.55); -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px); display:flex; align-items:center; justify-content:center; padding:20px; opacity:0; transition:opacity .3s ease;}
 .rm-overlay[hidden]{display:none;}
 .rm-overlay.open{opacity:1;}
-.rm-box{position:relative; background:var(--card); border:1px solid var(--line2); border-radius:22px; padding:clamp(28px,5vw,40px) clamp(22px,4vw,36px); max-width:520px; width:100%; max-height:90vh; overflow-y:auto; text-align:center; box-shadow:0 40px 90px -30px rgba(58,50,44,.6); transform:translateY(14px) scale(.98); transition:transform .3s ease;}
+.rm-box{position:relative; background:var(--card); border:1px solid var(--line2); border-radius:22px; padding:clamp(28px,5vw,40px) clamp(22px,4vw,36px); max-width:760px; width:100%; max-height:90vh; overflow-y:auto; text-align:center; box-shadow:0 40px 90px -30px rgba(58,50,44,.6); transform:translateY(14px) scale(.98); transition:transform .3s ease;}
+.rm-cal-embed{width:100%; min-height:520px; margin-top:10px; border-radius:14px; overflow:hidden;}
 .rm-overlay.open .rm-box{transform:none;}
 .rm-close{position:absolute; top:12px; right:14px; width:36px; height:36px; border:0; background:none; color:var(--faint); font-size:26px; line-height:1; cursor:pointer;}
 .rm-close:hover{color:var(--ink);}
@@ -538,6 +539,7 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
 .rm-step-num{flex:none; width:24px; height:24px; margin-top:1px; border-radius:50%; background:var(--accent); color:#fff; font-family:var(--sans); font-weight:700; font-size:12px; display:flex; align-items:center; justify-content:center;}
 .rm-step span:last-child{font-family:var(--sans); font-weight:300; font-size:14.5px; line-height:1.5; color:var(--muted2);}
 .rm-note{font-family:var(--sans); font-weight:300; font-size:12.5px; line-height:1.6; color:var(--muted); margin:0 0 4px;}
+.rm-box .rm-note a{color:var(--accent); font-weight:500; text-decoration:underline; white-space:nowrap;}
 .rm-box p strong, .rm-step strong{color:var(--accent); font-weight:700;}
 .rm-box p a{color:var(--accent); font-weight:500; text-decoration:none; white-space:nowrap;}
 .rm-tarifs{display:inline-block; margin:-4px 0 4px; font-family:var(--sans); font-weight:300; font-size:13px; color:var(--muted2); text-decoration:underline; text-underline-offset:3px; cursor:pointer;}
@@ -894,16 +896,12 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
     <span class="rm-kicker">Avant de réserver</span>
     <h3 id="rm-title">Réserver votre séance</h3>
     <div class="rm-steps">
-      <div class="rm-step"><span class="rm-step-num">1</span><span>On échange sur votre formule et la date souhaitée</span></div>
-      <div class="rm-step"><span class="rm-step-num">2</span><span>On bloque la date avec un acompte de <strong>29&nbsp;€</strong></span></div>
-      <div class="rm-step"><span class="rm-step-num">3</span><span>On se retrouve le jour J pour votre séance</span></div>
+      <div class="rm-step"><span class="rm-step-num">1</span><span>Choisissez un créneau ci-dessous — il vous est <strong>pré-réservé</strong></span></div>
+      <div class="rm-step"><span class="rm-step-num">2</span><span>Confirmez-le avec un acompte de <strong>29&nbsp;€ par Wero</strong> au <strong>07&nbsp;89&nbsp;95&nbsp;44&nbsp;27</strong></span></div>
+      <div class="rm-step"><span class="rm-step-num">3</span><span>Sans acompte reçu, le créneau est libéré pour quelqu'un d'autre</span></div>
     </div>
-    <p class="rm-note">Solde réglé en espèces sur place — séances le samedi ou le dimanche.</p>
-    <div class="contact-row contact-row--3" style="margin-top:22px;">
-      <a class="btn btn--fill" id="rm-email" href="#">Email</a>
-      <a class="btn btn--outline" id="rm-sms" href="#">SMS</a>
-      <a class="btn btn--outline" id="rm-wa" href="#" target="_blank" rel="noopener">WhatsApp</a>
-    </div>
+    <div id="cal-inline-embed" class="rm-cal-embed"></div>
+    <p class="rm-note" style="margin-top:14px;">Des questions ? <a href="#" id="rm-email">Email</a> · <a href="#" id="rm-wa" target="_blank" rel="noopener">WhatsApp</a></p>
   </div>
 </div>
 
@@ -1260,15 +1258,38 @@ var galleryMasonry = (function(){
   document.addEventListener('keydown', function(e){ if (e.key === 'Escape') close(); });
 })();
 
-/* ---- Modale de réservation : un seul bouton « Réserver » ouvre le choix Email / WhatsApp ---- */
+/* ---- Cal.com : calendrier embarqué directement dans la modale de réservation ----
+   On charge le script officiel une seule fois, on l'embarque (mode "inline") dans
+   #cal-inline-embed, et on déclenche le vrai événement Meta "Lead" seulement quand
+   une réservation est réellement confirmée (pas au simple clic — ça, ça mentait). */
+(function(){
+  (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if (typeof namespace === "string") { cal.ns[namespace] = cal.ns[namespace] || api; p(cal.ns[namespace], ar); p(cal, ["initNamespace", namespace]); } else p(cal, ar); return; } p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+
+  Cal("init", "seance-photo", { origin: "https://cal.com" });
+  Cal.ns["seance-photo"]("inline", {
+    elementOrSelector: "#cal-inline-embed",
+    calLink: "amour-et-lumiere/seance-photo",
+    config: { layout: "month_view" }
+  });
+  Cal.ns["seance-photo"]("ui", { styles: { branding: { brandColor: "#c2978f" } }, hideEventTypeDetails: false, layout: "month_view" });
+
+  Cal.ns["seance-photo"]("on", {
+    action: "bookingSuccessful",
+    callback: function(){
+      try {
+        if (window.fbq) fbq('track', 'Lead', { content_name: 'Offre Rentrée', value: 29, currency: 'EUR' });
+      } catch (err) {}
+    }
+  });
+})();
+
+/* ---- Modale de réservation : ouvre l'explication + le calendrier embarqué ---- */
 (function(){
   var modal = document.getElementById('resa-modal');
   var closeBtn = document.getElementById('rm-close');
   var emailLink = document.getElementById('rm-email');
   var waLink = document.getElementById('rm-wa');
-  var smsLink = document.getElementById('rm-sms');
   if (!modal || !emailLink || !waLink) return;
-  if (smsLink) smsLink.href = 'sms:+33789954427';
 
   var RESA = {
     mini: {
@@ -1325,10 +1346,6 @@ var galleryMasonry = (function(){
   closeBtn.addEventListener('click', closeModal);
   modal.addEventListener('click', function(e){ if (e.target === modal) closeModal(); });
   document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && !modal.hidden) closeModal(); });
-  emailLink.addEventListener('click', closeModal);
-  waLink.addEventListener('click', closeModal);
-  if (smsLink) smsLink.addEventListener('click', closeModal);
-
   document.addEventListener('click', function(e){
     var a = e.target.closest ? e.target.closest('[data-resa]') : null;
     if (!a) return;
@@ -1337,17 +1354,16 @@ var galleryMasonry = (function(){
   });
 })();
 
-/* ---- Suivi Pixel Meta sur les clics « nous contacter » (email / SMS / WhatsApp) ----
-   Un prospect = un clic sur un des 3 boutons de contact (on ne peut pas savoir si le
-   message est réellement envoyé une fois l'app externe ouverte, donc le clic fait foi). */
+/* ---- Suivi Pixel Meta sur les clics « nous contacter » (email / WhatsApp, questions) ----
+   Ce n'est plus le signal de prospect (trop peu fiable — clic ≠ message envoyé).
+   Le vrai "Lead" est déclenché uniquement sur une réservation Cal.com confirmée. */
 (function(){
   document.addEventListener('click', function(e){
-    var a = e.target.closest ? e.target.closest('a[href^="mailto:"], a[href^="sms:"], a[href*="wa.me"]') : null;
+    var a = e.target.closest ? e.target.closest('a[href^="mailto:"], a[href*="wa.me"]') : null;
     if (!a) return;
     try {
       if (window.fbq) {
         fbq('track', 'Contact');
-        fbq('track', 'Lead', { content_name: 'Offre Rentrée', value: 0, currency: 'EUR' });
       }
     } catch (err) {}
   });
@@ -1646,13 +1662,18 @@ function initCarousel(cfg){
     startAuto();
   });
 
-  /* Swipe souris (desktop) */
+  /* Swipe souris (desktop).
+     Pas de setPointerCapture : ça retargete le click du bouton/carte sur `stage`
+     et empêche le clic (bug réel constaté sur PC, pas juste un artefact de test).
+     On ignore aussi tout pointerdown parti d'un bouton/lien pour ne jamais gêner
+     leur clic natif, et on écoute pointerup sur window pour ne rien rater si le
+     relâchement se fait hors de la zone. */
   var pointerDown = false, startX = 0;
   stage.addEventListener('pointerdown', function(e){
     if (e.pointerType === 'touch') return;
+    if (e.target.closest('.ac-nav, a')) return;
     pointerDown = true; dragged = false; startX = e.clientX;
     stopAuto();
-    if (stage.setPointerCapture) { try { stage.setPointerCapture(e.pointerId); } catch (err) {} }
   });
   stage.addEventListener('pointermove', function(e){
     if (!pointerDown) return;
@@ -1665,8 +1686,8 @@ function initCarousel(cfg){
     if (dx < -40) next(); else if (dx > 40) prev();
     startAuto();
   }
-  stage.addEventListener('pointerup', endSwipe);
-  stage.addEventListener('pointercancel', function(){ pointerDown = false; startAuto(); });
+  window.addEventListener('pointerup', endSwipe);
+  window.addEventListener('pointercancel', function(){ pointerDown = false; startAuto(); });
 
   render();
   if (autoOnce && 'IntersectionObserver' in window) {
