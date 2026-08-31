@@ -1299,6 +1299,42 @@ var galleryMasonry = (function(){
   });
   Cal.ns["seance-photo"]("ui", { styles: { branding: { brandColor: "#c2978f" } }, hideEventTypeDetails: false, layout: "month_view" });
 
+  /* Sur mobile, nos 3 étapes explicatives au-dessus du calendrier deviennent
+     inutiles (et prennent de la place à scroller pour rien) dès qu'on avance
+     dans le calendrier vers le formulaire puis le paiement — l'iframe change
+     nettement de hauteur à chaque étape. On les masque automatiquement dès
+     le premier changement de hauteur notable. */
+  (function(){
+    var embedEl = document.getElementById('cal-inline-embed');
+    if (!embedEl || !window.ResizeObserver) return;
+    var baseline = null, armed = false;
+    var ro = new ResizeObserver(function(entries){
+      var h = entries[0].contentRect.height;
+      if (!h || !armed) return;
+      if (baseline === null) { baseline = h; return; }
+      if (Math.abs(h - baseline) > 80) {
+        var steps = document.querySelector('.rm-steps');
+        if (steps) steps.hidden = true;
+      }
+    });
+    ro.observe(embedEl);
+    /* le calendrier se redimensionne plusieurs fois pendant son propre
+       chargement initial (squelette -> contenu réel) — on attend que ça se
+       stabilise avant de prendre une hauteur de référence, sinon on masquait
+       les étapes dès l'ouverture au lieu d'attendre une vraie progression. */
+    function arm(){
+      armed = false;
+      baseline = null;
+      setTimeout(function(){
+        var rect = embedEl.getBoundingClientRect();
+        baseline = rect.height || null;
+        armed = true;
+      }, 1800);
+    }
+    arm();
+    window.__resetStepsCollapse = arm;
+  })();
+
   /* bookingSuccessful(V2) se déclenche dès que la RÉSERVATION est créée, pas
      forcément quand le PAIEMENT est encaissé — pour un événement payant, la
      résa peut exister en attente de paiement. On ne montre notre écran
@@ -1383,6 +1419,7 @@ var galleryMasonry = (function(){
     if (embed) embed.hidden = false;
     if (steps) steps.hidden = false;
     if (confirmed) confirmed.hidden = true;
+    if (window.__resetStepsCollapse) window.__resetStepsCollapse();
     lockScroll();
     modal.hidden = false;
     requestAnimationFrame(function(){ modal.classList.add('open'); });
