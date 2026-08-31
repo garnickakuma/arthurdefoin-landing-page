@@ -1299,9 +1299,19 @@ var galleryMasonry = (function(){
   });
   Cal.ns["seance-photo"]("ui", { styles: { branding: { brandColor: "#c2978f" } }, hideEventTypeDetails: false, layout: "month_view" });
 
+  /* bookingSuccessful(V2) se déclenche dès que la RÉSERVATION est créée, pas
+     forcément quand le PAIEMENT est encaissé — pour un événement payant, la
+     résa peut exister en attente de paiement. On ne montre notre écran
+     "acompte reçu" que si Cal.com confirme explicitement paymentRequired:false.
+     Sinon (paiement encore requis, ou info absente/imprévisible), on ne touche
+     à rien et on laisse l'iframe Cal.com afficher elle-même son étape de
+     paiement — jamais de faux message "payé" tant qu'on n'en est pas sûr. */
   Cal.ns["seance-photo"]("on", {
-    action: "bookingSuccessful",
-    callback: function(){
+    action: "bookingSuccessfulV2",
+    callback: function(e){
+      var data = (e && e.detail && e.detail.data) || {};
+      var paymentRequired = data.paymentRequired;
+      if (paymentRequired !== false) return;
       try {
         if (window.fbq) fbq('track', 'Lead', { content_name: 'Offre Rentrée', value: 29, currency: 'EUR' });
       } catch (err) {}
