@@ -1359,7 +1359,14 @@ var galleryMasonry = (function(){
       var paymentRequired = data.paymentRequired;
       if (paymentRequired !== false) return;
       try {
-        if (window.fbq) fbq('track', 'Lead', { content_name: 'Offre Rentrée', value: 29, currency: 'EUR' });
+        if (window.fbq) {
+          /* On envoie les 2 : la reservation est a la fois un prospect qualifie
+             ET un vrai achat (acompte de 29 euros reellement encaisse). Ca permet
+             de tester une campagne "Achat" en parallele de la campagne "Prospect"
+             sans rien reprogrammer. */
+          fbq('track', 'Lead', { content_name: 'Offre Rentrée', value: 29, currency: 'EUR' });
+          fbq('track', 'Purchase', { content_name: 'Offre Rentrée', value: 29, currency: 'EUR' });
+        }
       } catch (err) {}
       var embed = document.getElementById('cal-inline-embed');
       var steps = document.querySelector('.rm-steps');
