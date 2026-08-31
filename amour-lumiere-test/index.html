@@ -543,6 +543,7 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
 .rm-box{position:relative; background:var(--card); border:1px solid var(--line2); border-radius:22px; padding:clamp(28px,5vw,40px) clamp(22px,4vw,36px); max-width:760px; width:100%; max-height:90vh; overflow-y:auto; text-align:center; box-shadow:0 40px 90px -30px rgba(58,50,44,.6); transform:translateY(14px) scale(.98); transition:transform .3s ease;}
 .rm-cal-embed{width:100%; min-height:520px; margin-top:10px; border-radius:14px; overflow:hidden;}
 .rm-confirmed{display:flex; flex-direction:column; align-items:center; gap:10px; padding:clamp(30px,6vw,48px) clamp(16px,4vw,30px); text-align:center;}
+.rm-confirmed[hidden]{display:none;}
 .rm-confirmed-check{width:52px; height:52px; border-radius:50%; background:var(--accent); color:#fff; font-size:26px; display:flex; align-items:center; justify-content:center; box-shadow:0 14px 30px -12px rgba(194,151,143,.7);}
 .rm-confirmed h4{font-family:var(--serif); font-style:italic; font-weight:400; font-size:clamp(20px,4vw,26px); color:var(--ink2); margin:6px 0 0;}
 .rm-confirmed p{font-family:var(--sans); font-weight:300; font-size:14.5px; line-height:1.65; color:var(--muted2); max-width:420px; margin:0;}
@@ -554,6 +555,7 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
 .rm-box h3{font-family:var(--serif); font-weight:400; font-style:italic; font-size:clamp(22px,4.6vw,29px); line-height:1.22; color:var(--ink2); margin:0 0 18px;}
 .rm-box p{font-family:var(--sans); font-weight:300; font-size:15px; line-height:1.75; color:var(--muted2); margin:0 0 12px;}
 .rm-steps{display:flex; flex-direction:column; gap:14px; text-align:left; margin:0 0 16px;}
+.rm-steps[hidden]{display:none;}
 .rm-step{display:flex; align-items:flex-start; gap:12px;}
 .rm-step-num{flex:none; width:24px; height:24px; margin-top:1px; border-radius:50%; background:var(--accent); color:#fff; font-family:var(--sans); font-weight:700; font-size:12px; display:flex; align-items:center; justify-content:center;}
 .rm-step span:last-child{font-family:var(--sans); font-weight:300; font-size:14.5px; line-height:1.5; color:var(--muted2);}
