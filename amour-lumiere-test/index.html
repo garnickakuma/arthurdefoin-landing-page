@@ -560,6 +560,23 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
   .rm-step-num{width:19px; height:19px; font-size:10px;}
 }
 .rm-note{font-family:var(--sans); font-weight:300; font-size:12.5px; line-height:1.6; color:var(--muted); margin:0 0 4px;}
+
+/* Écran 1 : choix du mode de réservation */
+.rm-choice-options{display:flex; flex-direction:column; gap:14px; margin-top:8px;}
+.rm-choice-btn{display:flex; align-items:center; gap:16px; width:100%; background:var(--rose-pale2); border:1px solid var(--line2); border-radius:16px; padding:20px 22px; text-align:left; cursor:pointer; transition:background .15s ease, border-color .15s ease, transform .15s ease;}
+.rm-choice-btn:hover{background:var(--rose-pale); border-color:var(--accent); transform:translateY(-1px);}
+.rm-choice-icon{flex:none; font-size:26px; line-height:1;}
+.rm-choice-text{display:flex; flex-direction:column; gap:4px;}
+.rm-choice-title{font-family:var(--sans); font-weight:600; font-size:15px; color:var(--ink2);}
+.rm-choice-sub{font-family:var(--sans); font-weight:300; font-size:13px; color:var(--muted2);}
+
+/* Écran 3 : contact direct */
+.rm-contact-options{display:flex; flex-direction:column; gap:12px; margin-top:22px;}
+.rm-contact-options .btn{width:100%;}
+
+/* Bouton retour, en haut à gauche des écrans 2 et 3 */
+.rm-back{display:block; background:none; border:0; padding:0; margin-bottom:16px; font-family:var(--sans); font-weight:500; font-size:13px; color:var(--muted2); cursor:pointer; text-align:left;}
+.rm-back:hover{color:var(--accent);}
 .rm-box .rm-note a{color:var(--accent); font-weight:500; text-decoration:underline; white-space:nowrap;}
 .rm-box p strong, .rm-step strong{color:var(--accent); font-weight:700;}
 .rm-box p a{color:var(--accent); font-weight:500; text-decoration:none; white-space:nowrap;}
@@ -914,20 +931,52 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
 <div class="rm-overlay" id="resa-modal" role="dialog" aria-modal="true" aria-labelledby="rm-title" hidden>
   <div class="rm-box">
     <button type="button" class="rm-close" id="rm-close" aria-label="Fermer">×</button>
-    <span class="rm-kicker">Avant de réserver</span>
-    <h3 id="rm-title">Réserver votre séance</h3>
-    <div class="rm-steps">
-      <div class="rm-step"><span class="rm-step-num">1</span><span>Choisissez un créneau ci-dessous</span></div>
-      <div class="rm-step"><span class="rm-step-num">2</span><span>Réglez l'acompte de <strong>29&nbsp;€ par carte</strong> pour le confirmer immédiatement</span></div>
-      <div class="rm-step"><span class="rm-step-num">3</span><span>Rendez-vous le jour J pour votre séance</span></div>
+
+    <!-- Écran 1 : comment voulez-vous réserver ? -->
+    <div id="rm-choice">
+      <span class="rm-kicker">Avant de réserver</span>
+      <h3>Comment souhaitez-vous réserver ?</h3>
+      <div class="rm-choice-options">
+        <button type="button" class="rm-choice-btn" id="rm-choice-self">
+          <span class="rm-choice-icon">📅</span>
+          <span class="rm-choice-text"><span class="rm-choice-title">Je réserve moi-même</span><span class="rm-choice-sub">Choisissez votre créneau et réglez l'acompte en ligne</span></span>
+        </button>
+        <button type="button" class="rm-choice-btn" id="rm-choice-arthur">
+          <span class="rm-choice-icon">💬</span>
+          <span class="rm-choice-text"><span class="rm-choice-title">Je réserve en échangeant avec Arthur</span><span class="rm-choice-sub">Par WhatsApp ou par email</span></span>
+        </button>
+      </div>
     </div>
-    <div id="cal-inline-embed" class="rm-cal-embed"></div>
-    <div id="rm-confirmed" class="rm-confirmed" hidden>
-      <div class="rm-confirmed-check">✓</div>
-      <h4>Votre séance est confirmée !</h4>
-      <p>Votre acompte de <strong>29&nbsp;€</strong> a bien été reçu. Vous allez recevoir un email de confirmation avec tous les détails — à bientôt !</p>
+
+    <!-- Écran 2 : réservation en ligne (calendrier Cal.com) -->
+    <div id="rm-booking" hidden>
+      <button type="button" class="rm-back" id="rm-back-booking">‹ Retour</button>
+      <span class="rm-kicker">Avant de réserver</span>
+      <h3 id="rm-title">Réserver votre séance</h3>
+      <div class="rm-steps">
+        <div class="rm-step"><span class="rm-step-num">1</span><span>Choisissez un créneau ci-dessous</span></div>
+        <div class="rm-step"><span class="rm-step-num">2</span><span>Réglez l'acompte de <strong>29&nbsp;€ par carte</strong> pour le confirmer immédiatement</span></div>
+        <div class="rm-step"><span class="rm-step-num">3</span><span>Rendez-vous le jour J pour votre séance</span></div>
+      </div>
+      <div id="cal-inline-embed" class="rm-cal-embed"></div>
+      <div id="rm-confirmed" class="rm-confirmed" hidden>
+        <div class="rm-confirmed-check">✓</div>
+        <h4>Votre séance est confirmée !</h4>
+        <p>Votre acompte de <strong>29&nbsp;€</strong> a bien été reçu. Vous allez recevoir un email de confirmation avec tous les détails — à bientôt !</p>
+      </div>
+      <p class="rm-note" style="margin-top:14px;">Des questions ? <a href="#" id="rm-email">Email</a> · <a href="#" id="rm-wa" target="_blank" rel="noopener">WhatsApp</a></p>
     </div>
-    <p class="rm-note" style="margin-top:14px;">Des questions ? <a href="#" id="rm-email">Email</a> · <a href="#" id="rm-wa" target="_blank" rel="noopener">WhatsApp</a></p>
+
+    <!-- Écran 3 : échanger avec Arthur -->
+    <div id="rm-contact" hidden>
+      <button type="button" class="rm-back" id="rm-back-contact">‹ Retour</button>
+      <span class="rm-kicker">Échanger avec Arthur</span>
+      <h3>Comment préférez-vous nous contacter ?</h3>
+      <div class="rm-contact-options">
+        <a class="btn btn--fill" id="rm-contact-wa" href="#" target="_blank" rel="noopener">WhatsApp</a>
+        <a class="btn btn--outline" id="rm-contact-email" href="#">Email</a>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -1386,6 +1435,12 @@ var galleryMasonry = (function(){
   var waLink = document.getElementById('rm-wa');
   if (!modal || !emailLink || !waLink) return;
 
+  var choiceEl = document.getElementById('rm-choice');
+  var bookingEl = document.getElementById('rm-booking');
+  var contactEl = document.getElementById('rm-contact');
+  var contactEmailLink = document.getElementById('rm-contact-email');
+  var contactWaLink = document.getElementById('rm-contact-wa');
+
   var RESA = {
     mini: {
       subject: "Offre Rentrée - Mini séance 99€",
@@ -1424,10 +1479,22 @@ var galleryMasonry = (function(){
     window.scrollTo(0, lockedScrollY);
     document.documentElement.style.scrollBehavior = prevBehavior;
   }
+  /* 3 écrans dans la même modale : choix du mode -> soit le calendrier
+     embarqué, soit le contact direct. On ne montre jamais qu'un seul écran
+     à la fois. */
+  function showScreen(el){
+    [choiceEl, bookingEl, contactEl].forEach(function(s){ if (s) s.hidden = (s !== el); });
+  }
+  function goChoice(){ showScreen(choiceEl); }
+  function goBooking(){ showScreen(bookingEl); if (window.__resetStepsCollapse) window.__resetStepsCollapse(); }
+  function goContact(){ showScreen(contactEl); }
+
   function openModal(kind){
     var opt = RESA[kind] || RESA.general;
     emailLink.href = 'mailto:defoin.arthur@gmail.com?subject=' + encodeURIComponent(opt.subject);
     waLink.href = 'https://wa.me/33789954427?text=' + encodeURIComponent(opt.wa);
+    if (contactEmailLink) contactEmailLink.href = emailLink.href;
+    if (contactWaLink) contactWaLink.href = waLink.href;
     /* remet l'état "avant réservation" au cas où une résa a déjà été confirmée
        lors d'une ouverture précédente de la modale */
     var embed = document.getElementById('cal-inline-embed');
@@ -1436,7 +1503,7 @@ var galleryMasonry = (function(){
     if (embed) embed.hidden = false;
     if (steps) steps.hidden = false;
     if (confirmed) confirmed.hidden = true;
-    if (window.__resetStepsCollapse) window.__resetStepsCollapse();
+    goChoice();
     lockScroll();
     modal.hidden = false;
     requestAnimationFrame(function(){ modal.classList.add('open'); });
@@ -1446,6 +1513,17 @@ var galleryMasonry = (function(){
     unlockScroll();
     setTimeout(function(){ modal.hidden = true; }, 300);
   }
+
+  var choiceSelfBtn = document.getElementById('rm-choice-self');
+  var choiceArthurBtn = document.getElementById('rm-choice-arthur');
+  if (choiceSelfBtn) choiceSelfBtn.addEventListener('click', goBooking);
+  if (choiceArthurBtn) choiceArthurBtn.addEventListener('click', goContact);
+  var backBookingBtn = document.getElementById('rm-back-booking');
+  var backContactBtn = document.getElementById('rm-back-contact');
+  if (backBookingBtn) backBookingBtn.addEventListener('click', goChoice);
+  if (backContactBtn) backContactBtn.addEventListener('click', goChoice);
+  if (contactEmailLink) contactEmailLink.addEventListener('click', closeModal);
+  if (contactWaLink) contactWaLink.addEventListener('click', closeModal);
 
   closeBtn.addEventListener('click', closeModal);
   modal.addEventListener('click', function(e){ if (e.target === modal) closeModal(); });
