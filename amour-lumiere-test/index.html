@@ -840,7 +840,7 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
         <div class="step3-body">
           <div class="step3-title">Acompte <span class="step3-free">29&nbsp;€, le reste sur place</span></div>
         </div>
-        <div class="step3-popup"><span class="step3-popup-eyebrow">Bon à savoir</span><p>L'acompte se règle par carte directement lors de la réservation en ligne, pour bloquer votre date. Vous pouvez changer de date en nous prévenant au plus tard 72&nbsp;h avant. Le reste est à régler en espèces sur place.</p></div>
+        <div class="step3-popup"><span class="step3-popup-eyebrow">Bon à savoir</span><p>Une fois la date choisie ensemble, l'acompte se règle par Wero ou par virement bancaire pour bloquer votre créneau. Vous pouvez changer de date en nous prévenant au plus tard 72&nbsp;h avant. Le reste est à régler en espèces sur place.</p></div>
       </div>
       <div class="step3" tabindex="0" role="button" aria-label="Étape 3 : Séance — appuyer pour en savoir plus">
         <span class="step3-num"><span>3</span></span>
@@ -882,7 +882,7 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
     </details>
 
     <div class="conditions-box rise">
-      <p>Offre Rentrée valable pour une durée limitée. Un acompte de <strong>29&nbsp;€</strong>, réglé par carte lors de la réservation, est obligatoire pour valider votre créneau — le solde (70&nbsp;€ pour la mini séance, 120&nbsp;€ pour la séance complète) est réglé <strong>en espèces sur place</strong>, le jour de la séance. Séances uniquement <strong>le samedi ou le dimanche</strong>.</p>
+      <p>Offre Rentrée valable pour une durée limitée. La réservation se fait <strong>par WhatsApp ou par email</strong> : nous choisissons ensemble votre date, puis un acompte de <strong>29&nbsp;€</strong>, réglé par <strong>Wero ou virement bancaire</strong>, valide votre créneau — le solde (70&nbsp;€ pour la mini séance, 120&nbsp;€ pour la séance complète) est réglé <strong>en espèces sur place</strong>, le jour de la séance. Séances uniquement <strong>le samedi ou le dimanche</strong>.</p>
     </div>
 
     <div class="tarifs-cta rise">
@@ -932,46 +932,32 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
   <div class="rm-box">
     <button type="button" class="rm-close" id="rm-close" aria-label="Fermer">×</button>
 
-    <!-- Écran 1 : comment voulez-vous réserver ? -->
-    <div id="rm-choice">
+    <!-- Écran 0 : quelle formule ? (seulement quand on arrive par un bouton "Réserver" générique) -->
+    <div id="rm-formula" hidden>
       <span class="rm-kicker">Avant de réserver</span>
-      <h3>Comment souhaitez-vous réserver ?</h3>
+      <h3>Quelle formule souhaitez-vous ?</h3>
       <div class="rm-choice-options">
-        <button type="button" class="rm-choice-btn" id="rm-choice-self">
-          <span class="rm-choice-icon">📅</span>
-          <span class="rm-choice-text"><span class="rm-choice-title">Je réserve moi-même</span><span class="rm-choice-sub">Choisissez votre créneau et réglez l'acompte en ligne</span></span>
+        <button type="button" class="rm-choice-btn" id="rm-formula-mini">
+          <span class="rm-choice-icon">📸</span>
+          <span class="rm-choice-text"><span class="rm-choice-title">Mini séance — 99&nbsp;€</span><span class="rm-choice-sub">10 photos studio, au lieu de 250&nbsp;€</span></span>
         </button>
-        <button type="button" class="rm-choice-btn" id="rm-choice-arthur">
-          <span class="rm-choice-icon">💬</span>
-          <span class="rm-choice-text"><span class="rm-choice-title">Je réserve en échangeant avec Arthur</span><span class="rm-choice-sub">Par WhatsApp ou par email</span></span>
+        <button type="button" class="rm-choice-btn" id="rm-formula-complete">
+          <span class="rm-choice-icon">📸</span>
+          <span class="rm-choice-text"><span class="rm-choice-title">Séance complète — 149&nbsp;€</span><span class="rm-choice-sub">Toute la galerie, au lieu de 350&nbsp;€</span></span>
         </button>
       </div>
     </div>
 
-    <!-- Écran 2 : réservation en ligne (calendrier Cal.com) -->
-    <div id="rm-booking" hidden>
-      <button type="button" class="rm-back" id="rm-back-booking">‹ Retour</button>
-      <span class="rm-kicker">Avant de réserver</span>
-      <h3 id="rm-title">Réserver votre séance</h3>
-      <div class="rm-steps">
-        <div class="rm-step"><span class="rm-step-num">1</span><span>Choisissez un créneau ci-dessous</span></div>
-        <div class="rm-step"><span class="rm-step-num">2</span><span>Réglez l'acompte de <strong>29&nbsp;€ par carte</strong> pour le confirmer immédiatement</span></div>
-        <div class="rm-step"><span class="rm-step-num">3</span><span>Rendez-vous le jour J pour votre séance</span></div>
-      </div>
-      <div id="cal-inline-embed" class="rm-cal-embed"></div>
-      <div id="rm-confirmed" class="rm-confirmed" hidden>
-        <div class="rm-confirmed-check">✓</div>
-        <h4>Votre séance est confirmée !</h4>
-        <p>Votre acompte de <strong>29&nbsp;€</strong> a bien été reçu. Vous allez recevoir un email de confirmation avec tous les détails — à bientôt !</p>
-      </div>
-      <p class="rm-note" style="margin-top:14px;">Des questions ? <a href="#" id="rm-email">Email</a> · <a href="#" id="rm-wa" target="_blank" rel="noopener">WhatsApp</a></p>
-    </div>
-
-    <!-- Écran 3 : échanger avec Arthur -->
+    <!-- Écran 1 : échanger avec Arthur (seule voie de réservation) -->
     <div id="rm-contact" hidden>
-      <button type="button" class="rm-back" id="rm-back-contact">‹ Retour</button>
+      <button type="button" class="rm-back" id="rm-back-contact" hidden>‹ Retour</button>
       <span class="rm-kicker">Échanger avec Arthur</span>
-      <h3>Comment préférez-vous nous contacter ?</h3>
+      <h3 id="rm-title">Comment préférez-vous nous contacter ?</h3>
+      <div class="rm-steps">
+        <div class="rm-step"><span class="rm-step-num">1</span><span>Écrivez-nous par WhatsApp ou par email</span></div>
+        <div class="rm-step"><span class="rm-step-num">2</span><span>Nous choisissons ensemble votre date, <strong>le samedi ou le dimanche</strong></span></div>
+        <div class="rm-step"><span class="rm-step-num">3</span><span>Vous réglez l'acompte de <strong>29&nbsp;€ par Wero ou virement</strong> pour bloquer le créneau</span></div>
+      </div>
       <div class="rm-contact-options">
         <a class="btn btn--fill" id="rm-contact-wa" href="#" target="_blank" rel="noopener">WhatsApp</a>
         <a class="btn btn--outline" id="rm-contact-email" href="#">Email</a>
@@ -1333,110 +1319,15 @@ var galleryMasonry = (function(){
   document.addEventListener('keydown', function(e){ if (e.key === 'Escape') close(); });
 })();
 
-/* ---- Cal.com : calendrier embarqué directement dans la modale de réservation ----
-   On charge le script officiel une seule fois, on l'embarque (mode "inline") dans
-   #cal-inline-embed, et on déclenche le vrai événement Meta "Lead" seulement quand
-   une réservation est réellement confirmée (pas au simple clic — ça, ça mentait). */
-(function(){
-  (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if (typeof namespace === "string") { cal.ns[namespace] = cal.ns[namespace] || api; p(cal.ns[namespace], ar); p(cal, ["initNamespace", namespace]); } else p(cal, ar); return; } p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
-
-  Cal("init", "seance-photo", { origin: "https://cal.com" });
-  Cal.ns["seance-photo"]("inline", {
-    elementOrSelector: "#cal-inline-embed",
-    calLink: "amour-et-lumiere/seance-photo-studio",
-    config: { layout: "month_view" }
-  });
-  Cal.ns["seance-photo"]("ui", { styles: { branding: { brandColor: "#c2978f" } }, hideEventTypeDetails: false, layout: "month_view" });
-
-  /* Sur mobile, nos 3 étapes explicatives au-dessus du calendrier deviennent
-     inutiles (et prennent de la place à scroller pour rien) dès qu'on avance
-     dans le calendrier vers le formulaire puis le paiement — l'iframe change
-     nettement de hauteur à chaque étape. On les masque automatiquement dès
-     le premier changement de hauteur notable. */
-  (function(){
-    var embedEl = document.getElementById('cal-inline-embed');
-    if (!embedEl || !window.ResizeObserver) return;
-    var baseline = null, armed = false;
-    var ro = new ResizeObserver(function(entries){
-      var h = entries[0].contentRect.height;
-      if (!h || !armed) return;
-      if (baseline === null) { baseline = h; return; }
-      if (Math.abs(h - baseline) > 80) {
-        baseline = h; /* on ne réagit qu'aux vrais changements d'étape suivants, pas aux petits ajustements dans la même étape */
-        var steps = document.querySelector('.rm-steps');
-        if (steps) steps.hidden = true;
-        /* Un balayage qui démarre sur l'iframe ne peut pas faire défiler notre
-           page derrière (limite technique des iframes) — on scrolle donc
-           nous-mêmes automatiquement jusqu'au haut de la nouvelle étape à
-           chaque fois que le calendrier change de contenu, pour qu'il n'y ait
-           jamais besoin de "sortir" du cadre pour continuer. */
-        requestAnimationFrame(function(){
-          var box = document.querySelector('.rm-box');
-          if (box) box.scrollTo({ top: Math.max(0, embedEl.offsetTop - 12), behavior: 'smooth' });
-        });
-      }
-    });
-    ro.observe(embedEl);
-    /* le calendrier se redimensionne plusieurs fois pendant son propre
-       chargement initial (squelette -> contenu réel) — on attend que ça se
-       stabilise avant de prendre une hauteur de référence, sinon on masquait
-       les étapes dès l'ouverture au lieu d'attendre une vraie progression. */
-    function arm(){
-      armed = false;
-      baseline = null;
-      setTimeout(function(){
-        var rect = embedEl.getBoundingClientRect();
-        baseline = rect.height || null;
-        armed = true;
-      }, 1800);
-    }
-    arm();
-    window.__resetStepsCollapse = arm;
-  })();
-
-  /* bookingSuccessful(V2) se déclenche dès que la RÉSERVATION est créée, pas
-     forcément quand le PAIEMENT est encaissé — pour un événement payant, la
-     résa peut exister en attente de paiement. On ne montre notre écran
-     "acompte reçu" que si Cal.com confirme explicitement paymentRequired:false.
-     Sinon (paiement encore requis, ou info absente/imprévisible), on ne touche
-     à rien et on laisse l'iframe Cal.com afficher elle-même son étape de
-     paiement — jamais de faux message "payé" tant qu'on n'en est pas sûr. */
-  Cal.ns["seance-photo"]("on", {
-    action: "bookingSuccessfulV2",
-    callback: function(e){
-      var data = (e && e.detail && e.detail.data) || {};
-      var paymentRequired = data.paymentRequired;
-      if (paymentRequired !== false) return;
-      try {
-        if (window.fbq) {
-          /* On envoie les 2 : la reservation est a la fois un prospect qualifie
-             ET un vrai achat (acompte de 29 euros reellement encaisse). Ca permet
-             de tester une campagne "Achat" en parallele de la campagne "Prospect"
-             sans rien reprogrammer. */
-          fbq('track', 'Lead', { content_name: 'Offre Rentrée', value: 29, currency: 'EUR' });
-          fbq('track', 'Purchase', { content_name: 'Offre Rentrée', value: 29, currency: 'EUR' });
-        }
-      } catch (err) {}
-      var embed = document.getElementById('cal-inline-embed');
-      var steps = document.querySelector('.rm-steps');
-      var confirmed = document.getElementById('rm-confirmed');
-      if (embed) embed.hidden = true;
-      if (steps) steps.hidden = true;
-      if (confirmed) confirmed.hidden = false;
-    }
-  });
-})();
-
-/* ---- Modale de réservation : ouvre l'explication + le calendrier embarqué ---- */
+/* ---- Modale de réservation : ici, pas de calendrier en ligne. La réservation
+   passe uniquement par un échange WhatsApp ou email avec Arthur : on cale
+   ensemble la date du week-end et on répond aux questions avant de bloquer. ---- */
 (function(){
   var modal = document.getElementById('resa-modal');
   var closeBtn = document.getElementById('rm-close');
-  var emailLink = document.getElementById('rm-email');
-  var waLink = document.getElementById('rm-wa');
-  if (!modal || !emailLink || !waLink) return;
+  if (!modal) return;
 
-  var choiceEl = document.getElementById('rm-choice');
-  var bookingEl = document.getElementById('rm-booking');
+  var formulaEl = document.getElementById('rm-formula');
   var contactEl = document.getElementById('rm-contact');
   var contactEmailLink = document.getElementById('rm-contact-email');
   var contactWaLink = document.getElementById('rm-contact-wa');
@@ -1479,31 +1370,30 @@ var galleryMasonry = (function(){
     window.scrollTo(0, lockedScrollY);
     document.documentElement.style.scrollBehavior = prevBehavior;
   }
-  /* 3 écrans dans la même modale : choix du mode -> soit le calendrier
-     embarqué, soit le contact direct. On ne montre jamais qu'un seul écran
-     à la fois. */
+  /* 2 écrans dans la même modale : le choix de la formule (seulement quand on
+     arrive par un bouton « Réserver » générique, qui ne dit pas laquelle), puis
+     le contact WhatsApp / email. On ne montre jamais qu'un seul écran à la fois. */
+  var backContactBtn = document.getElementById('rm-back-contact');
   function showScreen(el){
-    [choiceEl, bookingEl, contactEl].forEach(function(s){ if (s) s.hidden = (s !== el); });
+    [formulaEl, contactEl].forEach(function(s){ if (s) s.hidden = (s !== el); });
   }
-  function goChoice(){ showScreen(choiceEl); }
-  function goBooking(){ showScreen(bookingEl); if (window.__resetStepsCollapse) window.__resetStepsCollapse(); }
-  function goContact(){ showScreen(contactEl); }
+
+  /* Prépare les liens WhatsApp et email avec le bon message selon la formule,
+     puis affiche l'écran de contact. `fromFormula` dit si l'on vient de l'écran
+     de choix : c'est le seul cas où le bouton « Retour » a une destination. */
+  function goContact(kind, fromFormula){
+    var opt = RESA[kind] || RESA.general;
+    var mailHref = 'mailto:defoin.arthur@gmail.com?subject=' + encodeURIComponent(opt.subject);
+    var waHref = 'https://wa.me/33789954427?text=' + encodeURIComponent(opt.wa);
+    if (contactEmailLink) contactEmailLink.href = mailHref;
+    if (contactWaLink) contactWaLink.href = waHref;
+    if (backContactBtn) backContactBtn.hidden = !fromFormula;
+    showScreen(contactEl);
+  }
 
   function openModal(kind){
-    var opt = RESA[kind] || RESA.general;
-    emailLink.href = 'mailto:defoin.arthur@gmail.com?subject=' + encodeURIComponent(opt.subject);
-    waLink.href = 'https://wa.me/33789954427?text=' + encodeURIComponent(opt.wa);
-    if (contactEmailLink) contactEmailLink.href = emailLink.href;
-    if (contactWaLink) contactWaLink.href = waLink.href;
-    /* remet l'état "avant réservation" au cas où une résa a déjà été confirmée
-       lors d'une ouverture précédente de la modale */
-    var embed = document.getElementById('cal-inline-embed');
-    var steps = document.querySelector('.rm-steps');
-    var confirmed = document.getElementById('rm-confirmed');
-    if (embed) embed.hidden = false;
-    if (steps) steps.hidden = false;
-    if (confirmed) confirmed.hidden = true;
-    goChoice();
+    if (kind === 'general' && formulaEl) showScreen(formulaEl);
+    else goContact(kind, false);
     lockScroll();
     modal.hidden = false;
     requestAnimationFrame(function(){ modal.classList.add('open'); });
@@ -1514,14 +1404,11 @@ var galleryMasonry = (function(){
     setTimeout(function(){ modal.hidden = true; }, 300);
   }
 
-  var choiceSelfBtn = document.getElementById('rm-choice-self');
-  var choiceArthurBtn = document.getElementById('rm-choice-arthur');
-  if (choiceSelfBtn) choiceSelfBtn.addEventListener('click', goBooking);
-  if (choiceArthurBtn) choiceArthurBtn.addEventListener('click', goContact);
-  var backBookingBtn = document.getElementById('rm-back-booking');
-  var backContactBtn = document.getElementById('rm-back-contact');
-  if (backBookingBtn) backBookingBtn.addEventListener('click', goChoice);
-  if (backContactBtn) backContactBtn.addEventListener('click', goChoice);
+  var formulaMiniBtn = document.getElementById('rm-formula-mini');
+  var formulaCompleteBtn = document.getElementById('rm-formula-complete');
+  if (formulaMiniBtn) formulaMiniBtn.addEventListener('click', function(){ goContact('mini', true); });
+  if (formulaCompleteBtn) formulaCompleteBtn.addEventListener('click', function(){ goContact('complete', true); });
+  if (backContactBtn) backContactBtn.addEventListener('click', function(){ showScreen(formulaEl); });
   if (contactEmailLink) contactEmailLink.addEventListener('click', closeModal);
   if (contactWaLink) contactWaLink.addEventListener('click', closeModal);
 
@@ -1536,9 +1423,13 @@ var galleryMasonry = (function(){
   });
 })();
 
-/* ---- Suivi Pixel Meta sur les clics « nous contacter » (email / WhatsApp, questions) ----
-   Ce n'est plus le signal de prospect (trop peu fiable — clic ≠ message envoyé).
-   Le vrai "Lead" est déclenché uniquement sur une réservation Cal.com confirmée. */
+/* ---- Suivi Pixel Meta sur les clics « nous contacter » (email / WhatsApp) ----
+   Le calendrier en ligne a été retiré : ces clics sont désormais le SEUL signal
+   de conversion disponible sur la page. On envoie donc les deux événements —
+   "Contact" (fidèle : un clic est un contact) et "Lead" (pour que les campagnes
+   aient une colonne Prospects à optimiser). À savoir : un clic n'est pas un
+   message envoyé, donc le Lead est un peu généreux. Retirer la ligne "Lead"
+   suffit à revenir au comptage strict. */
 (function(){
   document.addEventListener('click', function(e){
     var a = e.target.closest ? e.target.closest('a[href^="mailto:"], a[href*="wa.me"]') : null;
@@ -1546,6 +1437,7 @@ var galleryMasonry = (function(){
     try {
       if (window.fbq) {
         fbq('track', 'Contact');
+        fbq('track', 'Lead', { content_name: 'Offre Rentrée' });
       }
     } catch (err) {}
   });
@@ -1553,8 +1445,8 @@ var galleryMasonry = (function(){
 
 /* ---- FAQ ---- */
 var FAQ = [
-  { q: "Comment réserver l'offre Rentrée ?", a: "Cliquez sur « Réserver », choisissez votre créneau et réglez l'acompte de 29 € par carte : votre séance est confirmée immédiatement." },
-  { q: "Comment fonctionne le paiement ?", a: "Un acompte de 29 € est réglé par carte au moment de la réservation pour la valider. Le solde est réglé en espèces sur place, le jour de la séance : 70 € pour la mini séance, 120 € pour la séance complète." },
+  { q: "Comment réserver l'offre Rentrée ?", a: "Cliquez sur « Réserver » et écrivez-nous par WhatsApp ou par email. Nous choisissons ensemble la date et la formule, puis l'acompte de 29 € bloque votre créneau." },
+  { q: "Comment fonctionne le paiement ?", a: "Un acompte de 29 € est réglé par Wero ou par virement bancaire, une fois la date fixée ensemble, pour valider la réservation. Le solde est réglé en espèces sur place, le jour de la séance : 70 € pour la mini séance, 120 € pour la séance complète." },
   { q: "Quels jours sont disponibles ?", a: "Les séances de l'offre Rentrée ont lieu uniquement le week-end, le samedi ou le dimanche." },
   { q: "Que dois-je porter ?", a: "Vos propres vêtements — deux tenues sont possibles si vous le souhaitez. Nous vous conseillons sur les matières et les couleurs avant la séance. Aucun prêt de robes ni d'accessoires." },
   { q: "Puis-je reporter ma séance ?", a: "Oui, une fois et sans frais, jusqu'à 72h avant la séance." },
