@@ -526,7 +526,7 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
 .rm-overlay{position:fixed; inset:0; z-index:90; background:rgba(58,50,44,.55); -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px); display:flex; align-items:center; justify-content:center; padding:20px; opacity:0; transition:opacity .3s ease;}
 .rm-overlay[hidden]{display:none;}
 .rm-overlay.open{opacity:1;}
-.rm-box{position:relative; background:var(--card); border:1px solid var(--line2); border-radius:22px; padding:clamp(28px,5vw,40px) clamp(22px,4vw,36px); max-width:760px; width:100%; max-height:90vh; overflow-y:auto; text-align:center; box-shadow:0 40px 90px -30px rgba(58,50,44,.6); transform:translateY(14px) scale(.98); transition:transform .3s ease;}
+.rm-box{position:relative; background:var(--card); border:1px solid var(--line2); border-radius:22px; padding:clamp(28px,5vw,40px) clamp(22px,4vw,36px); max-width:460px; width:100%; max-height:90vh; overflow-y:auto; text-align:center; box-shadow:0 40px 90px -30px rgba(58,50,44,.6); transform:translateY(14px) scale(.98); transition:transform .3s ease;}
 .rm-cal-embed{width:100%; min-height:520px; margin-top:10px; border-radius:14px; overflow:hidden;}
 .rm-confirmed{display:flex; flex-direction:column; align-items:center; gap:10px; padding:clamp(30px,6vw,48px) clamp(16px,4vw,30px); text-align:center;}
 .rm-confirmed[hidden]{display:none;}
@@ -576,6 +576,7 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
 
 /* Bouton retour, en haut à gauche des écrans 2 et 3 */
 .rm-back{display:block; background:none; border:0; padding:0; margin-bottom:16px; font-family:var(--sans); font-weight:500; font-size:13px; color:var(--muted2); cursor:pointer; text-align:left;}
+.rm-back[hidden]{display:none;}
 .rm-back:hover{color:var(--accent);}
 .rm-box .rm-note a{color:var(--accent); font-weight:500; text-decoration:underline; white-space:nowrap;}
 .rm-box p strong, .rm-step strong{color:var(--accent); font-weight:700;}
