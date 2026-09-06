@@ -737,6 +737,27 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
   .rise{opacity:1 !important; transform:none !important; transition:none !important;}
   .masonry, .reveal-q, .faq-item.open .faq-a{animation:none !important;}
 }
+/* ===== Réservation en ligne : choix du créneau, coordonnées, paiement ===== */
+.rm-rappel{font-family:var(--sans); font-size:13px; color:var(--muted2); margin:-8px 0 18px;}
+.rm-rappel strong{color:var(--accent); font-weight:600;}
+.rm-jours{display:flex; flex-direction:column; gap:20px; text-align:left; max-height:46vh; overflow-y:auto; padding-right:4px;}
+.rm-jour-titre{font-family:var(--serif); font-style:italic; font-size:19px; color:var(--ink2); margin:0 0 10px;}
+.rm-chips{display:flex; flex-wrap:wrap; gap:8px;}
+.rm-chip{font-family:var(--sans); font-size:14px; font-weight:500; color:var(--ink2); background:var(--rose-pale2); border:1px solid var(--line2); border-radius:999px; padding:9px 16px; cursor:pointer; transition:background .15s ease, border-color .15s ease, transform .15s ease;}
+.rm-chip:hover:not([disabled]){background:var(--rose-pale); border-color:var(--accent); transform:translateY(-1px);}
+.rm-chip[disabled]{opacity:.38; cursor:not-allowed; text-decoration:line-through;}
+.rm-chip.is-choisi{background:var(--accent); border-color:var(--accent); color:#fff;}
+.rm-vide{font-family:var(--sans); font-size:14px; color:var(--muted2); text-align:center; padding:22px 0; margin:0;}
+.rm-champs{display:flex; flex-direction:column; gap:14px; text-align:left; margin-bottom:18px;}
+.rm-champs label{font-family:var(--sans); font-size:12.5px; font-weight:500; color:var(--muted2); display:flex; flex-direction:column; gap:5px;}
+.rm-champs input{font-family:var(--sans); font-size:15px; color:var(--ink2); background:#fff; border:1px solid var(--line2); border-radius:11px; padding:11px 13px; width:100%;}
+.rm-champs input:focus{outline:none; border-color:var(--accent);}
+.rm-recap{font-family:var(--sans); font-size:13.5px; line-height:1.7; color:var(--muted2); background:var(--rose-pale2); border-radius:12px; padding:13px 16px; text-align:left; margin:0 0 4px;}
+.rm-recap strong{color:var(--ink2); font-weight:600;}
+.rm-erreur{font-family:var(--sans); font-size:13.5px; color:#A3453C; background:#F8E6E6; border-radius:10px; padding:10px 14px; margin:14px 0 0;}
+.rm-erreur[hidden]{display:none;}
+.rm-stripe{min-height:280px; margin-top:6px;}
+.rm-chargement{font-family:var(--sans); font-size:13.5px; color:var(--muted2); text-align:center; padding:26px 0;}
 </style>
 </head>
 <body>
@@ -939,16 +960,56 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
       </div>
     </div>
 
-    <!-- Écran 1 : échanger avec Arthur (seule voie de réservation ici) -->
+    <!-- Écran 1 : choix du créneau -->
+    <div id="rm-creneaux" hidden>
+      <button type="button" class="rm-back" id="rm-back-creneaux" hidden>‹ Retour</button>
+      <span class="rm-kicker">Réserver votre séance</span>
+      <h3 id="rm-title">Choisissez votre créneau</h3>
+      <p class="rm-rappel" id="rm-rappel"></p>
+      <div class="rm-jours" id="rm-jours"><p class="rm-vide">Chargement des disponibilités…</p></div>
+      <p class="rm-note" style="margin-top:16px;">Une question avant de réserver ? <a href="#" id="rm-vers-contact">Écrivez-nous</a></p>
+    </div>
+
+    <!-- Écran 2 : coordonnées -->
+    <div id="rm-form" hidden>
+      <button type="button" class="rm-back" id="rm-back-form">‹ Retour</button>
+      <span class="rm-kicker">Vos coordonnées</span>
+      <h3>Encore un instant</h3>
+      <div class="rm-champs">
+        <label>Nom et prénom<input type="text" id="rm-nom" autocomplete="name" placeholder="Camille Durand"></label>
+        <label>Email<input type="email" id="rm-email" autocomplete="email" placeholder="camille@exemple.fr"></label>
+        <label>Téléphone<input type="tel" id="rm-tel" autocomplete="tel" placeholder="06 12 34 56 78"></label>
+      </div>
+      <p class="rm-recap" id="rm-recap"></p>
+      <div class="rm-contact-options">
+        <button type="button" class="btn btn--fill" id="rm-payer">Régler l'acompte de 29&nbsp;€</button>
+      </div>
+      <p class="rm-erreur" id="rm-erreur" hidden></p>
+    </div>
+
+    <!-- Écran 3 : paiement -->
+    <div id="rm-paiement" hidden>
+      <button type="button" class="rm-back" id="rm-back-paiement">‹ Retour</button>
+      <span class="rm-kicker">Paiement sécurisé</span>
+      <h3>Acompte de 29&nbsp;€</h3>
+      <div class="rm-stripe" id="rm-stripe"><p class="rm-chargement">Ouverture du paiement…</p></div>
+    </div>
+
+    <!-- Écran 4 : c'est réservé -->
+    <div id="rm-confirme" hidden>
+      <div class="rm-confirmed">
+        <div class="rm-confirmed-check">✓</div>
+        <h4>Votre séance est réservée</h4>
+        <p id="rm-confirme-texte"></p>
+      </div>
+    </div>
+
+    <!-- Écran 5 : une question avant de réserver -->
     <div id="rm-contact" hidden>
       <button type="button" class="rm-back" id="rm-back-contact" hidden>‹ Retour</button>
-      <span class="rm-kicker">Échanger avec Arthur</span>
-      <h3 id="rm-title">Comment préférez-vous nous contacter ?</h3>
-      <div class="rm-steps">
-        <div class="rm-step"><span class="rm-step-num">1</span><span>Écrivez-nous par WhatsApp ou par email</span></div>
-        <div class="rm-step"><span class="rm-step-num">2</span><span>Nous choisissons ensemble votre date, <strong>le samedi ou le dimanche</strong></span></div>
-        <div class="rm-step"><span class="rm-step-num">3</span><span>Vous réglez par <strong>Wero ou virement</strong> pour confirmer votre séance</span></div>
-      </div>
+      <span class="rm-kicker">Une question ?</span>
+      <h3>Comment préférez-vous nous joindre ?</h3>
+      <p class="rm-rappel">Nous répondons vite. Nous pouvons aussi bloquer votre créneau à la main si vous préférez.</p>
       <div class="rm-contact-options">
         <a class="btn btn--fill" id="rm-contact-wa" href="#" target="_blank" rel="noopener">WhatsApp</a>
         <a class="btn btn--outline" id="rm-contact-email" href="#">Email</a>
@@ -1310,124 +1371,320 @@ var galleryMasonry = (function(){
   document.addEventListener('keydown', function(e){ if (e.key === 'Escape') close(); });
 })();
 
-/* ---- Modale de réservation : ici, pas de calendrier en ligne. La réservation
-   passe uniquement par un échange WhatsApp ou email avec Arthur, parce que les
-   séances plage n'ont lieu que le week-end et que la date se cale ensemble. ---- */
+/* ---- Réservation en ligne ----------------------------------------------
+   Le visiteur choisit sa formule, puis son créneau parmi ceux réellement
+   ouverts, laisse ses coordonnées et règle l'acompte de 29 € sans quitter
+   la page. Le créneau n'est verrouillé qu'une fois le paiement encaissé,
+   côté serveur : un abandon en cours de route le rend aux autres.
+   Le contact WhatsApp / email reste disponible pour les questions. */
 (function(){
+  var API = 'https://amour-lumiere-reservation.defoin-arthur.workers.dev';
+  var SITE = 'arcachon';
+  var STRIPE_PK = 'pk_test_A_REMPLACER';
+
   var modal = document.getElementById('resa-modal');
   var closeBtn = document.getElementById('rm-close');
   if (!modal) return;
 
-  var formulaEl = document.getElementById('rm-formula');
-  var contactEl = document.getElementById('rm-contact');
-  var contactEmailLink = document.getElementById('rm-contact-email');
-  var contactWaLink = document.getElementById('rm-contact-wa');
-
-  var RESA = {
-    mini: {
-      subject: "Séance plage Arcachon - Mini séance 99€",
-      wa: "Bonjour ! J'aimerais réserver la Mini séance à 99€ sur la plage de la Lagune 📸"
-    },
-    complete: {
-      subject: "Séance plage Arcachon - Séance complète 149€",
-      wa: "Bonjour ! J'aimerais réserver la Séance complète à 149€ sur la plage de la Lagune 📸"
-    },
-    general: {
-      subject: "Séance plage Arcachon - Réservation",
-      wa: "Bonjour ! J'aimerais réserver une séance photo sur la plage de la Lagune 📸"
-    }
+  var ecrans = {
+    formule:  document.getElementById('rm-formula'),
+    creneaux: document.getElementById('rm-creneaux'),
+    form:     document.getElementById('rm-form'),
+    paiement: document.getElementById('rm-paiement'),
+    confirme: document.getElementById('rm-confirme'),
+    contact:  document.getElementById('rm-contact')
   };
 
-  /* Verrouille le scroll SANS remonter en haut de la page (bug classique sur
-     mobile : un simple overflow:hidden sur le body fait sauter le scroll à 0) */
-  var lockedScrollY = 0;
-  function lockScroll(){
-    lockedScrollY = window.scrollY;
+  var FORMULES = {
+    mini:     { nom: 'Mini séance',      prix: 99,  solde: 70,  detail: '10 photos retouchées' },
+    complete: { nom: 'Séance complète',  prix: 149, solde: 120, detail: 'toute la galerie, environ 30 photos HD' }
+  };
+
+  var RESA = {
+    mini:     { subject: 'Mini séance 99€',      wa: "Bonjour ! J'aimerais réserver la Mini séance (99€) 📸" },
+    complete: { subject: 'Séance complète 149€', wa: "Bonjour ! J'aimerais réserver la Séance complète (149€) 📸" },
+    general:  { subject: 'Réservation',          wa: "Bonjour ! J'aimerais réserver une séance photo 📸" }
+  };
+
+  var choix = { formule: null, creneau: null, jour: null, heure: null };
+  var checkout = null;
+
+  /* ---- affichage des écrans ---- */
+  function montrer(nom){
+    Object.keys(ecrans).forEach(function(k){ if (ecrans[k]) ecrans[k].hidden = (k !== nom); });
+  }
+
+  /* ---- verrouillage du scroll (sans remonter la page) ---- */
+  var scrollBloque = 0;
+  function bloquerScroll(){
+    scrollBloque = window.scrollY;
     document.body.style.position = 'fixed';
-    document.body.style.top = (-lockedScrollY) + 'px';
+    document.body.style.top = (-scrollBloque) + 'px';
     document.body.style.left = '0';
     document.body.style.right = '0';
   }
-  function unlockScroll(){
+  function libererScroll(){
     document.body.style.position = '';
     document.body.style.top = '';
     document.body.style.left = '';
     document.body.style.right = '';
-    /* html{scroll-behavior:smooth} ferait animer ce repositionnement (effet
-       "rechargement" qui remonte en haut puis redescend) — on le désactive
-       le temps du saut instantané, puis on le restaure. */
-    var prevBehavior = document.documentElement.style.scrollBehavior;
+    var avant = document.documentElement.style.scrollBehavior;
     document.documentElement.style.scrollBehavior = 'auto';
-    window.scrollTo(0, lockedScrollY);
-    document.documentElement.style.scrollBehavior = prevBehavior;
-  }
-  /* 2 écrans dans la même modale : le choix de la formule (seulement quand on
-     arrive par un bouton « Réserver » générique, qui ne dit pas laquelle), puis
-     le contact WhatsApp / email. On ne montre jamais qu'un seul écran à la fois. */
-  var backContactBtn = document.getElementById('rm-back-contact');
-  function showScreen(el){
-    [formulaEl, contactEl].forEach(function(s){ if (s) s.hidden = (s !== el); });
+    window.scrollTo(0, scrollBloque);
+    document.documentElement.style.scrollBehavior = avant;
   }
 
-  /* Prépare les liens WhatsApp et email avec le bon message selon la formule,
-     puis affiche l'écran de contact. `fromFormula` dit si l'on vient de l'écran
-     de choix : c'est le seul cas où le bouton « Retour » a une destination. */
-  function goContact(kind, fromFormula){
-    var opt = RESA[kind] || RESA.general;
-    var mailHref = 'mailto:defoin.arthur@gmail.com?subject=' + encodeURIComponent(opt.subject);
-    var waHref = 'https://wa.me/33789954427?text=' + encodeURIComponent(opt.wa);
-    if (contactEmailLink) contactEmailLink.href = mailHref;
-    if (contactWaLink) contactWaLink.href = waHref;
-    if (backContactBtn) backContactBtn.hidden = !fromFormula;
-    showScreen(contactEl);
+  /* ---- dates en français ---- */
+  var JOURS = ['dimanche','lundi','mardi','mercredi','jeudi','vendredi','samedi'];
+  var MOIS = ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+  function dateLongue(jour){
+    var p = jour.split('-');
+    var d = new Date(Date.UTC(+p[0], +p[1] - 1, +p[2]));
+    var j = JOURS[d.getUTCDay()];
+    return j.charAt(0).toUpperCase() + j.slice(1) + ' ' + (+p[2]) + ' ' + MOIS[+p[1] - 1];
   }
 
-  function openModal(kind){
-    if (kind === 'general' && formulaEl) showScreen(formulaEl);
-    else goContact(kind, false);
-    lockScroll();
+  /* ---- écran des créneaux ---- */
+  function allerCreneaux(formule, depuisFormule){
+    choix.formule = formule;
+    var f = FORMULES[formule] || FORMULES.mini;
+    var rappel = document.getElementById('rm-rappel');
+    if (rappel) rappel.innerHTML = '<strong>' + f.nom + '</strong> · ' + f.prix + ' € · ' + f.detail;
+    var retour = document.getElementById('rm-back-creneaux');
+    if (retour) retour.hidden = !depuisFormule;
+    montrer('creneaux');
+    chargerCreneaux();
+  }
+
+  function chargerCreneaux(){
+    var zone = document.getElementById('rm-jours');
+    zone.innerHTML = '<p class="rm-vide">Chargement des disponibilités…</p>';
+
+    fetch(API + '/creneaux?site=' + SITE)
+      .then(function(r){ return r.json(); })
+      .then(function(d){
+        var creneaux = d.creneaux || [];
+        if (!creneaux.length){
+          zone.innerHTML = '<p class="rm-vide">Aucune date n’est ouverte pour le moment.<br>Écrivez-nous, nous en ouvrons régulièrement.</p>';
+          return;
+        }
+        var parJour = {};
+        creneaux.forEach(function(c){ (parJour[c.jour] = parJour[c.jour] || []).push(c); });
+
+        zone.innerHTML = Object.keys(parJour).map(function(jour){
+          var chips = parJour[jour].map(function(c){
+            return '<button type="button" class="rm-chip" data-creneau="' + c.id +
+                   '" data-jour="' + c.jour + '" data-heure="' + c.heure + '"' +
+                   (c.libre ? '' : ' disabled') + '>' + c.heure + '</button>';
+          }).join('');
+          return '<div class="rm-jour"><div class="rm-jour-titre">' + dateLongue(jour) +
+                 '</div><div class="rm-chips">' + chips + '</div></div>';
+        }).join('');
+      })
+      .catch(function(){
+        zone.innerHTML = '<p class="rm-vide">Les disponibilités n’ont pas pu être chargées.<br>Écrivez-nous, nous vous répondons vite.</p>';
+      });
+  }
+
+  /* ---- écran des coordonnées ---- */
+  function allerForm(){
+    var f = FORMULES[choix.formule];
+    var recap = document.getElementById('rm-recap');
+    if (recap){
+      recap.innerHTML = '<strong>' + f.nom + '</strong>, le <strong>' + dateLongue(choix.jour) +
+        ' à ' + choix.heure + '</strong>.<br>Acompte de 29 € maintenant, ' + f.solde +
+        ' € en espèces le jour de la séance.';
+    }
+    var err = document.getElementById('rm-erreur');
+    if (err) err.hidden = true;
+    montrer('form');
+  }
+
+  /* ---- paiement ---- */
+  var LIBELLE_PAYER = 'Régler l’acompte de 29 €';
+
+  function payer(){
+    var bouton = document.getElementById('rm-payer');
+    var err = document.getElementById('rm-erreur');
+    var nom = (document.getElementById('rm-nom').value || '').trim();
+    var email = (document.getElementById('rm-email').value || '').trim();
+    var tel = (document.getElementById('rm-tel').value || '').trim();
+
+    function echec(m){
+      err.textContent = m; err.hidden = false;
+      bouton.disabled = false; bouton.textContent = LIBELLE_PAYER;
+    }
+
+    if (nom.length < 2) return echec('Merci d’indiquer votre nom.');
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return echec('Cette adresse email ne semble pas valide.');
+
+    err.hidden = true;
+
+    // Tant que Stripe n’est pas branché, on ne casse pas la réservation :
+    // le créneau choisi part dans le message WhatsApp / email.
+    if (STRIPE_PK.indexOf('A_REMPLACER') > -1){
+      var f0 = FORMULES[choix.formule];
+      var texte = 'Bonjour ! Je souhaite réserver la ' + f0.nom + ' (' + f0.prix + ' €) le ' +
+        dateLongue(choix.jour) + ' à ' + choix.heure + '. Mon nom : ' + nom + '.';
+      var w0 = document.getElementById('rm-contact-wa');
+      var e0 = document.getElementById('rm-contact-email');
+      if (w0) w0.href = 'https://wa.me/33789954427?text=' + encodeURIComponent(texte);
+      if (e0) e0.href = 'mailto:defoin.arthur@gmail.com?subject=' + encodeURIComponent('Réservation ' + f0.nom) + '&body=' + encodeURIComponent(texte);
+      var r0 = document.getElementById('rm-back-contact');
+      if (r0) r0.hidden = false;
+      montrer('contact');
+      return;
+    }
+
+    bouton.disabled = true;
+    bouton.textContent = 'Un instant…';
+
+    fetch(API + '/reserver', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ site: SITE, creneau: choix.creneau, nom: nom, email: email, tel: tel, formule: choix.formule })
+    })
+      .then(function(r){ return r.json().then(function(d){ return { ok: r.ok, d: d }; }); })
+      .then(function(res){
+        bouton.disabled = false;
+        bouton.textContent = LIBELLE_PAYER;
+        if (!res.ok){
+          echec(res.d.erreur || 'La réservation n’a pas pu être ouverte.');
+          if (res.d.erreur && res.d.erreur.indexOf('vient d') > -1){ chargerCreneaux(); montrer('creneaux'); }
+          return;
+        }
+        ouvrirStripe(res.d.clientSecret, nom);
+      })
+      .catch(function(){ echec('La connexion a échoué. Réessayez dans un instant.'); });
+  }
+
+  function ouvrirStripe(clientSecret, nom){
+    montrer('paiement');
+    chargerStripeJs().then(function(){
+      if (checkout){ try { checkout.destroy(); } catch(e){} checkout = null; }
+      var stripe = Stripe(STRIPE_PK);
+      return stripe.initEmbeddedCheckout({
+        clientSecret: clientSecret,
+        onComplete: function(){ confirmer(nom); }
+      });
+    }).then(function(c){
+      checkout = c;
+      document.getElementById('rm-stripe').innerHTML = '';
+      c.mount('#rm-stripe');
+    }).catch(function(){
+      document.getElementById('rm-stripe').innerHTML =
+        '<p class="rm-vide">Le paiement n’a pas pu s’ouvrir. Écrivez-nous, nous réservons votre créneau à la main.</p>';
+    });
+  }
+
+  function chargerStripeJs(){
+    if (window.Stripe) return Promise.resolve();
+    return new Promise(function(ok, ko){
+      var s = document.createElement('script');
+      s.src = 'https://js.stripe.com/v3/';
+      s.onload = ok; s.onerror = ko;
+      document.head.appendChild(s);
+    });
+  }
+
+  function confirmer(nom){
+    var f = FORMULES[choix.formule];
+    var t = document.getElementById('rm-confirme-texte');
+    if (t){
+      t.innerHTML = 'Merci ' + (nom.split(' ')[0] || '') + ', nous vous attendons le <strong>' +
+        dateLongue(choix.jour) + ' à ' + choix.heure +
+        '</strong>. Vous recevez un email de confirmation avec le rendez-vous à ajouter à votre agenda. Le solde de ' +
+        f.solde + ' € se règle en espèces sur place.';
+    }
+    montrer('confirme');
+    try {
+      if (window.fbq){
+        fbq('track', 'Purchase', { value: 29, currency: 'EUR' });
+        fbq('track', 'Lead', { content_name: f.nom });
+      }
+    } catch(e){}
+  }
+
+  /* ---- contact direct (questions) ---- */
+  function allerContact(){
+    var opt = RESA[choix.formule] || RESA.general;
+    var mail = 'mailto:defoin.arthur@gmail.com?subject=' + encodeURIComponent(opt.subject);
+    var wa = 'https://wa.me/33789954427?text=' + encodeURIComponent(opt.wa);
+    var e = document.getElementById('rm-contact-email');
+    var w = document.getElementById('rm-contact-wa');
+    if (e) e.href = mail;
+    if (w) w.href = wa;
+    var retour = document.getElementById('rm-back-contact');
+    if (retour) retour.hidden = false;
+    montrer('contact');
+  }
+
+  /* ---- ouverture / fermeture ---- */
+  function ouvrir(kind){
+    choix = { formule: null, creneau: null, jour: null, heure: null };
+    if (kind === 'mini' || kind === 'complete') allerCreneaux(kind, false);
+    else montrer('formule');
+    bloquerScroll();
     modal.hidden = false;
     requestAnimationFrame(function(){ modal.classList.add('open'); });
   }
-  function closeModal(){
+  function fermer(){
     modal.classList.remove('open');
-    unlockScroll();
+    libererScroll();
+    if (checkout){ try { checkout.destroy(); } catch(e){} checkout = null; }
     setTimeout(function(){ modal.hidden = true; }, 300);
   }
 
-  var formulaMiniBtn = document.getElementById('rm-formula-mini');
-  var formulaCompleteBtn = document.getElementById('rm-formula-complete');
-  if (formulaMiniBtn) formulaMiniBtn.addEventListener('click', function(){ goContact('mini', true); });
-  if (formulaCompleteBtn) formulaCompleteBtn.addEventListener('click', function(){ goContact('complete', true); });
-  if (backContactBtn) backContactBtn.addEventListener('click', function(){ showScreen(formulaEl); });
-  if (contactEmailLink) contactEmailLink.addEventListener('click', closeModal);
-  if (contactWaLink) contactWaLink.addEventListener('click', closeModal);
+  /* ---- branchements ---- */
+  var bMini = document.getElementById('rm-formula-mini');
+  var bComplete = document.getElementById('rm-formula-complete');
+  if (bMini) bMini.addEventListener('click', function(){ allerCreneaux('mini', true); });
+  if (bComplete) bComplete.addEventListener('click', function(){ allerCreneaux('complete', true); });
 
-  closeBtn.addEventListener('click', closeModal);
-  modal.addEventListener('click', function(e){ if (e.target === modal) closeModal(); });
-  document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && !modal.hidden) closeModal(); });
   document.addEventListener('click', function(e){
+    var chip = e.target.closest ? e.target.closest('.rm-chip') : null;
+    if (chip && !chip.disabled){
+      choix.creneau = chip.getAttribute('data-creneau');
+      choix.jour = chip.getAttribute('data-jour');
+      choix.heure = chip.getAttribute('data-heure');
+      allerForm();
+      return;
+    }
     var a = e.target.closest ? e.target.closest('[data-resa]') : null;
-    if (!a) return;
-    e.preventDefault();
-    openModal(a.getAttribute('data-resa'));
+    if (a){ e.preventDefault(); ouvrir(a.getAttribute('data-resa')); }
   });
+
+  var bPayer = document.getElementById('rm-payer');
+  if (bPayer) bPayer.addEventListener('click', payer);
+
+  var versContact = document.getElementById('rm-vers-contact');
+  if (versContact) versContact.addEventListener('click', function(e){ e.preventDefault(); allerContact(); });
+
+  var rCreneaux = document.getElementById('rm-back-creneaux');
+  var rForm = document.getElementById('rm-back-form');
+  var rPaiement = document.getElementById('rm-back-paiement');
+  var rContact = document.getElementById('rm-back-contact');
+  if (rCreneaux) rCreneaux.addEventListener('click', function(){ montrer('formule'); });
+  if (rForm) rForm.addEventListener('click', function(){ montrer('creneaux'); });
+  if (rPaiement) rPaiement.addEventListener('click', function(){ montrer('form'); });
+  if (rContact) rContact.addEventListener('click', function(){ montrer(choix.formule ? 'creneaux' : 'formule'); });
+
+  var cEmail = document.getElementById('rm-contact-email');
+  var cWa = document.getElementById('rm-contact-wa');
+  if (cEmail) cEmail.addEventListener('click', fermer);
+  if (cWa) cWa.addEventListener('click', fermer);
+
+  if (closeBtn) closeBtn.addEventListener('click', fermer);
+  modal.addEventListener('click', function(e){ if (e.target === modal) fermer(); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && !modal.hidden) fermer(); });
 })();
 
-/* ---- Suivi Pixel Meta sur les clics « nous contacter » (email / WhatsApp) ----
-   Sur cette page il n'y a pas de calendrier en ligne : la réservation passe par
-   un échange avec Arthur. L'événement "Contact" est donc le seul signal
-   disponible côté site. On ne déclenche volontairement pas "Lead" ici : un clic
-   n'est pas un message envoyé, et gonfler le Lead fausserait les campagnes. */
+/* ---- Suivi Pixel Meta sur les clics « nous contacter » (email / WhatsApp) ---- */
 (function(){
   document.addEventListener('click', function(e){
     var a = e.target.closest ? e.target.closest('a[href^="mailto:"], a[href*="wa.me"]') : null;
     if (!a) return;
-    try {
-      if (window.fbq) {
-        fbq('track', 'Contact');
-      }
-    } catch (err) {}
+    try { if (window.fbq) fbq('track', 'Contact'); } catch (err) {}
   });
 })();
 
