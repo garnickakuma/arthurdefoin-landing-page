@@ -558,7 +558,8 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
 .rm-choice-icon{flex:none; font-size:26px; line-height:1; color:var(--accent);}
 .rm-choice-icon svg{display:block; width:26px; height:26px;}
 .rm-choice-text{display:flex; flex-direction:column; gap:4px;}
-.rm-choice-title{font-family:var(--sans); font-weight:600; font-size:15px; color:var(--ink2);}
+.rm-choice-title{font-family:var(--sans); font-weight:500; font-size:15px; color:var(--ink2);}
+.rm-choice-photo{flex:none; width:52px; height:52px; border-radius:13px; object-fit:cover; display:block;}
 .rm-choice-sub{font-family:var(--sans); font-weight:300; font-size:13px; color:var(--muted2);}
 
 /* Écran 3 : contact direct */
@@ -950,12 +951,12 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
       <h3>Quelle formule souhaitez-vous ?</h3>
       <div class="rm-choice-options">
         <button type="button" class="rm-choice-btn" id="rm-formula-mini">
-          <span class="rm-choice-icon" aria-hidden="true"><svg viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5.5" width="19" height="15" rx="2.5"/><circle cx="13" cy="13" r="4"/><path d="M18.5 9.2h.01"/></svg></span>
+          <img class="rm-choice-photo" src="assets/photos/formule-mini.webp" width="140" height="140" alt="" loading="lazy">
           <span class="rm-choice-text"><span class="rm-choice-title">Mini séance — 99&nbsp;€</span><span class="rm-choice-sub">10 photos retouchées</span></span>
         </button>
         <button type="button" class="rm-choice-btn" id="rm-formula-complete">
-          <span class="rm-choice-icon" aria-hidden="true"><svg viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"><rect x="1.8" y="7" width="15" height="12" rx="2" opacity=".45"/><rect x="5.2" y="5" width="15" height="12" rx="2" opacity=".7"/><rect x="8.6" y="3" width="15" height="12" rx="2"/><circle cx="16.1" cy="9" r="2.6"/></svg></span>
-          <span class="rm-choice-text"><span class="rm-choice-title">Séance complète — 149&nbsp;€</span><span class="rm-choice-sub">Toute la galerie, environ 30 photos HD</span></span>
+          <img class="rm-choice-photo" src="assets/photos/formule-complete.webp" width="140" height="140" alt="" loading="lazy">
+          <span class="rm-choice-text"><span class="rm-choice-title">Séance complète — 149&nbsp;€</span><span class="rm-choice-sub">Toute la galerie (environ 30 photos HD)</span></span>
         </button>
       </div>
     </div>
@@ -1397,7 +1398,7 @@ var galleryMasonry = (function(){
 
   var FORMULES = {
     mini:     { nom: 'Mini séance',      prix: 99,  solde: 70,  detail: '10 photos retouchées' },
-    complete: { nom: 'Séance complète',  prix: 149, solde: 120, detail: 'toute la galerie, environ 30 photos HD' }
+    complete: { nom: 'Séance complète',  prix: 149, solde: 120, detail: 'toute la galerie (environ 30 photos HD)' }
   };
 
   var RESA = {
