@@ -66,6 +66,7 @@ export default {
     try {
       if (p === '/creneaux' && request.method === 'GET') return creneauxPublics(url, env);
       if (p === '/reserver' && request.method === 'POST') return reserver(request, env);
+      if (p === '/etat' && request.method === 'GET') return etatCreneau(url, env);
       if (p === '/webhook-stripe' && request.method === 'POST') return webhookStripe(request, env);
       if (p.startsWith('/agenda/')) return agendaIcs(p, env);
 
@@ -115,8 +116,17 @@ async function creneauxPublics(url, env) {
  *  L'option n'est acceptée que si le créneau est encore libre au moment du
  *  UPDATE : c'est cette condition dans le SQL qui empêche deux familles de
  *  réserver le même horaire à la même seconde. */
+/** L'état d'un créneau, pour que la page sache quand le paiement est passé. */
+async function etatCreneau(url, env) {
+  const id = url.searchParams.get('creneau') || '';
+  const c = await env.DB.prepare('SELECT etat FROM creneaux WHERE id = ?1').bind(id).first();
+  return json({ etat: c ? c.etat : 'inconnu' });
+}
+
 async function reserver(request, env) {
-  const { site, creneau, nom, email, tel, formule, message } = await request.json();
+  const { site, creneau, nom, email, tel, formule, message, fbp, fbc, page } = await request.json();
+  const ip = request.headers.get('cf-connecting-ip') || '';
+  const ua = request.headers.get('user-agent') || '';
 
   const conf = SITES[site];
   if (!conf) return json({ erreur: 'Site inconnu' }, 400);
@@ -130,10 +140,11 @@ async function reserver(request, env) {
   const prise = await env.DB.prepare(
     `UPDATE creneaux
         SET etat = 'attente', attente_fin = ?1, nom = ?2, email = ?3, tel = ?4,
-            formule = ?5, message = ?6
+            formule = ?5, message = ?6, fbp = ?10, fbc = ?11, ip = ?12, ua = ?13, page = ?14
       WHERE id = ?7 AND site = ?8
         AND (etat = 'libre' OR (etat = 'attente' AND attente_fin < ?9))`
-  ).bind(finOption, nom, email, tel || '', formule, message || '', creneau, site, maintenant).run();
+  ).bind(finOption, nom, email, tel || '', formule, message || '', creneau, site, maintenant,
+         String(fbp || '').slice(0, 100), String(fbc || '').slice(0, 200), ip, ua.slice(0, 300), String(page || '').slice(0, 300)).run();
 
   if (!prise.meta.changes) {
     return json({ erreur: 'Ce créneau vient d’être pris. Choisissez-en un autre.' }, 409);
@@ -208,9 +219,55 @@ async function webhookStripe(request, env) {
   if (!maj.meta.changes) return json({ ok: true }); // déjà traité
 
   const c = await env.DB.prepare('SELECT * FROM creneaux WHERE id = ?1').bind(creneauId).first();
-  if (c) await envoyerEmails(env, c);
+  if (c) {
+    await envoyerEmails(env, c);
+    await evenementsMeta(env, c);
+  }
 
   return json({ ok: true });
+}
+
+/* ─────────────────────────  pixel Meta, côté serveur  ───────────────────────── */
+
+/** Lead et Purchase envoyés à Meta par l'API Conversions, en plus du pixel de
+ *  la page. Même event_id des deux côtés : Meta ne compte qu'une fois. Le
+ *  serveur ne dépend ni du bloqueur de pub ni de la fermeture de l'onglet. */
+async function evenementsMeta(env, c) {
+  if (!env.META_PIXEL_ID || !env.META_CAPI_TOKEN) return;
+  const conf = SITES[c.site] || SITES.begles;
+  const f = conf.formules[c.formule] || { nom: c.formule };
+  const t = Math.floor(Date.now() / 1000);
+  const user_data = {
+    em: [await sha256((c.email || '').trim().toLowerCase())],
+    ph: c.tel ? [await sha256(telephoneE164(c.tel))] : undefined,
+    fn: c.nom ? [await sha256(c.nom.trim().split(' ')[0].toLowerCase())] : undefined,
+    client_ip_address: c.ip || undefined,
+    client_user_agent: c.ua || undefined,
+    fbp: c.fbp || undefined,
+    fbc: c.fbc || undefined,
+  };
+  const commun = { event_time: t, event_id: c.id, action_source: 'website', event_source_url: c.page || undefined, user_data };
+  const data = [
+    { ...commun, event_name: 'Lead', custom_data: { content_name: f.nom, content_category: c.site } },
+    { ...commun, event_name: 'Purchase', event_id: c.id + '-achat', custom_data: { value: ACOMPTE_CENTIMES / 100, currency: 'EUR', content_name: f.nom } },
+  ];
+  try {
+    const r = await fetch(`https://graph.facebook.com/v21.0/${env.META_PIXEL_ID}/events?access_token=${env.META_CAPI_TOKEN}`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ data }),
+    });
+    if (!r.ok) console.log('Meta CAPI refuse :', r.status, (await r.text()).slice(0, 300));
+  } catch (e) { console.log('Meta CAPI :', e.message); }
+}
+
+async function sha256(texte) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(texte));
+  return [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, '0')).join('');
+}
+function telephoneE164(tel) {
+  let n = String(tel).replace(/[^\d+]/g, '');
+  if (n.startsWith('+')) n = n.slice(1);
+  if (n.startsWith('0')) n = '33' + n.slice(1);
+  return n;
 }
 
 /* ─────────────────────────  emails  ───────────────────────── */

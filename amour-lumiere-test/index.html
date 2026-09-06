@@ -820,7 +820,7 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
     <span class="ip-stars">★★★★★</span>
     <span><strong>5,0</strong> sur Google · 30 avis</span>
     <span class="ip-sep" aria-hidden="true">·</span>
-    <span><strong>120 familles</strong> photographiées cette année</span>
+    <span><strong>130 familles</strong> photographiées cette année</span>
     <span class="ip-break" aria-hidden="true"></span>
     <span class="ip-loc"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>Studio à Bègles</span>
   </div>
@@ -851,20 +851,20 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
     </div>
 
     <div class="steps3 rise">
-      <div class="step3" tabindex="0" role="button" aria-label="Étape 1 : Contact — appuyer pour en savoir plus">
+      <div class="step3" tabindex="0" role="button" aria-label="Étape 1 : Réservation — appuyer pour en savoir plus">
         <span class="step3-num"><span>1</span></span>
         <div class="step3-body">
-          <div class="step3-title">Contact <span class="step3-free">email ou WhatsApp</span></div>
+          <div class="step3-title">Réservez <span class="step3-free">votre créneau en ligne</span></div>
         </div>
         <span class="step3-hint" id="step3-hint" aria-hidden="true"><img class="s3h-img" src="assets/icons/tap-hint-rose.png" alt=""></span>
-        <div class="step3-popup"><span class="step3-popup-eyebrow">Bon à savoir</span><p>Un premier échange obligatoire pour savoir quel type de séance vous souhaitez, puis choisir ensemble la date.</p></div>
+        <div class="step3-popup"><span class="step3-popup-eyebrow">Bon à savoir</span><p>Cliquez sur « Réserver », choisissez votre formule et votre créneau dans l'agenda. Une question ou une autre date ? Écrivez-nous, nous bloquons le créneau à la main.</p></div>
       </div>
       <div class="step3" tabindex="0" role="button" aria-label="Étape 2 : Acompte — appuyer pour en savoir plus">
         <span class="step3-num"><span>2</span></span>
         <div class="step3-body">
-          <div class="step3-title">Acompte <span class="step3-free">29&nbsp;€, le reste sur place</span></div>
+          <div class="step3-title">Acompte <span class="step3-free">29&nbsp;€ par carte, le reste sur place</span></div>
         </div>
-        <div class="step3-popup"><span class="step3-popup-eyebrow">Bon à savoir</span><p>Une fois la date choisie ensemble, l'acompte se règle par Wero ou par virement bancaire pour bloquer votre créneau. Vous pouvez changer de date en nous prévenant au plus tard 72&nbsp;h avant. Le reste est à régler en espèces sur place.</p></div>
+        <div class="step3-popup"><span class="step3-popup-eyebrow">Bon à savoir</span><p>L'acompte de 29&nbsp;€ se règle par carte, en ligne et en sécurité, au moment de la réservation : votre créneau est bloqué aussitôt. Vous pouvez changer de date en nous prévenant au plus tard 72&nbsp;h avant. Le reste est à régler en espèces sur place.</p></div>
       </div>
       <div class="step3" tabindex="0" role="button" aria-label="Étape 3 : Séance — appuyer pour en savoir plus">
         <span class="step3-num"><span>3</span></span>
@@ -906,7 +906,7 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
     </details>
 
     <div class="conditions-box rise">
-      <p>Offre Rentrée valable pour une durée limitée. La réservation se fait <strong>par WhatsApp ou par email</strong> : nous choisissons ensemble votre date, puis un acompte de <strong>29&nbsp;€</strong>, réglé par <strong>Wero ou virement bancaire</strong>, valide votre créneau — le solde (70&nbsp;€ pour la mini séance, 120&nbsp;€ pour la séance complète) est réglé <strong>en espèces sur place</strong>, le jour de la séance. Séances uniquement <strong>le samedi ou le dimanche</strong>.</p>
+      <p>Offre Rentrée valable pour une durée limitée. La réservation se fait <strong>en ligne, en deux minutes</strong> : vous choisissez votre créneau, un acompte de <strong>29&nbsp;€ réglé par carte</strong> le bloque aussitôt — le solde (70&nbsp;€ pour la mini séance, 120&nbsp;€ pour la séance complète) est réglé <strong>en espèces sur place</strong>, le jour de la séance. Séances uniquement <strong>le samedi ou le dimanche</strong>. Une autre date ? Écrivez-nous.</p>
     </div>
 
     <div class="tarifs-cta rise">
@@ -987,7 +987,8 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
       <h3 id="rm-title">Choisissez votre créneau</h3>
       <p class="rm-rappel" id="rm-rappel"></p>
       <div class="rm-jours" id="rm-jours"><p class="rm-vide">Chargement des disponibilités…</p></div>
-      <p class="rm-note" style="margin-top:16px;">Une question avant de réserver ? <a href="#" id="rm-vers-contact">Écrivez-nous</a></p>
+      <p class="rm-note" style="margin-top:16px;">Pas disponible ce week-end ? Vous voulez une autre date ? <a href="#" data-vers-contact>Écrivez-nous</a>, nous bloquons un créneau à la main.</p>
+      <p class="rm-note" style="margin-top:6px;">Une question avant de réserver ? <a href="#" id="rm-vers-contact">Écrivez-nous</a></p>
     </div>
 
     <!-- Écran 2 : coordonnées -->
@@ -1465,9 +1466,13 @@ var galleryMasonry = (function(){
   }
 
   /* ---- écran des créneaux ---- */
+  function cookie(nom){ var m = document.cookie.match(new RegExp('(?:^|; )' + nom + '=([^;]*)')); return m ? decodeURIComponent(m[1]) : ''; }
+  function pixel(evenement, donnees, options){ try { if (window.fbq) fbq('track', evenement, donnees || {}, options || {}); } catch(e){} }
+
   function allerCreneaux(formule, depuisFormule){
     choix.formule = formule;
     var f = FORMULES[formule] || FORMULES.mini;
+    pixel('ViewContent', { content_name: f.nom, content_category: SITE, value: f.prix, currency: 'EUR' });
     var rappel = document.getElementById('rm-rappel');
     if (rappel) rappel.innerHTML = '<strong>' + f.nom + '</strong> · ' + f.prix + ' € · ' + f.detail;
     var retour = document.getElementById('rm-back-creneaux');
@@ -1562,7 +1567,7 @@ var galleryMasonry = (function(){
     fetch(API + '/reserver', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ site: SITE, creneau: choix.creneau, nom: nom, email: email, tel: tel, formule: choix.formule })
+      body: JSON.stringify({ site: SITE, creneau: choix.creneau, nom: nom, email: email, tel: tel, formule: choix.formule, fbp: cookie('_fbp'), fbc: cookie('_fbc'), page: location.href })
     })
       .then(function(r){ return r.json().then(function(d){ return { ok: r.ok, d: d }; }); })
       .then(function(res){
@@ -1580,6 +1585,7 @@ var galleryMasonry = (function(){
 
   function ouvrirStripe(clientSecret, nom){
     montrer('paiement');
+    pixel('InitiateCheckout', { value: 29, currency: 'EUR', content_name: (FORMULES[choix.formule] || {}).nom, content_category: SITE }, { eventID: choix.creneau + '-checkout' });
     chargerStripeJs().then(function(){
       if (checkout){ try { checkout.destroy(); } catch(e){} checkout = null; }
       var stripe = Stripe(STRIPE_PK);
@@ -1591,6 +1597,7 @@ var galleryMasonry = (function(){
       checkout = c;
       document.getElementById('rm-stripe').innerHTML = '';
       c.mount('#rm-stripe');
+      surveillerPaiement(nom);
     }).catch(function(){
       document.getElementById('rm-stripe').innerHTML =
         '<p class="rm-vide">Le paiement n’a pas pu s’ouvrir. Écrivez-nous, nous réservons votre créneau à la main.</p>';
@@ -1617,12 +1624,24 @@ var galleryMasonry = (function(){
         f.solde + ' € se règle en espèces sur place.';
     }
     montrer('confirme');
-    try {
-      if (window.fbq){
-        fbq('track', 'Purchase', { value: 29, currency: 'EUR' });
-        fbq('track', 'Lead', { content_name: f.nom });
-      }
-    } catch(e){}
+    if (!confirmer.deja){
+      confirmer.deja = true;
+      pixel('Lead', { content_name: f.nom, content_category: SITE, value: 29, currency: 'EUR' }, { eventID: choix.creneau });
+      pixel('Purchase', { value: 29, currency: 'EUR', content_name: f.nom, content_category: SITE }, { eventID: choix.creneau + '-achat' });
+    }
+  }
+
+  /* Si Stripe ne rappelle pas la page (onglet fermé, bloqueur), on vérifie
+     nous-mêmes toutes les deux secondes que le paiement est passé. */
+  function surveillerPaiement(nom){
+    var essais = 0;
+    (function boucle(){
+      if (confirmer.deja || essais++ > 90) return;
+      fetch(API + '/etat?creneau=' + encodeURIComponent(choix.creneau))
+        .then(function(r){ return r.json(); })
+        .then(function(d){ if (d.etat === 'reserve') confirmer(nom); else setTimeout(boucle, 2000); })
+        .catch(function(){ setTimeout(boucle, 3000); });
+    })();
   }
 
   /* ---- contact direct (questions) ---- */
@@ -1642,6 +1661,7 @@ var galleryMasonry = (function(){
   /* ---- ouverture / fermeture ---- */
   function ouvrir(kind){
     choix = { formule: null, creneau: null, jour: null, heure: null };
+    confirmer.deja = false;
     if (kind === 'mini' || kind === 'complete') allerCreneaux(kind, false);
     else montrer('formule');
     bloquerScroll();
@@ -1667,6 +1687,7 @@ var galleryMasonry = (function(){
       choix.creneau = chip.getAttribute('data-creneau');
       choix.jour = chip.getAttribute('data-jour');
       choix.heure = chip.getAttribute('data-heure');
+      pixel('Schedule', { content_name: (FORMULES[choix.formule] || {}).nom, content_category: SITE });
       allerForm();
       return;
     }
@@ -1677,6 +1698,7 @@ var galleryMasonry = (function(){
   var bPayer = document.getElementById('rm-payer');
   if (bPayer) bPayer.addEventListener('click', payer);
 
+  document.querySelectorAll('[data-vers-contact]').forEach(function(a){ a.addEventListener('click', function(e){ e.preventDefault(); allerContact(); }); });
   var versContact = document.getElementById('rm-vers-contact');
   if (versContact) versContact.addEventListener('click', function(e){ e.preventDefault(); allerContact(); });
 
@@ -1710,8 +1732,8 @@ var galleryMasonry = (function(){
 
 /* ---- FAQ ---- */
 var FAQ = [
-  { q: "Comment réserver l'offre Rentrée ?", a: "Cliquez sur « Réserver » et écrivez-nous par WhatsApp ou par email. Nous choisissons ensemble la date et la formule, puis l'acompte de 29 € bloque votre créneau." },
-  { q: "Comment fonctionne le paiement ?", a: "Un acompte de 29 € est réglé par Wero ou par virement bancaire, une fois la date fixée ensemble, pour valider la réservation. Le solde est réglé en espèces sur place, le jour de la séance : 70 € pour la mini séance, 120 € pour la séance complète." },
+  { q: "Comment réserver l'offre Rentrée ?", a: "Cliquez sur « Réserver », choisissez votre formule puis votre créneau dans l'agenda, et réglez l'acompte de 29 € par carte. Votre créneau est bloqué aussitôt et vous recevez un email de confirmation. Vous préférez une autre date ? Écrivez-nous par WhatsApp ou par email." },
+  { q: "Comment fonctionne le paiement ?", a: "Un acompte de 29 € est réglé par carte, en ligne et en sécurité, au moment de la réservation. Le solde est réglé en espèces sur place, le jour de la séance : 70 € pour la mini séance, 120 € pour la séance complète." },
   { q: "Quels jours sont disponibles ?", a: "Les séances de l'offre Rentrée ont lieu uniquement le week-end, le samedi ou le dimanche." },
   { q: "Que dois-je porter ?", a: "Vos propres vêtements — deux tenues sont possibles si vous le souhaitez. Nous vous conseillons sur les matières et les couleurs avant la séance. Aucun prêt de robes ni d'accessoires." },
   { q: "Puis-je reporter ma séance ?", a: "Oui, une fois et sans frais, jusqu'à 72h avant la séance." },

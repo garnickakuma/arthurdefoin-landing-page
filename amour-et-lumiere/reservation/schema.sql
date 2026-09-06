@@ -16,6 +16,11 @@ CREATE TABLE IF NOT EXISTS creneaux (
   message       TEXT,
   stripe_id     TEXT,
   reserve_le    TEXT,
+  fbp           TEXT,                      -- cookies du pixel Meta, pour l'API Conversions
+  fbc           TEXT,
+  ip            TEXT,
+  ua            TEXT,
+  page          TEXT,
   cree_le       TEXT NOT NULL
 );
 
