@@ -9,11 +9,11 @@ database_id = "4e331618-c7bc-4176-9613-cc50ba87f4a8"
 
 [vars]
 STUDIO_EMAIL = "defoin.arthur@gmail.com"
-FROM_EMAIL = "Amour et Lumière <onboarding@resend.dev>"
+FROM_EMAIL = "contact@amouretlumiere.fr"
 
 # Secrets à définir toi-même, ils ne passent jamais par le chat :
 #   npx wrangler secret put STRIPE_SECRET_KEY      → sk_test_... puis sk_live_...
 #   npx wrangler secret put STRIPE_WEBHOOK_SECRET  → whsec_...
-#   npx wrangler secret put RESEND_API_KEY         → re_...
+#   npx wrangler secret put BREVO_API_KEY          → xkeysib-...
 #   npx wrangler secret put ADMIN_MOT_DE_PASSE     → ton mot de passe d'administration
 #   npx wrangler secret put AGENDA_TOKEN           → une suite de lettres au hasard, sert d'adresse secrète pour l'agenda Apple

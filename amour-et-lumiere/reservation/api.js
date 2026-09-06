@@ -259,7 +259,7 @@ async function envoyerEmails(env, c) {
 
   const ics = evenementIcs(c, conf, f);
   const piece = {
-    filename: 'seance-photo.ics',
+    name: 'seance-photo.ics',
     content: btoa(unescape(encodeURIComponent(ics))),
   };
 
@@ -280,13 +280,21 @@ async function envoyerEmails(env, c) {
 }
 
 async function envoyerEmail(env, { to, subject, html, attachments }) {
-  return fetch('https://api.resend.com/emails', {
-    method: 'POST',
+  // Brevo (ex-Sendinblue) : API transactionnelle, pièces jointes en base64.
+  return fetch("https://api.brevo.com/v3/smtp/email", {
+    method: "POST",
     headers: {
-      Authorization: `Bearer ${env.RESEND_API_KEY}`,
-      'Content-Type': 'application/json',
+      "api-key": env.BREVO_API_KEY,
+      "Content-Type": "application/json",
+      accept: "application/json",
     },
-    body: JSON.stringify({ from: env.FROM_EMAIL, to: [to], subject, html, attachments }),
+    body: JSON.stringify({
+      sender: { name: "Amour et Lumière", email: env.FROM_EMAIL },
+      to: [{ email: to }],
+      subject,
+      htmlContent: html,
+      attachment: attachments,
+    }),
   });
 }
 
