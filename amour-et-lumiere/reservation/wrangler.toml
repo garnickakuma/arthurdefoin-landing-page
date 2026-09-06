@@ -9,7 +9,7 @@ database_id = "4e331618-c7bc-4176-9613-cc50ba87f4a8"
 
 [vars]
 STUDIO_EMAIL = "defoin.arthur@gmail.com"
-FROM_EMAIL = "contact@amouretlumiere.fr"
+FROM_EMAIL = "defoin.arthur@gmail.com"
 
 # Secrets à définir toi-même, ils ne passent jamais par le chat :
 #   npx wrangler secret put STRIPE_SECRET_KEY      → sk_test_... puis sk_live_...

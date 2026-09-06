@@ -27,6 +27,7 @@ const SITES = {
   begles: {
     nom: 'Bègles',
     lieu: 'Studio Amour et Lumière, 2 allée André Joseph Sire, 33130 Bègles',
+    conseils: 'Les photos sont prises sur fond blanc. Nous vous conseillons des tenues plutôt claires : le beige rend particulièrement bien. Si vous venez à plusieurs, accordez vos couleurs entre vous, c’est ce qui donne le plus joli résultat.',
     formules: {
       mini:     { nom: 'Mini séance',     prix: 99,  solde: 70 },
       complete: { nom: 'Séance complète', prix: 149, solde: 120 },
@@ -35,6 +36,7 @@ const SITES = {
   arcachon: {
     nom: 'Bassin d’Arcachon',
     lieu: 'Plage de la Lagune, rendez-vous en bas de la descente',
+    conseils: 'La séance a lieu en plein air. Prévoyez une seule tenue, il n’y a pas d’endroit pour se changer sur place. Les tons clairs et naturels rendent très bien face à la mer, et si vous venez à plusieurs, accordez vos couleurs entre vous.',
     formules: {
       mini:     { nom: 'Mini séance',     prix: 99,  solde: 70 },
       complete: { nom: 'Séance complète', prix: 149, solde: 120 },
@@ -236,21 +238,32 @@ async function envoyerEmails(env, c) {
 </div>`;
 
   const pourClient = `
-<div style="font-family:Georgia,serif;max-width:520px;margin:0 auto;color:#26241F">
+<div style="font-family:Georgia,serif;max-width:540px;margin:0 auto;color:#26241F">
   <p style="font-size:22px;font-weight:300;margin-bottom:8px">Bonjour ${echapper(prenomDe(c.nom))},</p>
-  <p style="font-size:16px;line-height:1.6;color:#423E37">
-    Votre séance est confirmée, votre acompte de 29 € a bien été reçu. Merci de votre confiance.
+  <p style="font-size:16px;line-height:1.65;color:#423E37">
+    Merci beaucoup, votre séance est réservée et votre acompte de 29 € a bien été reçu.
   </p>
+
   <table style="border-collapse:collapse;font-family:system-ui,sans-serif;font-size:14px;margin:24px 0;width:100%">
     <tr style="border-bottom:1px solid #ECE4D6"><td style="padding:10px 0;color:#6A6358">Rendez-vous</td><td style="text-align:right;font-weight:600">${quand}</td></tr>
-    <tr style="border-bottom:1px solid #ECE4D6"><td style="padding:10px 0;color:#6A6358">Lieu</td><td style="text-align:right;font-weight:600">${conf.lieu}</td></tr>
+    <tr style="border-bottom:1px solid #ECE4D6"><td style="padding:10px 0;color:#6A6358">Adresse</td><td style="text-align:right;font-weight:600">${conf.lieu}</td></tr>
     <tr style="border-bottom:1px solid #ECE4D6"><td style="padding:10px 0;color:#6A6358">Formule</td><td style="text-align:right;font-weight:600">${f.nom}</td></tr>
     <tr><td style="padding:10px 0;color:#6A6358">Reste à régler sur place</td><td style="text-align:right;font-weight:600;color:#c2978f">${f.solde} € en espèces</td></tr>
   </table>
-  <p style="font-size:16px;line-height:1.6;color:#423E37">
-    Le rendez-vous est joint à cet email, vous pouvez l’ajouter à votre agenda d’un geste.
-    Si vous avez le moindre empêchement, prévenez-nous au plus tard 72 h avant.
+
+  <p style="font-family:Georgia,serif;font-style:italic;font-size:18px;color:#26241F;margin:28px 0 6px">Comment s’habiller</p>
+  <p style="font-size:15.5px;line-height:1.7;color:#423E37;margin:0">${conf.conseils}</p>
+
+  <p style="font-family:Georgia,serif;font-style:italic;font-size:18px;color:#26241F;margin:28px 0 6px">Un imprévu ?</p>
+  <p style="font-size:15.5px;line-height:1.7;color:#423E37;margin:0">
+    Vous pouvez déplacer votre séance <strong>une fois, sans frais</strong>, jusqu’à 72 h avant le rendez-vous.
+    Écrivez-nous simplement, nous trouverons une autre date ensemble.
   </p>
+
+  <p style="font-size:15.5px;line-height:1.7;color:#423E37;margin:26px 0 0">
+    Le rendez-vous est joint à cet email, vous pouvez l’ajouter à votre agenda d’un geste.
+  </p>
+
   <p style="margin-top:32px;font-size:15px;color:#6A6358">
     À très bientôt,<br><strong style="color:#26241F">Arthur</strong><br>
     <em>Amour et Lumière</em>
@@ -263,7 +276,7 @@ async function envoyerEmails(env, c) {
     content: btoa(unescape(encodeURIComponent(ics))),
   };
 
-  await Promise.allSettled([
+  const envois = await Promise.allSettled([
     envoyerEmail(env, {
       to: env.STUDIO_EMAIL,
       subject: `Créneau réservé — ${quand} · ${c.nom}`,
@@ -277,6 +290,10 @@ async function envoyerEmails(env, c) {
       attachments: [piece],
     }),
   ]);
+  for (const e of envois) {
+    if (e.status === 'rejected') console.log('email en echec :', e.reason && e.reason.message);
+    else if (!e.value.ok) console.log('Brevo refuse :', e.value.status, (await e.value.text()).slice(0, 200));
+  }
 }
 
 async function envoyerEmail(env, { to, subject, html, attachments }) {
