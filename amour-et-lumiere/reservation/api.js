@@ -142,7 +142,7 @@ async function reserver(request, env) {
 
   const params = new URLSearchParams({
     mode: 'payment',
-    ui_mode: 'embedded',
+    ui_mode: 'embedded_page',
     'line_items[0][price_data][currency]': 'eur',
     'line_items[0][price_data][unit_amount]': String(ACOMPTE_CENTIMES),
     'line_items[0][price_data][product_data][name]': `Acompte séance photo — ${f.nom} (${conf.nom})`,
