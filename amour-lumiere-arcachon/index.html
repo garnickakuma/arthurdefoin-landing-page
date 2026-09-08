@@ -223,14 +223,6 @@ html, body{ overflow-x:clip; }
 
 /* Carrousel "cartes qui tournent" — teintes du portrait artistique */
 .ac-wrap{background:var(--bg2);}
-.rappel{max-width:760px; margin:0 auto 46px; background:var(--card); border:1px solid var(--line2); border-left:4px solid var(--accent); border-radius:16px; padding:26px 30px; text-align:left;}
-.rappel-eyebrow{display:inline-flex; align-items:center; gap:8px; font-family:var(--sans); font-weight:400; font-size:11.5px; letter-spacing:.22em; text-transform:uppercase; color:var(--accent); margin-bottom:12px;}
-.rappel-eyebrow svg{flex:none;}
-.rappel h3{font-family:var(--serif); font-weight:400; font-style:italic; font-size:clamp(23px,4.4vw,30px); line-height:1.15; color:var(--ink); margin:0 0 12px;}
-.rappel p{font-family:var(--sans); font-weight:300; font-size:15.5px; line-height:1.75; color:var(--muted3); margin:0;}
-.rappel p+p{margin-top:10px;}
-.rappel strong{font-weight:500; color:var(--ink2);}
-@media(max-width:560px){ .rappel{padding:22px 20px; margin-bottom:36px;} .rappel p{font-size:14.5px;} }
 .ac-stage{position:relative; display:flex; align-items:center; justify-content:center; gap:14px; perspective:1500px; height:clamp(340px,46vw,480px); margin-top:8px; touch-action:pan-y; user-select:none;}
 .ac-track{position:relative; width:100%; height:100%; transform-style:preserve-3d;}
 .ac-card{position:absolute; top:50%; left:50%; width:230px; height:340px; margin:-170px 0 0 -115px; border-radius:14px; overflow:hidden; box-shadow:0 24px 50px -20px rgba(60,45,35,.35); transition:transform .6s cubic-bezier(.22,1,.36,1), opacity .6s ease; cursor:pointer;}
@@ -560,6 +552,24 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
 }
 .rm-note{font-family:var(--sans); font-weight:300; font-size:12.5px; line-height:1.6; color:var(--muted); margin:0 0 4px;}
 
+/* La fenêtre d'accueil : ce qui se termine le 22 septembre */
+.pop{position:fixed; inset:0; z-index:95; display:flex; align-items:center; justify-content:center; padding:20px; background:rgba(58,50,44,.6); -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px); opacity:0; transition:opacity .35s ease;}
+.pop[hidden]{display:none;}
+.pop.open{opacity:1;}
+.pop-box{position:relative; width:100%; max-width:430px; background:var(--card); border-radius:24px; padding:36px 30px 28px; text-align:center; box-shadow:0 40px 100px -30px rgba(58,50,44,.7); transform:translateY(16px) scale(.97); transition:transform .35s cubic-bezier(.16,1,.3,1);}
+.pop.open .pop-box{transform:none;}
+.pop-alerte{display:inline-flex; align-items:center; gap:9px; background:var(--accent); color:#fff; font-family:var(--sans); font-weight:500; font-size:11.5px; letter-spacing:.2em; text-transform:uppercase; padding:9px 20px; border-radius:30px; margin-bottom:20px;}
+.pop-dot{width:8px; height:8px; border-radius:50%; background:#fff; flex:none; animation:popClign 1.2s ease-in-out infinite;}
+@keyframes popClign{0%,100%{opacity:1; transform:scale(1);} 50%{opacity:.25; transform:scale(.7);}}
+.pop-box h3{font-family:var(--serif); font-weight:400; font-style:italic; font-size:clamp(26px,6vw,34px); line-height:1.15; color:var(--ink2); margin:0 0 18px;}
+.pop-box h3 b{font-weight:600; font-style:normal; color:var(--accent);}
+.pop-l{display:flex; align-items:flex-start; gap:12px; text-align:left; font-family:var(--sans); font-weight:300; font-size:15.5px; line-height:1.55; color:var(--muted2); margin-bottom:14px;}
+.pop-l b{font-weight:500; color:var(--ink2);}
+.pop-n{flex:none; width:26px; height:26px; border-radius:50%; background:var(--rose-pale); color:var(--accent); font-family:var(--sans); font-weight:600; font-size:13px; display:flex; align-items:center; justify-content:center;}
+.pop-box .btn{width:100%; margin-top:12px;}
+@media(max-width:560px){ .pop-box{padding:30px 22px 24px; border-radius:20px;} .pop-l{font-size:15px;} }
+@media(prefers-reduced-motion:reduce){ .pop-dot{animation:none;} .pop, .pop-box{transition:none;} }
+
 /* Écran 1 : choix du mode de réservation */
 .rm-choice-options{display:flex; flex-direction:column; gap:14px; margin-top:8px;}
 .rm-choice-btn{display:flex; align-items:center; gap:16px; width:100%; background:var(--rose-pale2); border:1px solid var(--line2); border-radius:16px; padding:20px 22px; text-align:left; cursor:pointer; transition:background .15s ease, border-color .15s ease, transform .15s ease;}
@@ -784,6 +794,17 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
 </head>
 <body>
 
+<!-- FENÊTRE D'ACCUEIL : la date limite porte sur la réservation -->
+<div class="pop" id="pop" hidden role="dialog" aria-modal="true" aria-labelledby="pop-titre">
+  <div class="pop-box">
+    <span class="pop-alerte"><span class="pop-dot" aria-hidden="true"></span>Offre en cours</span>
+    <h3 id="pop-titre">Réservez avant le <b>22 septembre</b></h3>
+    <p class="pop-l"><span class="pop-n">1</span><span>Réglez l'acompte de <b>29&nbsp;€</b> avant le 22 septembre pour garder le tarif.</span></p>
+    <p class="pop-l"><span class="pop-n">2</span><span>Choisissez ensuite la date de votre séance <b>quand vous voulez dans l'année</b>.</span></p>
+    <button type="button" class="btn btn--fill" id="pop-ok">J'ai compris</button>
+  </div>
+</div>
+
 <!-- BANDEAU D'OFFRE — visible partout, avec le décompte. La date de fin est dans le script en bas de page. -->
 <div class="promo" id="promo">
   <span class="promo-txt"><strong>Offre de rentrée</strong> · 99&nbsp;€ au lieu de <span class="promo-old">250&nbsp;€</span><span class="promo-date"> · réservez avant le mardi 22 septembre, séance à la date que vous voulez</span></span>
@@ -849,12 +870,6 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
 <!-- CARROUSEL TYPES DE SÉANCE -->
 <section class="section ac-wrap" id="categories">
   <div style="max-width:1140px; margin:0 auto;">
-    <div class="rappel rise">
-      <span class="rappel-eyebrow"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Ce qui se termine le 22 septembre</span>
-      <h3>Réservez avant le 22 septembre, photographiez quand vous voulez</h3>
-      <p>Pour profiter de l’offre, il suffit de <strong>réserver votre séance avant le mardi 22 septembre</strong> en réglant l’acompte de 29&nbsp;€ par Wero. C’est lui qui vous garde le tarif.</p>
-      <p>Ensuite, vous <strong>placez la date de votre séance quand vous voulez dans l’année</strong> : en septembre, à l’automne, au printemps prochain. La date limite ne concerne que la réservation.</p>
-    </div>
     <div class="head-center rise" style="margin-bottom:8px;">
       <div class="eyebrow" style="margin-bottom:14px">Une séance qui s'adapte à vous</div>
       <h2 class="h2 italic">Pour toute la famille</h2>
@@ -2130,6 +2145,30 @@ function initCarousel(cfg){
 })();
 
 </script>
+<script>
+/* La fenêtre d'accueil : à l'arrivée, une fois par visite. */
+(function(){
+  var pop = document.getElementById('pop'), ok = document.getElementById('pop-ok');
+  if (!pop || !ok) return;
+  var vue; try { vue = sessionStorage.getItem('al-pop'); } catch(e){}
+  if (vue) return;
+  function fermer(){
+    pop.classList.remove('open');
+    document.body.style.overflow = '';
+    try { sessionStorage.setItem('al-pop', '1'); } catch(e){}
+    setTimeout(function(){ pop.hidden = true; }, 350);
+  }
+  setTimeout(function(){
+    pop.hidden = false;
+    document.body.style.overflow = 'hidden';
+    requestAnimationFrame(function(){ pop.classList.add('open'); ok.focus(); });
+  }, 700);
+  ok.addEventListener('click', fermer);
+  pop.addEventListener('click', function(e){ if (e.target === pop) fermer(); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && !pop.hidden) fermer(); });
+})();
+</script>
+
 <script>
 /* Bandeau d'offre : décompte jusqu'à la fin de l'offre.
    Une seule chose à changer pour prolonger ou arrêter : la date FIN ci-dessous
