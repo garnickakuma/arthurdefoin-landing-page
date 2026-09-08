@@ -586,6 +586,7 @@ figcaption{display:flex; justify-content:space-between; align-items:baseline; ga
 .rm-choice-title{font-family:var(--sans); font-weight:500; font-size:15px; color:var(--ink2);}
 .rm-choice-photo{flex:none; width:52px; height:52px; border-radius:13px; object-fit:cover; display:block;}
 .rm-choice-sub{font-family:var(--sans); font-weight:300; font-size:13px; color:var(--muted2);}
+.rm-choice-old{font-weight:300; color:var(--muted); opacity:.7; margin-right:2px;}
 
 /* Écran 3 : contact direct */
 .rm-contact-options{display:flex; flex-direction:column; gap:12px; margin-top:22px;}
@@ -1014,11 +1015,11 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
       <div class="rm-choice-options">
         <button type="button" class="rm-choice-btn" id="rm-formula-mini">
           <img class="rm-choice-photo" src="assets/photos/formule-mini.webp" width="140" height="140" alt="" loading="lazy">
-          <span class="rm-choice-text"><span class="rm-choice-title">Mini séance — 99&nbsp;€</span><span class="rm-choice-sub">10 photos retouchées</span></span>
+          <span class="rm-choice-text"><span class="rm-choice-title">Mini séance — <s class="rm-choice-old">250&nbsp;€</s> 99&nbsp;€</span><span class="rm-choice-sub">10 photos retouchées</span></span>
         </button>
         <button type="button" class="rm-choice-btn" id="rm-formula-complete">
           <img class="rm-choice-photo" src="assets/photos/formule-complete.webp" width="140" height="140" alt="" loading="lazy">
-          <span class="rm-choice-text"><span class="rm-choice-title">Séance complète — 149&nbsp;€</span><span class="rm-choice-sub">Toute la galerie (environ 30 photos HD)</span></span>
+          <span class="rm-choice-text"><span class="rm-choice-title">Séance complète — <s class="rm-choice-old">350&nbsp;€</s> 149&nbsp;€</span><span class="rm-choice-sub">Toute la galerie (environ 30 photos HD)</span></span>
         </button>
       </div>
     </div>
