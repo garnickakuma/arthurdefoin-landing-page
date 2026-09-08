@@ -871,9 +871,9 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
       <div class="step3" tabindex="0" role="button" aria-label="Étape 2 : Acompte — appuyer pour en savoir plus">
         <span class="step3-num"><span>2</span></span>
         <div class="step3-body">
-          <div class="step3-title">Acompte <span class="step3-free">29&nbsp;€ par Wero, le reste sur place</span></div>
+          <div class="step3-title">Acompte <span class="step3-free">50&nbsp;€ par Wero, le reste sur place</span></div>
         </div>
-        <div class="step3-popup"><span class="step3-popup-eyebrow">Bon à savoir</span><p>Une fois le créneau convenu, vous envoyez l'acompte de 29&nbsp;€ par Wero, depuis votre application bancaire : votre créneau est bloqué. Vous pouvez changer de date en nous prévenant au plus tard 72&nbsp;h avant. Le reste est à régler en espèces sur place.</p></div>
+        <div class="step3-popup"><span class="step3-popup-eyebrow">Bon à savoir</span><p>Une fois le créneau convenu, vous envoyez l'acompte de 50&nbsp;€ par Wero, depuis votre application bancaire : votre créneau est bloqué. Vous pouvez changer de date en nous prévenant au plus tard 72&nbsp;h avant. Le reste est à régler en espèces sur place.</p></div>
       </div>
       <div class="step3" tabindex="0" role="button" aria-label="Étape 3 : Séance — appuyer pour en savoir plus">
         <span class="step3-num"><span>3</span></span>
@@ -915,7 +915,7 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
     </details>
 
     <div class="conditions-box rise">
-      <p>Pour réserver, <strong>écrivez-nous par WhatsApp ou par email</strong> : nous convenons ensemble du jour et de l'heure, puis un acompte de <strong>29&nbsp;€ envoyé par Wero</strong> bloque le créneau. Le solde (221&nbsp;€ pour la mini séance, 321&nbsp;€ pour la séance complète) est réglé <strong>en espèces sur place</strong>, le jour de la séance. Vous pouvez reporter une fois, sans frais, jusqu'à 72&nbsp;h avant.</p>
+      <p>Pour réserver, <strong>écrivez-nous par WhatsApp ou par email</strong> : nous convenons ensemble du jour et de l'heure, puis un acompte de <strong>50&nbsp;€ envoyé par Wero</strong> bloque le créneau. Le solde (200&nbsp;€ pour la mini séance, 300&nbsp;€ pour la séance complète) est réglé <strong>en espèces sur place</strong>, le jour de la séance. Vous pouvez reporter une fois, sans frais, jusqu'à 72&nbsp;h avant.</p>
     </div>
 
     <div class="tarifs-cta rise">
@@ -1012,7 +1012,7 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
       </div>
       <p class="rm-recap" id="rm-recap"></p>
       <div class="rm-contact-options">
-        <button type="button" class="btn btn--fill" id="rm-payer">Régler l'acompte de 29&nbsp;€</button>
+        <button type="button" class="btn btn--fill" id="rm-payer">Régler l'acompte de 50&nbsp;€</button>
       </div>
       <p class="rm-erreur" id="rm-erreur" hidden></p>
     </div>
@@ -1021,7 +1021,7 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
     <div id="rm-paiement" hidden>
       <button type="button" class="rm-back" id="rm-back-paiement">‹ Retour</button>
       <span class="rm-kicker">Paiement sécurisé</span>
-      <h3>Acompte de 29&nbsp;€</h3>
+      <h3>Acompte de 50&nbsp;€</h3>
       <div class="rm-stripe" id="rm-stripe"><p class="rm-chargement">Ouverture du paiement…</p></div>
     </div>
 
@@ -1039,7 +1039,7 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
       <button type="button" class="rm-back" id="rm-back-contact" hidden>‹ Retour</button>
       <span class="rm-kicker">Réserver votre séance</span>
       <h3>Écrivez-nous, nous bloquons votre créneau</h3>
-      <p class="rm-rappel">Dites-nous la formule qui vous intéresse et vos disponibilités. Nous convenons du jour et de l'heure ensemble, puis un acompte de <strong>29&nbsp;€ envoyé par Wero</strong> bloque le créneau. Le solde se règle en espèces le jour de la séance.</p>
+      <p class="rm-rappel">Dites-nous la formule qui vous intéresse et vos disponibilités. Nous convenons du jour et de l'heure ensemble, puis un acompte de <strong>50&nbsp;€ envoyé par Wero</strong> bloque le créneau. Le solde se règle en espèces le jour de la séance.</p>
       <div class="rm-contact-options">
         <a class="btn btn--fill" id="rm-contact-wa" href="#" target="_blank" rel="noopener">Écrire sur WhatsApp</a>
         <a class="btn btn--outline" id="rm-contact-email" href="#">Écrire par email</a>
@@ -1404,7 +1404,7 @@ var galleryMasonry = (function(){
 /* ---- Réservation ---------------------------------------------------------
    Le visiteur choisit sa formule
    puis nous écrit par WhatsApp ou par email. On convient du créneau ensemble,
-   l'acompte de 29 € part par Wero. L'agenda et le paiement par carte restent
+   l'acompte de 50 € part par Wero. L'agenda et le paiement par carte restent
    dans le fichier (écrans rm-creneaux, rm-form, rm-paiement) mais ne sont plus
    appelés : il suffit de rebrancher allerCreneaux pour les remettre. */
 (function(){
@@ -1426,8 +1426,8 @@ var galleryMasonry = (function(){
   };
 
   var FORMULES = {
-    mini:     { nom: 'Mini séance',      prix: 250, solde: 221, detail: '10 photos retouchées' },
-    complete: { nom: 'Séance complète',  prix: 350, solde: 321, detail: 'toute la galerie (environ 30 photos studio)' }
+    mini:     { nom: 'Mini séance',      prix: 250, solde: 200, detail: '10 photos retouchées' },
+    complete: { nom: 'Séance complète',  prix: 350, solde: 300, detail: 'toute la galerie (environ 30 photos studio)' }
   };
 
   var RESA = {
@@ -1526,7 +1526,7 @@ var galleryMasonry = (function(){
     var recap = document.getElementById('rm-recap');
     if (recap){
       recap.innerHTML = '<strong>' + f.nom + '</strong>, le <strong>' + dateLongue(choix.jour) +
-        ' à ' + choix.heure + '</strong>.<br>Acompte de 29 € maintenant, ' + f.solde +
+        ' à ' + choix.heure + '</strong>.<br>Acompte de 50 € maintenant, ' + f.solde +
         ' € en espèces le jour de la séance.';
     }
     var err = document.getElementById('rm-erreur');
@@ -1535,7 +1535,7 @@ var galleryMasonry = (function(){
   }
 
   /* ---- paiement ---- */
-  var LIBELLE_PAYER = 'Régler l’acompte de 29 €';
+  var LIBELLE_PAYER = 'Régler l’acompte de 50 €';
 
   function payer(){
     var bouton = document.getElementById('rm-payer');
@@ -1594,7 +1594,7 @@ var galleryMasonry = (function(){
 
   function ouvrirStripe(clientSecret, nom){
     montrer('paiement');
-    pixel('InitiateCheckout', { value: 29, currency: 'EUR', content_name: (FORMULES[choix.formule] || {}).nom, content_category: SITE }, { eventID: choix.creneau + '-checkout' });
+    pixel('InitiateCheckout', { value: 50, currency: 'EUR', content_name: (FORMULES[choix.formule] || {}).nom, content_category: SITE }, { eventID: choix.creneau + '-checkout' });
     chargerStripeJs().then(function(){
       if (checkout){ try { checkout.destroy(); } catch(e){} checkout = null; }
       var stripe = Stripe(STRIPE_PK);
@@ -1635,8 +1635,8 @@ var galleryMasonry = (function(){
     montrer('confirme');
     if (!confirmer.deja){
       confirmer.deja = true;
-      pixel('Lead', { content_name: f.nom, content_category: SITE, value: 29, currency: 'EUR' }, { eventID: choix.creneau });
-      pixel('Purchase', { value: 29, currency: 'EUR', content_name: f.nom, content_category: SITE }, { eventID: choix.creneau + '-achat' });
+      pixel('Lead', { content_name: f.nom, content_category: SITE, value: 50, currency: 'EUR' }, { eventID: choix.creneau });
+      pixel('Purchase', { value: 50, currency: 'EUR', content_name: f.nom, content_category: SITE }, { eventID: choix.creneau + '-achat' });
     }
   }
 
@@ -1741,8 +1741,8 @@ var galleryMasonry = (function(){
 
 /* ---- FAQ ---- */
 var FAQ = [
-  { q: "Comment réserver ?", a: "Écrivez-nous par WhatsApp ou par email : dites-nous la formule qui vous intéresse et vos disponibilités. Nous convenons du jour et de l'heure ensemble, puis vous envoyez un acompte de 29 € par Wero et le créneau est bloqué." },
-  { q: "Comment fonctionne le paiement ?", a: "L'acompte de 29 € s'envoie par Wero, depuis votre application bancaire, une fois le créneau convenu ensemble. Le solde est réglé en espèces sur place, le jour de la séance : 221 € pour la mini séance, 321 € pour la séance complète." },
+  { q: "Comment réserver ?", a: "Écrivez-nous par WhatsApp ou par email : dites-nous la formule qui vous intéresse et vos disponibilités. Nous convenons du jour et de l'heure ensemble, puis vous envoyez un acompte de 50 € par Wero et le créneau est bloqué." },
+  { q: "Comment fonctionne le paiement ?", a: "L'acompte de 50 € s'envoie par Wero, depuis votre application bancaire, une fois le créneau convenu ensemble. Le solde est réglé en espèces sur place, le jour de la séance : 200 € pour la mini séance, 300 € pour la séance complète." },
   { q: "Quels jours sont disponibles ?", a: "Le studio est ouvert sur rendez-vous, en semaine comme le week-end. Écrivez-nous avec vos disponibilités : nous vous proposons les créneaux libres les plus proches." },
   { q: "Que dois-je porter ?", a: "Vos propres vêtements — deux tenues sont possibles si vous le souhaitez. Nous vous conseillons sur les matières et les couleurs avant la séance. Aucun prêt de robes ni d'accessoires." },
   { q: "Puis-je reporter ma séance ?", a: "Oui, une fois et sans frais, jusqu'à 72h avant la séance." },
@@ -2095,12 +2095,12 @@ function initCarousel(cfg){
     {
       src: 'assets/photos/gal-c-13.webp', pos: 'center 20%', resa: 'mini',
       moment: 'Au studio', name: 'Mini séance', price: '250&nbsp;€',
-      sub: "10 photos studio — 29€ d'acompte + 221€ sur place"
+      sub: "10 photos studio — 50€ d'acompte + 200€ sur place"
     },
     {
       src: 'assets/photos/gal-c-17.webp', pos: 'center 20%', resa: 'complete',
       moment: 'Au studio', name: 'Séance complète', price: '350&nbsp;€',
-      sub: "Toute la galerie — 29€ d'acompte + 321€ sur place"
+      sub: "Toute la galerie — 50€ d'acompte + 300€ sur place"
     },
   ];
   initCarousel({
