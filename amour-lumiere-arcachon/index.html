@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <title>Séance photo sur la plage — Amour et Lumière, Bassin d'Arcachon</title>
-<meta name="description" content="Séance photo sur la plage de la Lagune, au bord du Bassin d'Arcachon. Mini séance 99€ ou séance complète 149€ (environ 30 photos HD). Famille, grossesse, nouveau-né, bébé, couple.">
+<meta name="description" content="Séance photo sur la plage de la Lagune, au bord du Bassin d'Arcachon. Mini séance 99€ au lieu de 250€, séance complète 149€ au lieu de 350€ (environ 30 photos HD). Offre jusqu’au 22 septembre. Famille, grossesse, nouveau-né, bébé, couple.">
 <link rel="canonical" href="https://arcachon.amour-et-lumiere.com/">
 
 <!-- ==========================================================
@@ -19,7 +19,7 @@
 <meta property="og:site_name" content="Amour et Lumière">
 <meta property="og:url" content="https://arcachon.amour-et-lumiere.com/">
 <meta property="og:title" content="Séance photo sur la plage — Amour et Lumière, Bassin d'Arcachon">
-<meta property="og:description" content="Séance photo sur la plage de la Lagune, Bassin d'Arcachon. Mini séance 99€ ou séance complète 149€ (environ 30 photos HD). Famille, grossesse, nouveau-né, bébé, couple.">
+<meta property="og:description" content="Séance photo sur la plage de la Lagune, Bassin d'Arcachon. Mini séance 99€ au lieu de 250€, séance complète 149€ au lieu de 350€ (environ 30 photos HD). Offre jusqu’au 22 septembre. Famille, grossesse, nouveau-né, bébé, couple.">
 <meta property="og:image" content="https://arcachon.amour-et-lumiere.com/assets/photos/og-partage.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -27,7 +27,7 @@
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Séance photo sur la plage — Amour et Lumière, Bassin d'Arcachon">
-<meta name="twitter:description" content="Séance photo sur la plage de la Lagune, Bassin d'Arcachon. Mini séance 99€ ou séance complète 149€ (environ 30 photos HD).">
+<meta name="twitter:description" content="Séance photo sur la plage de la Lagune, Bassin d'Arcachon. Mini séance 99€ au lieu de 250€, séance complète 149€ au lieu de 350€ (environ 30 photos HD). Offre jusqu’au 22 septembre.">
 <meta name="twitter:image" content="https://arcachon.amour-et-lumiere.com/assets/photos/og-partage.jpg">
 
 <!-- ==========================================================
@@ -63,14 +63,14 @@
     {
       "@type": "Offer",
       "name": "Mini séance photo plage",
-      "description": "Mini séance photo sur la plage de la Lagune, Bassin d'Arcachon (10 photos). Famille, grossesse, nouveau-né, bébé, couple.",
+      "description": "Mini séance photo sur la plage de la Lagune, Bassin d'Arcachon (10 photos), 99€ au lieu de 250€. Famille, grossesse, nouveau-né, bébé, couple.",
       "price": "99",
       "priceCurrency": "EUR"
     },
     {
       "@type": "Offer",
       "name": "Séance photo plage complète",
-      "description": "Séance photo complète sur la plage de la Lagune, Bassin d'Arcachon (toute la galerie, environ 30 photos HD). Famille, grossesse, nouveau-né, bébé, couple.",
+      "description": "Séance photo complète sur la plage de la Lagune, Bassin d'Arcachon (toute la galerie, environ 30 photos HD), 149€ au lieu de 350€. Famille, grossesse, nouveau-né, bébé, couple.",
       "price": "149",
       "priceCurrency": "EUR"
     }
@@ -759,9 +759,28 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
 .rm-erreur[hidden]{display:none;}
 .rm-stripe{min-height:280px; margin-top:6px;}
 .rm-chargement{font-family:var(--sans); font-size:13.5px; color:var(--muted2); text-align:center; padding:26px 0;}
+
+/* Bandeau d'offre — barre fixe en haut, décompte et jauge de temps restant */
+:root{ --promo-h:44px; }
+.promo{position:fixed; top:0; left:0; right:0; z-index:60; display:flex; align-items:center; justify-content:center; gap:6px 16px; flex-wrap:wrap; min-height:var(--promo-h); padding:9px 16px 11px; background:linear-gradient(90deg,#b3877e,#c2978f); color:#fff; font-family:var(--sans); font-weight:300; font-size:13px; line-height:1.35; text-align:center;}
+.promo strong{font-weight:600; letter-spacing:.02em;}
+.promo-old{text-decoration:line-through; opacity:.72;}
+.promo-timer{font-weight:600; font-variant-numeric:tabular-nums; background:rgba(255,255,255,.18); border:1px solid rgba(255,255,255,.28); border-radius:999px; padding:3px 12px; white-space:nowrap;}
+.promo-bar{position:absolute; left:0; right:0; bottom:0; height:3px; background:rgba(255,255,255,.22);}
+.promo-bar i{display:block; height:100%; width:0; background:#fff; transition:width 1s linear;}
+.nav{top:var(--promo-h);}
+.hero-top-label{top:calc(var(--promo-h) + clamp(12px,2.4vh,24px));}
+@media(max-width:700px){ :root{ --promo-h:58px; } .promo{font-size:12px; padding:8px 12px 11px;} .promo-date{display:none;} }
 </style>
 </head>
 <body>
+
+<!-- BANDEAU D'OFFRE — visible partout, avec le décompte. La date de fin est dans le script en bas de page. -->
+<div class="promo" id="promo">
+  <span class="promo-txt"><strong>Offre de rentrée</strong> · 99&nbsp;€ au lieu de <span class="promo-old">250&nbsp;€</span><span class="promo-date"> · jusqu'au mardi 22 septembre</span></span>
+  <span class="promo-timer" id="promo-timer">Offre à durée limitée</span>
+  <span class="promo-bar" aria-hidden="true"><i id="promo-bar-fill"></i></span>
+</div>
 
 <!-- NAV — cachée en transparence sur le hero, apparaît au scroll -->
 <nav class="nav" id="site-nav">
@@ -788,7 +807,8 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
   <div class="hero__content">
     <div class="hero-price">
       <span class="hero-price-frame">
-        <span class="hero-price-now">À partir de 99&nbsp;€</span>
+        <span class="hero-price-old"><span class="strike"></span>250&nbsp;€</span>
+        <span class="hero-price-now">99&nbsp;€</span>
       </span>
       <span class="hero-eyebrow">Plage de la Lagune · Bassin d'Arcachon</span>
     </div>
@@ -843,17 +863,17 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
       <div class="step3" tabindex="0" role="button" aria-label="Étape 1 : Réservation — appuyer pour en savoir plus">
         <span class="step3-num"><span>1</span></span>
         <div class="step3-body">
-          <div class="step3-title">Réservez <span class="step3-free">votre créneau en ligne</span></div>
+          <div class="step3-title">Écrivez-nous <span class="step3-free">et choisissez votre date</span></div>
         </div>
         <span class="step3-hint" id="step3-hint" aria-hidden="true"><img class="s3h-img" src="assets/icons/tap-hint-rose.png" alt=""></span>
-        <div class="step3-popup"><span class="step3-popup-eyebrow">Bon à savoir</span><p>Cliquez sur « Réserver », choisissez votre formule et votre créneau dans l'agenda. Une question ou une autre date ? Écrivez-nous, nous bloquons le créneau à la main.</p></div>
+        <div class="step3-popup"><span class="step3-popup-eyebrow">Bon à savoir</span><p>Cliquez sur « Réserver », choisissez votre formule, puis écrivez-nous par WhatsApp ou par email. Vous prenez la date qui vous arrange : nous convenons ensemble de l'heure, en fin de journée pour la lumière sur la plage.</p></div>
       </div>
       <div class="step3" tabindex="0" role="button" aria-label="Étape 2 : Acompte — appuyer pour en savoir plus">
         <span class="step3-num"><span>2</span></span>
         <div class="step3-body">
-          <div class="step3-title">Acompte <span class="step3-free">29&nbsp;€ par carte, le reste sur place</span></div>
+          <div class="step3-title">Acompte <span class="step3-free">29&nbsp;€ par Wero, le reste sur place</span></div>
         </div>
-        <div class="step3-popup"><span class="step3-popup-eyebrow">Bon à savoir</span><p>L'acompte de 29&nbsp;€ se règle par carte, en ligne et en sécurité, au moment de la réservation : votre créneau est bloqué aussitôt. Vous pouvez changer de date en nous prévenant au plus tard 72&nbsp;h avant. Le reste est à régler en espèces sur place.</p></div>
+        <div class="step3-popup"><span class="step3-popup-eyebrow">Bon à savoir</span><p>Une fois la date convenue, vous envoyez l'acompte de 29&nbsp;€ par Wero, depuis votre application bancaire : votre créneau est bloqué au tarif de l'offre. Vous pouvez changer de date en nous prévenant au plus tard 72&nbsp;h avant. Le reste est à régler en espèces sur place.</p></div>
       </div>
       <div class="step3" tabindex="0" role="button" aria-label="Étape 3 : Séance — appuyer pour en savoir plus">
         <span class="step3-num"><span>3</span></span>
@@ -895,7 +915,7 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
     </details>
 
     <div class="conditions-box rise">
-      <p>La réservation se fait <strong>en ligne, en deux minutes</strong> : vous choisissez votre créneau, un acompte de <strong>29&nbsp;€ réglé par carte</strong> le bloque aussitôt — le solde (70&nbsp;€ pour la mini séance, 120&nbsp;€ pour la séance complète) est réglé <strong>en espèces sur place</strong>, le jour de la séance. Séances uniquement <strong>le samedi ou le dimanche</strong>. Séance en extérieur : elle peut être reprogrammée sans frais en cas de météo trop défavorable. Une autre date ? Écrivez-nous.</p>
+      <p><strong>Offre de rentrée jusqu’au mardi 22 septembre</strong> : 99&nbsp;€ au lieu de 250&nbsp;€, 149&nbsp;€ au lieu de 350&nbsp;€. Pour réserver, <strong>écrivez-nous par WhatsApp ou par email</strong> : vous choisissez la date qui vous arrange, un acompte de <strong>29&nbsp;€ envoyé par Wero</strong> bloque votre créneau au tarif de l’offre — le solde (70&nbsp;€ pour la mini séance, 120&nbsp;€ pour la séance complète) est réglé <strong>en espèces sur place</strong>, le jour de la séance. Séance en extérieur : elle peut être reprogrammée sans frais en cas de météo trop défavorable.</p>
     </div>
 
     <div class="tarifs-cta rise">
@@ -1009,12 +1029,12 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
     <!-- Écran 5 : une question avant de réserver -->
     <div id="rm-contact" hidden>
       <button type="button" class="rm-back" id="rm-back-contact" hidden>‹ Retour</button>
-      <span class="rm-kicker">Une question ?</span>
-      <h3>Comment préférez-vous nous joindre ?</h3>
-      <p class="rm-rappel">Nous répondons vite. Nous pouvons aussi bloquer votre créneau à la main si vous préférez.</p>
+      <span class="rm-kicker">Réserver votre séance</span>
+      <h3>Écrivez-nous, nous bloquons votre date</h3>
+      <p class="rm-rappel">Dites-nous la date qui vous arrange : vous faites la séance quand vous voulez. Un acompte de <strong>29&nbsp;€ envoyé par Wero</strong> bloque le créneau au tarif de l'offre, le solde se règle en espèces le jour de la séance.<br><strong>Offre valable jusqu'au mardi 22 septembre.</strong></p>
       <div class="rm-contact-options">
-        <a class="btn btn--fill" id="rm-contact-wa" href="#" target="_blank" rel="noopener">WhatsApp</a>
-        <a class="btn btn--outline" id="rm-contact-email" href="#">Email</a>
+        <a class="btn btn--fill" id="rm-contact-wa" href="#" target="_blank" rel="noopener">Écrire sur WhatsApp</a>
+        <a class="btn btn--outline" id="rm-contact-email" href="#">Écrire par email</a>
       </div>
     </div>
   </div>
@@ -1403,9 +1423,9 @@ var galleryMasonry = (function(){
   };
 
   var RESA = {
-    mini:     { subject: 'Mini séance 99€',      wa: "Bonjour ! J'aimerais réserver la Mini séance (99€) 📸" },
-    complete: { subject: 'Séance complète 149€', wa: "Bonjour ! J'aimerais réserver la Séance complète (149€) 📸" },
-    general:  { subject: 'Réservation',          wa: "Bonjour ! J'aimerais réserver une séance photo 📸" }
+    mini:     { subject: 'Mini séance 99€ — plage de la Lagune',      wa: "Bonjour ! J'aimerais réserver la Mini séance à 99€ sur la plage 📸" },
+    complete: { subject: 'Séance complète 149€ — plage de la Lagune', wa: "Bonjour ! J'aimerais réserver la Séance complète à 149€ sur la plage 📸" },
+    general:  { subject: 'Réservation — plage de la Lagune',          wa: "Bonjour ! J'aimerais réserver une séance photo sur la plage 📸" }
   };
 
   var choix = { formule: null, creneau: null, jour: null, heure: null };
@@ -1626,7 +1646,7 @@ var galleryMasonry = (function(){
   }
 
   /* ---- contact direct (questions) ---- */
-  function allerContact(){
+  function allerContact(avecRetour){
     var opt = RESA[choix.formule] || RESA.general;
     var mail = 'mailto:defoin.arthur@gmail.com?subject=' + encodeURIComponent(opt.subject);
     var wa = 'https://wa.me/33789954427?text=' + encodeURIComponent(opt.wa);
@@ -1635,7 +1655,7 @@ var galleryMasonry = (function(){
     if (e) e.href = mail;
     if (w) w.href = wa;
     var retour = document.getElementById('rm-back-contact');
-    if (retour) retour.hidden = false;
+    if (retour) retour.hidden = (avecRetour === false);
     montrer('contact');
   }
 
@@ -1643,7 +1663,7 @@ var galleryMasonry = (function(){
   function ouvrir(kind){
     choix = { formule: null, creneau: null, jour: null, heure: null };
     confirmer.deja = false;
-    if (kind === 'mini' || kind === 'complete') allerCreneaux(kind, false);
+    if (kind === 'mini' || kind === 'complete'){ choix.formule = kind; allerContact(false); }
     else montrer('formule');
     bloquerScroll();
     modal.hidden = false;
@@ -1659,8 +1679,8 @@ var galleryMasonry = (function(){
   /* ---- branchements ---- */
   var bMini = document.getElementById('rm-formula-mini');
   var bComplete = document.getElementById('rm-formula-complete');
-  if (bMini) bMini.addEventListener('click', function(){ allerCreneaux('mini', true); });
-  if (bComplete) bComplete.addEventListener('click', function(){ allerCreneaux('complete', true); });
+  if (bMini) bMini.addEventListener('click', function(){ choix.formule = 'mini'; allerContact(true); });
+  if (bComplete) bComplete.addEventListener('click', function(){ choix.formule = 'complete'; allerContact(true); });
 
   document.addEventListener('click', function(e){
     var chip = e.target.closest ? e.target.closest('.rm-chip') : null;
@@ -1690,7 +1710,7 @@ var galleryMasonry = (function(){
   if (rCreneaux) rCreneaux.addEventListener('click', function(){ montrer('formule'); });
   if (rForm) rForm.addEventListener('click', function(){ montrer('creneaux'); });
   if (rPaiement) rPaiement.addEventListener('click', function(){ montrer('form'); });
-  if (rContact) rContact.addEventListener('click', function(){ montrer(choix.formule ? 'creneaux' : 'formule'); });
+  if (rContact) rContact.addEventListener('click', function(){ montrer('formule'); });
 
   var cEmail = document.getElementById('rm-contact-email');
   var cWa = document.getElementById('rm-contact-wa');
@@ -1713,9 +1733,9 @@ var galleryMasonry = (function(){
 
 /* ---- FAQ ---- */
 var FAQ = [
-  { q: "Comment réserver ma séance ?", a: "Cliquez sur « Réserver », choisissez votre formule puis votre créneau dans l'agenda, et réglez l'acompte de 29 € par carte. Votre créneau est bloqué aussitôt et vous recevez un email de confirmation. Vous préférez une autre date ? Écrivez-nous par WhatsApp ou par email." },
-  { q: "Comment fonctionne le paiement ?", a: "Un acompte de 29 € est réglé par carte, en ligne et en sécurité, au moment de la réservation. Le solde est réglé en espèces sur place, le jour de la séance : 70 € pour la mini séance, 120 € pour la séance complète." },
-  { q: "Quels jours sont disponibles ?", a: "Les séances sur la plage ont lieu uniquement le week-end, le samedi ou le dimanche." },
+  { q: "Comment réserver ma séance ?", a: "Écrivez-nous par WhatsApp ou par email : dites-nous la formule qui vous intéresse et la date qui vous arrange. Nous convenons de l'heure ensemble, puis vous envoyez un acompte de 29 € par Wero et votre créneau est bloqué au tarif de l'offre." },
+  { q: "Comment fonctionne le paiement ?", a: "L'acompte de 29 € s'envoie par Wero, depuis votre application bancaire, une fois la date convenue ensemble. Le solde est réglé en espèces sur place, le jour de la séance : 70 € pour la mini séance, 120 € pour la séance complète." },
+  { q: "Jusqu'à quand l'offre est-elle valable ?", a: "Jusqu'au mardi 22 septembre. Réservez avant cette date avec l'acompte de 29 € : la séance, elle, peut avoir lieu quand vous voulez, même après. Passé le 22 septembre, les tarifs repassent à 250 € et 350 €." },
   { q: "Que dois-je porter ?", a: "Vos propres vêtements, une seule tenue : la séance a lieu en plein air, il n'y a pas d'endroit pour se changer. Nous vous conseillons sur les matières et les couleurs avant la séance. Aucun prêt de robes ni d'accessoires." },
   { q: "Puis-je reporter ma séance ?", a: "Oui, une fois et sans frais, jusqu'à 72h avant la séance." },
   { q: "Comment se déroule une séance ?", a: "La séance dure 30 minutes, en extérieur sur la plage de la Lagune — pour la mini séance comme pour la séance complète. Nous guidons chaque pose pour que les vrais moments de famille arrivent naturellement. Le papa et les enfants sont inclus sans supplément." },
@@ -2066,12 +2086,12 @@ function initCarousel(cfg){
   var OFFERS = [
     {
       src: 'assets/photos/arc-offre-mini.webp', pos: 'center 30%', resa: 'mini',
-      moment: 'Plage de la Lagune', name: 'Mini séance', price: '99&nbsp;€',
+      moment: 'Plage de la Lagune', name: 'Mini séance', old: '250&nbsp;€', price: '99&nbsp;€',
       sub: "10 photos retouchées, choisies dans votre galerie"
     },
     {
       src: 'assets/photos/arc-offre-complete.webp', pos: 'center 30%', resa: 'complete',
-      moment: 'Plage de la Lagune', name: 'Séance complète', price: '149&nbsp;€',
+      moment: 'Plage de la Lagune', name: 'Séance complète', old: '350&nbsp;€', price: '149&nbsp;€',
       sub: "Toute la galerie livrée, environ 30 photos HD"
     },
   ];
@@ -2084,7 +2104,7 @@ function initCarousel(cfg){
         '<div class="ac-offer-info">' +
           '<span class="ac-offer-moment">' + o.moment + '</span>' +
           '<span class="ac-offer-name">' + o.name + '</span>' +
-          '<span class="ac-offer-price">' + o.price + '</span>' +
+          '<span class="ac-offer-price">' + (o.old ? '<span class="ac-offer-old">' + o.old + '</span>' : '') + o.price + '</span>' +
           '<span class="ac-offer-sub">' + o.sub + '</span>' +
           '<a class="ac-offer-btn" href="#" data-resa="' + o.resa + '">Réserver</a>' +
         '</div>';
@@ -2092,6 +2112,46 @@ function initCarousel(cfg){
   });
 })();
 
+</script>
+<script>
+/* Bandeau d'offre : décompte jusqu'à la fin de l'offre.
+   Une seule chose à changer pour prolonger ou arrêter : la date FIN ci-dessous
+   (et le texte « jusqu'au mardi 22 septembre » dans le bandeau, l'encart et la FAQ). */
+(function(){
+  var DEBUT = new Date('2026-09-09T00:00:00+02:00');
+  var FIN   = new Date('2026-09-22T23:59:59+02:00');
+  var bandeau = document.getElementById('promo');
+  function mesurer(){ if (bandeau) document.documentElement.style.setProperty('--promo-h', bandeau.offsetHeight + 'px'); }
+  mesurer();
+  window.addEventListener('resize', mesurer);
+  var t = document.getElementById('promo-timer');
+  var jauge = document.getElementById('promo-bar-fill');
+  if (!t) return;
+  function deuxChiffres(n){ return n < 10 ? '0' + n : '' + n; }
+  function tic(){
+    var maintenant = Date.now();
+    var reste = FIN - maintenant;
+    if (reste <= 0){
+      t.textContent = 'Offre terminée';
+      if (jauge) jauge.style.width = '100%';
+      return;
+    }
+    var j = Math.floor(reste / 86400000);
+    var h = Math.floor(reste / 3600000) % 24;
+    var m = Math.floor(reste / 60000) % 60;
+    var sec = Math.floor(reste / 1000) % 60;
+    mesurer();
+    t.textContent = j > 0
+      ? 'Plus que ' + j + ' j ' + deuxChiffres(h) + ' h ' + deuxChiffres(m) + ' min'
+      : 'Plus que ' + deuxChiffres(h) + ' h ' + deuxChiffres(m) + ' min ' + deuxChiffres(sec) + ' s';
+    if (jauge){
+      var part = (maintenant - DEBUT) / (FIN - DEBUT) * 100;
+      jauge.style.width = Math.min(100, Math.max(0, part)) + '%';
+    }
+    setTimeout(tic, 1000);
+  }
+  tic();
+})();
 </script>
 </body>
 </html>
