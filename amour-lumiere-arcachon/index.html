@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <title>Séance photo sur la plage — Amour et Lumière, Bassin d'Arcachon</title>
-<meta name="description" content="Séance photo sur la plage de la Lagune, au bord du Bassin d'Arcachon. Mini séance 99€ au lieu de 250€, séance complète 149€ au lieu de 350€ (environ 30 photos HD). Offre jusqu’au 22 septembre. Famille, grossesse, nouveau-né, bébé, couple.">
+<meta name="description" content="Séance photo sur la plage de la Lagune, au bord du Bassin d'Arcachon. Mini séance 99€ au lieu de 250€, séance complète 149€ au lieu de 350€ (environ 30 photos HD). Réservez avant le 22 septembre, séance à la date que vous voulez. Famille, grossesse, nouveau-né, bébé, couple.">
 <link rel="canonical" href="https://arcachon.amour-et-lumiere.com/">
 
 <!-- ==========================================================
@@ -19,7 +19,7 @@
 <meta property="og:site_name" content="Amour et Lumière">
 <meta property="og:url" content="https://arcachon.amour-et-lumiere.com/">
 <meta property="og:title" content="Séance photo sur la plage — Amour et Lumière, Bassin d'Arcachon">
-<meta property="og:description" content="Séance photo sur la plage de la Lagune, Bassin d'Arcachon. Mini séance 99€ au lieu de 250€, séance complète 149€ au lieu de 350€ (environ 30 photos HD). Offre jusqu’au 22 septembre. Famille, grossesse, nouveau-né, bébé, couple.">
+<meta property="og:description" content="Séance photo sur la plage de la Lagune, Bassin d'Arcachon. Mini séance 99€ au lieu de 250€, séance complète 149€ au lieu de 350€ (environ 30 photos HD). Réservez avant le 22 septembre, séance à la date que vous voulez. Famille, grossesse, nouveau-né, bébé, couple.">
 <meta property="og:image" content="https://arcachon.amour-et-lumiere.com/assets/photos/og-partage.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -27,7 +27,7 @@
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Séance photo sur la plage — Amour et Lumière, Bassin d'Arcachon">
-<meta name="twitter:description" content="Séance photo sur la plage de la Lagune, Bassin d'Arcachon. Mini séance 99€ au lieu de 250€, séance complète 149€ au lieu de 350€ (environ 30 photos HD). Offre jusqu’au 22 septembre.">
+<meta name="twitter:description" content="Séance photo sur la plage de la Lagune, Bassin d'Arcachon. Mini séance 99€ au lieu de 250€, séance complète 149€ au lieu de 350€ (environ 30 photos HD). Réservez avant le 22 septembre, séance à la date que vous voulez.">
 <meta name="twitter:image" content="https://arcachon.amour-et-lumiere.com/assets/photos/og-partage.jpg">
 
 <!-- ==========================================================
@@ -198,6 +198,7 @@ html, body{ overflow-x:clip; }
 .hero__sub--onlight strong{ color:var(--ink2); }
 
 /* Hero promo — prix dans un cadre pour qu'il ressorte de la photo, quel que soit le fond */
+.hero-note{display:block; max-width:34ch; margin:8px auto 0; font-family:var(--sans); font-weight:300; font-size:12.5px; line-height:1.5; color:rgba(255,255,255,.92); text-shadow:0 1px 8px rgba(0,0,0,.55);}
 .hero-eyebrow{display:block; font-family:var(--sans); font-weight:500; font-size:11.5px; letter-spacing:.2em; text-transform:uppercase; color:rgba(255,255,255,.88); text-shadow:0 1px 8px rgba(0,0,0,.5); margin-top:12px;}
 .hero-price{display:flex; flex-direction:column; align-items:center; gap:2px; margin:12px 0 4px;}
 .hero-price-frame{display:inline-flex; align-items:center; gap:14px; background:rgba(194,151,143,.55); backdrop-filter:blur(3px); -webkit-backdrop-filter:blur(3px); border:1px solid rgba(255,255,255,.3); border-radius:20px; padding:10px 28px;}
@@ -777,7 +778,7 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
 
 <!-- BANDEAU D'OFFRE — visible partout, avec le décompte. La date de fin est dans le script en bas de page. -->
 <div class="promo" id="promo">
-  <span class="promo-txt"><strong>Offre de rentrée</strong> · 99&nbsp;€ au lieu de <span class="promo-old">250&nbsp;€</span><span class="promo-date"> · jusqu'au mardi 22 septembre</span></span>
+  <span class="promo-txt"><strong>Offre de rentrée</strong> · 99&nbsp;€ au lieu de <span class="promo-old">250&nbsp;€</span><span class="promo-date"> · réservez avant le mardi 22 septembre, séance à la date que vous voulez</span></span>
   <span class="promo-timer" id="promo-timer">Offre à durée limitée</span>
   <span class="promo-bar" aria-hidden="true"><i id="promo-bar-fill"></i></span>
 </div>
@@ -811,6 +812,7 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
         <span class="hero-price-now">99&nbsp;€</span>
       </span>
       <span class="hero-eyebrow">Plage de la Lagune · Bassin d'Arcachon</span>
+      <span class="hero-note">Réservez avant le 22 septembre · séance à la date que vous voulez</span>
     </div>
   </div>
   <div class="hero-scrolldown" aria-hidden="true">
@@ -863,10 +865,10 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
       <div class="step3" tabindex="0" role="button" aria-label="Étape 1 : Réservation — appuyer pour en savoir plus">
         <span class="step3-num"><span>1</span></span>
         <div class="step3-body">
-          <div class="step3-title">Écrivez-nous <span class="step3-free">et choisissez votre date</span></div>
+          <div class="step3-title">Réservez <span class="step3-free">avant le 22 septembre, par WhatsApp ou email</span></div>
         </div>
         <span class="step3-hint" id="step3-hint" aria-hidden="true"><img class="s3h-img" src="assets/icons/tap-hint-rose.png" alt=""></span>
-        <div class="step3-popup"><span class="step3-popup-eyebrow">Bon à savoir</span><p>Cliquez sur « Réserver », choisissez votre formule, puis écrivez-nous par WhatsApp ou par email. Vous prenez la date qui vous arrange : nous convenons ensemble de l'heure, en fin de journée pour la lumière sur la plage.</p></div>
+        <div class="step3-popup"><span class="step3-popup-eyebrow">Bon à savoir</span><p>Cliquez sur « Réserver », choisissez votre formule, puis écrivez-nous par WhatsApp ou par email. C'est la réservation qui doit se faire avant le 22 septembre : la séance, vous la posez à la date qui vous arrange, même bien plus tard.</p></div>
       </div>
       <div class="step3" tabindex="0" role="button" aria-label="Étape 2 : Acompte — appuyer pour en savoir plus">
         <span class="step3-num"><span>2</span></span>
@@ -878,7 +880,7 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
       <div class="step3" tabindex="0" role="button" aria-label="Étape 3 : Séance — appuyer pour en savoir plus">
         <span class="step3-num"><span>3</span></span>
         <div class="step3-body">
-          <div class="step3-title">Séance <span class="step3-free">sur la plage de la Lagune, Arcachon</span></div>
+          <div class="step3-title">Séance <span class="step3-free">à la date que vous voulez, plage de la Lagune</span></div>
         </div>
         <div class="step3-popup"><span class="step3-popup-eyebrow">Bon à savoir</span><p>La séance dure en moyenne une trentaine de minutes, en extérieur sur la plage. Une seule tenue : la séance se déroulant en plein air, il n'y a pas d'endroit pour se changer.</p></div>
       </div>
@@ -915,7 +917,7 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
     </details>
 
     <div class="conditions-box rise">
-      <p><strong>Offre de rentrée jusqu’au mardi 22 septembre</strong> : 99&nbsp;€ au lieu de 250&nbsp;€, 149&nbsp;€ au lieu de 350&nbsp;€. Pour réserver, <strong>écrivez-nous par WhatsApp ou par email</strong> : vous choisissez la date qui vous arrange, un acompte de <strong>29&nbsp;€ envoyé par Wero</strong> bloque votre créneau au tarif de l’offre — le solde (70&nbsp;€ pour la mini séance, 120&nbsp;€ pour la séance complète) est réglé <strong>en espèces sur place</strong>, le jour de la séance. Séance en extérieur : elle peut être reprogrammée sans frais en cas de météo trop défavorable.</p>
+      <p><strong>C’est la réservation qui court jusqu’au mardi 22 septembre, pas la séance.</strong> Vous réservez maintenant, vous photographiez quand vous voulez : dans deux semaines, en octobre, plus tard si vous préférez. Pour réserver, <strong>écrivez-nous par WhatsApp ou par email</strong> ; un acompte de <strong>29&nbsp;€ envoyé par Wero avant le 22 septembre</strong> vous garde le tarif de l’offre, 99&nbsp;€ au lieu de 250&nbsp;€ ou 149&nbsp;€ au lieu de 350&nbsp;€. Le solde (70&nbsp;€ pour la mini séance, 120&nbsp;€ pour la séance complète) est réglé <strong>en espèces sur place</strong>, le jour de la séance. Séance en extérieur : elle peut être reprogrammée sans frais en cas de météo trop défavorable.</p>
     </div>
 
     <div class="tarifs-cta rise">
@@ -1031,7 +1033,7 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
       <button type="button" class="rm-back" id="rm-back-contact" hidden>‹ Retour</button>
       <span class="rm-kicker">Réserver votre séance</span>
       <h3>Écrivez-nous, nous bloquons votre date</h3>
-      <p class="rm-rappel">Dites-nous la date qui vous arrange : vous faites la séance quand vous voulez. Un acompte de <strong>29&nbsp;€ envoyé par Wero</strong> bloque le créneau au tarif de l'offre, le solde se règle en espèces le jour de la séance.<br><strong>Offre valable jusqu'au mardi 22 septembre.</strong></p>
+      <p class="rm-rappel"><strong>Réservez maintenant, photographiez quand vous voulez.</strong> Un acompte de 29&nbsp;€ envoyé par Wero <strong>avant le mardi 22 septembre</strong> vous garde le tarif de l'offre. La date de la séance, vous la choisissez ensuite, sans limite : nous convenons de l'heure ensemble, en fin de journée pour la lumière. Le solde se règle en espèces le jour de la séance.</p>
       <div class="rm-contact-options">
         <a class="btn btn--fill" id="rm-contact-wa" href="#" target="_blank" rel="noopener">Écrire sur WhatsApp</a>
         <a class="btn btn--outline" id="rm-contact-email" href="#">Écrire par email</a>
@@ -1423,8 +1425,8 @@ var galleryMasonry = (function(){
   };
 
   var RESA = {
-    mini:     { subject: 'Mini séance 99€ — plage de la Lagune',      wa: "Bonjour ! J'aimerais réserver la Mini séance à 99€ sur la plage 📸" },
-    complete: { subject: 'Séance complète 149€ — plage de la Lagune', wa: "Bonjour ! J'aimerais réserver la Séance complète à 149€ sur la plage 📸" },
+    mini:     { subject: 'Mini séance 99€ — plage de la Lagune',      wa: "Bonjour ! J'aimerais profiter de l'offre et réserver la Mini séance à 99€ sur la plage 📸" },
+    complete: { subject: 'Séance complète 149€ — plage de la Lagune', wa: "Bonjour ! J'aimerais profiter de l'offre et réserver la Séance complète à 149€ sur la plage 📸" },
     general:  { subject: 'Réservation — plage de la Lagune',          wa: "Bonjour ! J'aimerais réserver une séance photo sur la plage 📸" }
   };
 
@@ -1733,9 +1735,10 @@ var galleryMasonry = (function(){
 
 /* ---- FAQ ---- */
 var FAQ = [
-  { q: "Comment réserver ma séance ?", a: "Écrivez-nous par WhatsApp ou par email : dites-nous la formule qui vous intéresse et la date qui vous arrange. Nous convenons de l'heure ensemble, puis vous envoyez un acompte de 29 € par Wero et votre créneau est bloqué au tarif de l'offre." },
+  { q: "Comment réserver ma séance ?", a: "Écrivez-nous par WhatsApp ou par email en disant quelle formule vous intéresse. Vous envoyez un acompte de 29 € par Wero avant le 22 septembre : le tarif de l'offre est bloqué. La date de la séance se choisit ensuite, à votre convenance." },
   { q: "Comment fonctionne le paiement ?", a: "L'acompte de 29 € s'envoie par Wero, depuis votre application bancaire, une fois la date convenue ensemble. Le solde est réglé en espèces sur place, le jour de la séance : 70 € pour la mini séance, 120 € pour la séance complète." },
-  { q: "Jusqu'à quand l'offre est-elle valable ?", a: "Jusqu'au mardi 22 septembre. Réservez avant cette date avec l'acompte de 29 € : la séance, elle, peut avoir lieu quand vous voulez, même après. Passé le 22 septembre, les tarifs repassent à 250 € et 350 €." },
+  { q: "Dois-je faire la séance avant le 22 septembre ?", a: "Non. La date du 22 septembre est la date limite pour réserver, pas pour photographier. Vous envoyez l'acompte de 29 € avant cette date, le tarif de l'offre vous est acquis, et vous posez votre séance quand vous voulez : en septembre, en octobre ou plus tard. Passé le 22 septembre, les tarifs repassent à 250 € et 350 €." },
+  { q: "Je ne connais pas encore ma date, puis-je réserver quand même ?", a: "Oui, c'est même le plus simple : réservez maintenant pour garder le tarif, et nous fixons la date ensemble quand vous serez prêts. Vous pouvez aussi la déplacer plus tard en nous prévenant au moins 72 h avant." },
   { q: "Que dois-je porter ?", a: "Vos propres vêtements, une seule tenue : la séance a lieu en plein air, il n'y a pas d'endroit pour se changer. Nous vous conseillons sur les matières et les couleurs avant la séance. Aucun prêt de robes ni d'accessoires." },
   { q: "Puis-je reporter ma séance ?", a: "Oui, une fois et sans frais, jusqu'à 72h avant la séance." },
   { q: "Comment se déroule une séance ?", a: "La séance dure 30 minutes, en extérieur sur la plage de la Lagune — pour la mini séance comme pour la séance complète. Nous guidons chaque pose pour que les vrais moments de famille arrivent naturellement. Le papa et les enfants sont inclus sans supplément." },
@@ -2132,7 +2135,7 @@ function initCarousel(cfg){
     var maintenant = Date.now();
     var reste = FIN - maintenant;
     if (reste <= 0){
-      t.textContent = 'Offre terminée';
+      t.textContent = 'Offre de rentrée terminée';
       if (jauge) jauge.style.width = '100%';
       return;
     }
@@ -2142,8 +2145,8 @@ function initCarousel(cfg){
     var sec = Math.floor(reste / 1000) % 60;
     mesurer();
     t.textContent = j > 0
-      ? 'Plus que ' + j + ' j ' + deuxChiffres(h) + ' h ' + deuxChiffres(m) + ' min'
-      : 'Plus que ' + deuxChiffres(h) + ' h ' + deuxChiffres(m) + ' min ' + deuxChiffres(sec) + ' s';
+      ? 'Plus que ' + j + ' j ' + deuxChiffres(h) + ' h ' + deuxChiffres(m) + ' min pour réserver'
+      : 'Plus que ' + deuxChiffres(h) + ' h ' + deuxChiffres(m) + ' min ' + deuxChiffres(sec) + ' s pour réserver';
     if (jauge){
       var part = (maintenant - DEBUT) / (FIN - DEBUT) * 100;
       jauge.style.width = Math.min(100, Math.max(0, part)) + '%';
