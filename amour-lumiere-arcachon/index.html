@@ -2158,16 +2158,13 @@ function initCarousel(cfg){
 
 </script>
 <script>
-/* La fenêtre d'accueil : à l'arrivée, une fois par visite. */
+/* La fenêtre d'accueil : à chaque arrivée sur la page. */
 (function(){
   var pop = document.getElementById('pop'), ok = document.getElementById('pop-ok');
   if (!pop || !ok) return;
-  var vue; try { vue = sessionStorage.getItem('al-pop'); } catch(e){}
-  if (vue) return;
   function fermer(){
     pop.classList.remove('open');
     document.body.style.overflow = '';
-    try { sessionStorage.setItem('al-pop', '1'); } catch(e){}
     setTimeout(function(){ pop.hidden = true; }, 350);
   }
   setTimeout(function(){
