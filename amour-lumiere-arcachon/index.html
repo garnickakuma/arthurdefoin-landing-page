@@ -223,6 +223,14 @@ html, body{ overflow-x:clip; }
 
 /* Carrousel "cartes qui tournent" — teintes du portrait artistique */
 .ac-wrap{background:var(--bg2);}
+.rappel{max-width:760px; margin:0 auto 46px; background:var(--card); border:1px solid var(--line2); border-left:4px solid var(--accent); border-radius:16px; padding:26px 30px; text-align:left;}
+.rappel-eyebrow{display:inline-flex; align-items:center; gap:8px; font-family:var(--sans); font-weight:400; font-size:11.5px; letter-spacing:.22em; text-transform:uppercase; color:var(--accent); margin-bottom:12px;}
+.rappel-eyebrow svg{flex:none;}
+.rappel h3{font-family:var(--serif); font-weight:400; font-style:italic; font-size:clamp(23px,4.4vw,30px); line-height:1.15; color:var(--ink); margin:0 0 12px;}
+.rappel p{font-family:var(--sans); font-weight:300; font-size:15.5px; line-height:1.75; color:var(--muted3); margin:0;}
+.rappel p+p{margin-top:10px;}
+.rappel strong{font-weight:500; color:var(--ink2);}
+@media(max-width:560px){ .rappel{padding:22px 20px; margin-bottom:36px;} .rappel p{font-size:14.5px;} }
 .ac-stage{position:relative; display:flex; align-items:center; justify-content:center; gap:14px; perspective:1500px; height:clamp(340px,46vw,480px); margin-top:8px; touch-action:pan-y; user-select:none;}
 .ac-track{position:relative; width:100%; height:100%; transform-style:preserve-3d;}
 .ac-card{position:absolute; top:50%; left:50%; width:230px; height:340px; margin:-170px 0 0 -115px; border-radius:14px; overflow:hidden; box-shadow:0 24px 50px -20px rgba(60,45,35,.35); transition:transform .6s cubic-bezier(.22,1,.36,1), opacity .6s ease; cursor:pointer;}
@@ -841,6 +849,12 @@ body.at-reserver .cta-bar{transform:translateY(130%);}
 <!-- CARROUSEL TYPES DE SÉANCE -->
 <section class="section ac-wrap" id="categories">
   <div style="max-width:1140px; margin:0 auto;">
+    <div class="rappel rise">
+      <span class="rappel-eyebrow"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Ce qui se termine le 22 septembre</span>
+      <h3>Réservez avant le 22 septembre, photographiez quand vous voulez</h3>
+      <p>Pour profiter de l’offre, il suffit de <strong>réserver votre séance avant le mardi 22 septembre</strong> en réglant l’acompte de 29&nbsp;€ par Wero. C’est lui qui vous garde le tarif.</p>
+      <p>Ensuite, vous <strong>placez la date de votre séance quand vous voulez dans l’année</strong> : en septembre, à l’automne, au printemps prochain. La date limite ne concerne que la réservation.</p>
+    </div>
     <div class="head-center rise" style="margin-bottom:8px;">
       <div class="eyebrow" style="margin-bottom:14px">Une séance qui s'adapte à vous</div>
       <h2 class="h2 italic">Pour toute la famille</h2>
